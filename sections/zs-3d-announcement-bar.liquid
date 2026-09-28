@@ -1,0 +1,379 @@
+<section
+  class="zs-announcement3d"
+  data-zs-announcement-3d
+  data-speed="{{ section.settings.speed | times: 1000 }}"
+  style="
+    --zs-a-bg: {{ section.settings.background_color }};
+    --zs-a-text: {{ section.settings.text_color }};
+    --zs-a-accent: {{ section.settings.accent_color }};
+    --zs-a-border: {{ section.settings.border_color }};
+    --zs-a-height: {{ section.settings.desktop_height }}px;
+    --zs-a-height-mobile: {{ section.settings.mobile_height }}px;
+  "
+  aria-label="Store announcements"
+>
+  <div class="zs-announcement3d__inner">
+    <div class="zs-announcement3d__side zs-announcement3d__side--left" aria-hidden="true">
+      <span class="zs-announcement3d__mark"></span>
+      <span>ZAISEN</span>
+    </div>
+
+    <div class="zs-announcement3d__stage" aria-live="off">
+      {% for i in (1..4) %}
+        {% liquid
+          assign text_key = 'message_' | append: i
+          assign message = section.settings[text_key]
+        %}
+        {% if message != blank %}
+          <div
+            class="zs-announcement3d__message{% if forloop.first %} is-active{% endif %}"
+            data-zs-announcement-message
+            {% unless forloop.first %}aria-hidden="true"{% endunless %}
+          >
+            <span class="zs-announcement3d__spark" aria-hidden="true">✦</span>
+            <span class="zs-announcement3d__text">{{ message | escape }}</span>
+            <span class="zs-announcement3d__spark" aria-hidden="true">✦</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="zs-announcement3d__side zs-announcement3d__side--right" aria-hidden="true">
+      <span>PURE WOOD</span>
+      <span class="zs-announcement3d__mark"></span>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .zs-announcement3d {
+    position: relative;
+    width: 100%;
+    min-height: var(--zs-a-height);
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--zs-a-accent) 7%, transparent), transparent 24% 76%, color-mix(in srgb, var(--zs-a-accent) 7%, transparent)),
+      var(--zs-a-bg);
+    color: var(--zs-a-text);
+    border-block: 1px solid color-mix(in srgb, var(--zs-a-border) 85%, transparent);
+    isolation: isolate;
+  }
+
+  .zs-announcement3d::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.42;
+    background:
+      repeating-linear-gradient(
+        94deg,
+        color-mix(in srgb, var(--zs-a-accent) 4%, transparent) 0 1px,
+        transparent 1px 84px
+      );
+  }
+
+  .zs-announcement3d__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(110px, 1fr) minmax(280px, 760px) minmax(110px, 1fr);
+    align-items: center;
+    width: min(100%, 1440px);
+    min-height: var(--zs-a-height);
+    margin-inline: auto;
+    padding-inline: 28px;
+  }
+
+  .zs-announcement3d__side {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-body--family, inherit);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--zs-a-text) 68%, transparent);
+    white-space: nowrap;
+  }
+
+  .zs-announcement3d__side--right {
+    justify-self: end;
+  }
+
+  .zs-announcement3d__mark {
+    width: 18px;
+    height: 1px;
+    background: var(--zs-a-accent);
+    opacity: 0.85;
+  }
+
+  .zs-announcement3d__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: var(--zs-a-height);
+    perspective: 760px;
+    transform-style: preserve-3d;
+    overflow: hidden;
+  }
+
+  .zs-announcement3d__message {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    width: 100%;
+    padding-inline: 18px;
+    backface-visibility: hidden;
+    transform-origin: 50% 50%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) translateZ(-30px) rotateX(-84deg) scale(0.96);
+    transition:
+      transform 520ms cubic-bezier(0.2, 0.78, 0.28, 1),
+      opacity 360ms ease,
+      visibility 360ms ease;
+    will-change: transform, opacity;
+  }
+
+  .zs-announcement3d__message.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) translateZ(0) rotateX(0deg) scale(1);
+  }
+
+  .zs-announcement3d__message.is-exiting {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-12px) translateZ(-30px) rotateX(84deg) scale(0.96);
+  }
+
+  .zs-announcement3d__text {
+    font-family: var(--font-body--family, inherit);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .zs-announcement3d__spark {
+    display: inline-block;
+    flex: 0 0 auto;
+    color: var(--zs-a-accent);
+    font-size: 8px;
+    filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--zs-a-accent) 30%, transparent));
+  }
+
+  @media screen and (max-width: 749px) {
+    .zs-announcement3d {
+      min-height: var(--zs-a-height-mobile);
+    }
+
+    .zs-announcement3d__inner {
+      grid-template-columns: 1fr;
+      min-height: var(--zs-a-height-mobile);
+      padding-inline: 10px;
+    }
+
+    .zs-announcement3d__side {
+      display: none;
+    }
+
+    .zs-announcement3d__stage {
+      min-height: var(--zs-a-height-mobile);
+    }
+
+    .zs-announcement3d__message {
+      gap: 7px;
+      padding-inline: 8px;
+    }
+
+    .zs-announcement3d__text {
+      font-size: 9px;
+      letter-spacing: 0.13em;
+    }
+
+    .zs-announcement3d__spark {
+      font-size: 7px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zs-announcement3d__message {
+      transition: opacity 120ms linear;
+      transform: none;
+    }
+
+    .zs-announcement3d__message.is-active,
+    .zs-announcement3d__message.is-exiting {
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  const initializeZsAnnouncement3d = (root = document) => {
+    root.querySelectorAll('[data-zs-announcement-3d]').forEach((bar) => {
+      if (bar.dataset.zsAnnouncementReady === 'true') return;
+
+      const messages = Array.from(bar.querySelectorAll('[data-zs-announcement-message]'));
+      if (messages.length < 2) {
+        bar.dataset.zsAnnouncementReady = 'true';
+        return;
+      }
+
+      const requestedSpeed = Number(bar.dataset.speed);
+      const speed = Number.isFinite(requestedSpeed) ? Math.max(1000, requestedSpeed) : 1000;
+      let current = 0;
+
+      const showNext = () => {
+        const outgoing = messages[current];
+        const nextIndex = (current + 1) % messages.length;
+        const incoming = messages[nextIndex];
+
+        outgoing.classList.remove('is-active');
+        outgoing.classList.add('is-exiting');
+        outgoing.setAttribute('aria-hidden', 'true');
+
+        incoming.classList.remove('is-exiting');
+        incoming.removeAttribute('aria-hidden');
+
+        requestAnimationFrame(() => {
+          incoming.classList.add('is-active');
+        });
+
+        window.setTimeout(() => {
+          outgoing.classList.remove('is-exiting');
+        }, 560);
+
+        current = nextIndex;
+      };
+
+      bar._zsAnnouncementTimer = window.setInterval(showNext, speed);
+      bar.dataset.zsAnnouncementReady = 'true';
+    });
+  };
+
+  initializeZsAnnouncement3d();
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initializeZsAnnouncement3d(event.target);
+  });
+
+  document.addEventListener('shopify:section:unload', (event) => {
+    event.target.querySelectorAll('[data-zs-announcement-3d]').forEach((bar) => {
+      if (bar._zsAnnouncementTimer) {
+        window.clearInterval(bar._zsAnnouncementTimer);
+      }
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "ZS 3D Announcement",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "message_1",
+      "label": "Message 1",
+      "default": "Handcrafted from pure wood"
+    },
+    {
+      "type": "text",
+      "id": "message_2",
+      "label": "Message 2",
+      "default": "Made to order • crafted with care"
+    },
+    {
+      "type": "text",
+      "id": "message_3",
+      "label": "Message 3",
+      "default": "Natural materials • timeless design"
+    },
+    {
+      "type": "text",
+      "id": "message_4",
+      "label": "Message 4",
+      "default": "Welcome to Zaisen"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Message duration",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "s",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#EFE4D6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#2C2A29"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Wood accent",
+      "default": "#7A5238"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#D6C4AE"
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 34,
+      "max": 54,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "min": 32,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS 3D Announcement"
+    }
+  ]
+}
+{% endschema %}
