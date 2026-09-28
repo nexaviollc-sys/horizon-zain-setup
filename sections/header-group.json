@@ -11,21 +11,33 @@
   "type": "header",
   "name": "t:names.header",
   "sections": {
-    "zs_3d_announcement": {
-      "type": "zs-3d-announcement-bar",
-      "name": "ZS 3D Announcement",
+    "header_announcements_9jGBFp": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_BxgCk9": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_BxgCk9"
+      ],
+      "name": "t:names.announcement_bar",
       "settings": {
-        "message_1": "Handcrafted from pure wood",
-        "message_2": "Made to order • crafted with care",
-        "message_3": "Natural materials • timeless design",
-        "message_4": "Welcome to Zaisen",
-        "speed": 1,
-        "background_color": "#EFE4D6",
-        "text_color": "#2C2A29",
-        "accent_color": "#7A5238",
-        "border_color": "#D6C4AE",
-        "desktop_height": 40,
-        "mobile_height": 36
+        "speed": 5,
+        "section_width": "page-width",
+        "background_color": "{{ settings.color_palette.background }}",
+        "divider_width": 1,
+        "divider_color": "{{ settings.color_palette.color2 }}",
+        "padding-block-start": 15,
+        "padding-block-end": 15
       }
     },
     "header_section": {
@@ -90,7 +102,7 @@
     }
   },
   "order": [
-    "zs_3d_announcement",
+    "header_announcements_9jGBFp",
     "header_section"
   ]
 }
