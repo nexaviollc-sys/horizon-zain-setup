@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/ChatGPT_Image_Sep_27_2026_10_26_53_PM.png",
+    "logo": "shopify://shop_images/ChatGPT_Image_Sep_27_2026_10_26_53_PM_378d6279-9207-4590-ada1-760a3b91b06a.png",
     "logo_height": 78,
     "logo_height_mobile": 75,
     "page_text_color": "{{ settings.color_palette.foreground }}",
@@ -119,7 +119,8 @@
     "type_font_button_primary": "body",
     "button_text_case_primary": "uppercase",
     "type_font_button_secondary": "body",
-    "button_text_case_secondary": "uppercase"
+    "button_text_case_secondary": "uppercase",
+    "favicon": "shopify://shop_images/Polished_Interwoven_ZS_Wood_Monogram.png"
   },
   "presets": {
     "Horizon": {
