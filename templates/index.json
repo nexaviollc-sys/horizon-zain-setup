@@ -200,7 +200,7 @@
         "button_label": "Shop Best Sellers",
         "button_link": "shopify://collections/best-sellers",
         "stagger": 96,
-        "heading_size": 76,
+        "heading_size": 66,
         "show_index": true,
         "show_divider": true,
         "show_compare": true,
