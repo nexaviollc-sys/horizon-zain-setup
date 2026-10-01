@@ -1,0 +1,495 @@
+{%- comment -%}
+  ZAISEN – Shop by Collection (comparison version)
+  Based on supplied section code. 8 collection blocks, image override,
+  collection-image/product-image fallback, responsive grid, pure CSS.
+{%- endcomment -%}
+
+{%- liquid
+  assign cols = section.settings.columns_desktop | default: 4
+  assign max_w = section.settings.max_width | default: 1440
+  assign vw = 100 | divide: cols
+  assign px = max_w | divide: cols
+  assign mobile_layout = section.settings.mobile_layout | default: 'two'
+
+  case mobile_layout
+    when 'one'
+      assign mobile_size = '100vw'
+    when 'swipe'
+      assign mobile_size = '72vw'
+    else
+      assign mobile_size = '50vw'
+  endcase
+
+  assign sizes = '(min-width: ' | append: max_w | append: 'px) ' | append: px | append: 'px, (min-width: 990px) ' | append: vw | append: 'vw, (min-width: 750px) 50vw, ' | append: mobile_size
+
+  case section.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'tall'
+      assign ratio = '3 / 4'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    else
+      assign ratio = '4 / 5'
+  endcase
+
+  assign c_bg = section.settings.bg_color | default: '#F6F1E7'
+  assign c_heading = section.settings.heading_color | default: '#2A2522'
+  assign c_text = section.settings.text_color | default: '#6B5D50'
+  assign c_accent = section.settings.accent_color | default: '#856230'
+  assign c_wood = section.settings.wood_color | default: '#5C4033'
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+-%}
+
+{% style %}
+  #zsbc-{{ section.id }} {
+    --zsbc-bg: {{ c_bg }};
+    --zsbc-heading: {{ c_heading }};
+    --zsbc-text: {{ c_text }};
+    --zsbc-accent: {{ c_accent }};
+    --zsbc-accent-soft: {{ c_accent | color_modify: 'alpha', 0.45 }};
+    --zsbc-line: {{ c_heading | color_modify: 'alpha', 0.2 }};
+    --zsbc-wood: {{ c_wood }};
+    --zsbc-wood-light: {{ c_wood | color_lighten: 10 }};
+    --zsbc-cols: {{ cols }};
+    --zsbc-gap: {{ section.settings.gap }}px;
+    --zsbc-max: {{ max_w }}px;
+    --zsbc-radius: {{ section.settings.card_radius }}px;
+    --zsbc-ratio: {{ ratio }};
+    --zsbc-pt: {{ section.settings.padding_top }}px;
+    --zsbc-pb: {{ section.settings.padding_bottom }}px;
+    --zsbc-h-size: {{ section.settings.heading_size }}px;
+    {% if section.settings.heading_font == 'serif' %}
+      --zsbc-heading-font: 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+      --zsbc-heading-weight: 400;
+    {% else %}
+      --zsbc-heading-font: var(--font-heading--family,var(--font-heading-family,Georgia,serif));
+      --zsbc-heading-weight: var(--font-heading--weight,400);
+    {% endif %}
+  }
+{% endstyle %}
+
+<section
+  id="zsbc-{{ section.id }}"
+  class="zsbc{% if section.settings.alignment == 'center' %} zsbc--center{% endif %}"
+  {% if section.settings.heading != blank %}aria-labelledby="zsbc-heading-{{ section.id }}"{% endif %}
+>
+  <div class="zsbc__inner">
+    {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank %}
+      <header class="zsbc__header">
+        {% if section.settings.eyebrow != blank %}
+          <p class="zsbc__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <{{ heading_tag }} id="zsbc-heading-{{ section.id }}" class="zsbc__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
+        {% endif %}
+
+        <span class="zsbc__rule" aria-hidden="true"></span>
+
+        {% if section.settings.subheading != blank %}
+          <p class="zsbc__sub">{{ section.settings.subheading | escape }}</p>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <ul class="zsbc__grid zsbc__grid--{{ mobile_layout }}" role="list">
+      {% assign n = 0 %}
+      {% for block in section.blocks %}
+        {% assign col = block.settings.collection %}
+        {% if col != blank or request.design_mode %}
+          {% assign n = n | plus: 1 %}
+          {% if n < 10 %}{% assign num = n | prepend: '0' %}{% else %}{% assign num = n %}{% endif %}
+
+          {% liquid
+            assign title = block.settings.custom_title | default: col.title | default: 'Select a collection'
+            assign url = col.url | default: '#'
+            assign img = block.settings.image
+            if img == blank and col != blank
+              assign img = col.image
+              if img == blank
+                assign img = col.products.first.featured_image
+              endif
+            endif
+          %}
+
+          <li class="zsbc__item" {{ block.shopify_attributes }}>
+            <a class="zsbc__card" href="{{ url }}">
+              <span class="zsbc__media">
+                {% if img != blank %}
+                  {{
+                    img
+                    | image_url: width: 1000
+                    | image_tag:
+                      class: 'zsbc__img',
+                      widths: '320,480,640,800,1000',
+                      sizes: sizes,
+                      loading: 'lazy',
+                      alt: title
+                  }}
+                {% else %}
+                  <span class="zsbc__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'zsbc__placeholder-svg' }}</span>
+                {% endif %}
+
+                {% if block.settings.badge != blank %}
+                  <span class="zsbc__badge">{{ block.settings.badge | escape }}</span>
+                {% endif %}
+              </span>
+
+              <span class="zsbc__caption">
+                <span class="zsbc__text">
+                  <span class="zsbc__title"><span class="zsbc__title-text">{{ title | escape }}</span></span>
+
+                  {% if section.settings.show_index or section.settings.show_count and col != blank %}
+                    <span class="zsbc__meta">
+                      {% if section.settings.show_index %}
+                        <span class="zsbc__index" aria-hidden="true">{{ num }}</span>
+                      {% endif %}
+                      {% if section.settings.show_index and section.settings.show_count and col != blank %}
+                        <span class="zsbc__dash" aria-hidden="true"></span>
+                      {% endif %}
+                      {% if section.settings.show_count and col != blank %}
+                        <span class="zsbc__count">{{ col.products_count }} {% if col.products_count == 1 %}piece{% else %}pieces{% endif %}</span>
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                </span>
+
+                <span class="zsbc__arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6"/>
+                  </svg>
+                </span>
+              </span>
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% if section.settings.show_view_all and section.settings.view_all_label != blank %}
+      <div class="zsbc__footer">
+        <a class="zsbc__button" href="{{ routes.collections_url }}">
+          <span>{{ section.settings.view_all_label | escape }}</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .zsbc {
+    --zsbc-pad: clamp(20px,4.5vw,48px);
+    --zsbc-body-font: var(--font-body--family,var(--font-body-family,system-ui,-apple-system,'Segoe UI',sans-serif));
+    background: var(--zsbc-bg);
+    color: var(--zsbc-text);
+    font-family: var(--zsbc-body-font);
+    padding-block: var(--zsbc-pt) var(--zsbc-pb);
+  }
+  .zsbc *, .zsbc *::before, .zsbc *::after { box-sizing: border-box; }
+  .zsbc__inner { max-width: var(--zsbc-max); margin-inline: auto; padding-inline: var(--zsbc-pad); }
+
+  .zsbc__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 640px;
+    margin-bottom: clamp(32px,5vw,60px);
+  }
+  .zsbc--center .zsbc__header { align-items: center; text-align: center; margin-inline: auto; }
+  .zsbc__eyebrow {
+    margin: 0;
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--zsbc-accent);
+  }
+  .zsbc__heading {
+    margin: 0;
+    font-family: var(--zsbc-heading-font);
+    font-weight: var(--zsbc-heading-weight);
+    font-size: clamp(calc(var(--zsbc-h-size) * .64),4.6vw,var(--zsbc-h-size));
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--zsbc-heading);
+    text-wrap: balance;
+  }
+  .zsbc__rule { display:block; width:56px; height:1px; margin-block:4px; background:var(--zsbc-accent); opacity:.7; }
+  .zsbc__sub { margin:0; max-width:52ch; font-size:1rem; line-height:1.7; color:var(--zsbc-text); text-wrap:pretty; }
+
+  .zsbc__grid {
+    display:grid;
+    grid-template-columns:repeat(var(--zsbc-cols),minmax(0,1fr));
+    column-gap:var(--zsbc-gap);
+    row-gap:calc(var(--zsbc-gap) * 1.6);
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .zsbc__item { min-width:0; margin:0; padding:0; }
+  .zsbc__card { display:block; color:inherit; text-decoration:none; -webkit-tap-highlight-color:transparent; }
+  .zsbc__card:focus-visible { outline:2px solid var(--zsbc-accent); outline-offset:6px; border-radius:var(--zsbc-radius); }
+
+  .zsbc__media {
+    position:relative;
+    display:block;
+    overflow:hidden;
+    isolation:isolate;
+    aspect-ratio:var(--zsbc-ratio);
+    border-radius:var(--zsbc-radius);
+    background:linear-gradient(145deg,var(--zsbc-wood-light),var(--zsbc-wood));
+  }
+  .zsbc__img {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .zsbc__media::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background:linear-gradient(to top,rgba(32,21,12,.32),rgba(32,21,12,0) 50%);
+    opacity:0;
+    transition:opacity .6s ease;
+    pointer-events:none;
+  }
+  .zsbc__media::after {
+    content:'';
+    position:absolute;
+    inset:12px;
+    z-index:2;
+    border:1px solid rgba(255,249,238,.8);
+    border-radius:max(calc(var(--zsbc-radius) - 2px),0px);
+    opacity:0;
+    transform:scale(.965);
+    transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1);
+    pointer-events:none;
+  }
+  .zsbc__placeholder,.zsbc__placeholder-svg { position:absolute; inset:0; width:100%; height:100%; }
+  .zsbc__placeholder-svg { fill:#f6f1e7; opacity:.22; }
+  .zsbc__badge {
+    position:absolute;
+    top:14px;
+    left:14px;
+    z-index:3;
+    padding:6px 12px;
+    font-size:.6875rem;
+    font-weight:500;
+    line-height:1;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--zsbc-heading);
+    background:color-mix(in srgb,var(--zsbc-bg) 94%,transparent);
+    border-radius:999px;
+  }
+
+  .zsbc__caption { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-top:18px; }
+  .zsbc__text { display:block; min-width:0; }
+  .zsbc__title {
+    display:block;
+    font-family:var(--zsbc-heading-font);
+    font-weight:var(--zsbc-heading-weight);
+    font-size:clamp(1.0625rem,1.5vw,1.375rem);
+    line-height:1.25;
+    letter-spacing:-.005em;
+    color:var(--zsbc-heading);
+    text-wrap:balance;
+  }
+  .zsbc__title-text {
+    padding-bottom:2px;
+    background:linear-gradient(currentColor,currentColor) left bottom / 0 1px no-repeat;
+    transition:background-size .55s cubic-bezier(.2,.7,.2,1);
+  }
+  .zsbc__meta { display:flex; align-items:center; gap:10px; margin-top:8px; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--zsbc-text); }
+  .zsbc__index { color:var(--zsbc-accent); font-variant-numeric:tabular-nums; font-weight:500; }
+  .zsbc__dash { display:block; width:18px; height:1px; background:var(--zsbc-accent-soft); }
+  .zsbc__arrow {
+    flex:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    margin-top:-2px;
+    color:var(--zsbc-heading);
+    border:1px solid var(--zsbc-line);
+    border-radius:50%;
+    transition:background-color .4s ease,color .4s ease,border-color .4s ease;
+  }
+  .zsbc__arrow svg { transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+
+  @media (hover:hover) and (pointer:fine) {
+    .zsbc__card:hover .zsbc__img { transform:scale(1.045); }
+    .zsbc__card:hover .zsbc__media::before { opacity:1; }
+    .zsbc__card:hover .zsbc__media::after { opacity:1; transform:scale(1); }
+    .zsbc__card:hover .zsbc__title-text { background-size:100% 1px; }
+    .zsbc__card:hover .zsbc__arrow { background:var(--zsbc-heading); border-color:var(--zsbc-heading); color:var(--zsbc-bg); }
+    .zsbc__card:hover .zsbc__arrow svg { transform:translateX(2px); }
+  }
+
+  .zsbc__footer { display:flex; justify-content:center; margin-top:clamp(36px,5vw,64px); }
+  .zsbc__button {
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 34px;
+    font-size:.75rem;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--zsbc-heading);
+    border:1px solid var(--zsbc-heading);
+    border-radius:var(--zsbc-radius);
+    transition:background-color .4s ease,color .4s ease;
+  }
+  .zsbc__button:hover,.zsbc__button:focus-visible { background:var(--zsbc-heading); color:var(--zsbc-bg); }
+  .zsbc__button svg { transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+  .zsbc__button:hover svg,.zsbc__button:focus-visible svg { transform:translateX(3px); }
+
+  @media (max-width:989px) {
+    .zsbc__grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width:749px) {
+    .zsbc { padding-block:calc(var(--zsbc-pt) * .65) calc(var(--zsbc-pb) * .65); }
+    .zsbc__grid { column-gap:14px; row-gap:30px; }
+    .zsbc__grid--one { grid-template-columns:minmax(0,1fr); }
+    .zsbc__grid--two .zsbc__arrow { display:none; }
+    .zsbc__grid--two .zsbc__caption { padding-top:14px; }
+    .zsbc__grid--two .zsbc__title { font-size:1rem; }
+    .zsbc__grid--two .zsbc__meta { font-size:.6875rem; letter-spacing:.1em; gap:8px; }
+    .zsbc__grid--two .zsbc__dash { width:12px; }
+    .zsbc__grid--two .zsbc__badge { top:10px; left:10px; padding:5px 9px; font-size:.625rem; }
+    .zsbc__grid--swipe {
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      margin-inline:calc(var(--zsbc-pad) * -1);
+      padding-inline:var(--zsbc-pad);
+      padding-bottom:6px;
+      scroll-snap-type:x mandatory;
+      scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+    }
+    .zsbc__grid--swipe::-webkit-scrollbar { display:none; }
+    .zsbc__grid--swipe .zsbc__item { flex:0 0 72%; scroll-snap-align:start; }
+  }
+
+  @keyframes zsbc-rise {
+    from { opacity:0; transform:translateY(26px); }
+    to { opacity:1; transform:none; }
+  }
+  @media (prefers-reduced-motion:no-preference) {
+    @supports (animation-timeline:view()) {
+      .zsbc__item { animation:zsbc-rise linear both; animation-timeline:view(); animation-range:entry 0% entry 38%; }
+    }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .zsbc *, .zsbc *::before, .zsbc *::after { transition:none !important; animation:none !important; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop by Collection Test",
+  "tag": "section",
+  "class": "section-zaisen-collections-test",
+  "max_blocks": 12,
+  "settings": [
+    { "type":"header","content":"Heading" },
+    { "type":"text","id":"eyebrow","label":"Eyebrow text","default":"Handcrafted by ZAISEN" },
+    { "type":"text","id":"heading","label":"Heading","default":"Shop by Collection" },
+    {
+      "type":"select","id":"heading_tag","label":"Heading tag",
+      "options":[{"value":"h1","label":"H1"},{"value":"h2","label":"H2"},{"value":"h3","label":"H3"}],
+      "default":"h2"
+    },
+    {
+      "type":"textarea","id":"subheading","label":"Subheading",
+      "default":"Explore pieces shaped, sanded and finished by skilled artisans, bringing the warmth of natural wood into every corner of your home."
+    },
+    {
+      "type":"select","id":"alignment","label":"Header alignment",
+      "options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"}],
+      "default":"center"
+    },
+    { "type":"header","content":"Layout" },
+    {
+      "type":"select","id":"columns_desktop","label":"Columns on desktop",
+      "options":[{"value":"3","label":"3"},{"value":"4","label":"4"}],
+      "default":"4"
+    },
+    {
+      "type":"select","id":"mobile_layout","label":"Mobile layout",
+      "options":[{"value":"two","label":"2-column grid"},{"value":"one","label":"1-column list"},{"value":"swipe","label":"Swipe carousel"}],
+      "default":"two"
+    },
+    {
+      "type":"select","id":"image_ratio","label":"Image shape",
+      "options":[{"value":"portrait","label":"Portrait (4:5)"},{"value":"tall","label":"Tall (3:4)"},{"value":"square","label":"Square (1:1)"},{"value":"landscape","label":"Landscape (4:3)"}],
+      "default":"portrait"
+    },
+    { "type":"range","id":"gap","label":"Gap between cards","min":12,"max":48,"step":4,"unit":"px","default":28 },
+    { "type":"range","id":"card_radius","label":"Corner radius","min":0,"max":24,"step":2,"unit":"px","default":4 },
+    { "type":"range","id":"max_width","label":"Maximum content width","min":1100,"max":1800,"step":20,"unit":"px","default":1440 },
+    { "type":"header","content":"Card details" },
+    { "type":"checkbox","id":"show_index","label":"Show collection number","default":true },
+    { "type":"checkbox","id":"show_count","label":"Show product count","default":true },
+    { "type":"header","content":"View all link" },
+    { "type":"checkbox","id":"show_view_all","label":"Show view all button","default":true },
+    { "type":"text","id":"view_all_label","label":"Button label","default":"View all collections" },
+    { "type":"header","content":"Style" },
+    {
+      "type":"select","id":"heading_font","label":"Heading font",
+      "options":[{"value":"theme","label":"Match theme heading font"},{"value":"serif","label":"Classic serif"}],
+      "default":"theme"
+    },
+    { "type":"range","id":"heading_size","label":"Heading size","min":28,"max":64,"step":2,"unit":"px","default":44 },
+    { "type":"color","id":"bg_color","label":"Background","default":"#F6F1E7" },
+    { "type":"color","id":"heading_color","label":"Headings","default":"#2A2522" },
+    { "type":"color","id":"text_color","label":"Body text","default":"#6B5D50" },
+    { "type":"color","id":"accent_color","label":"Accent","default":"#856230" },
+    { "type":"color","id":"wood_color","label":"Placeholder wood tone","default":"#5C4033" },
+    { "type":"header","content":"Spacing" },
+    { "type":"range","id":"padding_top","label":"Top padding","min":0,"max":120,"step":4,"unit":"px","default":80 },
+    { "type":"range","id":"padding_bottom","label":"Bottom padding","min":0,"max":120,"step":4,"unit":"px","default":80 }
+  ],
+  "blocks":[
+    {
+      "type":"collection",
+      "name":"Collection",
+      "limit":12,
+      "settings":[
+        { "type":"collection","id":"collection","label":"Collection" },
+        { "type":"text","id":"custom_title","label":"Title override" },
+        { "type":"image_picker","id":"image","label":"Image override" },
+        { "type":"text","id":"badge","label":"Badge" }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"Shop by Collection Test",
+      "blocks":[
+        {"type":"collection","settings":{"custom_title":"Wooden Lamps & Lighting"}},
+        {"type":"collection","settings":{"custom_title":"Wooden Kitchen & Dining"}},
+        {"type":"collection","settings":{"custom_title":"Wooden Wall Clocks"}},
+        {"type":"collection","settings":{"custom_title":"Wooden Drinkware Sets"}},
+        {"type":"collection","settings":{"custom_title":"Wooden Home Decor"}},
+        {"type":"collection","settings":{"custom_title":"Handcrafted Wooden Gifts"}},
+        {"type":"collection","settings":{"custom_title":"Wooden Statues & Desk Decor"}},
+        {"type":"collection","settings":{"custom_title":"Best Selling Wooden Decor & Gifts","badge":"Best Sellers"}}
+      ]
+    }
+  ]
+}
+{% endschema %}
