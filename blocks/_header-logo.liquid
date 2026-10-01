@@ -32,7 +32,7 @@
     data-hidden-on-home-page
   {% endif %}
   href="{{ routes.root_url }}"
-  class="size-style spacing-style header-logo"
+  class="size-style spacing-style header-logo{% if settings.favicon != blank %} header-logo--zs-mobile-brand{% endif %}"
   style="
     {% render 'size-style', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
@@ -82,6 +82,21 @@
       %}
     </span>
   {% endif %}
+  {% if settings.favicon != blank %}
+    <span
+      class="header-logo__mobile-brand"
+      data-testid="header-logo-mobile"
+    >
+      {% render 'image',
+        image: settings.favicon,
+        class: 'header-logo__mobile-brand-image',
+        height: settings.logo_height_mobile,
+        alt_text_fallback: alt_text_fallback,
+        text_fallback: shop.name
+      %}
+    </span>
+  {% endif %}
+
 </a>
 
 {% stylesheet %}
@@ -130,6 +145,21 @@
     @media screen and (min-width: 750px) {
       height: var(--header-logo-image-height);
       width: var(--header-logo-image-width);
+    }
+  }
+
+  .header-logo__mobile-brand {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .header-logo--zs-mobile-brand > [data-testid='header-logo'],
+    .header-logo--zs-mobile-brand > [data-testid='header-logo-inverse'] {
+      display: none;
+    }
+
+    .header-logo--zs-mobile-brand .header-logo__mobile-brand {
+      display: block;
     }
   }
 
