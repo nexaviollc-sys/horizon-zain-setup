@@ -40,99 +40,9 @@
         "accent_color": "#A8794A"
       }
     },
-    "zs_shop_by_collection_H8pQ2A": {
-      "type": "zs-shop-by-collection",
-      "name": "ZS Shop by Collection",
-      "settings": {
-        "eyebrow": "Discover ZAISEN",
-        "heading": "Shop by <em>Collection.</em>",
-        "description": "Explore handcrafted wooden pieces for every part of the home.",
-        "background_color": "#F6F1EA",
-        "text_color": "#2C2A29",
-        "muted_color": "#6F6861",
-        "accent_color": "#A8794A",
-        "line_color": "#D8CABC"
-      },
-      "blocks": {
-        "lighting": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "lighting",
-            "image_override": "",
-            "title": "Lighting"
-          }
-        },
-        "kitchen": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "kitchen-dining",
-            "image_override": "",
-            "title": "Kitchen & Dining"
-          }
-        },
-        "clocks": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "wall-clocks",
-            "image_override": "",
-            "title": "Wall Clocks"
-          }
-        },
-        "drinkware": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "wooden-drinkware",
-            "image_override": "",
-            "title": "Wooden Drinkware"
-          }
-        },
-        "decor": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "home-decor",
-            "image_override": "",
-            "title": "Home Decor"
-          }
-        },
-        "gifts": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "gifts",
-            "image_override": "",
-            "title": "Gifts"
-          }
-        },
-        "statues": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "statues-desk-decor",
-            "image_override": "",
-            "title": "Statues & Desk Decor"
-          }
-        },
-        "bestsellers": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "best-sellers",
-            "image_override": "",
-            "title": "Best Sellers"
-          }
-        }
-      },
-      "block_order": [
-        "lighting",
-        "kitchen",
-        "clocks",
-        "drinkware",
-        "decor",
-        "gifts",
-        "statues",
-        "bestsellers"
-      ]
-    },
     "zs_shop_by_collection_test_8x": {
       "type": "zs-shop-by-collection-test",
-      "name": "Shop by Collection Test",
+      "name": "Shop by Collection",
       "settings": {
         "eyebrow": "Handcrafted by ZAISEN",
         "heading": "Shop by Collection",
@@ -147,8 +57,6 @@
         "max_width": 1440,
         "show_index": true,
         "show_count": true,
-        "show_view_all": true,
-        "view_all_label": "View all collections",
         "heading_font": "theme",
         "heading_size": 44,
         "bg_color": "#F6F1E7",
@@ -247,7 +155,6 @@
   },
   "order": [
     "zs_3d_hero_t3gPQN",
-    "zs_shop_by_collection_H8pQ2A",
     "zs_shop_by_collection_test_8x"
   ]
 }
