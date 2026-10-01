@@ -150,65 +150,6 @@
         "padding_bottom": 80
       }
     },
-    "zs_best_sellers_4x": {
-      "type": "zs-best-sellers",
-      "blocks": {
-        "p1": {
-          "type": "product",
-          "settings": {
-            "product": "wooden-horse-lamp-equestrian-table-light",
-            "custom_title": "Wooden Horse Lamp"
-          }
-        },
-        "p2": {
-          "type": "product",
-          "settings": {
-            "product": "tea-coffee-sugar-canisters-wooden-set",
-            "custom_title": "Tea Coffee Sugar Canisters Set"
-          }
-        },
-        "p3": {
-          "type": "product",
-          "settings": {
-            "product": "handcrafted-wooden-jug-5-cups-set",
-            "custom_title": "Wooden Jug & 5 Cups"
-          }
-        },
-        "p4": {
-          "type": "product",
-          "settings": {
-            "product": "wooden-ship-wheel-wall-clock",
-            "custom_title": "Wooden Ship Wheel Wall Clock"
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4"
-      ],
-      "name": "ZAISEN Best Sellers",
-      "settings": {
-        "eyebrow": "ZAISEN FAVORITES",
-        "heading": "Our Best Sellers",
-        "heading_tag": "h2",
-        "subheading": "Most-loved handcrafted pieces.",
-        "collection": "best-sellers",
-        "link_text": "Shop Best Sellers",
-        "show_badge": true,
-        "badge_text": "Best Seller",
-        "max_width": 1440,
-        "card_radius": 4,
-        "bg_color": "#fbf9f6",
-        "heading_color": "#2c2a29",
-        "text_color": "#2c2a29",
-        "accent_color": "#a8794a",
-        "wood_color": "#7a5238",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
     "zs_best_sellers_alt_4x": {
       "type": "zs-best-sellers-alt",
       "blocks": {
@@ -276,7 +217,6 @@
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
-    "zs_best_sellers_4x",
     "zs_best_sellers_alt_4x"
   ]
 }
