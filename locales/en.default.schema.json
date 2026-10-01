@@ -8,6 +8,11 @@
  * ------------------------------------------------------------
  */
 {
+  "zaisen_header": {
+    "appearance": "ZAISEN finish",
+    "enable": "Enable refined header styling",
+    "accent": "Bronze accent"
+  },
   "categories": {
     "banners": "Banners",
     // Category for fundamental content blocks (text, images, buttons)
