@@ -143,19 +143,8 @@
               <span class="zsbc__caption">
                 <span class="zsbc__text">
                   <span class="zsbc__title"><span class="zsbc__title-text">{{ title | escape }}</span></span>
-
-                  {% if section.settings.show_index or section.settings.show_count and col != blank %}
-                    <span class="zsbc__meta">
-                      {% if section.settings.show_index %}
-                        <span class="zsbc__index" aria-hidden="true">{{ num }}</span>
-                      {% endif %}
-                      {% if section.settings.show_index and section.settings.show_count and col != blank %}
-                        <span class="zsbc__dash" aria-hidden="true"></span>
-                      {% endif %}
-                      {% if section.settings.show_count and col != blank %}
-                        <span class="zsbc__count">{{ col.products_count }} {% if col.products_count == 1 %}piece{% else %}pieces{% endif %}</span>
-                      {% endif %}
-                    </span>
+                  {% if block.settings.tagline != blank %}
+                    <span class="zsbc__tagline">{{ block.settings.tagline | escape }}</span>
                   {% endif %}
                 </span>
 
@@ -330,9 +319,17 @@
     background:linear-gradient(var(--zsbc-accent),var(--zsbc-accent)) left bottom / 0 1px no-repeat;
     transition:background-size .55s cubic-bezier(.2,.7,.2,1);
   }
-  .zsbc__meta { display:flex; align-items:center; gap:10px; margin-top:8px; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:color-mix(in srgb,var(--zsbc-text) 64%,transparent); }
-  .zsbc__index { color:var(--zsbc-accent); font-variant-numeric:tabular-nums; font-weight:500; }
-  .zsbc__dash { display:block; width:18px; height:1px; background:var(--zsbc-accent-soft); }
+  .zsbc__tagline {
+    display:block;
+    margin-top:7px;
+    max-width:31ch;
+    font-family:var(--font-body--family,inherit);
+    font-size:.78rem;
+    line-height:1.5;
+    letter-spacing:.01em;
+    color:color-mix(in srgb,var(--zsbc-text) 64%,transparent);
+    text-wrap:pretty;
+  }
   .zsbc__arrow {
     flex:none;
     display:inline-flex;
@@ -373,8 +370,7 @@
     .zsbc__grid--two .zsbc__arrow { display:none; }
     .zsbc__grid--two .zsbc__caption { padding-top:14px; }
     .zsbc__grid--two .zsbc__title { font-size:1rem; }
-    .zsbc__grid--two .zsbc__meta { font-size:.6875rem; letter-spacing:.1em; gap:8px; }
-    .zsbc__grid--two .zsbc__dash { width:12px; }
+    .zsbc__grid--two .zsbc__tagline { margin-top:6px; font-size:.72rem; line-height:1.45; }
     .zsbc__grid--two .zsbc__badge { top:10px; left:10px; padding:5px 9px; font-size:.625rem; }
     .zsbc__grid--swipe {
       display:flex;
@@ -448,9 +444,6 @@
     { "type":"range","id":"gap","label":"Gap between cards","min":12,"max":48,"step":4,"unit":"px","default":28 },
     { "type":"range","id":"card_radius","label":"Corner radius","min":0,"max":24,"step":2,"unit":"px","default":4 },
     { "type":"range","id":"max_width","label":"Maximum content width","min":1100,"max":1800,"step":20,"unit":"px","default":1440 },
-    { "type":"header","content":"Card details" },
-    { "type":"checkbox","id":"show_index","label":"Show collection number","default":true },
-    { "type":"checkbox","id":"show_count","label":"Show product count","default":true },
     { "type":"header","content":"Style" },
     {
       "type":"select","id":"heading_font","label":"Heading font",
@@ -475,6 +468,7 @@
       "settings":[
         { "type":"collection","id":"collection","label":"Collection" },
         { "type":"text","id":"custom_title","label":"Title override" },
+        { "type":"text","id":"tagline","label":"Short category phrase" },
         { "type":"image_picker","id":"image","label":"Image override" },
         { "type":"text","id":"badge","label":"Badge" }
       ]
