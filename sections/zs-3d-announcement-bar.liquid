@@ -47,9 +47,17 @@
     overflow: hidden;
     color: var(--zs-a-text);
     background:
-      radial-gradient(circle at 50% -80%, color-mix(in srgb, var(--zs-a-accent) 12%, transparent), transparent 62%),
-      linear-gradient(90deg, color-mix(in srgb, var(--zs-a-bg) 92%, white), var(--zs-a-bg) 45% 55%, color-mix(in srgb, var(--zs-a-bg) 92%, white));
-    border-block: 1px solid color-mix(in srgb, var(--zs-a-border) 78%, transparent);
+      radial-gradient(ellipse at 50% -120%, color-mix(in srgb, var(--zs-a-accent) 18%, transparent), transparent 64%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--zs-a-bg) 82%, white) 0%,
+        var(--zs-a-bg) 52%,
+        color-mix(in srgb, var(--zs-a-bg) 93%, var(--zs-a-accent)) 100%
+      );
+    border-block: 1px solid color-mix(in srgb, var(--zs-a-border) 82%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.72),
+      inset 0 -1px 0 color-mix(in srgb, var(--zs-a-accent) 8%, transparent);
     isolation: isolate;
   }
 
@@ -58,7 +66,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.18;
+    opacity: 0.24;
     background-image:
       linear-gradient(115deg, transparent 0 46%, color-mix(in srgb, var(--zs-a-accent) 8%, transparent) 49% 51%, transparent 54% 100%);
     background-size: 180px 100%;
@@ -124,8 +132,8 @@
 
   .zs-announcement__text {
     font-family: var(--font-body--family, inherit);
-    font-size: 11px;
-    font-weight: 650;
+    font-size: 11.5px;
+    font-weight: 700;
     letter-spacing: 0.15em;
     line-height: 1.2;
     text-align: center;
@@ -167,7 +175,7 @@
     }
 
     .zs-announcement__text {
-      font-size: 9px;
+      font-size: 9.5px;
       letter-spacing: 0.12em;
     }
 
