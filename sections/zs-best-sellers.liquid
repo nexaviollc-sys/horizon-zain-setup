@@ -72,7 +72,7 @@
               </a>
 
               <div class="zs-best-sellers__info">
-                <a class="zs-best-sellers__title" href="{{ product.url }}">{{ product.title | escape }}</a>
+                <a class="zs-best-sellers__title" href="{{ product.url }}">{{ block.settings.custom_title | default: product.title | escape }}</a>
 
                 <div class="zs-best-sellers__price" aria-label="Price">
                   {% if product.price_varies %}
@@ -427,7 +427,8 @@
       "type":"product",
       "name":"Product",
       "settings":[
-        { "type":"product","id":"product","label":"Product" }
+        { "type":"product","id":"product","label":"Product" },
+        { "type":"text","id":"custom_title","label":"Short display title" }
       ]
     }
   ],
