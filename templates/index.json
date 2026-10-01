@@ -289,7 +289,7 @@
         "s1": {
           "type": "specimen",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-30_at_7.08.38_PM.jpg",
+            "image": "",
             "image_alt": "ZAISEN handcrafted wooden horse lamp showing natural wood grain and sculptural form",
             "name": "Grain Study",
             "latin": "",
@@ -298,13 +298,14 @@
             "finish": "",
             "tone_name": "Warm walnut",
             "tone": "#7A5238",
-            "note": "Natural grain, carved form and surface character shown as a material study."
+            "note": "Natural grain, carved form and surface character shown as a material study.",
+            "product": "wooden-horse-lamp-equestrian-table-light"
           }
         },
         "s2": {
           "type": "specimen",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-29_at_2.01.20_PM.jpg",
+            "image": "",
             "image_alt": "ZAISEN wooden canisters showing handcrafted surface and carved detail",
             "name": "Carved Detail",
             "latin": "",
@@ -313,13 +314,14 @@
             "finish": "",
             "tone_name": "Honey brown",
             "tone": "#A8794A",
-            "note": "A close look at the small details that give handcrafted wooden pieces their character."
+            "note": "A close look at the small details that give handcrafted wooden pieces their character.",
+            "product": "tea-coffee-sugar-canisters-wooden-set"
           }
         },
         "s3": {
           "type": "specimen",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-25_at_8.19.23_PM_1.jpg",
+            "image": "",
             "image_alt": "ZAISEN handcrafted wooden jug and cups showing curved wooden forms",
             "name": "Form Study",
             "latin": "",
@@ -328,13 +330,14 @@
             "finish": "",
             "tone_name": "Natural wood",
             "tone": "#9A6A43",
-            "note": "Curves, proportion and tactile edges are treated as part of the object, not decoration added later."
+            "note": "Curves, proportion and tactile edges are treated as part of the object, not decoration added later.",
+            "product": "handcrafted-wooden-jug-5-cups-set"
           }
         },
         "s4": {
           "type": "specimen",
           "settings": {
-            "image": "shopify://shop_images/ChatGPT_Image_Sep_23_2026_08_31_44_PM.png",
+            "image": "",
             "image_alt": "ZAISEN handcrafted wooden wall clock styled as a finished home object",
             "name": "Finished Object",
             "latin": "",
@@ -343,7 +346,8 @@
             "finish": "",
             "tone_name": "Deep walnut",
             "tone": "#5C4033",
-            "note": "The material archive ends with the finished object: functional, sculptural and made for the home."
+            "note": "The material archive ends with the finished object: functional, sculptural and made for the home.",
+            "product": "wooden-ship-wheel-wall-clock"
           }
         }
       },
@@ -369,7 +373,6 @@
         "label_finish": "Finish",
         "label_tone": "Tone",
         "side_note": "Material study from the ZAISEN collection",
-        "detail_image": "shopify://shop_images/WhatsApp_Image_2026-09-29_at_2.01.20_PM.jpg",
         "detail_alt": "Close-up ZAISEN handcrafted wood detail",
         "detail_label": "Fig. A",
         "detail_caption": "A closer view of grain, edge and handcrafted surface character.",
@@ -388,9 +391,7 @@
         "color_bg": "#F6F1E7",
         "color_text": "#3A2818",
         "color_gold": "#A8794A",
-        "color_mat": "#ECE4D3",
-        "heading_font": "cormorant_garamond_n4",
-        "body_font": "libre_baskerville_n4"
+        "color_mat": "#ECE4D3"
       }
     }
   },
