@@ -23,8 +23,11 @@
         {{ 'content.search' | t }}
       </span>
 
-      <span class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}">
-        {{ 'icon-search.svg' | inline_asset_content }}
+      <span class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}" aria-hidden="true">
+        <svg class="zs-header-icon zs-header-icon--search" viewBox="0 0 24 24" fill="none">
+          <circle cx="10.8" cy="10.8" r="5.8" stroke="currentColor" stroke-width="1.8"/>
+          <path d="m15.2 15.2 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
       </span>
     </button>
   </search-button>
