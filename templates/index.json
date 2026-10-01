@@ -157,7 +157,6 @@
           "type": "product",
           "settings": {
             "product": "wooden-horse-lamp-equestrian-table-light",
-            "custom_image": "",
             "note": ""
           }
         },
@@ -165,7 +164,6 @@
           "type": "product",
           "settings": {
             "product": "tea-coffee-sugar-canisters-wooden-set",
-            "custom_image": "",
             "note": ""
           }
         },
@@ -173,7 +171,6 @@
           "type": "product",
           "settings": {
             "product": "handcrafted-wooden-jug-5-cups-set",
-            "custom_image": "",
             "note": ""
           }
         },
@@ -181,7 +178,6 @@
           "type": "product",
           "settings": {
             "product": "wooden-ship-wheel-wall-clock",
-            "custom_image": "",
             "note": ""
           }
         }
@@ -204,13 +200,13 @@
         "show_index": true,
         "show_divider": true,
         "show_compare": true,
-        "padding_top": 128,
-        "padding_bottom": 128,
         "bg_color": "#f6f1e7",
+        "heading_color": "#2c2a29",
         "text_color": "#2c2a29",
         "accent_color": "#a8794a",
-        "heading_color": "#2c2a29",
-        "wood_color": "#7a5238"
+        "wood_color": "#7a5238",
+        "padding_top": 128,
+        "padding_bottom": 128
       }
     },
     "zs_material_archive_4x": {
@@ -223,7 +219,6 @@
             "caption": "Natural variation",
             "product": "tea-coffee-sugar-canisters-wooden-set",
             "image_position": 5,
-            "image": "",
             "alt_text": "Close-up of natural wood grain and handcrafted surface detail"
           }
         },
@@ -234,7 +229,6 @@
             "caption": "Shaped with intention",
             "product": "wooden-horse-lamp-equestrian-table-light",
             "image_position": 4,
-            "image": "",
             "alt_text": "Sculptural handcrafted wooden form showing curved artisan shaping"
           }
         },
@@ -245,7 +239,6 @@
             "caption": "Carved by hand",
             "product": "handcrafted-wooden-jug-5-cups-set",
             "image_position": 3,
-            "image": "",
             "alt_text": "Handcrafted wooden detail highlighting carved edges and natural finish"
           }
         },
@@ -256,7 +249,6 @@
             "caption": "Made for the home",
             "product": "wooden-ship-wheel-wall-clock",
             "image_position": 2,
-            "image": "",
             "alt_text": "Finished ZAISEN wooden object styled in a warm interior setting"
           }
         }
@@ -267,6 +259,7 @@
         "a3",
         "a4"
       ],
+      "disabled": true,
       "name": "ZAISEN Material Archive",
       "settings": {
         "eyebrow": "THE ZAISEN MATERIAL ARCHIVE",
@@ -281,14 +274,119 @@
         "wood_color": "#7a5238",
         "padding_top": 112,
         "padding_bottom": 124
+      }
+    },
+    "zaisen_material_archive_dUawdR": {
+      "type": "zaisen-material-archive",
+      "blocks": {
+        "specimen_p8DbBM": {
+          "type": "specimen",
+          "settings": {
+            "image_alt": "",
+            "name": "Black Walnut",
+            "latin": "Juglans nigra",
+            "origin": "Missouri, USA",
+            "seasoned": "Air-dried, 30 months",
+            "finish": "Hand-rubbed oil, one coat of wax",
+            "tone_name": "Dark chocolate, violet undertone",
+            "tone": "#4b3426",
+            "note": "Quarter-sawn for a straight, quiet grain. The sapwood line stays on the underside, where only the maker sees it."
+          }
+        },
+        "specimen_g6RWPV": {
+          "type": "specimen",
+          "settings": {
+            "image_alt": "",
+            "name": "Keyaki",
+            "latin": "Zelkova serrata",
+            "origin": "Nagano, Japan",
+            "seasoned": "Air-dried, 36 months",
+            "finish": "Raw linseed oil, three coats",
+            "tone_name": "Warm amber, strong figure",
+            "tone": "#a6764a",
+            "note": "Open pores and a ripple in the grain that no two boards share."
+          }
+        },
+        "specimen_YcPG63": {
+          "type": "specimen",
+          "settings": {
+            "image_alt": "",
+            "name": "Hinoki",
+            "latin": "Chamaecyparis obtusa",
+            "origin": "Gifu, Japan",
+            "seasoned": "Kiln-dried, rested 12 months",
+            "finish": "Planed only, never sanded",
+            "tone_name": "Pale straw",
+            "tone": "#dcc59a",
+            "note": "Planed to a soft sheen. It smells of cut cedar for the first year."
+          }
+        },
+        "specimen_VYezQA": {
+          "type": "specimen",
+          "settings": {
+            "image_alt": "",
+            "name": "White Oak",
+            "latin": "Quercus alba",
+            "origin": "Appalachia, USA",
+            "seasoned": "Air-dried, 24 months",
+            "finish": "Hardwax oil, matte",
+            "tone_name": "Greyed honey",
+            "tone": "#bfa27a",
+            "note": "Ray fleck shows where the board was cut across the log."
+          }
+        }
       },
-      "disabled": true
+      "block_order": [
+        "specimen_p8DbBM",
+        "specimen_g6RWPV",
+        "specimen_YcPG63",
+        "specimen_VYezQA"
+      ],
+      "name": "ZAISEN Material Archive",
+      "settings": {
+        "running_head": "ZAISEN — Material Archive",
+        "folio": "Folio 04",
+        "edition": "Edition 2025",
+        "heading": "Notes on timber, <em>kept slowly.</em>",
+        "indent_italic": true,
+        "intro": "<p>Every ZAISEN piece starts as an entry in this archive: a board chosen, its grain read, a joint drawn by hand. This is the record of what the wood was, where it grew, how long it rested and how we finished it.</p>",
+        "index_label": "Index of specimens",
+        "spec_label": "Specimen record",
+        "plate_word": "Plate",
+        "label_origin": "Origin",
+        "label_seasoned": "Seasoned",
+        "label_finish": "Finish",
+        "label_tone": "Tone",
+        "side_note": "Photographed in north light, unretouched",
+        "detail_alt": "",
+        "detail_label": "Fig. A",
+        "detail_caption": "Through-tenon, cut by hand and checked against the line.",
+        "margin_label": "Marginalia",
+        "margin_text": "Boards rest in the workshop for at least two winters before anything is cut. The date is written on the end grain.",
+        "foot_note": "Scale 1 : 4 — rule in centimetres",
+        "link_label": "Open the catalogue",
+        "link": "",
+        "plate_ratio": "5 / 6",
+        "max_width": "1440px",
+        "title_size": 92,
+        "aside_offset": 96,
+        "mat_padding": 18,
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "color_bg": "#F5EFE2",
+        "color_text": "#3A2818",
+        "color_gold": "#B8935A",
+        "color_mat": "#ECE4D3",
+        "heading_font": "playfair_display_n4",
+        "body_font": "libre_baskerville_n4"
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x",
-    "zs_material_archive_4x"
+    "zs_material_archive_4x",
+    "zaisen_material_archive_dUawdR"
   ]
 }
