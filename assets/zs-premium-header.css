@@ -342,27 +342,30 @@
   box-shadow: 0 24px 60px rgba(61, 39, 24, 0.12);
 }
 
-/* Mobile */
+/* Mobile
+   True three-zone structure:
+   left utility | mathematically centered brand | right utility group.
+   This intentionally replaces Horizon's native five-slot mobile grid while
+   preserving the native components and their behavior. */
 @media screen and (max-width: 749px) {
   #header-component .header__row--top {
+    position: relative;
     background: rgba(251, 249, 246, 0.985);
     box-shadow: inset 0 -1px 0 rgba(111, 73, 50, 0.09);
     backdrop-filter: blur(16px) saturate(1.06);
     -webkit-backdrop-filter: blur(16px) saturate(1.06);
   }
 
-  /* One intentional mobile structure:
-     hamburger | true centered brand | search + account + cart */
   #header-component .header__columns,
   #header-component[data-menu-style='drawer'] .header__columns {
-    position: relative !important;
     display: grid !important;
-    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
     grid-template-areas: 'left center right' !important;
-    column-gap: 10px !important;
     align-items: center !important;
-    min-height: 74px;
-    padding-inline: max(18px, var(--page-margin)) !important;
+    column-gap: 12px !important;
+    min-height: 76px;
+    width: 100%;
+    padding-inline: max(20px, var(--page-margin)) !important;
   }
 
   #header-component .header__column--left,
@@ -370,149 +373,180 @@
     display: flex !important;
     grid-area: left !important;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-start !important;
+    min-width: 0;
     gap: 0 !important;
-    min-width: 44px;
   }
 
-  /* Overlay the center column across the full header width so the logo is
-     centered against the viewport, not between unequal left/right controls. */
   #header-component .header__column--center,
   #header-component[data-menu-style='drawer'] .header__column--center {
     display: flex !important;
-    position: absolute !important;
-    inset: 0 !important;
+    grid-area: center !important;
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
     align-items: center;
     justify-content: center !important;
-    pointer-events: none;
-    z-index: 2;
+    min-width: 0;
+    pointer-events: auto;
+    z-index: 3;
   }
 
   #header-component .header__column--right,
   #header-component[data-menu-style='drawer'] .header__column--right {
     display: flex !important;
     grid-area: right !important;
-    align-items: center;
+    align-items: center !important;
     justify-content: flex-end !important;
+    justify-self: stretch !important;
+    min-width: 0;
     gap: 8px !important;
-    justify-self: end;
     z-index: 4;
   }
 
   #header-component .header-logo {
-    position: relative !important;
+    position: static !important;
     inset: auto !important;
-    top: auto !important;
     transform: none !important;
-    grid-area: auto !important;
     width: auto;
-    max-width: 78px;
     height: 64px;
+    max-width: 82px;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: auto;
+    margin: 0;
+    padding: 0;
     z-index: 3;
   }
 
   #header-component .header-logo__image {
+    display: block;
     width: auto !important;
     height: auto !important;
-    max-width: 78px;
+    max-width: 82px;
     max-height: 64px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.08));
+    filter: drop-shadow(0 3px 8px rgba(53, 33, 20, 0.07));
   }
 
-  /* Search is now structurally assigned to the right column in header-row.
-     Keep both native search instances behaving exactly as Horizon expects. */
-  #header-component .header__column--right .search-action {
-    display: flex;
-    margin: 0 !important;
-    justify-self: auto !important;
-  }
-
+  /* Only the drawer-search instance is visible on mobile. It lives in the
+     same flex row as account and cart, so all three controls share one rhythm. */
   #header-component .header__column--right > .search-action--hidden-on-drawer {
     display: none !important;
   }
 
-  #header-component .header__column--right .search-action--hidden-on-menu {
+  #header-component .header__column--right > .search-action--hidden-on-menu {
     display: flex !important;
   }
 
-  #header-component .header__column--right header-actions {
-    display: flex;
+  #header-component .header__column--right .search-action {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0;
     align-items: center;
-    justify-content: flex-end;
-    gap: 8px !important;
-    margin-inline-start: 0 !important;
-    justify-self: auto !important;
+    justify-content: center;
   }
 
-  /* Three equal 40px controls with exactly 8px between each. */
+  #header-component .header__column--right header-actions {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0;
+  }
+
+  /* Search, account and cart: identical boxes and optical icon size. */
   #header-component .header__column--right .search-action .header-actions__action,
   #header-component .header__column--right .account-button.header-actions__action,
   #header-component .header__column--right header-actions > .header-actions__action {
+    box-sizing: border-box;
     width: 40px !important;
     min-width: 40px !important;
+    max-width: 40px !important;
     height: 40px !important;
     min-height: 40px !important;
-    padding: 0 !important;
+    max-height: 40px !important;
+    flex: 0 0 40px !important;
+    display: grid !important;
+    place-items: center !important;
     margin: 0 !important;
-    border-radius: 50%;
+    padding: 0 !important;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #302e2c;
+    background: transparent;
+    box-shadow: none;
+    line-height: 0;
   }
 
   #header-component .header__column--right .account-button shopify-account {
+    display: grid;
+    place-items: center;
     width: 40px;
     min-width: 40px;
     height: 40px;
-    display: grid;
-    place-items: center;
-    line-height: 1;
+    min-height: 40px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    background: transparent !important;
   }
 
-  #header-component .header__column--right .svg-wrapper {
-    width: 22px !important;
-    height: 22px !important;
+  #header-component .header__column--right :is(.svg-wrapper, .zs-header-icon, .account-button__icon) {
+    width: 21px !important;
+    height: 21px !important;
+    min-width: 21px;
+    min-height: 21px;
     display: grid;
     place-items: center;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
   }
 
-  #header-component .header__column--right .zs-header-icon {
-    width: 22px !important;
-    height: 22px !important;
+  #header-component .header__column--right :is(.svg-wrapper, .zs-header-icon, .account-button__icon) svg,
+  #header-component .header__column--right svg.zs-header-icon {
+    width: 21px !important;
+    height: 21px !important;
+    display: block;
   }
 
   #header-component .header__icon--menu {
+    box-sizing: border-box;
     width: 40px !important;
     min-width: 40px !important;
     height: 40px !important;
     min-height: 40px !important;
+    display: grid !important;
+    place-items: center !important;
     justify-content: center !important;
-    padding: 0 !important;
     margin: 0 !important;
-  }
-
-  /* Mobile has no persistent colored icon backgrounds. Touch/focus feedback
-     appears only during interaction, keeping the row clean and expensive. */
-  #header-component .header__column--right .header-actions__action {
-    color: #302e2c;
-    background: transparent;
+    padding: 0 !important;
+    border-radius: 12px;
     border-color: transparent;
+    background: transparent;
     box-shadow: none;
+    line-height: 0;
   }
 
-  #header-component .header__column--right .header-actions__action:is(:hover, :focus-visible) {
-    color: #9b6a3c;
-    background: linear-gradient(145deg, #fffdf9, #f7eadb);
-    border-color: rgba(192, 145, 88, .38);
-    box-shadow: 0 7px 18px rgba(92, 57, 27, .10);
+  #header-component .header__icon--menu .svg-wrapper,
+  #header-component .header__icon--menu svg {
+    width: 21px !important;
+    height: 21px !important;
   }
 
-  #header-component .header__column--right .header-actions__action:active {
+  /* Touch feedback only: no sticky faux-hover circle on phones. */
+  #header-component .header__column--right .header-actions__action:active,
+  #header-component .header__icon--menu:active {
     color: #9b6a3c;
-    background: #f7eadb;
-    transform: scale(.94);
+    background: rgba(168, 121, 74, 0.08);
+    border-color: rgba(168, 121, 74, 0.18);
+    transform: scale(0.96);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
   }
 
   #header-component .menu-drawer {
@@ -553,6 +587,27 @@
 
   #header-component .menu-drawer__utility-links {
     border-top: 1px solid var(--zs-header-line);
+  }
+}
+
+/* Real pointer hover only. Mobile/touch devices never retain this state. */
+@media screen and (max-width: 749px) and (hover: hover) and (pointer: fine) {
+  #header-component .header__column--right .header-actions__action:hover,
+  #header-component .header__column--right .header-actions__action:focus-visible,
+  #header-component .header__icon--menu:hover,
+  #header-component .header__icon--menu:focus-visible {
+    color: #9a6739;
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,239,227,.9));
+    border-color: rgba(190, 143, 88, 0.32);
+    box-shadow:
+      0 5px 14px rgba(85, 53, 27, 0.08),
+      inset 0 1px 0 rgba(255,255,255,.95);
+    transform: translateY(-1px);
+  }
+
+  #header-component .header__column--right .header-actions__action:hover svg,
+  #header-component .header__icon--menu:hover svg {
+    transform: scale(1.045);
   }
 }
 
