@@ -13,17 +13,17 @@
   "sections": {
     "zs_3d_announcement_bar_bRxW36": {
       "type": "zs-3d-announcement-bar",
-      "name": "ZS 3D Announcement",
+      "name": "ZS Premium Announcement",
       "settings": {
         "message_1": "Handcrafted from pure wood",
         "message_2": "Made to order • crafted with care",
         "message_3": "Natural materials • timeless design",
         "message_4": "Welcome to Zaisen",
-        "speed": 1,
-        "background_color": "#EFE4D6",
+        "speed": 4,
+        "background_color": "#F1E7DA",
         "text_color": "#2C2A29",
-        "accent_color": "#7A5238",
-        "border_color": "#D6C4AE",
+        "accent_color": "#9A6A43",
+        "border_color": "#D8C7B3",
         "desktop_height": 40,
         "mobile_height": 36
       }
