@@ -144,6 +144,8 @@
 
 #header-component .menu-list__list-item:hover > .menu-list__trigger .menu-list__link-title::after,
 #header-component .menu-list__list-item:focus-within > .menu-list__trigger .menu-list__link-title::after,
+#header-component .menu-list__list-item:hover > .menu-list__link .menu-list__link-title::after,
+#header-component .menu-list__list-item:focus-within > .menu-list__link .menu-list__link-title::after,
 #header-component .menu-list__link--active .menu-list__link-title::after {
   transform: scaleX(1);
   opacity: 1;
