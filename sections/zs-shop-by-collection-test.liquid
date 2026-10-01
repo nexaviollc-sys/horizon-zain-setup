@@ -115,6 +115,28 @@
                 assign img = col.products.first.featured_image
               endif
             endif
+
+            assign card_tagline = block.settings.tagline
+            if card_tagline == blank and col != blank
+              case col.handle
+                when 'lighting'
+                  assign card_tagline = 'Handcrafted wooden lighting for warm, inviting interiors.'
+                when 'kitchen-dining'
+                  assign card_tagline = 'Natural wooden essentials for everyday serving and dining.'
+                when 'wall-clocks'
+                  assign card_tagline = 'Handcrafted wooden timepieces for distinctive walls.'
+                when 'wooden-drinkware'
+                  assign card_tagline = 'Wooden drinkware crafted for serving, sharing and display.'
+                when 'home-decor'
+                  assign card_tagline = 'Natural wooden accents for warm, character-filled spaces.'
+                when 'gifts'
+                  assign card_tagline = 'Thoughtful handcrafted wooden gifts for every occasion.'
+                when 'statues-desk-decor'
+                  assign card_tagline = 'Sculptural wooden pieces for desks, shelves and displays.'
+                when 'best-sellers'
+                  assign card_tagline = 'Customer-favorite wooden pieces for home and gifting.'
+              endcase
+            endif
           %}
 
           <li class="zsbc__item" {{ block.shopify_attributes }}>
@@ -143,8 +165,8 @@
               <span class="zsbc__caption">
                 <span class="zsbc__text">
                   <span class="zsbc__title"><span class="zsbc__title-text">{{ title | escape }}</span></span>
-                  {% if block.settings.tagline != blank %}
-                    <span class="zsbc__tagline">{{ block.settings.tagline | escape }}</span>
+                  {% if card_tagline != blank %}
+                    <span class="zsbc__tagline">{{ card_tagline | escape }}</span>
                   {% endif %}
                 </span>
 
@@ -367,10 +389,11 @@
     .zsbc__sub { margin-top: 16px; font-size: 14.5px; line-height: 1.65; }
     .zsbc__grid { column-gap:14px; row-gap:30px; }
     .zsbc__grid--one { grid-template-columns:minmax(0,1fr); }
-    .zsbc__grid--two .zsbc__arrow { display:none; }
-    .zsbc__grid--two .zsbc__caption { padding-top:14px; }
+    .zsbc__grid--two .zsbc__caption { padding-top:14px; gap:8px; }
     .zsbc__grid--two .zsbc__title { font-size:1rem; }
     .zsbc__grid--two .zsbc__tagline { margin-top:6px; font-size:.72rem; line-height:1.45; }
+    .zsbc__grid--two .zsbc__arrow { width:32px; height:32px; margin-top:-1px; }
+    .zsbc__grid--two .zsbc__arrow svg { width:14px; height:14px; }
     .zsbc__grid--two .zsbc__badge { top:10px; left:10px; padding:5px 9px; font-size:.625rem; }
     .zsbc__grid--swipe {
       display:flex;
