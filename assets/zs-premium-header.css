@@ -1,0 +1,388 @@
+/* ==========================================================================
+   ZAISEN Premium Header
+   Visual enhancement layer for Shopify Horizon.
+   Keeps Horizon's native menu, cart drawer, search, account, localization,
+   sticky logic, focus handling and mobile drawer behavior intact.
+   ========================================================================== */
+
+#header-component {
+  --zs-header-ivory: #fbf9f6;
+  --zs-header-surface: #fffdf9;
+  --zs-header-ink: #2c2a29;
+  --zs-header-muted: #6f6861;
+  --zs-header-walnut: #6f4932;
+  --zs-header-walnut-deep: #553522;
+  --zs-header-accent: #a8794a;
+  --zs-header-line: rgba(111, 73, 50, 0.14);
+  --zs-header-line-soft: rgba(111, 73, 50, 0.08);
+  --zs-header-shadow: 0 12px 34px rgba(61, 39, 24, 0.08);
+  --zs-header-shadow-sticky: 0 16px 42px rgba(61, 39, 24, 0.12);
+  --zs-header-radius: 18px;
+  --zs-header-pill: 999px;
+  color: var(--zs-header-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep native underlays as the structural background while making the
+   visible row feel warmer and more tactile. */
+#header-component:not([transparent]) .header__row--top {
+  background: rgba(251, 249, 246, 0.94);
+  border-bottom-color: var(--zs-header-line) !important;
+  box-shadow: inset 0 -1px 0 var(--zs-header-line-soft);
+  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  transition:
+    background-color 240ms ease,
+    box-shadow 240ms ease,
+    border-color 240ms ease;
+}
+
+#header-component[data-sticky-state='active'] .header__row--top {
+  background: rgba(251, 249, 246, 0.975);
+  box-shadow:
+    inset 0 -1px 0 var(--zs-header-line),
+    var(--zs-header-shadow-sticky);
+}
+
+#header-component[transparent]:not([data-sticky-state='active']) .header__row--top {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+#header-component[transparent][data-sticky-state='active'] .header__row--top {
+  background: rgba(251, 249, 246, 0.975);
+  color: var(--zs-header-ink);
+  box-shadow:
+    inset 0 -1px 0 var(--zs-header-line),
+    var(--zs-header-shadow-sticky);
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+}
+
+/* Desktop composition: generous but controlled, centered brand, balanced
+   left and right bookends. The underlying Horizon columns stay unchanged. */
+@media screen and (min-width: 750px) {
+  #header-component .header__columns {
+    min-height: 88px;
+    gap: clamp(18px, 2vw, 34px);
+    transition: min-height 240ms ease;
+  }
+
+  #header-component[data-sticky-state='active'] .header__columns {
+    min-height: 74px;
+  }
+
+  #header-component .header__column--left,
+  #header-component .header__column--right {
+    gap: clamp(8px, 1.2vw, 18px);
+  }
+
+  #header-component .header__column--center {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+/* Brand mark */
+#header-component .header-logo {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+#header-component .header-logo__image {
+  border-radius: 12px;
+  filter: drop-shadow(0 5px 12px rgba(53, 33, 20, 0.11));
+  transition:
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 260ms ease;
+}
+
+@media screen and (min-width: 750px) {
+  #header-component[data-sticky-state='active'] .header-logo__image {
+    transform: scale(0.9);
+    filter: drop-shadow(0 4px 9px rgba(53, 33, 20, 0.09));
+  }
+}
+
+/* Top navigation */
+#header-component .menu-list {
+  --menu-horizontal-gap: clamp(12px, 1.3vw, 22px);
+}
+
+#header-component .menu-list__link {
+  position: relative;
+  color: var(--zs-header-ink);
+  letter-spacing: 0.025em;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+#header-component .menu-list__link-title {
+  position: relative;
+  padding-inline: 8px;
+}
+
+#header-component .menu-list__link-title::after {
+  content: '';
+  position: absolute;
+  inset-inline: 8px;
+  bottom: -7px;
+  height: 1.5px;
+  border-radius: var(--zs-header-pill);
+  background: linear-gradient(90deg, var(--zs-header-walnut), var(--zs-header-accent));
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 180ms ease;
+}
+
+#header-component .menu-list__list-item:hover > .menu-list__trigger .menu-list__link-title::after,
+#header-component .menu-list__list-item:focus-within > .menu-list__trigger .menu-list__link-title::after,
+#header-component .menu-list__link--active .menu-list__link-title::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+#header-component .menu-list__list-item:hover > .menu-list__trigger .menu-list__link,
+#header-component .menu-list__list-item:focus-within > .menu-list__trigger .menu-list__link,
+#header-component .menu-list__link--active {
+  color: var(--zs-header-walnut-deep);
+}
+
+/* Header utility controls: native buttons remain native buttons, only the
+   visual treatment changes. */
+#header-component header-actions {
+  gap: 4px;
+}
+
+#header-component .header-actions__action,
+#header-component .header__icon--menu {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--zs-header-pill);
+  color: var(--zs-header-ink);
+  background: transparent;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+#header-component .dropdown-localization__button.header-actions__action {
+  width: auto;
+  min-width: 58px;
+  padding-inline: 12px;
+  gap: 6px;
+}
+
+#header-component .header-actions__action:hover,
+#header-component .header-actions__action:focus-visible,
+#header-component .header__icon--menu:hover,
+#header-component .header__icon--menu:focus-visible {
+  color: var(--zs-header-walnut-deep);
+  background: rgba(168, 121, 74, 0.09);
+  border-color: rgba(168, 121, 74, 0.22);
+  box-shadow: 0 7px 18px rgba(74, 46, 28, 0.07);
+}
+
+#header-component .header-actions__action:active,
+#header-component .header__icon--menu:active {
+  transform: translateY(1px);
+}
+
+#header-component .header-actions__action svg,
+#header-component .header__icon--menu svg {
+  transition: transform 180ms ease;
+}
+
+#header-component .header-actions__action:hover svg,
+#header-component .header__icon--menu:hover svg {
+  transform: scale(1.04);
+}
+
+#header-component .cart-bubble__background {
+  background: var(--zs-header-walnut) !important;
+}
+
+#header-component .cart-bubble__text {
+  color: var(--zs-header-ivory) !important;
+}
+
+/* Localization popover */
+#header-component .localization-wrapper {
+  overflow: hidden;
+  border: 1px solid var(--zs-header-line) !important;
+  border-radius: var(--zs-header-radius) !important;
+  background: rgba(255, 253, 249, 0.985) !important;
+  box-shadow: 0 20px 50px rgba(61, 39, 24, 0.14) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Mega menu remains powered by Horizon. This treatment turns the native
+   menu content into a premium editorial panel without changing link data. */
+#header-component .menu-list__submenu-inner {
+  padding-block-start: 22px;
+  padding-block-end: 30px;
+}
+
+#header-component .mega-menu__grid {
+  padding: 26px;
+  border: 1px solid var(--zs-header-line);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 253, 249, 0.98), rgba(248, 242, 234, 0.96));
+  box-shadow:
+    0 22px 54px rgba(61, 39, 24, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+#header-component .mega-menu__link {
+  border-radius: 9px;
+  color: var(--zs-header-muted);
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+#header-component .mega-menu__link:hover,
+#header-component .mega-menu__link:focus-visible {
+  color: var(--zs-header-walnut-deep);
+}
+
+#header-component .mega-menu__link--parent {
+  color: var(--zs-header-ink);
+  letter-spacing: 0.015em;
+}
+
+#header-component .mega-menu__link-image {
+  overflow: hidden;
+  border: 1px solid rgba(111, 73, 50, 0.1);
+  border-radius: 16px !important;
+  box-shadow: 0 10px 26px rgba(63, 39, 23, 0.08);
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 300ms ease;
+}
+
+#header-component .mega-menu__link:hover .mega-menu__link-image {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(63, 39, 23, 0.12);
+}
+
+/* Native open-menu underlay, softened for the ZAISEN palette. */
+#header-component .header__underlay-open::after {
+  box-shadow: 0 24px 60px rgba(61, 39, 24, 0.12);
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  #header-component .header__row--top {
+    background: rgba(251, 249, 246, 0.97);
+    backdrop-filter: blur(16px) saturate(1.06);
+    -webkit-backdrop-filter: blur(16px) saturate(1.06);
+  }
+
+  #header-component .header__columns {
+    min-height: 66px;
+  }
+
+  #header-component .header-logo {
+    max-width: 52px;
+  }
+
+  #header-component .header-logo__mobile-brand-image {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 11px;
+    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.1));
+  }
+
+  #header-component .header-actions__action,
+  #header-component .header__icon--menu {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  #header-component .menu-drawer {
+    background:
+      radial-gradient(circle at 12% 4%, rgba(168, 121, 74, 0.11), transparent 28%),
+      var(--zs-header-ivory);
+    color: var(--zs-header-ink);
+    border-inline-end: 1px solid var(--zs-header-line);
+    box-shadow: 18px 0 50px rgba(61, 39, 24, 0.13);
+  }
+
+  #header-component .menu-drawer__navigation {
+    padding-top: 12px;
+  }
+
+  #header-component .menu-drawer__menu-item--mainlist {
+    min-height: 54px;
+    border-radius: 12px;
+    color: var(--zs-header-ink);
+    letter-spacing: 0.01em;
+  }
+
+  #header-component .menu-drawer__menu-item--mainlist:hover,
+  #header-component .menu-drawer__menu-item--mainlist:focus-visible,
+  #header-component .menu-drawer__menu-item--active {
+    background: rgba(168, 121, 74, 0.09);
+    color: var(--zs-header-walnut-deep);
+  }
+
+  #header-component .menu-drawer__submenu {
+    background: var(--zs-header-ivory);
+  }
+
+  #header-component .menu-drawer__menu-item--child,
+  #header-component .menu-drawer__menu-item--parent {
+    border-radius: 10px;
+  }
+
+  #header-component .menu-drawer__utility-links {
+    border-top: 1px solid var(--zs-header-line);
+  }
+}
+
+/* Focus treatment: brand-consistent but clearly visible. */
+#header-component :is(
+  .menu-list__link,
+  .mega-menu__link,
+  .header-actions__action,
+  .header__icon--menu,
+  .dropdown-localization__button,
+  .menu-drawer__menu-item
+):focus-visible {
+  outline: 2px solid var(--zs-header-accent);
+  outline-offset: 3px;
+}
+
+/* Respect motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  #header-component *,
+  #header-component *::before,
+  #header-component *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
