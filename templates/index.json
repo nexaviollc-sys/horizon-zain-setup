@@ -129,10 +129,125 @@
         "statues",
         "bestsellers"
       ]
+    },
+    "zs_shop_by_collection_test_8x": {
+      "type": "zs-shop-by-collection-test",
+      "name": "Shop by Collection Test",
+      "settings": {
+        "eyebrow": "Handcrafted by ZAISEN",
+        "heading": "Shop by Collection",
+        "heading_tag": "h2",
+        "subheading": "Explore pieces shaped, sanded and finished by skilled artisans, bringing the warmth of natural wood into every corner of your home.",
+        "alignment": "center",
+        "columns_desktop": "4",
+        "mobile_layout": "two",
+        "image_ratio": "portrait",
+        "gap": 28,
+        "card_radius": 4,
+        "max_width": 1440,
+        "show_index": true,
+        "show_count": true,
+        "show_view_all": true,
+        "view_all_label": "View all collections",
+        "heading_font": "theme",
+        "heading_size": 44,
+        "bg_color": "#F6F1E7",
+        "heading_color": "#2A2522",
+        "text_color": "#6B5D50",
+        "accent_color": "#856230",
+        "wood_color": "#5C4033",
+        "padding_top": 80,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "collection": "lighting",
+            "custom_title": "Wooden Lamps & Lighting",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "collection": "kitchen-dining",
+            "custom_title": "Wooden Kitchen & Dining",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "collection": "wall-clocks",
+            "custom_title": "Wooden Wall Clocks",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c4": {
+          "type": "collection",
+          "settings": {
+            "collection": "wooden-drinkware",
+            "custom_title": "Wooden Drinkware Sets",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c5": {
+          "type": "collection",
+          "settings": {
+            "collection": "home-decor",
+            "custom_title": "Wooden Home Decor",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c6": {
+          "type": "collection",
+          "settings": {
+            "collection": "gifts",
+            "custom_title": "Handcrafted Wooden Gifts",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c7": {
+          "type": "collection",
+          "settings": {
+            "collection": "statues-desk-decor",
+            "custom_title": "Wooden Statues & Desk Decor",
+            "image": "",
+            "badge": ""
+          }
+        },
+        "c8": {
+          "type": "collection",
+          "settings": {
+            "collection": "best-sellers",
+            "custom_title": "Best Selling Wooden Decor & Gifts",
+            "image": "",
+            "badge": "Best Sellers"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ]
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
-    "zs_shop_by_collection_H8pQ2A"
+    "zs_shop_by_collection_H8pQ2A",
+    "zs_shop_by_collection_test_8x"
   ]
 }
