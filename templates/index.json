@@ -265,10 +265,11 @@
         "show_compare": true,
         "padding_top": 128,
         "padding_bottom": 128,
-        "bg_color": "#6a4732",
-        "text_color": "#fbf9f6",
-        "muted_color": "#d8c7b3",
-        "accent_color": "#c79a62"
+        "bg_color": "#f6f1e7",
+        "text_color": "#2c2a29",
+        "accent_color": "#a8794a",
+        "heading_color": "#2c2a29",
+        "wood_color": "#7a5238"
       }
     }
   },
