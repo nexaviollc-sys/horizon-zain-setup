@@ -100,19 +100,19 @@
         "c7": {
           "type": "collection",
           "settings": {
-            "collection": "wooden-desk-shelf-decor",
-            "custom_title": "Wooden Statues & Desk Decor",
-            "tagline": "Sculptural pieces with character.",
+            "collection": "handcrafted-wooden-statues",
+            "custom_title": "Handcrafted Wooden Statues",
+            "tagline": "Sculpted by hand in wood.",
             "badge": ""
           }
         },
         "c8": {
           "type": "collection",
           "settings": {
-            "collection": "best-sellers",
-            "custom_title": "Best Sellers",
-            "tagline": "Most-loved ZAISEN pieces.",
-            "badge": "Best Sellers"
+            "collection": "wooden-desk-shelf-decor",
+            "custom_title": "Wooden Desk & Shelf Decor",
+            "tagline": "Character for every space.",
+            "badge": ""
           }
         }
       },
