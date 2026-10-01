@@ -1,0 +1,332 @@
+{% liquid
+  assign s = section.settings
+%}
+
+<section
+  class="zma"
+  style="
+    --zma-bg: {{ s.bg_color }};
+    --zma-heading: {{ s.heading_color }};
+    --zma-text: {{ s.text_color }};
+    --zma-accent: {{ s.accent_color }};
+    --zma-wood: {{ s.wood_color }};
+    --zma-pt: {{ s.padding_top }}px;
+    --zma-pb: {{ s.padding_bottom }}px;
+  "
+>
+  <div class="zma__ghosts" aria-hidden="true">
+    <span class="zma__ghost zma__ghost--wood">WOOD</span>
+    <span class="zma__ghost zma__ghost--form">FORM</span>
+    <span class="zma__ghost zma__ghost--detail">DETAIL</span>
+  </div>
+
+  <div class="zma__inner">
+    <div class="zma__intro">
+      {% if s.eyebrow != blank %}
+        <p class="zma__eyebrow">
+          <span class="zma__eyebrow-line" aria-hidden="true"></span>
+          <span>{{ s.eyebrow | escape }}</span>
+        </p>
+      {% endif %}
+
+      {% if s.heading != blank %}
+        <h2 class="zma__heading">{{ s.heading }}</h2>
+      {% endif %}
+
+      {% if s.text != blank %}
+        <p class="zma__text">{{ s.text | escape }}</p>
+      {% endif %}
+
+      {% if s.link_label != blank and s.link_url != blank %}
+        <a class="zma__link" href="{{ s.link_url }}">
+          <span>{{ s.link_label | escape }}</span>
+          <svg width="34" height="10" viewBox="0 0 34 10" fill="none" aria-hidden="true">
+            <path d="M0 5h33M29 1l4 4-4 4" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="zma__stage">
+      {% for block in section.blocks %}
+        {% liquid
+          assign product = block.settings.product
+          assign position = block.settings.image_position | default: 1 | minus: 1
+          assign archive_image = block.settings.image
+          if archive_image == blank and product != blank
+            assign archive_image = product.images[position]
+            if archive_image == blank
+              assign archive_image = product.featured_image
+            endif
+          endif
+        %}
+
+        <figure class="zma__frame zma__frame--{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="zma__media">
+            {% if archive_image != blank %}
+              {{
+                archive_image
+                | image_url: width: 1400
+                | image_tag:
+                  class: 'zma__image',
+                  widths: '360,520,720,960,1200,1400',
+                  sizes: '(min-width: 990px) 40vw, 92vw',
+                  loading: 'lazy',
+                  alt: block.settings.alt_text | default: product.title | default: block.settings.label
+              }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'zma__placeholder' }}
+            {% endif %}
+          </div>
+
+          <figcaption class="zma__caption">
+            <span class="zma__number">{{ forloop.index | prepend: '0' }}</span>
+            <span class="zma__caption-rule" aria-hidden="true"></span>
+            <span class="zma__label">{{ block.settings.label | escape }}</span>
+            {% if block.settings.caption != blank %}
+              <span class="zma__caption-text">{{ block.settings.caption | escape }}</span>
+            {% endif %}
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zma{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--zma-bg);
+  color:var(--zma-text);
+  padding-block:var(--zma-pt) var(--zma-pb);
+}
+.zma *,.zma *::before,.zma *::after{box-sizing:border-box}
+.zma__inner{
+  position:relative;
+  z-index:2;
+  width:min(100%,1540px);
+  margin-inline:auto;
+  padding-inline:clamp(20px,4.4vw,72px);
+}
+.zma__ghosts{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.zma__ghost{
+  position:absolute;
+  font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);
+  font-size:clamp(112px,15vw,244px);
+  font-weight:500;
+  line-height:.76;
+  letter-spacing:-.055em;
+  color:color-mix(in srgb,var(--zma-wood) 6%,transparent);
+  white-space:nowrap;
+  user-select:none;
+}
+.zma__ghost--wood{top:3%;left:-1.5%}
+.zma__ghost--form{top:38%;right:-2.5%}
+.zma__ghost--detail{bottom:0;left:17%}
+
+.zma__intro{
+  position:relative;
+  width:min(100%,490px);
+  margin-bottom:clamp(48px,6vw,88px);
+}
+.zma__eyebrow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 20px;
+  color:var(--zma-accent);
+  font-size:.69rem;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+.zma__eyebrow-line{width:34px;height:1px;background:var(--zma-accent)}
+.zma__heading{
+  margin:0;
+  max-width:10ch;
+  font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);
+  font-size:clamp(42px,5vw,70px);
+  font-weight:500;
+  line-height:.98;
+  letter-spacing:-.025em;
+  color:var(--zma-heading);
+  text-wrap:balance;
+}
+.zma__text{
+  max-width:38ch;
+  margin:24px 0 0;
+  font-size:15px;
+  line-height:1.72;
+  color:color-mix(in srgb,var(--zma-text) 70%,transparent);
+}
+.zma__link{
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  margin-top:30px;
+  padding-bottom:9px;
+  border-bottom:1px solid color-mix(in srgb,var(--zma-accent) 52%,transparent);
+  color:var(--zma-wood);
+  text-decoration:none;
+  font-size:.71rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.zma__link svg{color:var(--zma-accent);transition:transform .35s ease}
+
+.zma__stage{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-template-rows:auto;
+  gap:0 clamp(16px,2.3vw,34px);
+  min-height:980px;
+}
+.zma__frame{position:relative;margin:0;min-width:0}
+.zma__frame--1{grid-column:1/span 5;grid-row:1;align-self:start}
+.zma__frame--2{grid-column:8/span 5;grid-row:1;margin-top:150px}
+.zma__frame--3{grid-column:2/span 4;grid-row:2;margin-top:-40px}
+.zma__frame--4{grid-column:7/span 6;grid-row:2;margin-top:70px}
+.zma__media{
+  position:relative;
+  overflow:hidden;
+  background:color-mix(in srgb,var(--zma-wood) 8%,var(--zma-bg));
+}
+.zma__frame--1 .zma__media{aspect-ratio:4/5}
+.zma__frame--2 .zma__media{aspect-ratio:1/1}
+.zma__frame--3 .zma__media{aspect-ratio:5/6}
+.zma__frame--4 .zma__media{aspect-ratio:16/11}
+.zma__image,.zma__placeholder{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 1.15s cubic-bezier(.22,.61,.36,1);
+}
+.zma__caption{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:12px;
+  min-height:20px;
+  font-size:.64rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--zma-wood);
+}
+.zma__number{color:var(--zma-accent);font-variant-numeric:tabular-nums}
+.zma__caption-rule{width:20px;height:1px;background:color-mix(in srgb,var(--zma-accent) 50%,transparent)}
+.zma__label{font-weight:700}
+.zma__caption-text{
+  margin-left:auto;
+  max-width:20ch;
+  overflow:hidden;
+  opacity:.48;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  text-transform:none;
+  letter-spacing:.02em;
+  transition:opacity .35s ease,transform .35s ease;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .zma__frame:hover .zma__image{transform:scale(1.025)}
+  .zma__frame:hover .zma__caption-text{opacity:.82;transform:translateX(-3px)}
+  .zma__link:hover svg{transform:translateX(4px)}
+}
+
+@media(max-width:989px){
+  .zma{padding-block:calc(var(--zma-pt)*.72) calc(var(--zma-pb)*.72)}
+  .zma__ghost{font-size:clamp(82px,24vw,150px);opacity:.85}
+  .zma__ghost--wood{top:2%;left:-6%}
+  .zma__ghost--form{top:41%;right:-14%}
+  .zma__ghost--detail{bottom:5%;left:-2%}
+  .zma__intro{margin-bottom:42px}
+  .zma__heading{font-size:clamp(38px,10.8vw,52px);max-width:9ch}
+  .zma__text{font-size:14.5px}
+  .zma__stage{
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+    min-height:0;
+  }
+  .zma__frame,
+  .zma__frame--1,
+  .zma__frame--2,
+  .zma__frame--3,
+  .zma__frame--4{
+    width:100%;
+    margin:0;
+  }
+  .zma__frame--1{width:88%;align-self:flex-start}
+  .zma__frame--2{width:72%;align-self:flex-end}
+  .zma__frame--3{width:78%;align-self:flex-start}
+  .zma__frame--4{width:92%;align-self:flex-end}
+  .zma__caption{font-size:.61rem;margin-top:10px}
+  .zma__caption-text{max-width:16ch}
+}
+
+@media(max-width:560px){
+  .zma__frame--1{width:92%}
+  .zma__frame--2{width:76%}
+  .zma__frame--3{width:82%}
+  .zma__frame--4{width:96%}
+  .zma__caption-text{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .zma__image,.zma__caption-text,.zma__link svg{transition:none!important}
+}
+{% endstylesheet %}
+
+{% render 'zs-material-archive-sonnet-compare' %}
+
+{% schema %}
+{
+  "name":"ZAISEN Material Archive",
+  "tag":"section",
+  "class":"section-zaisen-material-archive",
+  "max_blocks":4,
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"THE ZAISEN MATERIAL ARCHIVE"},
+    {"type":"text","id":"heading","label":"Heading","default":"Natural wood. Shaped by hand."},
+    {"type":"textarea","id":"text","label":"Text","default":"Every grain, curve and carved detail gives each piece its own character."},
+    {"type":"text","id":"link_label","label":"Link label","default":"Explore the Craft"},
+    {"type":"url","id":"link_url","label":"Link"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#F6F1E7"},
+    {"type":"color","id":"heading_color","label":"Heading","default":"#2C2A29"},
+    {"type":"color","id":"text_color","label":"Text","default":"#2C2A29"},
+    {"type":"color","id":"accent_color","label":"Gold accent","default":"#A8794A"},
+    {"type":"color","id":"wood_color","label":"Walnut accent","default":"#7A5238"},
+    {"type":"range","id":"padding_top","label":"Top padding","min":40,"max":180,"step":4,"unit":"px","default":112},
+    {"type":"range","id":"padding_bottom","label":"Bottom padding","min":40,"max":180,"step":4,"unit":"px","default":124}
+  ],
+  "blocks":[
+    {
+      "type":"detail",
+      "name":"Archive image",
+      "settings":[
+        {"type":"text","id":"label","label":"Label","default":"GRAIN"},
+        {"type":"text","id":"caption","label":"Small caption","default":"Natural variation"},
+        {"type":"product","id":"product","label":"Fallback product"},
+        {"type":"range","id":"image_position","label":"Fallback product image number","min":1,"max":7,"step":1,"default":2},
+        {"type":"image_picker","id":"image","label":"Custom archive image"},
+        {"type":"text","id":"alt_text","label":"Image alt text"}
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"ZAISEN Material Archive",
+      "blocks":[
+        {"type":"detail","settings":{"label":"GRAIN","caption":"Natural variation"}},
+        {"type":"detail","settings":{"label":"FORM","caption":"Shaped with intention"}},
+        {"type":"detail","settings":{"label":"DETAIL","caption":"Carved by hand"}},
+        {"type":"detail","settings":{"label":"OBJECT","caption":"Made for the home"}}
+      ]
+    }
+  ]
+}
+{% endschema %}
