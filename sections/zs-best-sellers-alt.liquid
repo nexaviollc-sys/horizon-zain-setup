@@ -1,0 +1,153 @@
+{% liquid
+  assign s = section.settings
+  assign cta_link = s.button_link | default: routes.all_products_collection_url
+%}
+
+<section class="zbs-alt color-{{ s.color_scheme }}{% if s.show_divider %} zbs-alt--divider{% endif %}" style="--zbs-alt-pt:{{ s.padding_top }}px;--zbs-alt-pb:{{ s.padding_bottom }}px;--zbs-alt-stagger:{{ s.stagger }}px;--zbs-alt-heading:{{ s.heading_size }}px;">
+  <div class="zbs-alt__inner">
+    <aside class="zbs-alt__intro">
+      {% if s.eyebrow != blank %}
+        <p class="zbs-alt__eyebrow">{{ s.eyebrow }}</p>
+      {% endif %}
+      {% if s.heading != blank %}
+        <h2 class="zbs-alt__heading">{{ s.heading }}</h2>
+      {% endif %}
+      {% if s.text != blank %}
+        <div class="zbs-alt__text">{{ s.text }}</div>
+      {% endif %}
+      {% if s.button_label != blank %}
+        <a href="{{ cta_link }}" class="zbs-alt__cta">
+          <span>{{ s.button_label }}</span>
+          <svg width="34" height="10" viewBox="0 0 34 10" fill="none" aria-hidden="true"><path d="M0 5h33M29 1l4 4-4 4" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
+      {% endif %}
+    </aside>
+
+    <div class="zbs-alt__products">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        {% assign primary = block.settings.custom_image | default: product.featured_image %}
+        <article class="zbs-alt__item" {{ block.shopify_attributes }}>
+          <a class="zbs-alt__link" href="{{ product.url | default: '#' }}">
+            <div class="zbs-alt__media">
+              {% if primary %}
+                {{ primary | image_url: width: 1200 | image_tag: class: 'zbs-alt__img', widths: '320,480,640,800,1000,1200', sizes: '(min-width: 990px) 30vw, 50vw', loading: 'lazy', alt: product.title }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'zbs-alt__placeholder' }}
+              {% endif %}
+            </div>
+
+            <div class="zbs-alt__meta">
+              {% if s.show_index %}
+                <span class="zbs-alt__index">{{ forloop.index | prepend: '0' }}</span>
+              {% endif %}
+              <div class="zbs-alt__info">
+                <h3 class="zbs-alt__name">{{ product.title | default: 'Product title' }}</h3>
+                {% if block.settings.note != blank %}
+                  <p class="zbs-alt__note">{{ block.settings.note }}</p>
+                {% endif %}
+              </div>
+              <div class="zbs-alt__price">
+                {% if product == blank %}
+                  {{ 0 | money }}
+                {% elsif product.available == false %}
+                  <span>Sold out</span>
+                {% else %}
+                  <span>{{ product.price | money }}</span>
+                  {% if s.show_compare and product.compare_at_price > product.price %}
+                    <s>{{ product.compare_at_price | money }}</s>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zbs-alt{
+  --line:color-mix(in srgb,currentColor 18%,transparent);
+  --muted:color-mix(in srgb,currentColor 58%,transparent);
+  background:var(--color-background,#efeae2);
+  color:var(--color-foreground,#1d1a16);
+  padding-block:calc(var(--zbs-alt-pt)*.6) calc(var(--zbs-alt-pb)*.6);
+}
+.zbs-alt--divider{border-top:1px solid var(--line)}
+.zbs-alt *{box-sizing:border-box}
+.zbs-alt__inner{max-width:1560px;margin:auto;padding-inline:clamp(20px,4.2vw,72px);display:grid;grid-template-columns:1fr}
+.zbs-alt__intro{margin-bottom:28px}
+.zbs-alt__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:.6875rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.zbs-alt__eyebrow:before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+.zbs-alt__heading{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:clamp(2.125rem,9vw,3rem);line-height:1.02;letter-spacing:-.025em}
+.zbs-alt__text{margin-top:16px;max-width:30ch;font-size:.9375rem;line-height:1.6;color:var(--muted)}
+.zbs-alt__cta{margin-top:36px;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:18px 0;border-block:1px solid currentColor;color:inherit;text-decoration:none;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase}
+.zbs-alt__products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:30px}
+.zbs-alt__item:nth-child(even){transform:translateY(calc(var(--zbs-alt-stagger)/3))}
+.zbs-alt__link{display:block;color:inherit;text-decoration:none}
+.zbs-alt__media{aspect-ratio:1/1;overflow:hidden;background:color-mix(in srgb,currentColor 7%,transparent)}
+.zbs-alt__img,.zbs-alt__placeholder{width:100%;height:100%;display:block;object-fit:cover;transition:transform .8s ease}
+.zbs-alt__meta{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+.zbs-alt__index{display:none}
+.zbs-alt__name{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:.9375rem;line-height:1.25}
+.zbs-alt__note{margin:4px 0 0;font-size:.75rem;line-height:1.4;color:var(--muted)}
+.zbs-alt__price{display:flex;flex-wrap:wrap;gap:8px;font-size:.8125rem}
+.zbs-alt__price s{color:var(--muted);font-size:.75rem}
+
+@media(min-width:990px){
+  .zbs-alt{padding-block:var(--zbs-alt-pt) var(--zbs-alt-pb)}
+  .zbs-alt__inner{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,32px);align-items:start}
+  .zbs-alt__intro{grid-column:1/span 4;position:sticky;top:calc(var(--header-height,0px) + 48px);margin:0;padding-top:clamp(0px,2vw,32px)}
+  .zbs-alt__heading{font-size:clamp(2.75rem,4.6vw,var(--zbs-alt-heading))}
+  .zbs-alt__text{margin-top:28px;font-size:1rem;max-width:26ch}
+  .zbs-alt__cta{width:auto;justify-content:flex-start;gap:22px;margin-top:56px;padding:0 0 14px;border:0;border-bottom:1px solid currentColor}
+  .zbs-alt__products{grid-column:6/span 7;column-gap:clamp(24px,3.4vw,56px);row-gap:clamp(56px,6vw,104px);padding-bottom:var(--zbs-alt-stagger)}
+  .zbs-alt__item:nth-child(even){transform:translateY(var(--zbs-alt-stagger))}
+  .zbs-alt__meta{margin-top:18px;padding-top:16px;gap:0 16px}
+  .zbs-alt__meta{grid-template-columns:2rem minmax(0,1fr) auto}
+  .zbs-alt__index{display:block;padding-top:.25em;font-size:.6875rem;letter-spacing:.12em;color:var(--muted)}
+  .zbs-alt__name{font-size:1.1875rem}
+  .zbs-alt__price{flex-direction:column;align-items:flex-end;font-size:.875rem}
+}
+@media(hover:hover) and (min-width:990px){
+  .zbs-alt__link:hover .zbs-alt__img{transform:scale(1.035)}
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name":"ZAISEN Best Sellers Alt",
+  "tag":"section",
+  "class":"section-zaisen-best-sellers-alt",
+  "max_blocks":4,
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"ZAISEN FAVORITES"},
+    {"type":"text","id":"heading","label":"Heading","default":"Our Best Sellers"},
+    {"type":"textarea","id":"text","label":"Supporting text","default":"Most-loved handcrafted pieces."},
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop Best Sellers"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"range","id":"stagger","label":"Desktop stagger","min":0,"max":180,"step":4,"unit":"px","default":96},
+    {"type":"range","id":"heading_size","label":"Max heading size","min":40,"max":110,"step":2,"unit":"px","default":76},
+    {"type":"checkbox","id":"show_index","label":"Show 01–04 numerals","default":true},
+    {"type":"checkbox","id":"show_divider","label":"Show top divider","default":true},
+    {"type":"checkbox","id":"show_compare","label":"Show compare-at price","default":true},
+    {"type":"color_scheme","id":"color_scheme","label":"Color scheme","default":"scheme-2"},
+    {"type":"range","id":"padding_top","label":"Top padding","min":0,"max":220,"step":4,"unit":"px","default":128},
+    {"type":"range","id":"padding_bottom","label":"Bottom padding","min":0,"max":220,"step":4,"unit":"px","default":128}
+  ],
+  "blocks":[
+    {
+      "type":"product",
+      "name":"Product",
+      "settings":[
+        {"type":"product","id":"product","label":"Product"},
+        {"type":"image_picker","id":"custom_image","label":"Image override (optional)"},
+        {"type":"text","id":"note","label":"Short note (optional)"}
+      ]
+    }
+  ],
+  "presets":[{"name":"ZAISEN Best Sellers Alt","blocks":[{"type":"product"},{"type":"product"},{"type":"product"},{"type":"product"}]}]
+}
+{% endschema %}
