@@ -157,10 +157,10 @@
   color: var(--zs-header-walnut-deep);
 }
 
-/* Header utility controls: native buttons remain native buttons, only the
-   visual treatment changes. */
+/* Header utility controls: Shopify-native actions with a consistent,
+   premium ZAISEN interaction layer. */
 #header-component header-actions {
-  gap: 4px;
+  gap: 8px;
 }
 
 #header-component .header-actions__action,
@@ -173,57 +173,75 @@
   place-items: center;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: var(--zs-header-pill);
-  color: var(--zs-header-ink);
+  border-radius: 50%;
+  color: #312f2d;
   background: transparent;
+  box-shadow: none;
   transition:
     color 180ms ease,
-    background-color 180ms ease,
+    background 180ms ease,
     border-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
+    box-shadow 200ms ease,
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#header-component .dropdown-localization__button.header-actions__action {
-  width: auto;
-  min-width: 58px;
-  padding-inline: 12px;
-  gap: 6px;
+#header-component .zs-header-icon {
+  width: 22px !important;
+  height: 22px !important;
+  display: block;
+  overflow: visible;
+  color: currentColor;
+}
+
+#header-component .account-button__icon.zs-header-icon {
+  width: 22px !important;
+  height: 22px !important;
 }
 
 #header-component .header-actions__action:hover,
 #header-component .header-actions__action:focus-visible,
 #header-component .header__icon--menu:hover,
 #header-component .header__icon--menu:focus-visible {
-  color: var(--zs-header-walnut-deep);
-  background: rgba(168, 121, 74, 0.09);
-  border-color: rgba(168, 121, 74, 0.22);
-  box-shadow: 0 7px 18px rgba(74, 46, 28, 0.07);
+  color: #8d6037;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.96), rgba(250,241,229,.95));
+  border-color: rgba(190, 143, 88, 0.34);
+  box-shadow:
+    0 8px 22px rgba(89, 57, 30, 0.10),
+    inset 0 1px 0 rgba(255,255,255,.95);
+  transform: translateY(-1px);
 }
 
 #header-component .header-actions__action:active,
 #header-component .header__icon--menu:active {
-  transform: translateY(1px);
+  transform: translateY(0) scale(.96);
+  background: rgba(244, 231, 214, .88);
 }
 
 #header-component .header-actions__action svg,
 #header-component .header__icon--menu svg {
-  transition: transform 180ms ease;
+  transition:
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms ease;
 }
 
 #header-component .header-actions__action:hover svg,
 #header-component .header__icon--menu:hover svg {
-  transform: scale(1.04);
+  transform: scale(1.06);
+}
+
+#header-component .account-button,
+#header-component .account-button shopify-account {
+  background: transparent !important;
 }
 
 #header-component .cart-bubble__background {
-  background: var(--zs-header-walnut) !important;
+  background: #8d6037 !important;
 }
 
 #header-component .cart-bubble__text {
-  color: var(--zs-header-ivory) !important;
+  color: #fffaf4 !important;
 }
-
 
 /* Localization is a compound control (currency + language + caret), so it
    must remain flex-based rather than inherit the single-icon grid layout. */
@@ -327,66 +345,174 @@
 /* Mobile */
 @media screen and (max-width: 749px) {
   #header-component .header__row--top {
-    background: rgba(251, 249, 246, 0.97);
+    background: rgba(251, 249, 246, 0.985);
+    box-shadow: inset 0 -1px 0 rgba(111, 73, 50, 0.09);
     backdrop-filter: blur(16px) saturate(1.06);
     -webkit-backdrop-filter: blur(16px) saturate(1.06);
   }
 
-  #header-component .header__columns {
-    position: relative;
-    min-height: 72px;
-    grid-template-columns: 44px minmax(0, 1fr) 40px auto !important;
-    grid-template-areas: 'leftA center rightA rightB' !important;
-    column-gap: 2px !important;
+  /* One intentional mobile structure:
+     hamburger | true centered brand | search + account + cart */
+  #header-component .header__columns,
+  #header-component[data-menu-style='drawer'] .header__columns {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    grid-template-areas: 'left center right' !important;
+    column-gap: 10px !important;
+    align-items: center !important;
+    min-height: 74px;
+    padding-inline: max(18px, var(--page-margin)) !important;
   }
 
-  /* Keep the brand mathematically centered in the viewport regardless of
-     how many controls are visible on either side. */
+  #header-component .header__column--left,
+  #header-component[data-menu-style='drawer'] .header__column--left {
+    display: flex !important;
+    grid-area: left !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0 !important;
+    min-width: 44px;
+  }
+
+  /* Overlay the center column across the full header width so the logo is
+     centered against the viewport, not between unequal left/right controls. */
+  #header-component .header__column--center,
+  #header-component[data-menu-style='drawer'] .header__column--center {
+    display: flex !important;
+    position: absolute !important;
+    inset: 0 !important;
+    align-items: center;
+    justify-content: center !important;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  #header-component .header__column--right,
+  #header-component[data-menu-style='drawer'] .header__column--right {
+    display: flex !important;
+    grid-area: right !important;
+    align-items: center;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    justify-self: end;
+    z-index: 4;
+  }
+
   #header-component .header-logo {
-    position: absolute;
-    inset-inline-start: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    transform: none !important;
+    grid-area: auto !important;
     width: auto;
-    max-width: 72px;
+    max-width: 78px;
     height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
     z-index: 3;
   }
 
   #header-component .header-logo__image {
-    max-width: 72px;
+    width: auto !important;
+    height: auto !important;
+    max-width: 78px;
     max-height: 64px;
-    width: auto;
-    height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.09));
+    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.08));
   }
 
-  /* Horizon normally places search beside the hamburger. ZAISEN keeps the
-     hamburger alone on the left and groups all shopping utilities on the right. */
-  #header-component .search-action {
-    grid-area: rightA !important;
-    justify-self: end;
+  /* Search is now structurally assigned to the right column in header-row.
+     Keep both native search instances behaving exactly as Horizon expects. */
+  #header-component .header__column--right .search-action {
+    display: flex;
+    margin: 0 !important;
+    justify-self: auto !important;
+  }
+
+  #header-component .header__column--right > .search-action--hidden-on-drawer {
+    display: none !important;
+  }
+
+  #header-component .header__column--right .search-action--hidden-on-menu {
+    display: flex !important;
+  }
+
+  #header-component .header__column--right header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px !important;
+    margin-inline-start: 0 !important;
+    justify-self: auto !important;
+  }
+
+  /* Three equal 40px controls with exactly 8px between each. */
+  #header-component .header__column--right .search-action .header-actions__action,
+  #header-component .header__column--right .account-button.header-actions__action,
+  #header-component .header__column--right header-actions > .header-actions__action {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 50%;
+  }
+
+  #header-component .header__column--right .account-button shopify-account {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+  }
+
+  #header-component .header__column--right .svg-wrapper {
+    width: 22px !important;
+    height: 22px !important;
+    display: grid;
+    place-items: center;
+  }
+
+  #header-component .header__column--right .zs-header-icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  #header-component .header__icon--menu {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    justify-content: center !important;
+    padding: 0 !important;
     margin: 0 !important;
   }
 
-  #header-component header-actions {
-    grid-area: rightB !important;
-    justify-self: end;
-    gap: 2px;
+  /* Mobile has no persistent colored icon backgrounds. Touch/focus feedback
+     appears only during interaction, keeping the row clean and expensive. */
+  #header-component .header__column--right .header-actions__action {
+    color: #302e2c;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
   }
 
-  #header-component .header-actions__action,
-  #header-component .header__icon--menu {
-    width: 38px;
-    min-width: 38px;
-    height: 38px;
-    min-height: 38px;
+  #header-component .header__column--right .header-actions__action:is(:hover, :focus-visible) {
+    color: #9b6a3c;
+    background: linear-gradient(145deg, #fffdf9, #f7eadb);
+    border-color: rgba(192, 145, 88, .38);
+    box-shadow: 0 7px 18px rgba(92, 57, 27, .10);
   }
 
-  #header-component .search-action .header-actions__action {
-    width: 38px;
-    min-width: 38px;
+  #header-component .header__column--right .header-actions__action:active {
+    color: #9b6a3c;
+    background: #f7eadb;
+    transform: scale(.94);
   }
 
   #header-component .menu-drawer {
