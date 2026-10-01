@@ -283,77 +283,12 @@
         "padding_bottom": 124
       },
       "disabled": true
-    },
-    "zs_material_archive_sonnet_cmp": {
-      "type": "zs-material-archive-sonnet",
-      "blocks": {
-        "specimen_1": {
-          "type": "specimen",
-          "settings": {
-            "name": "Black Walnut",
-            "latin": "Juglans nigra",
-            "origin": "Missouri, USA",
-            "seasoned": "Air-dried, 30 months",
-            "finish": "Hand-rubbed oil, one coat of wax",
-            "tone_name": "Dark chocolate, violet undertone",
-            "tone": "#4B3426",
-            "note": "Quarter-sawn for a straight, quiet grain. The sapwood line stays on the underside, where only the maker sees it."
-          }
-        },
-        "specimen_2": {
-          "type": "specimen",
-          "settings": {
-            "name": "Keyaki",
-            "latin": "Zelkova serrata",
-            "origin": "Nagano, Japan",
-            "seasoned": "Air-dried, 36 months",
-            "finish": "Raw linseed oil, three coats",
-            "tone_name": "Warm amber, strong figure",
-            "tone": "#A6764A",
-            "note": "Open pores and a ripple in the grain that no two boards share."
-          }
-        },
-        "specimen_3": {
-          "type": "specimen",
-          "settings": {
-            "name": "Hinoki",
-            "latin": "Chamaecyparis obtusa",
-            "origin": "Gifu, Japan",
-            "seasoned": "Kiln-dried, rested 12 months",
-            "finish": "Planed only, never sanded",
-            "tone_name": "Pale straw",
-            "tone": "#DCC59A",
-            "note": "Planed to a soft sheen. It smells of cut cedar for the first year."
-          }
-        },
-        "specimen_4": {
-          "type": "specimen",
-          "settings": {
-            "name": "White Oak",
-            "latin": "Quercus alba",
-            "origin": "Appalachia, USA",
-            "seasoned": "Air-dried, 24 months",
-            "finish": "Hardwax oil, matte",
-            "tone_name": "Greyed honey",
-            "tone": "#BFA27A",
-            "note": "Ray fleck shows where the board was cut across the log."
-          }
-        }
-      },
-      "block_order": [
-        "specimen_1",
-        "specimen_2",
-        "specimen_3",
-        "specimen_4"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x",
-    "zs_material_archive_4x",
-    "zs_material_archive_sonnet_cmp"
+    "zs_material_archive_4x"
   ]
 }
