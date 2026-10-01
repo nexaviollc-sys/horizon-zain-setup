@@ -333,27 +333,60 @@
   }
 
   #header-component .header__columns {
-    min-height: 66px;
+    position: relative;
+    min-height: 72px;
+    grid-template-columns: 44px minmax(0, 1fr) 40px auto !important;
+    grid-template-areas: 'leftA center rightA rightB' !important;
+    column-gap: 2px !important;
   }
 
+  /* Keep the brand mathematically centered in the viewport regardless of
+     how many controls are visible on either side. */
   #header-component .header-logo {
-    max-width: 52px;
+    position: absolute;
+    inset-inline-start: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 72px;
+    height: 64px;
+    z-index: 3;
   }
 
-  #header-component .header-logo__mobile-brand-image {
-    width: 44px;
-    height: 44px;
+  #header-component .header-logo__image {
+    max-width: 72px;
+    max-height: 64px;
+    width: auto;
+    height: auto;
     object-fit: contain;
-    border-radius: 11px;
-    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.1));
+    filter: drop-shadow(0 4px 10px rgba(53, 33, 20, 0.09));
+  }
+
+  /* Horizon normally places search beside the hamburger. ZAISEN keeps the
+     hamburger alone on the left and groups all shopping utilities on the right. */
+  #header-component .search-action {
+    grid-area: rightA !important;
+    justify-self: end;
+    margin: 0 !important;
+  }
+
+  #header-component header-actions {
+    grid-area: rightB !important;
+    justify-self: end;
+    gap: 2px;
   }
 
   #header-component .header-actions__action,
   #header-component .header__icon--menu {
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    min-height: 40px;
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
+  }
+
+  #header-component .search-action .header-actions__action {
+    width: 38px;
+    min-width: 38px;
   }
 
   #header-component .menu-drawer {
