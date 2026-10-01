@@ -49,7 +49,7 @@
             "collection": "lighting",
             "custom_title": "Wooden Lamps & Lighting",
             "badge": "",
-            "tagline": "Handcrafted wooden lighting for warm, inviting interiors."
+            "tagline": "Warm, handcrafted lighting."
           }
         },
         "c2": {
@@ -58,7 +58,7 @@
             "collection": "kitchen-dining",
             "custom_title": "Wooden Kitchen & Dining",
             "badge": "",
-            "tagline": "Natural wooden essentials for everyday serving and dining."
+            "tagline": "Crafted for everyday living."
           }
         },
         "c3": {
@@ -67,7 +67,7 @@
             "collection": "wall-clocks",
             "custom_title": "Wooden Wall Clocks",
             "badge": "",
-            "tagline": "Handcrafted wooden timepieces for distinctive walls."
+            "tagline": "Timeless wooden timepieces."
           }
         },
         "c4": {
@@ -76,7 +76,7 @@
             "collection": "wooden-drinkware",
             "custom_title": "Wooden Drinkware Sets",
             "badge": "",
-            "tagline": "Wooden drinkware crafted for serving, sharing and display."
+            "tagline": "Crafted for every pour."
           }
         },
         "c5": {
@@ -85,7 +85,7 @@
             "collection": "home-decor",
             "custom_title": "Wooden Home Decor",
             "badge": "",
-            "tagline": "Natural wooden accents for warm, character-filled spaces."
+            "tagline": "Natural warmth for your home."
           }
         },
         "c6": {
@@ -94,7 +94,7 @@
             "collection": "gifts",
             "custom_title": "Handcrafted Wooden Gifts",
             "badge": "",
-            "tagline": "Thoughtful handcrafted wooden gifts for every occasion."
+            "tagline": "Thoughtful gifts, made by hand."
           }
         },
         "c7": {
@@ -103,16 +103,16 @@
             "collection": "statues-desk-decor",
             "custom_title": "Wooden Statues & Desk Decor",
             "badge": "",
-            "tagline": "Sculptural wooden pieces for desks, shelves and displays."
+            "tagline": "Sculptural pieces with character."
           }
         },
         "c8": {
           "type": "collection",
           "settings": {
             "collection": "best-sellers",
-            "custom_title": "Best Selling Wooden Decor & Gifts",
+            "custom_title": "Best Sellers",
             "badge": "Best Sellers",
-            "tagline": "Customer-favorite wooden pieces for home and gifting."
+            "tagline": "Most-loved ZAISEN pieces."
           }
         }
       },
