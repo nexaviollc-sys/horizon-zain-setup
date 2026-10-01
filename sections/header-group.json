@@ -20,12 +20,12 @@
         "message_3": "Natural materials • timeless design",
         "message_4": "Welcome to Zaisen",
         "speed": 4,
-        "background_color": "#F1E7DA",
+        "background_color": "#F0E3D3",
         "text_color": "#2C2A29",
         "accent_color": "#9A6A43",
-        "border_color": "#D8C7B3",
-        "desktop_height": 40,
-        "mobile_height": 36
+        "border_color": "#D4BFA7",
+        "desktop_height": 46,
+        "mobile_height": 40
       }
     },
     "header_section": {
