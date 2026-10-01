@@ -1,0 +1,152 @@
+{% liquid
+  assign p1 = all_products['wooden-horse-lamp-equestrian-table-light']
+  assign p2 = all_products['tea-coffee-sugar-canisters-wooden-set']
+  assign p3 = all_products['handcrafted-wooden-jug-5-cups-set']
+  assign p4 = all_products['wooden-ship-wheel-wall-clock']
+%}
+
+<section class="zsx-archive" id="zsx-archive-{{ section.id }}">
+  <div class="zsx-archive__inner">
+    <div class="zsx-archive__head">
+      <span>ZAISEN — Material Archive</span>
+      <span>Folio 04</span>
+      <span>Edition 2026</span>
+    </div>
+
+    <div class="zsx-archive__grid">
+      <h2 class="zsx-archive__title">Notes on timber, <em>kept slowly.</em></h2>
+      <p class="zsx-archive__intro">A quiet record of grain, form and detail across ZAISEN wooden pieces. Each plate treats the object like a material study rather than a conventional product card.</p>
+
+      <div class="zsx-archive__index">
+        <div class="zsx-archive__label"><span>Index of studies</span><span>04</span></div>
+        <button class="zsx-archive__row is-active" type="button" data-zsx-trigger="0" aria-pressed="true">
+          <span>01</span><span><strong>Grain Study</strong><em>Natural variation</em></span><i></i>
+        </button>
+        <button class="zsx-archive__row" type="button" data-zsx-trigger="1" aria-pressed="false">
+          <span>02</span><span><strong>Carved Detail</strong><em>Surface and edge</em></span><i></i>
+        </button>
+        <button class="zsx-archive__row" type="button" data-zsx-trigger="2" aria-pressed="false">
+          <span>03</span><span><strong>Form Study</strong><em>Curve and proportion</em></span><i></i>
+        </button>
+        <button class="zsx-archive__row" type="button" data-zsx-trigger="3" aria-pressed="false">
+          <span>04</span><span><strong>Finished Object</strong><em>Made for the home</em></span><i></i>
+        </button>
+
+        <div class="zsx-archive__record">
+          <div class="zsx-archive__label"><span>Material record</span></div>
+          <dl class="zsx-archive__record-panel is-active" data-zsx-panel="0">
+            <div><dt>Focus</dt><dd>Natural grain</dd></div>
+            <div><dt>Character</dt><dd>Organic variation</dd></div>
+            <div><dt>Tone</dt><dd><span class="zsx-archive__swatch" style="--sw:#7A5238"></span>Warm walnut</dd></div>
+          </dl>
+          <dl class="zsx-archive__record-panel" data-zsx-panel="1">
+            <div><dt>Focus</dt><dd>Carved detail</dd></div>
+            <div><dt>Character</dt><dd>Hand-finished surface</dd></div>
+            <div><dt>Tone</dt><dd><span class="zsx-archive__swatch" style="--sw:#A8794A"></span>Honey brown</dd></div>
+          </dl>
+          <dl class="zsx-archive__record-panel" data-zsx-panel="2">
+            <div><dt>Focus</dt><dd>Curved form</dd></div>
+            <div><dt>Character</dt><dd>Balanced proportion</dd></div>
+            <div><dt>Tone</dt><dd><span class="zsx-archive__swatch" style="--sw:#9A6A43"></span>Natural wood</dd></div>
+          </dl>
+          <dl class="zsx-archive__record-panel" data-zsx-panel="3">
+            <div><dt>Focus</dt><dd>Finished object</dd></div>
+            <div><dt>Character</dt><dd>Functional sculpture</dd></div>
+            <div><dt>Tone</dt><dd><span class="zsx-archive__swatch" style="--sw:#5C4033"></span>Deep walnut</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="zsx-archive__plate">
+        <div class="zsx-archive__mat">
+          <i class="zsx-crop zsx-crop--tl"></i><i class="zsx-crop zsx-crop--tr"></i><i class="zsx-crop zsx-crop--bl"></i><i class="zsx-crop zsx-crop--br"></i>
+          <div class="zsx-archive__stack">
+            {% assign products = p1 | append: '' %}
+            <figure class="zsx-archive__panel is-active" data-zsx-panel="0">
+              {% if p1.featured_image %}{{ p1.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'zsx-archive__image', alt: p1.featured_image.alt | default: p1.title }}{% else %}{{ 'product-1' | placeholder_svg_tag: 'zsx-archive__image' }}{% endif %}
+            </figure>
+            <figure class="zsx-archive__panel" data-zsx-panel="1">
+              {% if p2.featured_image %}{{ p2.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'zsx-archive__image', alt: p2.featured_image.alt | default: p2.title }}{% else %}{{ 'product-2' | placeholder_svg_tag: 'zsx-archive__image' }}{% endif %}
+            </figure>
+            <figure class="zsx-archive__panel" data-zsx-panel="2">
+              {% if p3.featured_image %}{{ p3.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'zsx-archive__image', alt: p3.featured_image.alt | default: p3.title }}{% else %}{{ 'product-3' | placeholder_svg_tag: 'zsx-archive__image' }}{% endif %}
+            </figure>
+            <figure class="zsx-archive__panel" data-zsx-panel="3">
+              {% if p4.featured_image %}{{ p4.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'zsx-archive__image', alt: p4.featured_image.alt | default: p4.title }}{% else %}{{ 'product-4' | placeholder_svg_tag: 'zsx-archive__image' }}{% endif %}
+            </figure>
+          </div>
+        </div>
+        <p class="zsx-archive__side-note">ZAISEN MATERIAL STUDY</p>
+
+        <div class="zsx-archive__caption">
+          <div class="zsx-archive__cap is-active" data-zsx-panel="0"><b>01</b><span><small>PLATE 01</small>Grain Study<em>Natural grain and surface character.</em></span></div>
+          <div class="zsx-archive__cap" data-zsx-panel="1"><b>02</b><span><small>PLATE 02</small>Carved Detail<em>Small handcrafted details and carved edges.</em></span></div>
+          <div class="zsx-archive__cap" data-zsx-panel="2"><b>03</b><span><small>PLATE 03</small>Form Study<em>Curves, proportion and tactile form.</em></span></div>
+          <div class="zsx-archive__cap" data-zsx-panel="3"><b>04</b><span><small>PLATE 04</small>Finished Object<em>The material study resolved into a home object.</em></span></div>
+        </div>
+      </div>
+
+      <aside class="zsx-archive__aside">
+        <figure>
+          <div class="zsx-archive__detail-frame">
+            {% if p2.featured_image %}{{ p2.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'zsx-archive__detail-image', alt: p2.featured_image.alt | default: p2.title }}{% else %}{{ 'product-2' | placeholder_svg_tag: 'zsx-archive__detail-image' }}{% endif %}
+          </div>
+          <figcaption><span>FIG. A</span>A closer view of grain, edge and handcrafted surface character.</figcaption>
+        </figure>
+        <div class="zsx-archive__margin">
+          <span>MARGINALIA</span>
+          <p>Grain, tone and small variations become part of the finished piece. The archive treats those differences as part of the design rather than something to hide.</p>
+        </div>
+      </aside>
+
+      <div class="zsx-archive__foot">
+        <div><div class="zsx-archive__ruler"></div><span>ZAISEN — MATERIAL STUDY</span></div>
+        <a href="/collections">Explore the collection <i></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+#zsx-archive-{{ section.id }}{--bg:#F6F1E7;--ink:#3A2818;--soft:rgba(58,40,24,.68);--hair:rgba(58,40,24,.18);--gold:#A8794A;--mat:#ECE4D3;background:var(--bg);color:var(--ink);padding:96px 0;font-family:var(--font-body--family,Georgia,serif)}
+#zsx-archive-{{ section.id }} *{box-sizing:border-box}
+.zsx-archive__inner{max-width:1440px;margin:auto;padding:0 clamp(20px,4vw,56px)}
+.zsx-archive__head{position:relative;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;padding-top:16px;margin-bottom:64px;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.zsx-archive__head::before,.zsx-archive__head::after{content:"";position:absolute;left:0;right:0;height:1px}.zsx-archive__head::before{top:0;background:var(--gold)}.zsx-archive__head::after{top:4px;background:var(--hair)}
+.zsx-archive__head span:nth-child(2){text-align:center}.zsx-archive__head span:last-child{text-align:right;color:var(--soft)}
+.zsx-archive__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(18px,2.5vw,36px);align-items:start}
+.zsx-archive__title{grid-column:1/9;margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-size:clamp(52px,6vw,92px);font-weight:400;line-height:.98;letter-spacing:-.02em}.zsx-archive__title em{display:block;padding-left:.85em;font-weight:400}
+.zsx-archive__intro{grid-column:9/-1;margin:0;padding-bottom:10px;align-self:end;max-width:42ch;font-size:15px;line-height:1.7;color:var(--soft)}
+.zsx-archive__index{grid-column:1/4;margin-top:72px}
+.zsx-archive__label{display:flex;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--gold);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.zsx-archive__row{appearance:none;width:100%;display:grid;grid-template-columns:38px 1fr 42px;align-items:center;padding:14px 0;border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ink);text-align:left;cursor:pointer}
+.zsx-archive__row>span:first-child{font-size:11px;color:var(--soft);letter-spacing:.12em}.zsx-archive__row strong{display:block;font-family:var(--font-heading--family,Georgia,serif);font-size:22px;font-weight:400;color:var(--soft);transition:color .3s}.zsx-archive__row em{display:block;margin-top:2px;font-size:12px;font-weight:400;color:var(--soft)}.zsx-archive__row i{height:1px;background:var(--gold);transform:scaleX(.2);transform-origin:left;transition:transform .35s}
+.zsx-archive__row:hover strong,.zsx-archive__row.is-active strong{color:var(--ink)}.zsx-archive__row:hover i{transform:scaleX(.6)}.zsx-archive__row.is-active i{transform:scaleX(1)}
+.zsx-archive__record{margin-top:28px}.zsx-archive__record-panel{display:none;margin:0}.zsx-archive__record-panel.is-active{display:block}.zsx-archive__record-panel div{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--hair)}.zsx-archive__record-panel dt{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}.zsx-archive__record-panel dd{margin:0;font-size:13px}.zsx-archive__swatch{display:inline-block;width:10px;height:10px;margin-right:8px;background:var(--sw);border:1px solid var(--hair)}
+.zsx-archive__plate{grid-column:4/10;grid-row:2/span 2;margin-top:72px;position:relative}.zsx-archive__mat{position:relative;padding:18px;background:var(--mat);border:1px solid var(--hair)}.zsx-crop{position:absolute;width:14px;height:14px;border-color:var(--gold);border-style:solid}.zsx-crop--tl{top:-8px;left:-8px;border-width:1px 0 0 1px}.zsx-crop--tr{top:-8px;right:-8px;border-width:1px 1px 0 0}.zsx-crop--bl{bottom:-8px;left:-8px;border-width:0 0 1px 1px}.zsx-crop--br{bottom:-8px;right:-8px;border-width:0 1px 1px 0}
+.zsx-archive__stack{position:relative;aspect-ratio:5/6;overflow:hidden;background:var(--hair)}.zsx-archive__panel{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;transition:opacity .5s}.zsx-archive__panel.is-active{opacity:1;visibility:visible}.zsx-archive__image{width:100%;height:100%;object-fit:cover;display:block}
+.zsx-archive__side-note{position:absolute;top:0;right:100%;margin:0 12px 0 0;writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;letter-spacing:.16em;color:var(--soft)}
+.zsx-archive__caption{position:relative;min-height:102px;margin-top:18px}.zsx-archive__cap{position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:end;opacity:0;visibility:hidden;transition:opacity .4s}.zsx-archive__cap.is-active{opacity:1;visibility:visible}.zsx-archive__cap b{font-family:var(--font-heading--family,Georgia,serif);font-size:74px;font-weight:300;line-height:.75}.zsx-archive__cap span{font-family:var(--font-heading--family,Georgia,serif);font-size:22px}.zsx-archive__cap small{display:block;margin-bottom:5px;font-family:var(--font-body--family,inherit);font-size:9px;letter-spacing:.18em;color:var(--soft)}.zsx-archive__cap em{display:block;margin-top:5px;font-family:var(--font-body--family,inherit);font-size:12px;line-height:1.5;color:var(--soft);font-style:normal}
+.zsx-archive__aside{grid-column:10/-1;grid-row:2/span 2;margin-top:168px}.zsx-archive__aside figure{margin:0}.zsx-archive__detail-frame{position:relative;margin:0 10px 10px 0;aspect-ratio:4/5}.zsx-archive__detail-frame::after{content:"";position:absolute;inset:10px -10px -10px 10px;border:1px solid var(--gold)}.zsx-archive__detail-image{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block}.zsx-archive__aside figcaption{margin-top:18px;font-size:11px;line-height:1.5;color:var(--soft)}.zsx-archive__aside figcaption span{display:block;margin-bottom:4px;font-size:9px;letter-spacing:.16em;color:var(--ink)}
+.zsx-archive__margin{margin-top:34px;padding-left:14px;border-left:1px solid var(--gold)}.zsx-archive__margin>span{font-size:9px;letter-spacing:.18em;color:var(--soft)}.zsx-archive__margin p{margin:8px 0 0;font-family:var(--font-heading--family,Georgia,serif);font-size:18px;line-height:1.45;font-style:italic}
+.zsx-archive__foot{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:end;gap:50px;margin-top:80px}.zsx-archive__ruler{position:relative;height:14px;border-bottom:1px solid var(--gold);background-image:repeating-linear-gradient(90deg,transparent 0 7px,var(--gold) 7px 8px);background-size:8px 5px;background-repeat:repeat-x;background-position:bottom}.zsx-archive__foot>div>span{display:block;margin-top:8px;font-size:9px;letter-spacing:.18em;color:var(--soft)}.zsx-archive__foot a{display:flex;align-items:center;gap:14px;min-height:44px;color:var(--ink);text-decoration:none;font-size:10px;letter-spacing:.18em;text-transform:uppercase}.zsx-archive__foot a i{display:block;width:32px;height:1px;background:var(--gold);transition:width .3s}.zsx-archive__foot a:hover i{width:54px}
+@media(max-width:1099px){#zsx-archive-{{ section.id }}{padding:72px 0}.zsx-archive__grid{grid-template-columns:repeat(12,minmax(0,1fr))}.zsx-archive__title{grid-column:1/-1}.zsx-archive__intro{grid-column:1/9;margin-top:22px}.zsx-archive__plate{grid-column:1/8;grid-row:auto;margin-top:48px}.zsx-archive__index{grid-column:8/-1;grid-row:auto;margin-top:48px}.zsx-archive__aside{grid-column:1/-1;grid-row:auto;display:grid;grid-template-columns:5fr 7fr;gap:32px;margin-top:56px}.zsx-archive__detail-frame{max-width:320px}.zsx-archive__foot{margin-top:60px}}
+@media(max-width:749px){#zsx-archive-{{ section.id }}{padding:56px 0}.zsx-archive__head{grid-template-columns:1fr auto;margin-bottom:38px}.zsx-archive__head span:last-child{grid-column:1/-1;text-align:left}.zsx-archive__grid{display:block}.zsx-archive__title{font-size:clamp(42px,13vw,62px)}.zsx-archive__intro{margin-top:20px}.zsx-archive__plate,.zsx-archive__index,.zsx-archive__aside{margin-top:42px}.zsx-archive__index{display:block}.zsx-archive__aside{display:grid;grid-template-columns:1fr 1fr;gap:18px}.zsx-archive__cap b{font-size:54px}.zsx-archive__cap span{font-size:18px}.zsx-archive__foot{grid-template-columns:1fr;margin-top:52px}.zsx-archive__side-note{display:none}}
+</style>
+
+<script>
+(function(){
+  var root=document.getElementById('zsx-archive-{{ section.id }}');
+  if(!root||root.dataset.ready==='1')return;
+  root.dataset.ready='1';
+  var triggers=[].slice.call(root.querySelectorAll('[data-zsx-trigger]'));
+  var panels=[].slice.call(root.querySelectorAll('[data-zsx-panel]'));
+  triggers.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=btn.getAttribute('data-zsx-trigger');
+      triggers.forEach(function(b){var on=b===btn;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',on?'true':'false')});
+      panels.forEach(function(p){p.classList.toggle('is-active',p.getAttribute('data-zsx-panel')===i)});
+    });
+  });
+})();
+</script>
