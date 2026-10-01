@@ -282,41 +282,12 @@
         "padding_top": 112,
         "padding_bottom": 124
       }
-    },
-    "zs_material_archive_sonnet_cmp": {
-      "type": "zs-material-archive-sonnet",
-      "blocks": {
-        "s1": {
-          "type": "specimen",
-          "settings": {}
-        },
-        "s2": {
-          "type": "specimen",
-          "settings": {}
-        },
-        "s3": {
-          "type": "specimen",
-          "settings": {}
-        },
-        "s4": {
-          "type": "specimen",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x",
-    "zs_material_archive_4x",
-    "zs_material_archive_sonnet_cmp"
+    "zs_material_archive_4x"
   ]
 }
