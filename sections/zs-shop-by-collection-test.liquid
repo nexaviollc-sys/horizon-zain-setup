@@ -78,11 +78,17 @@
     {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank %}
       <header class="zsbc__header">
         {% if section.settings.eyebrow != blank %}
-          <p class="zsbc__eyebrow"><span class="zsbc__eyebrow-rule" aria-hidden="true"></span><span>{{ section.settings.eyebrow | escape }}</span></p>
+          <p class="zsbc__eyebrow"><span class="zsbc__eyebrow-rule" aria-hidden="true"></span><span>{{ section.settings.eyebrow | escape }}</span><span class="zsbc__eyebrow-rule" aria-hidden="true"></span></p>
         {% endif %}
 
         {% if section.settings.heading != blank %}
-          <{{ heading_tag }} id="zsbc-heading-{{ section.id }}" class="zsbc__heading">{{ section.settings.heading }}</{{ heading_tag }}>
+          <{{ heading_tag }} id="zsbc-heading-{{ section.id }}" class="zsbc__heading">
+    {% if section.settings.heading == 'Shop by Collection' %}
+      <span>Shop by </span><em>Collection</em>
+    {% else %}
+      {{ section.settings.heading }}
+    {% endif %}
+  </{{ heading_tag }}>
         {% endif %}
 
         {% if section.settings.subheading != blank %}
