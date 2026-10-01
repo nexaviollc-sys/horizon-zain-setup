@@ -387,11 +387,32 @@
     .zsbc__eyebrow-rule { width: 30px; }
     .zsbc__heading { font-size: clamp(36px,10.4vw,46px); }
     .zsbc__sub { margin-top: 16px; font-size: 14.5px; line-height: 1.65; }
-    .zsbc__grid { column-gap:14px; row-gap:30px; }
+    .zsbc__grid { column-gap:14px; row-gap:22px; }
     .zsbc__grid--one { grid-template-columns:minmax(0,1fr); }
-    .zsbc__grid--two .zsbc__caption { padding-top:14px; gap:8px; }
-    .zsbc__grid--two .zsbc__title { font-size:1rem; }
-    .zsbc__grid--two .zsbc__tagline { margin-top:6px; font-size:.72rem; line-height:1.45; }
+    .zsbc__grid--two .zsbc__caption {
+      display:block;
+      width:100%;
+      padding-top:11px;
+      gap:0;
+    }
+    .zsbc__grid--two .zsbc__text {
+      display:block;
+      width:100%;
+      max-width:none;
+    }
+    .zsbc__grid--two .zsbc__title {
+      width:100%;
+      max-width:none;
+      font-size:1rem;
+      line-height:1.22;
+    }
+    .zsbc__grid--two .zsbc__tagline {
+      width:100%;
+      max-width:none;
+      margin-top:5px;
+      font-size:.72rem;
+      line-height:1.4;
+    }
     .zsbc__grid--two .zsbc__arrow { display:none; }
     .zsbc__grid--two .zsbc__badge { top:10px; left:10px; padding:5px 9px; font-size:.625rem; }
     .zsbc__grid--swipe {
