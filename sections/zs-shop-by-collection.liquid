@@ -1,0 +1,701 @@
+{%- comment -%}
+  ZAISEN — Shop by Collection
+  Editorial collection showcase designed to follow the homepage hero.
+  First two cards are featured; remaining four form the supporting grid.
+{%- endcomment -%}
+
+<section
+  class="zs-collections"
+  style="
+    --zs-c-bg: {{ section.settings.background_color }};
+    --zs-c-surface: {{ section.settings.surface_color }};
+    --zs-c-text: {{ section.settings.text_color }};
+    --zs-c-muted: {{ section.settings.muted_color }};
+    --zs-c-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="zs-collections-heading-{{ section.id }}"
+>
+  <div class="zs-collections__ambient" aria-hidden="true"></div>
+
+  <div class="zs-collections__inner">
+    <header class="zs-collections__header">
+      <div class="zs-collections__intro">
+        {% if section.settings.eyebrow != blank %}
+          <p class="zs-collections__eyebrow">
+            <span class="zs-collections__eyebrow-line" aria-hidden="true"></span>
+            {{ section.settings.eyebrow | escape }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 id="zs-collections-heading-{{ section.id }}" class="zs-collections__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+      </div>
+
+      {% if section.settings.description != blank %}
+        <p class="zs-collections__description">{{ section.settings.description | escape }}</p>
+      {% endif %}
+    </header>
+
+    <div class="zs-collections__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          assign collection = block.settings.collection
+          assign card_image = block.settings.image_override
+
+          if card_image == blank and collection != blank
+            assign card_image = collection.image
+          endif
+
+          if card_image == blank and collection != blank and collection.products.first != blank
+            assign card_image = collection.products.first.featured_image
+          endif
+
+          assign card_title = block.settings.title
+          if card_title == blank and collection != blank
+            assign card_title = collection.title
+          endif
+
+          assign card_url = '#'
+          if collection != blank
+            assign card_url = collection.url
+          endif
+
+          assign image_alt = card_image.alt | default: card_title
+        %}
+
+        <article
+          class="zs-collections__card{% if forloop.index <= 2 %} zs-collections__card--feature{% else %} zs-collections__card--standard{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <a
+            class="zs-collections__card-link"
+            href="{{ card_url }}"
+            {% if collection == blank %}aria-disabled="true"{% endif %}
+          >
+            <div class="zs-collections__media">
+              {% if card_image != blank %}
+                {{
+                  card_image
+                  | image_url: width: 1400
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '360, 540, 720, 900, 1100, 1400',
+                    sizes: '(max-width: 749px) 92vw, (max-width: 989px) 48vw, 46vw',
+                    alt: image_alt,
+                    class: 'zs-collections__image'
+                }}
+              {% else %}
+                {{ 'collection-1' | placeholder_svg_tag: 'zs-collections__placeholder' }}
+              {% endif %}
+
+              <div class="zs-collections__veil" aria-hidden="true"></div>
+              <div class="zs-collections__shine" aria-hidden="true"></div>
+            </div>
+
+            <div class="zs-collections__content">
+              <div class="zs-collections__copy">
+                <h3 class="zs-collections__title">{{ card_title | escape }}</h3>
+                {% if block.settings.subtitle != blank %}
+                  <p class="zs-collections__subtitle">{{ block.settings.subtitle | escape }}</p>
+                {% endif %}
+              </div>
+
+              <span class="zs-collections__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h13M14 7l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.footer_text != blank %}
+      <div class="zs-collections__footer">
+        <span class="zs-collections__footer-mark" aria-hidden="true"></span>
+        <p>{{ section.settings.footer_text | escape }}</p>
+        <span class="zs-collections__footer-mark zs-collections__footer-mark--right" aria-hidden="true"></span>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .zs-collections {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--zs-c-bg);
+    color: var(--zs-c-text);
+    border-block-start: 1px solid color-mix(in srgb, var(--zs-c-text) 7%, transparent);
+  }
+
+  .zs-collections__ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(720px 360px at 8% 10%, color-mix(in srgb, var(--zs-c-accent) 9%, transparent), transparent 68%),
+      radial-gradient(620px 360px at 94% 92%, color-mix(in srgb, var(--zs-c-accent) 6%, transparent), transparent 70%);
+  }
+
+  .zs-collections__inner {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 40px, 1440px);
+    margin-inline: auto;
+    padding-block: 72px 82px;
+  }
+
+  .zs-collections__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+    align-items: end;
+    gap: 48px;
+    margin-bottom: 34px;
+  }
+
+  .zs-collections__intro {
+    max-width: 760px;
+  }
+
+  .zs-collections__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 13px;
+    color: var(--zs-c-accent);
+    font-family: var(--font-body--family, inherit);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .zs-collections__eyebrow-line {
+    width: 34px;
+    height: 1.5px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .zs-collections__heading {
+    margin: 0;
+    max-width: 14ch;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(40px, 4.1vw, 62px);
+    font-weight: 520;
+    letter-spacing: -.025em;
+    line-height: .98;
+    text-wrap: balance;
+  }
+
+  .zs-collections__heading em {
+    font-style: italic;
+    font-weight: 450;
+    color: var(--zs-c-accent);
+  }
+
+  .zs-collections__description {
+    justify-self: end;
+    margin: 0 0 5px;
+    max-width: 42ch;
+    color: var(--zs-c-muted);
+    font-family: var(--font-body--family, inherit);
+    font-size: 15px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .zs-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .zs-collections__card {
+    position: relative;
+    min-width: 0;
+  }
+
+  .zs-collections__card--feature {
+    grid-column: span 6;
+  }
+
+  .zs-collections__card--standard {
+    grid-column: span 3;
+  }
+
+  .zs-collections__card-link {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    min-height: 100%;
+    border: 1px solid color-mix(in srgb, var(--zs-c-accent) 18%, transparent);
+    border-radius: 24px;
+    background: var(--zs-c-surface);
+    color: inherit;
+    text-decoration: none;
+    box-shadow:
+      0 18px 42px rgba(77, 51, 31, .07),
+      inset 0 1px 0 rgba(255, 255, 255, .7);
+    transform: translateZ(0);
+    transition:
+      border-color 260ms ease,
+      box-shadow 300ms ease,
+      transform 300ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .zs-collections__media {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.6), transparent 52%),
+      #e9dfd1;
+  }
+
+  .zs-collections__card--feature .zs-collections__media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .zs-collections__card--standard .zs-collections__media {
+    aspect-ratio: 4 / 4.15;
+  }
+
+  .zs-collections__image,
+  .zs-collections__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 800ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .zs-collections__placeholder {
+    color: color-mix(in srgb, var(--zs-c-accent) 28%, transparent);
+    background: #eadfce;
+  }
+
+  .zs-collections__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 42%, rgba(39, 29, 21, .04) 65%, rgba(39, 29, 21, .22) 100%);
+    pointer-events: none;
+  }
+
+  .zs-collections__shine {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(112deg, transparent 28%, rgba(255,255,255,.22) 42%, transparent 57%);
+    transform: translateX(-36%);
+    transition:
+      opacity 320ms ease,
+      transform 800ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .zs-collections__content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 92px;
+    padding: 19px 20px 20px;
+  }
+
+  .zs-collections__card--feature .zs-collections__content {
+    min-height: 104px;
+    padding: 22px 24px 23px;
+  }
+
+  .zs-collections__copy {
+    min-width: 0;
+  }
+
+  .zs-collections__title {
+    margin: 0;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: 24px;
+    font-weight: 560;
+    letter-spacing: -.012em;
+    line-height: 1.05;
+  }
+
+  .zs-collections__card--feature .zs-collections__title {
+    font-size: clamp(28px, 2.2vw, 36px);
+  }
+
+  .zs-collections__subtitle {
+    margin: 7px 0 0;
+    color: var(--zs-c-muted);
+    font-family: var(--font-body--family, inherit);
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .zs-collections__arrow {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border: 1px solid color-mix(in srgb, var(--zs-c-accent) 28%, transparent);
+    border-radius: 50%;
+    color: color-mix(in srgb, var(--zs-c-accent) 88%, var(--zs-c-text));
+    background: color-mix(in srgb, var(--zs-c-accent) 6%, white);
+    transition:
+      color 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease,
+      transform 260ms cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .zs-collections__arrow svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .zs-collections__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+    color: color-mix(in srgb, var(--zs-c-text) 52%, transparent);
+    font-family: var(--font-body--family, inherit);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .zs-collections__footer p {
+    margin: 0;
+  }
+
+  .zs-collections__footer-mark {
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--zs-c-accent) 60%, transparent));
+  }
+
+  .zs-collections__footer-mark--right {
+    transform: scaleX(-1);
+  }
+
+  @media screen and (max-width: 989px) {
+    .zs-collections__inner {
+      width: min(100% - 32px, 900px);
+      padding-block: 60px 68px;
+    }
+
+    .zs-collections__header {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .zs-collections__description {
+      justify-self: start;
+    }
+
+    .zs-collections__card--feature {
+      grid-column: span 6;
+    }
+
+    .zs-collections__card--standard {
+      grid-column: span 6;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .zs-collections__inner {
+      width: min(100% - 28px, 680px);
+      padding-block: 54px 62px;
+    }
+
+    .zs-collections__header {
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .zs-collections__eyebrow {
+      margin-bottom: 10px;
+      font-size: 9.5px;
+      letter-spacing: .18em;
+    }
+
+    .zs-collections__eyebrow-line {
+      width: 28px;
+    }
+
+    .zs-collections__heading {
+      font-size: clamp(36px, 10.5vw, 48px);
+      max-width: 12ch;
+    }
+
+    .zs-collections__description {
+      max-width: 37ch;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .zs-collections__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .zs-collections__card--feature {
+      grid-column: 1 / -1;
+    }
+
+    .zs-collections__card--standard {
+      grid-column: span 1;
+    }
+
+    .zs-collections__card-link {
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(77, 51, 31, .065);
+    }
+
+    .zs-collections__card--feature .zs-collections__media {
+      aspect-ratio: 16 / 10.5;
+    }
+
+    .zs-collections__card--standard .zs-collections__media {
+      aspect-ratio: 1 / 1.04;
+    }
+
+    .zs-collections__content,
+    .zs-collections__card--feature .zs-collections__content {
+      min-height: auto;
+      padding: 15px 15px 16px;
+      gap: 10px;
+    }
+
+    .zs-collections__title,
+    .zs-collections__card--feature .zs-collections__title {
+      font-size: 22px;
+    }
+
+    .zs-collections__card--standard .zs-collections__title {
+      font-size: 18px;
+    }
+
+    .zs-collections__subtitle {
+      margin-top: 5px;
+      font-size: 11.5px;
+    }
+
+    .zs-collections__card--standard .zs-collections__subtitle {
+      display: none;
+    }
+
+    .zs-collections__arrow {
+      width: 34px;
+      height: 34px;
+    }
+
+    .zs-collections__card--standard .zs-collections__arrow {
+      width: 30px;
+      height: 30px;
+    }
+
+    .zs-collections__footer {
+      margin-top: 24px;
+      gap: 9px;
+      font-size: 8.5px;
+      letter-spacing: .13em;
+    }
+
+    .zs-collections__footer-mark {
+      width: 20px;
+    }
+  }
+
+  @media screen and (max-width: 380px) {
+    .zs-collections__inner {
+      width: min(100% - 22px, 360px);
+    }
+
+    .zs-collections__grid {
+      gap: 10px;
+    }
+
+    .zs-collections__card--standard .zs-collections__title {
+      font-size: 16px;
+    }
+
+    .zs-collections__card--standard .zs-collections__content {
+      padding: 12px;
+    }
+
+    .zs-collections__card--standard .zs-collections__arrow {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zs-collections__card-link:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--zs-c-accent) 38%, transparent);
+      box-shadow:
+        0 24px 58px rgba(77, 51, 31, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .82);
+    }
+
+    .zs-collections__card-link:hover .zs-collections__image {
+      transform: scale(1.045);
+    }
+
+    .zs-collections__card-link:hover .zs-collections__shine {
+      opacity: 1;
+      transform: translateX(36%);
+    }
+
+    .zs-collections__card-link:hover .zs-collections__arrow {
+      color: #fffaf4;
+      border-color: var(--zs-c-accent);
+      background: var(--zs-c-accent);
+      transform: translateX(3px);
+    }
+  }
+
+  .zs-collections__card-link:focus-visible {
+    outline: 2px solid var(--zs-c-accent);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zs-collections__card-link,
+    .zs-collections__image,
+    .zs-collections__shine,
+    .zs-collections__arrow {
+      transition: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ZS Shop by Collection",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Discover ZAISEN"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by <em>Collection.</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Handcrafted pieces for lighting, dining, decorating and gifting — designed to bring natural warmth into everyday spaces."
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Footer note",
+      "default": "Handcrafted in wood • designed for the home"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#F7F2EC"
+    },
+    {
+      "type": "color",
+      "id": "surface_color",
+      "label": "Card surface",
+      "default": "#FFFDFC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#2C2A29"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#6F6861"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Wood accent",
+      "default": "#A8794A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_override",
+          "label": "Image override"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS Shop by Collection",
+      "blocks": [
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
