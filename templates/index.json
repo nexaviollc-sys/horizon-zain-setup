@@ -46,13 +46,12 @@
       "settings": {
         "eyebrow": "Discover ZAISEN",
         "heading": "Shop by <em>Collection.</em>",
-        "description": "Handcrafted pieces for lighting, dining, decorating and gifting — designed to bring natural warmth into everyday spaces.",
-        "footer_text": "Handcrafted in wood • designed for the home",
-        "background_color": "#F7F2EC",
-        "surface_color": "#FFFDFC",
+        "description": "Explore handcrafted wooden pieces for every part of the home.",
+        "background_color": "#F6F1EA",
         "text_color": "#2C2A29",
         "muted_color": "#6F6861",
-        "accent_color": "#A8794A"
+        "accent_color": "#A8794A",
+        "line_color": "#D8CABC"
       },
       "blocks": {
         "lighting": {
@@ -60,8 +59,7 @@
           "settings": {
             "collection": "lighting",
             "image_override": "",
-            "title": "Lighting",
-            "subtitle": "Sculptural wooden light"
+            "title": "Lighting"
           }
         },
         "kitchen": {
@@ -69,8 +67,7 @@
           "settings": {
             "collection": "kitchen-dining",
             "image_override": "",
-            "title": "Kitchen & Dining",
-            "subtitle": "Crafted for everyday rituals"
+            "title": "Kitchen & Dining"
           }
         },
         "clocks": {
@@ -78,8 +75,7 @@
           "settings": {
             "collection": "wall-clocks",
             "image_override": "",
-            "title": "Wall Clocks",
-            "subtitle": "Natural timekeeping, shaped by hand"
+            "title": "Wall Clocks"
           }
         },
         "drinkware": {
@@ -87,8 +83,7 @@
           "settings": {
             "collection": "wooden-drinkware",
             "image_override": "",
-            "title": "Wooden Drinkware",
-            "subtitle": "Warm wood for serving & sharing"
+            "title": "Wooden Drinkware"
           }
         },
         "decor": {
@@ -96,8 +91,7 @@
           "settings": {
             "collection": "home-decor",
             "image_override": "",
-            "title": "Home Decor",
-            "subtitle": "Natural accents for thoughtful spaces"
+            "title": "Home Decor"
           }
         },
         "gifts": {
@@ -105,8 +99,23 @@
           "settings": {
             "collection": "gifts",
             "image_override": "",
-            "title": "Gifts",
-            "subtitle": "Handcrafted pieces worth remembering"
+            "title": "Gifts"
+          }
+        },
+        "statues": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "statues-desk-decor",
+            "image_override": "",
+            "title": "Statues & Desk Decor"
+          }
+        },
+        "bestsellers": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "best-sellers",
+            "image_override": "",
+            "title": "Best Sellers"
           }
         }
       },
@@ -116,7 +125,9 @@
         "clocks",
         "drinkware",
         "decor",
-        "gifts"
+        "gifts",
+        "statues",
+        "bestsellers"
       ]
     }
   },
