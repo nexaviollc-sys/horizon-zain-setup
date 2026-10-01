@@ -20,11 +20,11 @@
         "heading": "Timeless Art. Handcrafted from <em>Pure Wood.</em>",
         "subheading": "Premium wooden decor, custom desk clocks, and artisanal kitchen accessories designed to enrich modern living spaces.",
         "primary_text": "Shop the Collection",
-        "primary_link": "",
+        "primary_link": "shopify://collections",
         "secondary_text": "Explore Our Craft",
-        "secondary_link": "",
-        "button_bg": "#7A5238",
-        "button_text_color": "#FBF9F6",
+        "secondary_link": "shopify://collections/all",
+        "button_bg": "#7a5238",
+        "button_text_color": "#fbf9f6",
         "show_assurances": true,
         "a1_icon": "headset",
         "a1_title": "24/7 Customer Care",
@@ -35,13 +35,89 @@
         "a3_icon": "leaf",
         "a3_title": "True to Nature",
         "a3_text": "Pure wood, honestly sourced",
-        "bg_color": "#FBF9F6",
-        "text_color": "#2C2A29",
-        "accent_color": "#A8794A"
+        "bg_color": "#fbf9f6",
+        "text_color": "#2c2a29",
+        "accent_color": "#a8794a"
       }
     },
     "zs_shop_by_collection_test_8x": {
       "type": "zs-shop-by-collection-test",
+      "blocks": {
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "collection": "lighting",
+            "custom_title": "Wooden Lamps & Lighting",
+            "badge": ""
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "collection": "kitchen-dining",
+            "custom_title": "Wooden Kitchen & Dining",
+            "badge": ""
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "collection": "wall-clocks",
+            "custom_title": "Wooden Wall Clocks",
+            "badge": ""
+          }
+        },
+        "c4": {
+          "type": "collection",
+          "settings": {
+            "collection": "wooden-drinkware",
+            "custom_title": "Wooden Drinkware Sets",
+            "badge": ""
+          }
+        },
+        "c5": {
+          "type": "collection",
+          "settings": {
+            "collection": "home-decor",
+            "custom_title": "Wooden Home Decor",
+            "badge": ""
+          }
+        },
+        "c6": {
+          "type": "collection",
+          "settings": {
+            "collection": "gifts",
+            "custom_title": "Handcrafted Wooden Gifts",
+            "badge": ""
+          }
+        },
+        "c7": {
+          "type": "collection",
+          "settings": {
+            "collection": "statues-desk-decor",
+            "custom_title": "Wooden Statues & Desk Decor",
+            "badge": ""
+          }
+        },
+        "c8": {
+          "type": "collection",
+          "settings": {
+            "collection": "best-sellers",
+            "custom_title": "Best Selling Wooden Decor & Gifts",
+            "badge": "Best Sellers"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ],
       "name": "Shop by Collection",
       "settings": {
         "eyebrow": "Handcrafted • Pure Wood",
@@ -59,98 +135,14 @@
         "show_count": true,
         "heading_font": "theme",
         "heading_size": 52,
-        "bg_color": "#F6F1E7",
-        "heading_color": "#2C2A29",
-        "text_color": "#2C2A29",
-        "accent_color": "#A8794A",
-        "wood_color": "#7A5238",
+        "bg_color": "#f6f1e7",
+        "heading_color": "#2c2a29",
+        "text_color": "#2c2a29",
+        "accent_color": "#a8794a",
+        "wood_color": "#7a5238",
         "padding_top": 80,
         "padding_bottom": 80
-      },
-      "blocks": {
-        "c1": {
-          "type": "collection",
-          "settings": {
-            "collection": "lighting",
-            "custom_title": "Wooden Lamps & Lighting",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c2": {
-          "type": "collection",
-          "settings": {
-            "collection": "kitchen-dining",
-            "custom_title": "Wooden Kitchen & Dining",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c3": {
-          "type": "collection",
-          "settings": {
-            "collection": "wall-clocks",
-            "custom_title": "Wooden Wall Clocks",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c4": {
-          "type": "collection",
-          "settings": {
-            "collection": "wooden-drinkware",
-            "custom_title": "Wooden Drinkware Sets",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c5": {
-          "type": "collection",
-          "settings": {
-            "collection": "home-decor",
-            "custom_title": "Wooden Home Decor",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c6": {
-          "type": "collection",
-          "settings": {
-            "collection": "gifts",
-            "custom_title": "Handcrafted Wooden Gifts",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c7": {
-          "type": "collection",
-          "settings": {
-            "collection": "statues-desk-decor",
-            "custom_title": "Wooden Statues & Desk Decor",
-            "image": "",
-            "badge": ""
-          }
-        },
-        "c8": {
-          "type": "collection",
-          "settings": {
-            "collection": "best-sellers",
-            "custom_title": "Best Selling Wooden Decor & Gifts",
-            "image": "",
-            "badge": "Best Sellers"
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5",
-        "c6",
-        "c7",
-        "c8"
-      ]
+      }
     }
   },
   "order": [
