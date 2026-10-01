@@ -166,17 +166,6 @@
         {% endif %}
       {% endfor %}
     </ul>
-
-    {% if section.settings.show_view_all and section.settings.view_all_label != blank %}
-      <div class="zsbc__footer">
-        <a class="zsbc__button" href="{{ routes.collections_url }}">
-          <span>{{ section.settings.view_all_label | escape }}</span>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-        </a>
-      </div>
-    {% endif %}
   </div>
 </section>
 
@@ -336,26 +325,6 @@
     .zsbc__card:hover .zsbc__arrow svg { transform:translateX(2px); }
   }
 
-  .zsbc__footer { display:flex; justify-content:center; margin-top:clamp(36px,5vw,64px); }
-  .zsbc__button {
-    display:inline-flex;
-    align-items:center;
-    gap:12px;
-    padding:15px 34px;
-    font-size:.75rem;
-    font-weight:500;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    text-decoration:none;
-    color:var(--zsbc-heading);
-    border:1px solid var(--zsbc-heading);
-    border-radius:var(--zsbc-radius);
-    transition:background-color .4s ease,color .4s ease;
-  }
-  .zsbc__button:hover,.zsbc__button:focus-visible { background:var(--zsbc-heading); color:var(--zsbc-bg); }
-  .zsbc__button svg { transition:transform .5s cubic-bezier(.2,.7,.2,1); }
-  .zsbc__button:hover svg,.zsbc__button:focus-visible svg { transform:translateX(3px); }
-
   @media (max-width:989px) {
     .zsbc__grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   }
@@ -400,9 +369,9 @@
 
 {% schema %}
 {
-  "name": "Shop by Collection Test",
+  "name": "Shop by Collection",
   "tag": "section",
-  "class": "section-zaisen-collections-test",
+  "class": "section-zaisen-collections",
   "max_blocks": 12,
   "settings": [
     { "type":"header","content":"Heading" },
@@ -444,9 +413,6 @@
     { "type":"header","content":"Card details" },
     { "type":"checkbox","id":"show_index","label":"Show collection number","default":true },
     { "type":"checkbox","id":"show_count","label":"Show product count","default":true },
-    { "type":"header","content":"View all link" },
-    { "type":"checkbox","id":"show_view_all","label":"Show view all button","default":true },
-    { "type":"text","id":"view_all_label","label":"Button label","default":"View all collections" },
     { "type":"header","content":"Style" },
     {
       "type":"select","id":"heading_font","label":"Heading font",
@@ -478,7 +444,7 @@
   ],
   "presets":[
     {
-      "name":"Shop by Collection Test",
+      "name":"Shop by Collection",
       "blocks":[
         {"type":"collection","settings":{"custom_title":"Wooden Lamps & Lighting"}},
         {"type":"collection","settings":{"custom_title":"Wooden Kitchen & Dining"}},
