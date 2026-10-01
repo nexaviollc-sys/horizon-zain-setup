@@ -288,55 +288,19 @@
       "blocks": {
         "s1": {
           "type": "specimen",
-          "settings": {
-            "name": "Grain Study",
-            "latin": "",
-            "origin": "",
-            "seasoned": "",
-            "finish": "",
-            "tone_name": "Warm walnut",
-            "tone": "#7A5238",
-            "note": "Natural grain and surface character."
-          }
+          "settings": {}
         },
         "s2": {
           "type": "specimen",
-          "settings": {
-            "name": "Carved Detail",
-            "latin": "",
-            "origin": "",
-            "seasoned": "",
-            "finish": "",
-            "tone_name": "Honey brown",
-            "tone": "#A8794A",
-            "note": "Small handcrafted details and carved edges."
-          }
+          "settings": {}
         },
         "s3": {
           "type": "specimen",
-          "settings": {
-            "name": "Form Study",
-            "latin": "",
-            "origin": "",
-            "seasoned": "",
-            "finish": "",
-            "tone_name": "Natural wood",
-            "tone": "#9A6A43",
-            "note": "Curves, proportion and tactile form."
-          }
+          "settings": {}
         },
         "s4": {
           "type": "specimen",
-          "settings": {
-            "name": "Finished Object",
-            "latin": "",
-            "origin": "",
-            "seasoned": "",
-            "finish": "",
-            "tone_name": "Deep walnut",
-            "tone": "#5C4033",
-            "note": "The material study resolved into a finished home object."
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -345,42 +309,7 @@
         "s3",
         "s4"
       ],
-      "name": "ZAISEN Archive Sonnet",
-      "settings": {
-        "running_head": "ZAISEN — Material Archive",
-        "folio": "Folio 04",
-        "edition": "Edition 2026",
-        "heading": "Notes on timber, <em>kept slowly.</em>",
-        "indent_italic": true,
-        "intro": "<p>A quiet record of grain, form and detail across ZAISEN wooden pieces.</p>",
-        "index_label": "Index of studies",
-        "spec_label": "Material record",
-        "plate_word": "Plate",
-        "label_origin": "Origin",
-        "label_seasoned": "Seasoned",
-        "label_finish": "Finish",
-        "label_tone": "Tone",
-        "side_note": "ZAISEN material study",
-        "detail_alt": "",
-        "detail_label": "Fig. A",
-        "detail_caption": "A closer view of grain, edge and handcrafted surface character.",
-        "margin_label": "Marginalia",
-        "margin_text": "Grain, tone and small variations become part of the finished piece.",
-        "foot_note": "ZAISEN — material study",
-        "link_label": "Explore the collection",
-        "link": "shopify://collections",
-        "plate_ratio": "5 / 6",
-        "max_width": "1440px",
-        "title_size": 92,
-        "aside_offset": 96,
-        "mat_padding": 18,
-        "padding_top": 96,
-        "padding_bottom": 96,
-        "color_bg": "#F6F1E7",
-        "color_text": "#3A2818",
-        "color_gold": "#A8794A",
-        "color_mat": "#ECE4D3"
-      }
+      "settings": {}
     }
   },
   "order": [
