@@ -289,8 +289,6 @@
         "s1": {
           "type": "specimen",
           "settings": {
-            "image": "",
-            "image_alt": "ZAISEN handcrafted wooden horse lamp showing natural wood grain and sculptural form",
             "name": "Grain Study",
             "latin": "",
             "origin": "",
@@ -298,15 +296,12 @@
             "finish": "",
             "tone_name": "Warm walnut",
             "tone": "#7A5238",
-            "note": "Natural grain, carved form and surface character shown as a material study.",
-            "product": "wooden-horse-lamp-equestrian-table-light"
+            "note": "Natural grain and surface character."
           }
         },
         "s2": {
           "type": "specimen",
           "settings": {
-            "image": "",
-            "image_alt": "ZAISEN wooden canisters showing handcrafted surface and carved detail",
             "name": "Carved Detail",
             "latin": "",
             "origin": "",
@@ -314,15 +309,12 @@
             "finish": "",
             "tone_name": "Honey brown",
             "tone": "#A8794A",
-            "note": "A close look at the small details that give handcrafted wooden pieces their character.",
-            "product": "tea-coffee-sugar-canisters-wooden-set"
+            "note": "Small handcrafted details and carved edges."
           }
         },
         "s3": {
           "type": "specimen",
           "settings": {
-            "image": "",
-            "image_alt": "ZAISEN handcrafted wooden jug and cups showing curved wooden forms",
             "name": "Form Study",
             "latin": "",
             "origin": "",
@@ -330,15 +322,12 @@
             "finish": "",
             "tone_name": "Natural wood",
             "tone": "#9A6A43",
-            "note": "Curves, proportion and tactile edges are treated as part of the object, not decoration added later.",
-            "product": "handcrafted-wooden-jug-5-cups-set"
+            "note": "Curves, proportion and tactile form."
           }
         },
         "s4": {
           "type": "specimen",
           "settings": {
-            "image": "",
-            "image_alt": "ZAISEN handcrafted wooden wall clock styled as a finished home object",
             "name": "Finished Object",
             "latin": "",
             "origin": "",
@@ -346,8 +335,7 @@
             "finish": "",
             "tone_name": "Deep walnut",
             "tone": "#5C4033",
-            "note": "The material archive ends with the finished object: functional, sculptural and made for the home.",
-            "product": "wooden-ship-wheel-wall-clock"
+            "note": "The material study resolved into a finished home object."
           }
         }
       },
@@ -364,7 +352,7 @@
         "edition": "Edition 2026",
         "heading": "Notes on timber, <em>kept slowly.</em>",
         "indent_italic": true,
-        "intro": "<p>A quiet record of grain, form and detail across ZAISEN wooden pieces. Each plate focuses on material character rather than a conventional product presentation.</p>",
+        "intro": "<p>A quiet record of grain, form and detail across ZAISEN wooden pieces.</p>",
         "index_label": "Index of studies",
         "spec_label": "Material record",
         "plate_word": "Plate",
@@ -372,12 +360,12 @@
         "label_seasoned": "Seasoned",
         "label_finish": "Finish",
         "label_tone": "Tone",
-        "side_note": "Material study from the ZAISEN collection",
-        "detail_alt": "Close-up ZAISEN handcrafted wood detail",
+        "side_note": "ZAISEN material study",
+        "detail_alt": "",
         "detail_label": "Fig. A",
         "detail_caption": "A closer view of grain, edge and handcrafted surface character.",
         "margin_label": "Marginalia",
-        "margin_text": "The most interesting part of wood is often the part that refuses to repeat itself: grain, tone and small variations become part of the finished piece.",
+        "margin_text": "Grain, tone and small variations become part of the finished piece.",
         "foot_note": "ZAISEN — material study",
         "link_label": "Explore the collection",
         "link": "shopify://collections",
