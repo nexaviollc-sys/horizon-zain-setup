@@ -3,7 +3,7 @@
   assign cta_link = s.button_link | default: routes.all_products_collection_url
 %}
 
-<section class="zbs-alt{% if s.show_divider %} zbs-alt--divider{% endif %}" style="--zbs-alt-pt:{{ s.padding_top }}px;--zbs-alt-pb:{{ s.padding_bottom }}px;--zbs-alt-stagger:{{ s.stagger }}px;--zbs-alt-heading:{{ s.heading_size }}px;--zbs-alt-bg:{{ s.bg_color }};--zbs-alt-text:{{ s.text_color }};--zbs-alt-muted:{{ s.muted_color }};--zbs-alt-accent:{{ s.accent_color }};--zbs-alt-wood:{{ s.wood_color }};">
+<section class="zbs-alt{% if s.show_divider %} zbs-alt--divider{% endif %}" style="--zbs-alt-pt:{{ s.padding_top }}px;--zbs-alt-pb:{{ s.padding_bottom }}px;--zbs-alt-stagger:{{ s.stagger }}px;--zbs-alt-heading:{{ s.heading_size }}px;--zbs-alt-bg:{{ s.bg_color }};--zbs-alt-heading-color:{{ s.heading_color }};--zbs-alt-text:{{ s.text_color }};--zbs-alt-accent:{{ s.accent_color }};--zbs-alt-wood:{{ s.wood_color }};">
   <div class="zbs-alt__inner">
     <aside class="zbs-alt__intro">
       {% if s.eyebrow != blank %}
@@ -69,8 +69,8 @@
 
 {% stylesheet %}
 .zbs-alt{
-  --line:color-mix(in srgb,var(--zbs-alt-text) 18%,transparent);
-  --muted:var(--zbs-alt-muted);
+  --line:color-mix(in srgb,var(--zbs-alt-heading-color) 20%,transparent);
+  --muted:color-mix(in srgb,var(--zbs-alt-text) 64%,transparent);
   background:var(--zbs-alt-bg,#F6F1E7);
   color:var(--zbs-alt-text,#2C2A29);
   padding-block:calc(var(--zbs-alt-pt)*.6) calc(var(--zbs-alt-pb)*.6);
@@ -81,7 +81,7 @@
 .zbs-alt__intro{margin-bottom:28px}
 .zbs-alt__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:.6875rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--zbs-alt-accent)}
 .zbs-alt__eyebrow:before{content:"";width:28px;height:1px;background:var(--zbs-alt-accent);opacity:.9}
-.zbs-alt__heading{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:clamp(2.125rem,9vw,3rem);line-height:1.02;letter-spacing:-.025em}
+.zbs-alt__heading{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:clamp(2.125rem,9vw,3rem);line-height:1.02;letter-spacing:-.025em;color:var(--zbs-alt-heading-color)}
 .zbs-alt__text{margin-top:16px;max-width:30ch;font-size:.9375rem;line-height:1.6;color:var(--muted)}
 .zbs-alt__cta{margin-top:36px;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:18px 0;border-block:1px solid color-mix(in srgb,var(--zbs-alt-accent) 52%,transparent);color:var(--zbs-alt-wood);text-decoration:none;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
 .zbs-alt__products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:30px}
@@ -91,7 +91,7 @@
 .zbs-alt__img,.zbs-alt__placeholder{width:100%;height:100%;display:block;object-fit:cover;transition:transform .8s ease}
 .zbs-alt__meta{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
 .zbs-alt__index{display:none}
-.zbs-alt__name{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:.9375rem;line-height:1.25}
+.zbs-alt__name{margin:0;font-family:var(--font-heading--family,Georgia,serif);font-weight:400;font-size:.9375rem;line-height:1.25;color:var(--zbs-alt-heading-color)}
 .zbs-alt__note{margin:4px 0 0;font-size:.75rem;line-height:1.4;color:var(--muted)}
 .zbs-alt__price{display:flex;flex-wrap:wrap;gap:8px;font-size:.8125rem;color:var(--zbs-alt-wood)}
 .zbs-alt__price s{color:var(--muted);font-size:.75rem}
@@ -134,8 +134,8 @@
     {"type":"checkbox","id":"show_divider","label":"Show top divider","default":true},
     {"type":"checkbox","id":"show_compare","label":"Show compare-at price","default":true},
     {"type":"color","id":"bg_color","label":"Background","default":"#F6F1E7"},
-    {"type":"color","id":"text_color","label":"Main text","default":"#2C2A29"},
-    {"type":"color","id":"muted_color","label":"Muted text","default":"#6B625B"},
+    {"type":"color","id":"heading_color","label":"Heading","default":"#2C2A29"},
+    {"type":"color","id":"text_color","label":"Text","default":"#2C2A29"},
     {"type":"color","id":"accent_color","label":"Gold accent","default":"#A8794A"},
     {"type":"color","id":"wood_color","label":"Walnut accent","default":"#7A5238"},
     {"type":"range","id":"padding_top","label":"Top padding","min":0,"max":220,"step":4,"unit":"px","default":128},
