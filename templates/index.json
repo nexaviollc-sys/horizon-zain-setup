@@ -212,11 +212,82 @@
         "heading_color": "#2c2a29",
         "wood_color": "#7a5238"
       }
+    },
+    "zs_material_archive_4x": {
+      "type": "zs-material-archive",
+      "blocks": {
+        "a1": {
+          "type": "detail",
+          "settings": {
+            "label": "GRAIN",
+            "caption": "Natural variation",
+            "product": "tea-coffee-sugar-canisters-wooden-set",
+            "image_position": 5,
+            "image": "",
+            "alt_text": "Close-up of natural wood grain and handcrafted surface detail"
+          }
+        },
+        "a2": {
+          "type": "detail",
+          "settings": {
+            "label": "FORM",
+            "caption": "Shaped with intention",
+            "product": "wooden-horse-lamp-equestrian-table-light",
+            "image_position": 4,
+            "image": "",
+            "alt_text": "Sculptural handcrafted wooden form showing curved artisan shaping"
+          }
+        },
+        "a3": {
+          "type": "detail",
+          "settings": {
+            "label": "DETAIL",
+            "caption": "Carved by hand",
+            "product": "handcrafted-wooden-jug-5-cups-set",
+            "image_position": 3,
+            "image": "",
+            "alt_text": "Handcrafted wooden detail highlighting carved edges and natural finish"
+          }
+        },
+        "a4": {
+          "type": "detail",
+          "settings": {
+            "label": "OBJECT",
+            "caption": "Made for the home",
+            "product": "wooden-ship-wheel-wall-clock",
+            "image_position": 2,
+            "image": "",
+            "alt_text": "Finished ZAISEN wooden object styled in a warm interior setting"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4"
+      ],
+      "name": "ZAISEN Material Archive",
+      "settings": {
+        "eyebrow": "THE ZAISEN MATERIAL ARCHIVE",
+        "heading": "Natural wood. Shaped by hand.",
+        "text": "Every grain, curve and carved detail gives each piece its own character.",
+        "link_label": "Explore the Craft",
+        "link_url": "shopify://collections",
+        "bg_color": "#f6f1e7",
+        "heading_color": "#2c2a29",
+        "text_color": "#2c2a29",
+        "accent_color": "#a8794a",
+        "wood_color": "#7a5238",
+        "padding_top": 112,
+        "padding_bottom": 124
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
-    "zs_best_sellers_alt_4x"
+    "zs_best_sellers_alt_4x",
+    "zs_material_archive_4x"
   ]
 }
