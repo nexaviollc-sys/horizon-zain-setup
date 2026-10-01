@@ -33,6 +33,11 @@
       {% for block in section.blocks %}
         {% assign product = block.settings.product %}
         {% assign primary = block.settings.custom_image | default: product.featured_image %}
+        {% assign sale_percent = 0 %}
+        {% if product != blank and product.compare_at_price > product.price %}
+          {% assign sale_amount = product.compare_at_price | minus: product.price %}
+          {% assign sale_percent = sale_amount | times: 100.0 | divided_by: product.compare_at_price | round %}
+        {% endif %}
         <article class="zbs-alt__item" {{ block.shopify_attributes }}>
           <a class="zbs-alt__link" href="{{ product.url | default: '#' }}">
             <div class="zbs-alt__media">
@@ -40,6 +45,9 @@
                 {{ primary | image_url: width: 1200 | image_tag: class: 'zbs-alt__img', widths: '320,480,640,800,1000,1200', sizes: '(min-width: 990px) 30vw, 50vw', loading: 'lazy', alt: product.title }}
               {% else %}
                 {{ 'product-1' | placeholder_svg_tag: 'zbs-alt__placeholder' }}
+              {% endif %}
+              {% if sale_percent > 0 %}
+                <span class="zbs-alt__discount" aria-label="{{ sale_percent }} percent off">-{{ sale_percent }}%</span>
               {% endif %}
             </div>
 
@@ -52,6 +60,12 @@
                 {% if block.settings.note != blank %}
                   <p class="zbs-alt__note">{{ block.settings.note }}</p>
                 {% endif %}
+                <span class="zbs-alt__product-cta">
+                  <span>Check Product</span>
+                  <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 10h11M11 6l4 4-4 4"/>
+                  </svg>
+                </span>
               </div>
               <div class="zbs-alt__price">
                 {% if product == blank %}
@@ -90,20 +104,23 @@
 .zbs-alt__heading{margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-weight:550;font-size:clamp(2.125rem,9vw,3rem);line-height:1.04;letter-spacing:-.02em;color:var(--zbs-alt-heading-color);text-wrap:balance}
 .zbs-alt__heading em{font-style:italic;font-weight:450;color:var(--zbs-alt-accent)}
 .zbs-alt__text{margin-top:16px;max-width:30ch;font-size:.9375rem;line-height:1.6;color:var(--muted)}
-.zbs-alt__cta{margin-top:38px;display:inline-flex;align-items:center;justify-content:flex-start;gap:18px;width:fit-content;padding:0 0 11px;border:0;border-bottom:1px solid color-mix(in srgb,var(--zbs-alt-accent) 58%,transparent);color:var(--zbs-alt-wood);text-decoration:none;font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transition:color .3s ease,border-color .3s ease}
+.zbs-alt__cta{margin-top:38px;display:inline-flex;align-items:center;justify-content:center;gap:18px;width:fit-content;padding:14px 18px;border:1px solid color-mix(in srgb,var(--zbs-alt-accent) 55%,transparent);border-radius:7px;background:linear-gradient(180deg,color-mix(in srgb,var(--zbs-alt-bg) 98%,white),color-mix(in srgb,var(--zbs-alt-bg) 94%,var(--zbs-alt-wood)));box-shadow:0 5px 0 color-mix(in srgb,var(--zbs-alt-wood) 26%,transparent),0 10px 20px color-mix(in srgb,var(--zbs-alt-wood) 12%,transparent);color:var(--zbs-alt-wood);text-decoration:none;font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transition:transform .28s ease,box-shadow .28s ease,color .28s ease,border-color .28s ease}
 .zbs-alt__cta svg{color:var(--zbs-alt-accent);transition:transform .35s ease}
 .zbs-alt__products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:30px}
 .zbs-alt__item:nth-child(even){transform:translateY(calc(var(--zbs-alt-stagger)/3))}
 .zbs-alt__link{display:block;color:inherit;text-decoration:none}
-.zbs-alt__media{aspect-ratio:1/1;overflow:hidden;border-radius:7px;background:color-mix(in srgb,var(--zbs-alt-wood) 9%,var(--zbs-alt-bg));box-shadow:0 1px 0 color-mix(in srgb,var(--zbs-alt-heading-color) 6%,transparent)}
+.zbs-alt__media{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:9px;background:color-mix(in srgb,var(--zbs-alt-wood) 9%,var(--zbs-alt-bg));box-shadow:0 1px 0 color-mix(in srgb,var(--zbs-alt-heading-color) 6%,transparent)}
 .zbs-alt__img,.zbs-alt__placeholder{width:100%;height:100%;display:block;object-fit:cover;transition:transform .8s ease}
+.zbs-alt__discount{position:absolute;top:12px;right:12px;z-index:2;display:inline-grid;place-items:center;min-width:48px;height:30px;padding:0 10px;border-radius:999px;background:var(--zbs-alt-wood);color:#FBF9F6;border:1px solid color-mix(in srgb,var(--zbs-alt-accent) 55%,white);box-shadow:0 5px 14px color-mix(in srgb,var(--zbs-alt-wood) 22%,transparent);font-size:.7rem;font-weight:800;letter-spacing:.04em}
 .zbs-alt__meta{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
 .zbs-alt__index{display:none;color:var(--zbs-alt-wood)}
-.zbs-alt__name{margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-weight:500;font-size:.9375rem;line-height:1.28;letter-spacing:-.005em;color:var(--zbs-alt-heading-color);text-wrap:balance;transition:color .3s ease}
+.zbs-alt__name{margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-weight:500;font-size:.9rem;line-height:1.26;letter-spacing:-.005em;color:var(--zbs-alt-heading-color);text-wrap:balance;transition:color .3s ease}
 .zbs-alt__note{margin:4px 0 0;font-size:.75rem;line-height:1.4;color:var(--muted)}
 .zbs-alt__price{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.8125rem;font-variant-numeric:tabular-nums}
 .zbs-alt__price-now{color:var(--zbs-alt-wood);font-weight:700}
 .zbs-alt__price-was{color:var(--muted);font-size:.75rem;font-weight:400;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--zbs-alt-text) 38%,transparent)}
+.zbs-alt__product-cta{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:7px 10px;border:1px solid color-mix(in srgb,var(--zbs-alt-accent) 42%,transparent);border-radius:5px;color:var(--zbs-alt-wood);font-family:var(--font-body--family,inherit);font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--zbs-alt-bg) 96%,white);transition:background .3s ease,color .3s ease,border-color .3s ease,transform .3s ease}
+.zbs-alt__product-cta svg{transition:transform .3s ease}
 
 @media(min-width:990px){
   .zbs-alt{padding-block:var(--zbs-alt-pt) var(--zbs-alt-pb)}
@@ -111,21 +128,24 @@
   .zbs-alt__intro{grid-column:1/span 4;position:sticky;top:calc(var(--header-height,0px) + 48px);margin:0;padding-top:clamp(0px,2vw,32px)}
   .zbs-alt__heading{font-size:clamp(2.75rem,4.6vw,var(--zbs-alt-heading))}
   .zbs-alt__text{margin-top:28px;font-size:1rem;max-width:26ch}
-  .zbs-alt__cta{width:fit-content;justify-content:flex-start;gap:22px;margin-top:52px;padding:0 0 12px;border:0;border-bottom:1px solid color-mix(in srgb,var(--zbs-alt-accent) 58%,transparent)}
+  .zbs-alt__cta{width:fit-content;justify-content:center;gap:20px;margin-top:52px;padding:15px 20px;border:1px solid color-mix(in srgb,var(--zbs-alt-accent) 55%,transparent)}
   .zbs-alt__products{grid-column:6/span 7;column-gap:clamp(24px,3.4vw,56px);row-gap:clamp(56px,6vw,104px);padding-bottom:var(--zbs-alt-stagger)}
   .zbs-alt__item:nth-child(even){transform:translateY(var(--zbs-alt-stagger))}
   .zbs-alt__meta{margin-top:18px;padding-top:16px;gap:0 16px}
   .zbs-alt__meta{grid-template-columns:38px minmax(0,1fr) auto;align-items:start}
   .zbs-alt__index{display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid color-mix(in srgb,var(--zbs-alt-accent) 52%,transparent);border-radius:999px;background:color-mix(in srgb,var(--zbs-alt-bg) 94%,white);font-size:.67rem;font-weight:700;letter-spacing:.08em;color:var(--zbs-alt-wood);font-variant-numeric:tabular-nums}
-  .zbs-alt__name{font-size:1.16rem;line-height:1.3}
+  .zbs-alt__name{font-size:1.02rem;line-height:1.28}
   .zbs-alt__price{flex-direction:column;align-items:flex-end;gap:5px;font-size:.9rem;padding-top:3px}
   .zbs-alt__price-was{font-size:.77rem}
 }
 @media(hover:hover) and (min-width:990px){
   .zbs-alt__link:hover .zbs-alt__img{transform:scale(1.035)}
   .zbs-alt__link:hover .zbs-alt__name{color:var(--zbs-alt-accent)}
-  .zbs-alt__cta:hover{color:var(--zbs-alt-accent);border-color:var(--zbs-alt-accent)}
+  .zbs-alt__link:hover .zbs-alt__product-cta{background:var(--zbs-alt-wood);color:#FBF9F6;border-color:var(--zbs-alt-wood);transform:translateY(-1px)}
+  .zbs-alt__link:hover .zbs-alt__product-cta svg{transform:translateX(2px)}
+  .zbs-alt__cta:hover{color:var(--zbs-alt-accent);border-color:var(--zbs-alt-accent);transform:translateY(-4px);box-shadow:0 9px 0 color-mix(in srgb,var(--zbs-alt-wood) 22%,transparent),0 16px 28px color-mix(in srgb,var(--zbs-alt-wood) 15%,transparent)}
   .zbs-alt__cta:hover svg{transform:translateX(4px)}
+  .zbs-alt__cta:active{transform:translateY(2px);box-shadow:0 2px 0 color-mix(in srgb,var(--zbs-alt-wood) 24%,transparent),0 6px 12px color-mix(in srgb,var(--zbs-alt-wood) 10%,transparent)}
 }
 {% endstylesheet %}
 
