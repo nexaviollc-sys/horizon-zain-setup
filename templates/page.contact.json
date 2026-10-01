@@ -6,140 +6,32 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
-    "main": {
-      "type": "main-page",
-      "blocks": {
-        "title": {
-          "type": "text",
-          "name": "t:names.title",
-          "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "content": {
-          "type": "text",
-          "name": "t:names.content",
-          "settings": {
-            "text": "{{ closest.page.content }}",
-            "width": "100%",
-            "max_width": "narrow",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "title",
-        "content"
-      ],
+    "zs_premium_contact": {
+      "type": "zs-premium-contact",
+      "name": "ZS Premium Contact",
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 0
-      }
-    },
-    "form": {
-      "type": "section",
-      "blocks": {
-        "contact_form_UwiCkQ": {
-          "type": "contact-form",
-          "settings": {
-            "width": "custom",
-            "custom_width": 50,
-            "width_mobile": "custom",
-            "custom_width_mobile": 100,
-            "input_style": "default",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "submit-button": {
-              "type": "contact-form-submit-button",
-              "static": true,
-              "settings": {
-                "label": "Submit",
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        }
-      },
-      "block_order": [
-        "contact_form_UwiCkQ"
-      ],
-      "name": "t:names.contact_form",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "background_color": "{{ settings.color_palette.background }}",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 32,
-        "padding-block-end": 84
+        "eyebrow": "ZAISEN Customer Care",
+        "heading": "We’re Here to <em>Help.</em>",
+        "subheading": "<p>Questions about a handcrafted piece, an existing order, or choosing the right gift? Send us a message and our team will help you with care.</p>",
+        "contact_email": "zaisenstore@gmail.com",
+        "response_text": "Friendly help for product and order questions",
+        "order_text": "Include your order number for faster assistance",
+        "note_title": "Natural wood has its own character",
+        "note_text": "Small variations in grain, tone and handcrafted detail are part of what makes each ZAISEN piece unique.",
+        "form_kicker": "Send a message",
+        "form_heading": "Tell us what you need",
+        "form_text": "Share the details below and we’ll make sure your message reaches the right place.",
+        "bg_color": "#FBF9F6",
+        "surface_color": "#FFFDFC",
+        "text_color": "#2C2A29",
+        "muted_color": "#6F6861",
+        "accent_color": "#A8794A",
+        "deep_wood": "#6F4932"
       }
     }
   },
-  "order": [
-    "main",
-    "form"
-  ]
+  "order": ["zs_premium_contact"]
 }
