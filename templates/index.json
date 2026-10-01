@@ -39,9 +39,89 @@
         "text_color": "#2C2A29",
         "accent_color": "#A8794A"
       }
+    },
+    "zs_shop_by_collection_H8pQ2A": {
+      "type": "zs-shop-by-collection",
+      "name": "ZS Shop by Collection",
+      "settings": {
+        "eyebrow": "Discover ZAISEN",
+        "heading": "Shop by <em>Collection.</em>",
+        "description": "Handcrafted pieces for lighting, dining, decorating and gifting — designed to bring natural warmth into everyday spaces.",
+        "footer_text": "Handcrafted in wood • designed for the home",
+        "background_color": "#F7F2EC",
+        "surface_color": "#FFFDFC",
+        "text_color": "#2C2A29",
+        "muted_color": "#6F6861",
+        "accent_color": "#A8794A"
+      },
+      "blocks": {
+        "lighting": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "lighting",
+            "image_override": "",
+            "title": "Lighting",
+            "subtitle": "Sculptural wooden light"
+          }
+        },
+        "kitchen": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "kitchen-dining",
+            "image_override": "",
+            "title": "Kitchen & Dining",
+            "subtitle": "Crafted for everyday rituals"
+          }
+        },
+        "clocks": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "wall-clocks",
+            "image_override": "",
+            "title": "Wall Clocks",
+            "subtitle": "Natural timekeeping, shaped by hand"
+          }
+        },
+        "drinkware": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "wooden-drinkware",
+            "image_override": "",
+            "title": "Wooden Drinkware",
+            "subtitle": "Warm wood for serving & sharing"
+          }
+        },
+        "decor": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "home-decor",
+            "image_override": "",
+            "title": "Home Decor",
+            "subtitle": "Natural accents for thoughtful spaces"
+          }
+        },
+        "gifts": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "gifts",
+            "image_override": "",
+            "title": "Gifts",
+            "subtitle": "Handcrafted pieces worth remembering"
+          }
+        }
+      },
+      "block_order": [
+        "lighting",
+        "kitchen",
+        "clocks",
+        "drinkware",
+        "decor",
+        "gifts"
+      ]
     }
   },
   "order": [
-    "zs_3d_hero_t3gPQN"
+    "zs_3d_hero_t3gPQN",
+    "zs_shop_by_collection_H8pQ2A"
   ]
 }
