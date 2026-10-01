@@ -221,6 +221,37 @@
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--zs-header-accent) 28%, transparent);
   }
 
+
+  /* Mobile logo breathing room */
+  @media screen and (max-width: 749px) {
+    .header--zaisen .header__row--top {
+      min-height: 88px;
+    }
+
+    .header--zaisen .header__columns {
+      min-height: 88px;
+      align-items: center;
+    }
+
+    .header--zaisen .header__column--center {
+      padding-block: 6px;
+    }
+
+    .header--zaisen .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: 4px;
+    }
+
+    .header--zaisen .header-logo__image {
+      display: block;
+      width: auto;
+      height: auto;
+      max-height: 74px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .header--zaisen .menu-list__link-title::after,
     .header--zaisen .header-actions__action:not(.dropdown-localization__button) {
