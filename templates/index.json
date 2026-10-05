@@ -208,11 +208,60 @@
         "padding_top": 128,
         "padding_bottom": 128
       }
+    },
+    "zs_our_craft_1": {
+      "type": "zs-our-craft",
+      "blocks": {
+        "p1": {
+          "type": "principle",
+          "settings": {
+            "title": "Pure Wood",
+            "text": "Natural materials selected for warmth, grain and individual character."
+          }
+        },
+        "p2": {
+          "type": "principle",
+          "settings": {
+            "title": "Handcrafted",
+            "text": "Shaped and finished with attention to detail rather than mass-produced uniformity."
+          }
+        },
+        "p3": {
+          "type": "principle",
+          "settings": {
+            "title": "Timeless Design",
+            "text": "Quiet, sculptural forms created to feel relevant beyond short-lived trends."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "name": "ZAISEN Our Craft",
+      "settings": {
+        "eyebrow": "The ZAISEN Way",
+        "heading": "Crafted Slowly. <em>Made to Last.</em>",
+        "text": "<p>We create wooden pieces with a quiet confidence — shaped by hand, guided by natural grain, and designed to bring warmth and character into modern spaces.</p>",
+        "quote": "Made by hand. Meant to stay.",
+        "side_note": "Natural material • considered form",
+        "image_alt": "Handcrafted wooden pieces by ZAISEN",
+        "button_label": "Discover Our Story",
+        "bg_color": "#F6F1E7",
+        "text_color": "#2C2A29",
+        "accent_color": "#A8794A",
+        "wood_color": "#7A5238",
+        "line_color": "#D8C7B3",
+        "padding_top": 112,
+        "padding_bottom": 112
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
-    "zs_best_sellers_alt_4x"
+    "zs_best_sellers_alt_4x",
+    "zs_our_craft_1"
   ]
 }
