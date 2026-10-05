@@ -41,9 +41,9 @@
         {% endif %}
 
         <div class="zs-craft__seal" aria-hidden="true">
-          <span class="zs-craft__seal-small">HANDCRAFTED</span>
+          <span class="zs-craft__seal-small">HAND FINISHED</span>
           <span class="zs-craft__seal-mark">ZS</span>
-          <span class="zs-craft__seal-small">PURE WOOD</span>
+          <span class="zs-craft__seal-small">NATURAL WOOD</span>
         </div>
       </div>
 
@@ -103,7 +103,10 @@
 {% stylesheet %}
   .zs-craft {
     --zs-craft-max: 1500px;
-    background: var(--zs-craft-bg, #f6f1e7);
+    background:
+      radial-gradient(900px 520px at 88% 18%, color-mix(in srgb, var(--zs-craft-accent) 10%, transparent), transparent 68%),
+      radial-gradient(760px 520px at 8% 86%, color-mix(in srgb, var(--zs-craft-wood) 7%, transparent), transparent 70%),
+      var(--zs-craft-bg, #f6f1e7);
     color: var(--zs-craft-text, #2c2a29);
     padding-block: var(--zs-craft-pt) var(--zs-craft-pb);
     border-top: 1px solid color-mix(in srgb, var(--zs-craft-line) 70%, transparent);
@@ -240,8 +243,34 @@
   }
 
   .zs-craft__content {
-    max-width: 650px;
+    position: relative;
+    max-width: 680px;
     margin-inline: auto;
+    padding: clamp(28px, 4vw, 52px);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, white 58%, var(--zs-craft-line));
+    border-radius: 28px;
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, white 64%, transparent),
+        color-mix(in srgb, var(--zs-craft-bg) 72%, transparent)
+      );
+    box-shadow:
+      0 30px 70px color-mix(in srgb, var(--zs-craft-wood) 9%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.72),
+      inset 0 -1px 0 color-mix(in srgb, var(--zs-craft-accent) 8%, transparent);
+    backdrop-filter: blur(14px) saturate(112%);
+    -webkit-backdrop-filter: blur(14px) saturate(112%);
+  }
+
+  .zs-craft__content::before {
+    content: '';
+    position: absolute;
+    inset: 0 12% auto;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.88), transparent);
   }
 
   .zs-craft__eyebrow {
@@ -253,7 +282,7 @@
     font-weight: 700;
     letter-spacing: .23em;
     text-transform: uppercase;
-    color: var(--zs-craft-accent);
+    color: color-mix(in srgb, var(--zs-craft-accent) 92%, var(--zs-craft-text));
   }
 
   .zs-craft__eyebrow-line {
@@ -263,7 +292,7 @@
   }
 
   .zs-craft__heading {
-    max-width: 12ch;
+    max-width: 13ch;
     margin: 0;
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
     font-size: clamp(42px, 10vw, 64px);
@@ -285,37 +314,57 @@
     margin-top: 24px;
     font-size: 15.5px;
     line-height: 1.78;
-    color: color-mix(in srgb, var(--zs-craft-text) 73%, transparent);
+    color: color-mix(in srgb, var(--zs-craft-text) 76%, transparent);
   }
 
   .zs-craft__lead p { margin: 0; }
 
   .zs-craft__principles {
-    margin-top: 36px;
-    border-top: 1px solid color-mix(in srgb, var(--zs-craft-line) 70%, transparent);
+    display: grid;
+    gap: 10px;
+    margin-top: 34px;
   }
 
   .zs-craft__principle {
     display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
+    grid-template-columns: 46px minmax(0, 1fr);
     gap: 16px;
-    padding: 22px 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--zs-craft-line) 70%, transparent);
+    padding: 18px 20px;
+    border: 1px solid color-mix(in srgb, white 56%, var(--zs-craft-line));
+    border-radius: 16px;
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, white 52%, transparent),
+        color-mix(in srgb, var(--zs-craft-bg) 68%, transparent)
+      );
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.62),
+      0 8px 24px color-mix(in srgb, var(--zs-craft-wood) 4%, transparent);
+    transition: border-color .28s ease, transform .28s ease, box-shadow .28s ease;
   }
 
   .zs-craft__index {
-    padding-top: 3px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .15em;
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin-top: 1px;
+    border: 1px solid color-mix(in srgb, var(--zs-craft-accent) 28%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, white 38%, transparent);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: .12em;
     color: var(--zs-craft-accent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
   }
 
   .zs-craft__principle h3 {
     margin: 0;
     font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 23px;
+    font-weight: 520;
     line-height: 1.1;
     color: var(--zs-craft-text);
   }
@@ -329,12 +378,25 @@
   }
 
   .zs-craft__quote {
-    margin: 28px 0 0;
+    position: relative;
+    margin: 30px 0 0;
+    padding-top: 18px;
     font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 18px;
+    font-size: 20px;
     font-style: italic;
-    line-height: 1.45;
-    color: var(--zs-craft-accent);
+    line-height: 1.4;
+    letter-spacing: -.01em;
+    color: color-mix(in srgb, var(--zs-craft-accent) 86%, var(--zs-craft-text));
+  }
+
+  .zs-craft__quote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--zs-craft-accent), transparent);
   }
 
   .zs-craft__link {
@@ -355,6 +417,13 @@
   .zs-craft__link svg { transition: transform .25s ease; }
 
   @media (hover:hover) and (pointer:fine) {
+    .zs-craft__principle:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--zs-craft-accent) 32%, white);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.72),
+        0 14px 30px color-mix(in srgb, var(--zs-craft-wood) 7%, transparent);
+    }
     .zs-craft__link:hover svg { transform: translateX(3px); }
   }
 
@@ -380,7 +449,8 @@
     .zs-craft__seal-mark { font-size: 24px; }
     .zs-craft__heading { font-size: clamp(42px, 12vw, 56px); }
     .zs-craft__lead { font-size: 14.5px; }
-    .zs-craft__principle { padding: 19px 0; }
+    .zs-craft__content { padding: 26px 22px; border-radius: 22px; }
+    .zs-craft__principle { padding: 16px 15px; }
     .zs-craft__principle h3 { font-size: 21px; }
     .zs-craft__side-note { display: none; }
   }
@@ -397,19 +467,19 @@
   "class": "section-zaisen-our-craft",
   "max_blocks": 3,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The ZAISEN Way" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Crafted Slowly. <em>Made to Last.</em>" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Art of ZAISEN" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Crafted by Nature. <em>Refined by Hand.</em>" },
     {
       "type": "richtext",
       "id": "text",
       "label": "Introduction",
-      "default": "<p>We create wooden pieces with a quiet confidence — shaped by hand, guided by natural grain, and designed to bring warmth and character into modern spaces.</p>"
+      "default": "<p>At ZAISEN, wood is never treated as a blank surface. We preserve its grain, tone and natural variation, then shape each piece by hand into objects with quiet presence — considered for today and made to age beautifully.</p>"
     },
-    { "type": "text", "id": "quote", "label": "Closing line", "default": "Made by hand. Meant to stay." },
-    { "type": "text", "id": "side_note", "label": "Image side note", "default": "Natural material • considered form" },
+    { "type": "text", "id": "quote", "label": "Closing line", "default": "Objects with presence. Craft with permanence." },
+    { "type": "text", "id": "side_note", "label": "Image side note", "default": "Natural grain • human craft • enduring form" },
     { "type": "image_picker", "id": "image", "label": "Craft image" },
     { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Handcrafted wooden pieces by ZAISEN" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Discover Our Story" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore the Craft" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#F6F1E7" },
@@ -426,8 +496,8 @@
       "type": "principle",
       "name": "Craft principle",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Pure Wood" },
-        { "type": "text", "id": "text", "label": "Text", "default": "Natural materials selected for warmth, grain and individual character." }
+        { "type": "text", "id": "title", "label": "Title", "default": "Material Integrity" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Chosen for authentic grain, natural warmth and the individual character that makes every piece distinct." }
       ]
     }
   ],
@@ -435,9 +505,9 @@
     {
       "name": "ZAISEN Our Craft",
       "blocks": [
-        { "type": "principle", "settings": { "title": "Pure Wood", "text": "Natural materials selected for warmth, grain and individual character." } },
-        { "type": "principle", "settings": { "title": "Handcrafted", "text": "Shaped and finished with attention to detail rather than mass-produced uniformity." } },
-        { "type": "principle", "settings": { "title": "Timeless Design", "text": "Quiet, sculptural forms created to feel relevant beyond short-lived trends." } }
+        { "type": "principle", "settings": { "title": "Material Integrity", "text": "Chosen for authentic grain, natural warmth and the individual character that makes every piece distinct." } },
+        { "type": "principle", "settings": { "title": "Hand-Finished Detail", "text": "Edges, surfaces and proportions are refined by hand for a tactile, considered finish." } },
+        { "type": "principle", "settings": { "title": "Enduring Form", "text": "Sculptural silhouettes designed to live naturally with modern interiors and age with character." } }
       ]
     }
   ]
