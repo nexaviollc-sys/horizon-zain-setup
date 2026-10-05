@@ -260,6 +260,18 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* Keep the premium entrance motion, but never hide likely LCP candidates
+     (hero heading/media) behind an opacity animation. They paint immediately. */
+  .zs-hero2__heading.zs-hero2__rise,
+  .zs-hero2__media.zs-hero2__rise {
+    animation-name: zs-hero2-critical-rise;
+  }
+
+  @keyframes zs-hero2-critical-rise {
+    from { transform: translateY(18px); }
+    to { transform: translateY(0); }
+  }
+
   /* ---------- Content ---------- */
   .zs-hero2__content {
     display: flex;
