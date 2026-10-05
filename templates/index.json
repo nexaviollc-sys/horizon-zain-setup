@@ -267,14 +267,13 @@
         "offer_label": "SAVE 60%",
         "price_note": "Signature ZAISEN art piece • limited batch",
         "button_label": "Visit Product",
-        "gallery_label": "Handcrafted Art Piece",
         "bg_color": "#f5f0e7",
         "text_color": "#2c2a29",
         "accent_color": "#a8794a",
         "wood_color": "#7a5238",
         "line_color": "#d8c7b3",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "padding_top": 52,
+        "padding_bottom": 52
       }
     }
   },
