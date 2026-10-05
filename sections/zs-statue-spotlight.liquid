@@ -157,10 +157,8 @@
         color-mix(in srgb, var(--zs-statue-bg) 92%, transparent)
       );
     box-shadow:
-      0 22px 48px color-mix(in srgb, var(--zs-statue-wood) 8%, transparent),
-      0 2px 8px color-mix(in srgb, var(--zs-statue-wood) 4%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.94),
-      inset 0 -1px 0 color-mix(in srgb, var(--zs-statue-accent) 8%, transparent);
+      0 14px 34px color-mix(in srgb, var(--zs-statue-wood) 7%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.9);
     transform: translateZ(0);
     transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
   }
@@ -169,10 +167,10 @@
     content: '';
     position: absolute;
     z-index: 4;
-    inset: 0 18% auto;
+    inset: 0 22% auto;
     height: 1px;
     pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.96), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.82), transparent);
   }
 
   .zs-statue__gallery-wrap {
@@ -265,89 +263,38 @@
 
   .zs-statue__content {
     position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 30px 34px;
-    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 55%, transparent);
+    padding: 28px 32px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 48%, transparent);
     background:
-      radial-gradient(430px 260px at 16% 14%, color-mix(in srgb, white 88%, transparent), transparent 68%),
-      radial-gradient(360px 280px at 92% 88%, color-mix(in srgb, var(--zs-statue-accent) 8%, transparent), transparent 72%),
-      linear-gradient(145deg, rgba(255,255,255,.44), rgba(248,243,235,.18));
+      linear-gradient(145deg, rgba(255,255,255,.52), rgba(248,243,235,.16));
   }
 
-  .zs-statue__content::before {
-    content: 'ZS';
-    position: absolute;
-    z-index: -1;
-    right: -18px;
-    top: 50%;
-    transform: translateY(-52%);
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: clamp(150px, 18vw, 245px);
-    font-weight: 500;
-    line-height: .8;
-    letter-spacing: -.08em;
-    color: transparent;
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--zs-statue-wood) 7%, transparent);
-    text-shadow:
-      1px 1px 0 rgba(255,255,255,.64),
-      -1px -1px 0 color-mix(in srgb, var(--zs-statue-wood) 3%, transparent);
-    opacity: .72;
-    pointer-events: none;
-  }
-
-  .zs-statue__content::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -56px;
-    bottom: -92px;
-    width: 260px;
-    height: 180px;
-    border-radius: 50%;
-    border: 1px solid color-mix(in srgb, var(--zs-statue-accent) 10%, transparent);
-    box-shadow:
-      0 0 0 22px color-mix(in srgb, var(--zs-statue-accent) 4%, transparent),
-      0 0 0 44px color-mix(in srgb, var(--zs-statue-accent) 2.5%, transparent);
-    transform: rotate(-14deg);
-    pointer-events: none;
-  }
 
   .zs-statue__kicker {
-    position: relative;
     display: block;
-    width: 40px;
-    height: 2px;
-    margin-bottom: 15px;
-    border-radius: 999px;
-    background:
-      linear-gradient(90deg,
-        color-mix(in srgb, var(--zs-statue-accent) 72%, #6d452b),
-        color-mix(in srgb, var(--zs-statue-accent) 92%, white)
-      );
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.82),
-      0 3px 9px color-mix(in srgb, var(--zs-statue-accent) 14%, transparent);
+    width: 36px;
+    height: 1px;
+    margin-bottom: 14px;
+    background: color-mix(in srgb, var(--zs-statue-accent) 82%, var(--zs-statue-wood));
   }
 
   .zs-statue__heading {
     max-width: none;
     margin: 0;
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(38px, 3.5vw, 48px);
+    font-size: clamp(36px, 3.15vw, 44px);
     font-weight: 500;
     line-height: .98;
     letter-spacing: -.03em;
     color: var(--zs-statue-text);
     text-wrap: balance;
-    text-shadow: 0 1px 0 rgba(255,255,255,.68);
   }
 
   .zs-statue__description {
     max-width: 43ch;
-    margin-top: 14px;
-    font-size: 12.9px;
-    line-height: 1.56;
+    margin-top: 12px;
+    font-size: 12.8px;
+    line-height: 1.52;
     color: color-mix(in srgb, var(--zs-statue-text) 70%, transparent);
   }
 
@@ -357,11 +304,10 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 14px;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 54%, transparent);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.48);
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 46%, transparent);
   }
 
   .zs-statue__price-row {
@@ -378,7 +324,6 @@
     line-height: 1;
     letter-spacing: -.02em;
     color: var(--zs-statue-wood);
-    text-shadow: 0 1px 0 rgba(255,255,255,.7);
   }
 
   .zs-statue__compare {
@@ -447,40 +392,31 @@
   .zs-statue__cta-icon {
     display: grid;
     place-items: center;
-    width: 25px;
-    height: 25px;
-    border: 1px solid rgba(255,255,255,.2);
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: rgba(255,255,255,.06);
+    background: rgba(255,255,255,.08);
   }
 
   .zs-statue__cta.is-disabled { opacity: .55; }
 
   @media (hover:hover) and (pointer:fine) {
     .zs-statue__card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-1px);
       box-shadow:
-        0 28px 58px color-mix(in srgb, var(--zs-statue-wood) 10%, transparent),
-        0 3px 9px color-mix(in srgb, var(--zs-statue-wood) 4%, transparent),
-        inset 0 1px 0 rgba(255,255,255,.95);
+        0 18px 40px color-mix(in srgb, var(--zs-statue-wood) 8%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.92);
     }
 
     .zs-statue__cta:hover {
-      transform: translateY(-4px);
-      filter: saturate(1.04);
-      box-shadow:
-        0 10px 0 color-mix(in srgb, var(--zs-statue-wood) 70%, black),
-        0 16px 28px color-mix(in srgb, var(--zs-statue-wood) 18%, transparent),
-        inset 0 1px 0 rgba(255,255,255,.2),
-        inset 0 -1px 0 rgba(0,0,0,.16);
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--zs-statue-wood) 92%, black);
+      box-shadow: 0 8px 18px color-mix(in srgb, var(--zs-statue-wood) 13%, transparent);
     }
 
     .zs-statue__cta:active {
-      transform: translateY(4px);
-      box-shadow:
-        0 2px 0 color-mix(in srgb, var(--zs-statue-wood) 72%, black),
-        0 6px 12px color-mix(in srgb, var(--zs-statue-wood) 11%, transparent),
-        inset 0 1px 0 rgba(255,255,255,.14);
+      transform: translateY(0);
+      box-shadow: 0 3px 8px color-mix(in srgb, var(--zs-statue-wood) 9%, transparent);
     }
 
     .zs-statue__arrow:hover {
@@ -499,28 +435,28 @@
     }
 
     .zs-statue__card {
-      grid-template-columns: minmax(0, 1fr) 440px;
+      grid-template-columns: minmax(0, 1fr) 410px;
       align-items: stretch;
-      max-height: 440px;
+      max-height: 410px;
     }
 
     .zs-statue__gallery-wrap {
       order: 2;
-      width: 440px;
-      height: 440px;
+      width: 410px;
+      height: 410px;
       display: block;
       border-left: 1px solid color-mix(in srgb, var(--zs-statue-line) 48%, transparent);
       background: #fff;
     }
 
     .zs-statue__gallery {
-      width: 440px;
-      height: 440px;
+      width: 410px;
+      height: 410px;
     }
 
     .zs-statue__slide {
-      width: 440px;
-      height: 440px;
+      width: 410px;
+      height: 410px;
       aspect-ratio: 1 / 1;
     }
 
@@ -529,13 +465,13 @@
       display: flex;
       min-height: 0;
       flex-direction: column;
-      justify-content: center;
-      padding: 30px 36px;
+      justify-content: flex-start;
+      padding: 34px 36px 30px;
       border-top: 0;
     }
 
     .zs-statue__purchase {
-      margin-top: 20px;
+      margin-top: 16px;
     }
   }
 
@@ -572,20 +508,7 @@
     }
 
     .zs-statue__content {
-      padding: 19px 17px 18px;
-    }
-
-    .zs-statue__content::before {
-      right: -12px;
-      top: 46%;
-      font-size: 132px;
-      opacity: .5;
-    }
-
-    .zs-statue__content::after {
-      left: -74px;
-      bottom: -112px;
-      transform: scale(.8) rotate(-14deg);
+      padding: 18px 17px 17px;
     }
 
     .zs-statue__kicker {
@@ -595,23 +518,23 @@
 
     .zs-statue__heading {
       max-width: 11ch;
-      font-size: clamp(33px, 9.2vw, 39px);
+      font-size: clamp(32px, 8.8vw, 37px);
       line-height: .99;
     }
 
     .zs-statue__description {
-      margin-top: 13px;
+      margin-top: 11px;
       max-width: 100%;
-      font-size: 12.8px;
-      line-height: 1.55;
+      font-size: 12.6px;
+      line-height: 1.5;
     }
 
     .zs-statue__purchase {
       align-items: stretch;
       flex-direction: column;
-      gap: 14px;
-      margin-top: 18px;
-      padding-top: 15px;
+      gap: 12px;
+      margin-top: 15px;
+      padding-top: 13px;
     }
 
     .zs-statue__price {
