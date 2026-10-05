@@ -265,15 +265,14 @@
         "heading": "Handcrafted Wooden Horse Sculpture",
         "description": "<p>One of ZAISEN’s signature art pieces, this handcrafted wooden horse captures movement, strength and character in a sculptural form. Natural grain and hand-finished detail give every piece a distinctive presence — made to stand apart in refined interiors.</p>",
         "offer_label": "SAVE 60%",
-        "price_note": "Signature ZAISEN art piece • limited batch",
         "button_label": "Visit Product",
         "bg_color": "#f5f0e7",
         "text_color": "#2c2a29",
         "accent_color": "#a8794a",
         "wood_color": "#7a5238",
         "line_color": "#d8c7b3",
-        "padding_top": 40,
-        "padding_bottom": 40
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     }
   },
