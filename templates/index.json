@@ -215,22 +215,22 @@
         "p1": {
           "type": "principle",
           "settings": {
-            "title": "Pure Wood",
-            "text": "Natural materials selected for warmth, grain and individual character."
+            "title": "Material Integrity",
+            "text": "Chosen for authentic grain, natural warmth and the individual character that makes every piece distinct."
           }
         },
         "p2": {
           "type": "principle",
           "settings": {
-            "title": "Handcrafted",
-            "text": "Shaped and finished with attention to detail rather than mass-produced uniformity."
+            "title": "Hand-Finished Detail",
+            "text": "Edges, surfaces and proportions are refined by hand for a tactile, considered finish."
           }
         },
         "p3": {
           "type": "principle",
           "settings": {
-            "title": "Timeless Design",
-            "text": "Quiet, sculptural forms created to feel relevant beyond short-lived trends."
+            "title": "Enduring Form",
+            "text": "Sculptural silhouettes designed to live naturally with modern interiors and age with character."
           }
         }
       },
@@ -241,13 +241,13 @@
       ],
       "name": "ZAISEN Our Craft",
       "settings": {
-        "eyebrow": "The ZAISEN Way",
-        "heading": "Crafted Slowly. <em>Made to Last.</em>",
-        "text": "<p>We create wooden pieces with a quiet confidence — shaped by hand, guided by natural grain, and designed to bring warmth and character into modern spaces.</p>",
-        "quote": "Made by hand. Meant to stay.",
-        "side_note": "Natural material • considered form",
+        "eyebrow": "The Art of ZAISEN",
+        "heading": "Crafted by Nature. <em>Refined by Hand.</em>",
+        "text": "<p>At ZAISEN, wood is never treated as a blank surface. We preserve its grain, tone and natural variation, then shape each piece by hand into objects with quiet presence — considered for today and made to age beautifully.</p>",
+        "quote": "Objects with presence. Craft with permanence.",
+        "side_note": "Natural grain • human craft • enduring form",
         "image_alt": "Handcrafted wooden pieces by ZAISEN",
-        "button_label": "Discover Our Story",
+        "button_label": "Explore the Craft",
         "bg_color": "#F6F1E7",
         "text_color": "#2C2A29",
         "accent_color": "#A8794A",
