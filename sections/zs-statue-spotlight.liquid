@@ -367,35 +367,29 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 40px;
-    padding: 7px 8px 7px 13px;
-    border: 1px solid color-mix(in srgb, var(--zs-statue-wood) 76%, black);
-    border-radius: 9px;
-    background:
-      linear-gradient(180deg, color-mix(in srgb, var(--zs-statue-wood) 97%, white), color-mix(in srgb, var(--zs-statue-wood) 91%, black));
+    gap: 9px;
+    min-height: 39px;
+    padding: 8px 9px 8px 14px;
+    border: 1px solid color-mix(in srgb, var(--zs-statue-wood) 54%, transparent);
+    border-radius: 8px;
+    background: var(--zs-statue-wood);
     color: #fbf9f6;
     text-decoration: none;
-    font-size: 9.5px;
-    font-weight: 760;
-    letter-spacing: .115em;
+    font-size: 9px;
+    font-weight: 720;
+    letter-spacing: .105em;
     text-transform: uppercase;
-    box-shadow:
-      0 9px 0 color-mix(in srgb, var(--zs-statue-wood) 72%, black),
-      0 14px 24px color-mix(in srgb, var(--zs-statue-wood) 15%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.18),
-      inset 0 -1px 0 rgba(0,0,0,.16);
-    transform: translateY(-3px);
-    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--zs-statue-wood) 10%, transparent);
+    transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
   }
 
   .zs-statue__cta-icon {
     display: grid;
     place-items: center;
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
-    background: rgba(255,255,255,.08);
+    background: rgba(255,255,255,.07);
   }
 
   .zs-statue__cta.is-disabled { opacity: .55; }
