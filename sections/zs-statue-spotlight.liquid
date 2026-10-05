@@ -112,6 +112,7 @@
         >
           {% if product != blank and product.images.size > 0 %}
             {% for image in product.images limit: 5 %}
+              {% assign gallery_alt = image.alt | default: product.title %}
               <figure class="zs-statue__slide" data-zs-statue-slide>
                 {{
                   image
@@ -121,7 +122,7 @@
                     widths: '420, 640, 820, 1040, 1200, 1400',
                     sizes: '(max-width: 989px) 94vw, 48vw',
                     loading: 'lazy',
-                    alt: image.alt | default: product.title
+                    alt: gallery_alt
                 }}
               </figure>
             {% endfor %}
