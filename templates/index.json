@@ -259,54 +259,15 @@
     },
     "zs_statue_spotlight_1": {
       "type": "zs-statue-spotlight",
-      "blocks": {
-        "d1": {
-          "type": "detail",
-          "settings": {
-            "title": "Hand-Finished Craft",
-            "text": "Detailed by hand for depth, texture and character."
-          }
-        },
-        "d2": {
-          "type": "detail",
-          "settings": {
-            "title": "Rearing Horse Form",
-            "text": "An expressive equestrian silhouette with strong sculptural movement."
-          }
-        },
-        "d3": {
-          "type": "detail",
-          "settings": {
-            "title": "Natural Wood Grain",
-            "text": "Warm tones and visible grain give every piece an individual presence."
-          }
-        },
-        "d4": {
-          "type": "detail",
-          "settings": {
-            "title": "Statement Decor",
-            "text": "Designed for consoles, shelves, living rooms and executive spaces."
-          }
-        }
-      },
-      "block_order": [
-        "d1",
-        "d2",
-        "d3",
-        "d4"
-      ],
       "name": "ZAISEN Statue Spotlight",
       "settings": {
         "product": "handcrafted-wooden-horse-statue",
-        "eyebrow": "Signature Sculpture",
-        "heading": "Handcrafted Wooden Horse Statue",
-        "subheading": "A sculptural statement in natural wood.",
-        "description": "<p>A dramatic rearing horse sculpture shaped to bring movement, natural warmth and artistic presence into refined interiors. Rich wood grain, expressive carving and a sculptural silhouette make it a distinctive statement for consoles, shelves, offices and living spaces.</p>",
+        "heading": "Handcrafted Wooden Horse Sculpture",
+        "description": "<p>One of ZAISEN’s signature art pieces, this handcrafted wooden horse captures movement, strength and character in a sculptural form. Natural grain and hand-finished detail give every piece a distinctive presence — made to stand apart in refined interiors.</p>",
         "offer_label": "60% OFF",
         "price_note": "Signature ZAISEN art piece • limited batch",
-        "button_label": "Shop This Sculpture",
+        "button_label": "Visit Product",
         "gallery_label": "Handcrafted Art Piece",
-        "microcopy": "Natural wood grain makes every piece visually distinctive.",
         "bg_color": "#f5f0e7",
         "text_color": "#2c2a29",
         "accent_color": "#a8794a",
