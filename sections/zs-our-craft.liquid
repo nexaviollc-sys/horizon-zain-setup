@@ -61,7 +61,14 @@
       {% endif %}
 
       {% if s.heading != blank %}
-        <h2 class="zs-craft__heading">{{ s.heading }}</h2>
+        <h2 class="zs-craft__heading">
+          {% if s.heading contains 'Crafted by Nature.' and s.heading contains 'Refined by Hand.' %}
+            <span class="zs-craft__heading-line">Crafted by Nature.</span>
+            <em class="zs-craft__heading-line">Refined by Hand.</em>
+          {% else %}
+            {{ s.heading }}
+          {% endif %}
+        </h2>
       {% endif %}
 
       {% if s.text != blank %}
@@ -303,6 +310,11 @@
     text-wrap: balance;
   }
 
+  .zs-craft__heading-line {
+    display: block;
+    white-space: nowrap;
+  }
+
   .zs-craft__heading em {
     font-style: italic;
     font-weight: 450;
@@ -430,23 +442,24 @@
   @media (min-width: 990px) {
     .zs-craft__inner {
       width: min(calc(100% - 96px), var(--zs-craft-max));
-      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-      gap: clamp(58px, 6vw, 108px);
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: clamp(48px, 5vw, 84px);
     }
 
     .zs-craft__content { margin-inline: 0; }
-    .zs-craft__heading { font-size: clamp(50px, 4.8vw, 72px); }
-    .zs-craft__frame { aspect-ratio: 5 / 6; max-height: 760px; }
+    .zs-craft__heading { font-size: clamp(46px, 4.25vw, 64px); }
+    .zs-craft__frame { aspect-ratio: 5 / 6; max-height: 680px; }
+    .zs-craft__content { padding: clamp(34px, 3.2vw, 44px); }
   }
 
   @media (max-width: 749px) {
     .zs-craft {
-      padding-block: 58px 62px;
+      padding-block: 52px 56px;
     }
 
     .zs-craft__inner {
       width: min(calc(100% - 28px), var(--zs-craft-max));
-      gap: 24px;
+      gap: 20px;
     }
 
     .zs-craft__frame {
@@ -475,7 +488,7 @@
     .zs-craft__seal-small { font-size: 5.8px; letter-spacing: .14em; }
 
     .zs-craft__content {
-      padding: 22px 18px 21px;
+      padding: 20px 18px 19px;
       border-radius: 20px;
     }
 
@@ -489,9 +502,16 @@
     .zs-craft__eyebrow-line { width: 26px; }
 
     .zs-craft__heading {
-      max-width: 11ch;
-      font-size: clamp(38px, 10.8vw, 46px);
-      line-height: 1;
+      max-width: none;
+      width: 100%;
+      font-size: clamp(34px, 9.25vw, 40px);
+      line-height: .98;
+      letter-spacing: -.028em;
+    }
+
+    .zs-craft__heading-line {
+      width: 100%;
+      white-space: nowrap;
     }
 
     .zs-craft__lead {
@@ -503,7 +523,7 @@
 
     .zs-craft__principles {
       gap: 8px;
-      margin-top: 24px;
+      margin-top: 21px;
     }
 
     .zs-craft__principle {
@@ -531,8 +551,8 @@
     }
 
     .zs-craft__quote {
-      margin-top: 21px;
-      padding-top: 14px;
+      margin-top: 18px;
+      padding-top: 13px;
       font-size: 17px;
       line-height: 1.35;
     }
@@ -559,7 +579,7 @@
     }
 
     .zs-craft__heading {
-      font-size: clamp(36px, 10.4vw, 42px);
+      font-size: clamp(31px, 8.9vw, 35px);
     }
 
     .zs-craft__content {
