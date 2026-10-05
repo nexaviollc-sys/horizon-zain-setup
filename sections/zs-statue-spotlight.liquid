@@ -22,44 +22,14 @@
   <div class="zs-statue__shell">
     <div class="zs-statue__layout">
       <div class="zs-statue__content">
-        {% if s.eyebrow != blank %}
-          <p class="zs-statue__eyebrow">
-            <span class="zs-statue__eyebrow-line" aria-hidden="true"></span>
-            {{ s.eyebrow | escape }}
-          </p>
-        {% endif %}
-
         {% if s.heading != blank %}
           <h2 class="zs-statue__heading">{{ s.heading }}</h2>
         {% elsif product != blank %}
           <h2 class="zs-statue__heading">{{ product.title | escape }}</h2>
         {% endif %}
-
-        {% if s.subheading != blank %}
-          <p class="zs-statue__subheading">{{ s.subheading | escape }}</p>
-        {% endif %}
-
         {% if s.description != blank %}
           <div class="zs-statue__description">{{ s.description }}</div>
         {% endif %}
-
-        <div class="zs-statue__details" role="list" aria-label="Product highlights">
-          {% for block in section.blocks %}
-            {% if block.type == 'detail' %}
-              <div class="zs-statue__detail" role="listitem" {{ block.shopify_attributes }}>
-                <span class="zs-statue__detail-index">{{ forloop.index | prepend: '0' }}</span>
-                <div>
-                  {% if block.settings.title != blank %}
-                    <h3>{{ block.settings.title | escape }}</h3>
-                  {% endif %}
-                  {% if block.settings.text != blank %}
-                    <p>{{ block.settings.text | escape }}</p>
-                  {% endif %}
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
 
         <div class="zs-statue__purchase">
           <div class="zs-statue__price-wrap">
@@ -97,10 +67,6 @@
             </span>
           {% endif %}
         </div>
-
-        {% if s.microcopy != blank %}
-          <p class="zs-statue__microcopy">{{ s.microcopy | escape }}</p>
-        {% endif %}
       </div>
 
       <div class="zs-statue__gallery-wrap">
@@ -186,56 +152,27 @@
 
   .zs-statue__content {
     position: relative;
-    max-width: 650px;
-    padding: clamp(28px, 4vw, 46px);
-    border: 1px solid color-mix(in srgb, white 58%, var(--zs-statue-line));
-    border-radius: 28px;
-    background:
-      linear-gradient(145deg, color-mix(in srgb, white 62%, transparent), color-mix(in srgb, var(--zs-statue-bg) 78%, transparent));
-    box-shadow:
-      0 26px 60px color-mix(in srgb, var(--zs-statue-wood) 8%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.76),
-      inset 0 -1px 0 color-mix(in srgb, var(--zs-statue-accent) 7%, transparent);
-    backdrop-filter: blur(12px) saturate(108%);
-    -webkit-backdrop-filter: blur(12px) saturate(108%);
+    max-width: 590px;
+    padding: 0;
   }
 
   .zs-statue__content::before {
     content: '';
-    position: absolute;
-    inset: 0 10% auto;
+    display: block;
+    width: 54px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.88), transparent);
-    pointer-events: none;
-  }
-
-  .zs-statue__eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    margin: 0 0 18px;
-    font-size: 10px;
-    font-weight: 750;
-    line-height: 1.2;
-    letter-spacing: .23em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--zs-statue-accent) 90%, var(--zs-statue-text));
-  }
-
-  .zs-statue__eyebrow-line {
-    width: 34px;
-    height: 1px;
-    background: var(--zs-statue-accent);
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, var(--zs-statue-accent), transparent);
   }
 
   .zs-statue__heading {
-    max-width: 12ch;
+    max-width: 10.5ch;
     margin: 0;
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(43px, 5vw, 70px);
+    font-size: clamp(48px, 5.4vw, 76px);
     font-weight: 500;
-    line-height: .98;
-    letter-spacing: -.028em;
+    line-height: .96;
+    letter-spacing: -.032em;
     color: var(--zs-statue-text);
     text-wrap: balance;
   }
@@ -246,83 +183,24 @@
     color: var(--zs-statue-accent);
   }
 
-  .zs-statue__subheading {
-    margin: 15px 0 0;
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: clamp(19px, 2vw, 24px);
-    font-style: italic;
-    line-height: 1.28;
-    color: var(--zs-statue-accent);
-  }
-
   .zs-statue__description {
-    max-width: 54ch;
-    margin-top: 22px;
-    font-size: 14.5px;
-    line-height: 1.72;
+    max-width: 46ch;
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.7;
     color: color-mix(in srgb, var(--zs-statue-text) 72%, transparent);
   }
 
   .zs-statue__description p { margin: 0; }
-
-  .zs-statue__details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-    margin-top: 28px;
-  }
-
-  .zs-statue__detail {
-    display: grid;
-    grid-template-columns: 32px minmax(0,1fr);
-    gap: 10px;
-    min-height: 92px;
-    padding: 14px;
-    border: 1px solid color-mix(in srgb, white 56%, var(--zs-statue-line));
-    border-radius: 14px;
-    background:
-      linear-gradient(145deg, color-mix(in srgb, white 48%, transparent), color-mix(in srgb, var(--zs-statue-bg) 68%, transparent));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
-  }
-
-  .zs-statue__detail-index {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border: 1px solid color-mix(in srgb, var(--zs-statue-accent) 28%, transparent);
-    border-radius: 50%;
-    font-size: 8px;
-    font-weight: 750;
-    letter-spacing: .1em;
-    color: var(--zs-statue-accent);
-    background: color-mix(in srgb, white 36%, transparent);
-  }
-
-  .zs-statue__detail h3 {
-    margin: 1px 0 0;
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 18px;
-    font-weight: 520;
-    line-height: 1.1;
-    color: var(--zs-statue-text);
-  }
-
-  .zs-statue__detail p {
-    margin: 5px 0 0;
-    font-size: 11.5px;
-    line-height: 1.45;
-    color: color-mix(in srgb, var(--zs-statue-text) 60%, transparent);
-  }
 
   .zs-statue__purchase {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    margin-top: 30px;
-    padding-top: 24px;
-    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 72%, transparent);
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 58%, transparent);
   }
 
   .zs-statue__price-row {
@@ -360,8 +238,7 @@
     color: color-mix(in srgb, var(--zs-statue-accent) 88%, var(--zs-statue-text));
   }
 
-  .zs-statue__price-note,
-  .zs-statue__microcopy {
+  .zs-statue__price-note {
     margin: 7px 0 0;
     font-size: 10.5px;
     line-height: 1.45;
@@ -514,8 +391,8 @@
     }
 
     .zs-statue__layout {
-      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-      gap: clamp(48px, 5vw, 84px);
+      grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+      gap: clamp(54px, 6vw, 96px);
     }
 
     .zs-statue__content {
@@ -586,55 +463,32 @@
     }
 
     .zs-statue__content {
-      padding: 21px 18px;
-      border-radius: 20px;
+      padding: 6px 4px 0;
     }
 
-    .zs-statue__eyebrow {
-      gap: 10px;
-      margin-bottom: 13px;
-      font-size: 9.5px;
-      letter-spacing: .2em;
+    .zs-statue__content::before {
+      width: 42px;
+      margin-bottom: 18px;
     }
-
-    .zs-statue__eyebrow-line { width: 26px; }
 
     .zs-statue__heading {
-      max-width: 11ch;
-      font-size: clamp(37px, 10vw, 44px);
-      line-height: .99;
-    }
-
-    .zs-statue__subheading {
-      margin-top: 11px;
-      font-size: 18px;
+      max-width: 10ch;
+      font-size: clamp(40px, 11vw, 48px);
+      line-height: .97;
     }
 
     .zs-statue__description {
-      margin-top: 16px;
-      font-size: 13.5px;
+      margin-top: 18px;
+      max-width: 100%;
+      font-size: 13.8px;
       line-height: 1.62;
     }
-
-    .zs-statue__details {
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 21px;
-    }
-
-    .zs-statue__detail {
-      min-height: 0;
-      padding: 12px 13px;
-    }
-
-    .zs-statue__detail h3 { font-size: 18px; }
-    .zs-statue__detail p { font-size: 11.5px; }
 
     .zs-statue__purchase {
       align-items: stretch;
       flex-direction: column;
-      margin-top: 22px;
-      padding-top: 19px;
+      margin-top: 24px;
+      padding-top: 18px;
     }
 
     .zs-statue__price {
@@ -646,10 +500,6 @@
       min-height: 50px;
     }
 
-    .zs-statue__microcopy {
-      margin-top: 10px;
-      text-align: center;
-    }
   }
 
   @media (max-width: 390px) {
@@ -710,20 +560,17 @@
   "max_blocks": 4,
   "settings": [
     { "type": "product", "id": "product", "label": "Featured statue product" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Signature Sculpture" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Handcrafted Wooden Horse Statue" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "A sculptural statement in natural wood." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Handcrafted Wooden Horse Sculpture" },
     {
       "type": "richtext",
       "id": "description",
       "label": "Description",
-      "default": "<p>A dramatic rearing horse sculpture shaped to bring movement, natural warmth and artistic presence into refined interiors. Rich wood grain, expressive carving and a sculptural silhouette make it a distinctive statement for consoles, shelves, offices and living spaces.</p>"
+      "default": "<p>One of ZAISEN’s signature art pieces, this handcrafted wooden horse captures movement, strength and character in a sculptural form. Natural grain and hand-finished detail give every piece a distinctive presence — made to stand apart in refined interiors.</p>"
     },
     { "type": "text", "id": "offer_label", "label": "Offer label", "default": "60% OFF" },
     { "type": "text", "id": "price_note", "label": "Price note", "default": "Signature ZAISEN art piece • limited batch" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop This Sculpture" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Visit Product" },
     { "type": "text", "id": "gallery_label", "label": "Gallery label", "default": "Handcrafted Art Piece" },
-    { "type": "text", "id": "microcopy", "label": "Microcopy", "default": "Natural wood grain makes every piece visually distinctive." },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#F5F0E7" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#2C2A29" },
@@ -734,26 +581,8 @@
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 40, "max": 140, "step": 4, "unit": "px", "default": 88 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 40, "max": 140, "step": 4, "unit": "px", "default": 88 }
   ],
-  "blocks": [
-    {
-      "type": "detail",
-      "name": "Product detail",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Hand-Finished Craft" },
-        { "type": "text", "id": "text", "label": "Text", "default": "Detailed by hand for depth, texture and character." }
-      ]
-    }
-  ],
   "presets": [
-    {
-      "name": "ZAISEN Statue Spotlight",
-      "blocks": [
-        { "type": "detail", "settings": { "title": "Hand-Finished Craft", "text": "Detailed by hand for depth, texture and character." } },
-        { "type": "detail", "settings": { "title": "Rearing Horse Form", "text": "An expressive equestrian silhouette with strong sculptural movement." } },
-        { "type": "detail", "settings": { "title": "Natural Wood Grain", "text": "Warm tones and visible grain give every piece an individual presence." } },
-        { "type": "detail", "settings": { "title": "Statement Decor", "text": "Designed for consoles, shelves, living rooms and executive spaces." } }
-      ]
-    }
+    { "name": "ZAISEN Statue Spotlight" }
   ]
 }
 {% endschema %}
