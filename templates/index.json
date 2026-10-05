@@ -272,8 +272,8 @@
         "accent_color": "#a8794a",
         "wood_color": "#7a5238",
         "line_color": "#d8c7b3",
-        "padding_top": 52,
-        "padding_bottom": 52
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     }
   },
