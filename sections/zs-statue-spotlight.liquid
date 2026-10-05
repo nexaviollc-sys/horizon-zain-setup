@@ -143,30 +143,50 @@
   }
 
   .zs-statue__card {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     gap: 0;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, white 66%, var(--zs-statue-line));
+    border: 1px solid color-mix(in srgb, white 72%, var(--zs-statue-line));
     border-radius: 20px;
     background:
       linear-gradient(
         145deg,
-        color-mix(in srgb, white 72%, transparent),
+        color-mix(in srgb, white 78%, transparent),
         color-mix(in srgb, var(--zs-statue-bg) 92%, transparent)
       );
     box-shadow:
-      0 16px 38px color-mix(in srgb, var(--zs-statue-wood) 6%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.9);
+      0 22px 48px color-mix(in srgb, var(--zs-statue-wood) 8%, transparent),
+      0 2px 8px color-mix(in srgb, var(--zs-statue-wood) 4%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.94),
+      inset 0 -1px 0 color-mix(in srgb, var(--zs-statue-accent) 8%, transparent);
+    transform: translateZ(0);
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+  }
+
+  .zs-statue__card::before {
+    content: '';
+    position: absolute;
+    z-index: 4;
+    inset: 0 18% auto;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.96), transparent);
   }
 
   .zs-statue__gallery-wrap {
     position: relative;
     min-width: 0;
-    background: #fff;
+    background:
+      radial-gradient(circle at 50% 36%, rgba(255,255,255,1) 0 46%, #fbfaf7 100%);
+    box-shadow:
+      inset 1px 0 0 rgba(255,255,255,.82),
+      inset 0 0 34px rgba(97,68,45,.035);
   }
 
   .zs-statue__gallery {
+    position: relative;
     display: flex;
     width: 100%;
     overflow-x: auto;
@@ -177,6 +197,20 @@
   }
 
   .zs-statue__gallery::-webkit-scrollbar { display: none; }
+
+  .zs-statue__gallery::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    left: 17%;
+    right: 17%;
+    bottom: 4%;
+    height: 7%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(86,57,36,.12), transparent 68%);
+    filter: blur(7px);
+    pointer-events: none;
+  }
 
   .zs-statue__slide {
     flex: 0 0 100%;
@@ -230,16 +264,70 @@
   }
 
   .zs-statue__content {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     padding: 30px 34px;
     border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 55%, transparent);
+    background:
+      radial-gradient(430px 260px at 16% 14%, color-mix(in srgb, white 88%, transparent), transparent 68%),
+      radial-gradient(360px 280px at 92% 88%, color-mix(in srgb, var(--zs-statue-accent) 8%, transparent), transparent 72%),
+      linear-gradient(145deg, rgba(255,255,255,.44), rgba(248,243,235,.18));
+  }
+
+  .zs-statue__content::before {
+    content: 'ZS';
+    position: absolute;
+    z-index: -1;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-52%);
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(150px, 18vw, 245px);
+    font-weight: 500;
+    line-height: .8;
+    letter-spacing: -.08em;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--zs-statue-wood) 7%, transparent);
+    text-shadow:
+      1px 1px 0 rgba(255,255,255,.64),
+      -1px -1px 0 color-mix(in srgb, var(--zs-statue-wood) 3%, transparent);
+    opacity: .72;
+    pointer-events: none;
+  }
+
+  .zs-statue__content::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -56px;
+    bottom: -92px;
+    width: 260px;
+    height: 180px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--zs-statue-accent) 10%, transparent);
+    box-shadow:
+      0 0 0 22px color-mix(in srgb, var(--zs-statue-accent) 4%, transparent),
+      0 0 0 44px color-mix(in srgb, var(--zs-statue-accent) 2.5%, transparent);
+    transform: rotate(-14deg);
+    pointer-events: none;
   }
 
   .zs-statue__kicker {
+    position: relative;
     display: block;
-    width: 38px;
-    height: 1px;
+    width: 40px;
+    height: 2px;
     margin-bottom: 15px;
-    background: linear-gradient(90deg, var(--zs-statue-accent), transparent);
+    border-radius: 999px;
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--zs-statue-accent) 72%, #6d452b),
+        color-mix(in srgb, var(--zs-statue-accent) 92%, white)
+      );
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.82),
+      0 3px 9px color-mix(in srgb, var(--zs-statue-accent) 14%, transparent);
   }
 
   .zs-statue__heading {
@@ -252,6 +340,7 @@
     letter-spacing: -.03em;
     color: var(--zs-statue-text);
     text-wrap: balance;
+    text-shadow: 0 1px 0 rgba(255,255,255,.68);
   }
 
   .zs-statue__description {
@@ -272,6 +361,7 @@
     margin-top: 20px;
     padding-top: 15px;
     border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 54%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.48);
   }
 
   .zs-statue__price-row {
@@ -288,6 +378,7 @@
     line-height: 1;
     letter-spacing: -.02em;
     color: var(--zs-statue-wood);
+    text-shadow: 0 1px 0 rgba(255,255,255,.7);
   }
 
   .zs-statue__compare {
@@ -345,9 +436,12 @@
     letter-spacing: .115em;
     text-transform: uppercase;
     box-shadow:
-      0 7px 16px color-mix(in srgb, var(--zs-statue-wood) 12%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.15);
-    transition: transform .22s ease, box-shadow .22s ease;
+      0 9px 0 color-mix(in srgb, var(--zs-statue-wood) 72%, black),
+      0 14px 24px color-mix(in srgb, var(--zs-statue-wood) 15%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.18),
+      inset 0 -1px 0 rgba(0,0,0,.16);
+    transform: translateY(-3px);
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
   }
 
   .zs-statue__cta-icon {
@@ -363,17 +457,39 @@
   .zs-statue__cta.is-disabled { opacity: .55; }
 
   @media (hover:hover) and (pointer:fine) {
-    .zs-statue__cta:hover {
-      transform: translateY(-1px);
+    .zs-statue__card:hover {
+      transform: translateY(-3px);
       box-shadow:
-        0 10px 22px color-mix(in srgb, var(--zs-statue-wood) 15%, transparent),
-        inset 0 1px 0 rgba(255,255,255,.17);
+        0 28px 58px color-mix(in srgb, var(--zs-statue-wood) 10%, transparent),
+        0 3px 9px color-mix(in srgb, var(--zs-statue-wood) 4%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.95);
+    }
+
+    .zs-statue__cta:hover {
+      transform: translateY(-4px);
+      filter: saturate(1.04);
+      box-shadow:
+        0 10px 0 color-mix(in srgb, var(--zs-statue-wood) 70%, black),
+        0 16px 28px color-mix(in srgb, var(--zs-statue-wood) 18%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.2),
+        inset 0 -1px 0 rgba(0,0,0,.16);
+    }
+
+    .zs-statue__cta:active {
+      transform: translateY(4px);
+      box-shadow:
+        0 2px 0 color-mix(in srgb, var(--zs-statue-wood) 72%, black),
+        0 6px 12px color-mix(in srgb, var(--zs-statue-wood) 11%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.14);
     }
 
     .zs-statue__arrow:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       background: #fffaf3;
       color: var(--zs-statue-accent);
+      box-shadow:
+        0 10px 20px rgba(58,38,22,.11),
+        inset 0 1px 0 rgba(255,255,255,.92);
     }
   }
 
@@ -459,6 +575,19 @@
       padding: 19px 17px 18px;
     }
 
+    .zs-statue__content::before {
+      right: -12px;
+      top: 46%;
+      font-size: 132px;
+      opacity: .5;
+    }
+
+    .zs-statue__content::after {
+      left: -74px;
+      bottom: -112px;
+      transform: scale(.8) rotate(-14deg);
+    }
+
     .zs-statue__kicker {
       width: 34px;
       margin-bottom: 13px;
@@ -507,8 +636,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .zs-statue__gallery { scroll-behavior: auto; }
+    .zs-statue__card,
     .zs-statue__cta,
-    .zs-statue__arrow { transition: none; }
+    .zs-statue__arrow { transition: none; transform: none; }
   }
 {% endstylesheet %}
 
