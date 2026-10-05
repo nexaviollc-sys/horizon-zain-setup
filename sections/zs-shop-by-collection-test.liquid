@@ -111,9 +111,6 @@
             assign img = block.settings.image
             if img == blank and col != blank
               assign img = col.image
-              if img == blank
-                assign img = col.products.first.featured_image
-              endif
             endif
 
             assign card_tagline = block.settings.tagline
@@ -154,7 +151,7 @@
                       alt: title
                   }}
                 {% else %}
-                  <span class="zsbc__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'zsbc__placeholder-svg' }}</span>
+                  <span class="zsbc__placeholder" aria-hidden="true"></span>
                 {% endif %}
 
                 {% if block.settings.badge != blank %}
