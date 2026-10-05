@@ -138,7 +138,7 @@
   .zs-statue * { box-sizing: border-box; }
 
   .zs-statue__shell {
-    width: min(calc(100% - 40px), 1180px);
+    width: min(calc(100% - 48px), 1080px);
     margin-inline: auto;
   }
 
@@ -148,24 +148,22 @@
     gap: 0;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, white 66%, var(--zs-statue-line));
-    border-radius: 24px;
+    border-radius: 20px;
     background:
       linear-gradient(
         145deg,
-        color-mix(in srgb, white 66%, transparent),
-        color-mix(in srgb, var(--zs-statue-bg) 88%, transparent)
+        color-mix(in srgb, white 72%, transparent),
+        color-mix(in srgb, var(--zs-statue-bg) 92%, transparent)
       );
     box-shadow:
-      0 18px 42px color-mix(in srgb, var(--zs-statue-wood) 7%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.84);
+      0 16px 38px color-mix(in srgb, var(--zs-statue-wood) 6%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.9);
   }
 
   .zs-statue__gallery-wrap {
     position: relative;
     min-width: 0;
-    background:
-      radial-gradient(circle at 50% 28%, rgba(255,255,255,.96), transparent 36%),
-      linear-gradient(145deg, #fbf8f2, color-mix(in srgb, var(--zs-statue-bg) 90%, var(--zs-statue-accent)));
+    background: #fff;
   }
 
   .zs-statue__gallery {
@@ -196,7 +194,7 @@
     height: 100%;
     object-fit: contain;
     object-position: center;
-    padding: 18px;
+    padding: 0;
   }
 
   .zs-statue__placeholder {
@@ -232,23 +230,23 @@
   }
 
   .zs-statue__content {
-    padding: 28px 28px 30px;
+    padding: 30px 34px;
     border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 55%, transparent);
   }
 
   .zs-statue__kicker {
     display: block;
-    width: 42px;
+    width: 38px;
     height: 1px;
-    margin-bottom: 17px;
+    margin-bottom: 15px;
     background: linear-gradient(90deg, var(--zs-statue-accent), transparent);
   }
 
   .zs-statue__heading {
-    max-width: 11ch;
+    max-width: none;
     margin: 0;
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(40px, 4.1vw, 54px);
+    font-size: clamp(38px, 3.5vw, 48px);
     font-weight: 500;
     line-height: .98;
     letter-spacing: -.03em;
@@ -257,10 +255,10 @@
   }
 
   .zs-statue__description {
-    max-width: 46ch;
-    margin-top: 17px;
-    font-size: 13.5px;
-    line-height: 1.62;
+    max-width: 43ch;
+    margin-top: 14px;
+    font-size: 12.9px;
+    line-height: 1.56;
     color: color-mix(in srgb, var(--zs-statue-text) 70%, transparent);
   }
 
@@ -270,9 +268,9 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 18px;
-    margin-top: 24px;
-    padding-top: 18px;
+    gap: 14px;
+    margin-top: 20px;
+    padding-top: 15px;
     border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 54%, transparent);
   }
 
@@ -285,7 +283,7 @@
 
   .zs-statue__price {
     font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 29px;
+    font-size: 27px;
     font-weight: 550;
     line-height: 1;
     letter-spacing: -.02em;
@@ -323,8 +321,8 @@
   }
 
   .zs-statue__price-note {
-    margin: 7px 0 0;
-    font-size: 10px;
+    margin: 6px 0 0;
+    font-size: 9px;
     line-height: 1.4;
     color: color-mix(in srgb, var(--zs-statue-text) 48%, transparent);
   }
@@ -333,11 +331,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 11px;
-    min-height: 44px;
-    padding: 8px 9px 8px 15px;
+    gap: 10px;
+    min-height: 40px;
+    padding: 7px 8px 7px 13px;
     border: 1px solid color-mix(in srgb, var(--zs-statue-wood) 76%, black);
-    border-radius: 10px;
+    border-radius: 9px;
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--zs-statue-wood) 97%, white), color-mix(in srgb, var(--zs-statue-wood) 91%, black));
     color: #fbf9f6;
@@ -355,8 +353,8 @@
   .zs-statue__cta-icon {
     display: grid;
     place-items: center;
-    width: 28px;
-    height: 28px;
+    width: 25px;
+    height: 25px;
     border: 1px solid rgba(255,255,255,.2);
     border-radius: 50%;
     background: rgba(255,255,255,.06);
@@ -381,44 +379,53 @@
 
   @media (min-width: 990px) {
     .zs-statue__shell {
-      width: min(calc(100% - 72px), 1180px);
+      width: min(calc(100% - 64px), 1080px);
     }
 
     .zs-statue__card {
-      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      grid-template-columns: minmax(0, 1fr) 440px;
       align-items: stretch;
+      max-height: 440px;
     }
 
     .zs-statue__gallery-wrap {
       order: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-left: 1px solid color-mix(in srgb, var(--zs-statue-line) 54%, transparent);
+      width: 440px;
+      height: 440px;
+      display: block;
+      border-left: 1px solid color-mix(in srgb, var(--zs-statue-line) 48%, transparent);
+      background: #fff;
     }
 
     .zs-statue__gallery {
-      width: min(100%, 470px);
+      width: 440px;
+      height: 440px;
+    }
+
+    .zs-statue__slide {
+      width: 440px;
+      height: 440px;
+      aspect-ratio: 1 / 1;
     }
 
     .zs-statue__content {
       order: 1;
       display: flex;
-      min-height: 470px;
+      min-height: 0;
       flex-direction: column;
       justify-content: center;
-      padding: 38px 42px;
+      padding: 30px 36px;
       border-top: 0;
     }
 
     .zs-statue__purchase {
-      margin-top: 26px;
+      margin-top: 20px;
     }
   }
 
   @media (max-width: 749px) {
     .zs-statue {
-      padding-block: 38px 42px;
+      padding-block: 34px 38px;
     }
 
     .zs-statue__shell {
@@ -435,7 +442,7 @@
 
     .zs-statue__image,
     .zs-statue__placeholder {
-      padding: 12px;
+      padding: 0;
     }
 
     .zs-statue__arrows {
@@ -449,7 +456,7 @@
     }
 
     .zs-statue__content {
-      padding: 22px 18px 20px;
+      padding: 19px 17px 18px;
     }
 
     .zs-statue__kicker {
@@ -558,8 +565,8 @@
     { "type": "color", "id": "wood_color", "label": "Walnut accent", "default": "#7A5238" },
     { "type": "color", "id": "line_color", "label": "Divider", "default": "#D8C7B3" },
     { "type": "header", "content": "Spacing" },
-    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 52 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 52 }
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 40 }
   ],
   "presets": [
     { "name": "ZAISEN Statue Spotlight" }
