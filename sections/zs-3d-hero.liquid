@@ -264,22 +264,23 @@
     text-decoration:none;
   }
   .zf-hero__secondary:hover {text-decoration:underline}
+  /* Small editorial signature: the original wooden monogram, not a cropped round badge. */
   .zf-hero__bottom-note {
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:16px;
     margin-top:33px;
     max-width:100%;
   }
   .zf-hero__note-mark {
     display:grid;
     place-items:center;
-    flex-shrink:0;
-    width:48px;
-    height:48px;
-    border:1px dashed #DCCFC0;
-    border-radius:50%;
-    background:#FAF7F2;
+    flex:0 0 62px;
+    width:62px;
+    height:62px;
+    border:0;
+    border-radius:0;
+    background:transparent;
     color:#74533C;
     font-size:19px;
     font-weight:600;
@@ -288,20 +289,29 @@
     display:block;
     width:100%;
     height:100%;
-    max-width:45px;
-    max-height:45px;
+    max-width:62px;
+    max-height:62px;
     object-fit:contain;
     object-position:center;
-    border-radius:50%;
+    border:0;
+    border-radius:0;
+    mix-blend-mode:multiply;
   }
-  .zf-hero__bottom-note>div {display:flex;flex-direction:column;gap:5px;min-width:0}
+  .zf-hero__bottom-note>div {
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    min-width:0;
+    padding-inline-start:16px;
+    border-inline-start:1px solid rgba(170,132,88,.38);
+  }
   .zf-hero__bottom-note>div>span:first-child {
-    color:#9A8B7D;
-    font-size:9px;
+    color:#947254;
+    font-size:10px;
     font-weight:500;
-    letter-spacing:.14em;
+    letter-spacing:.16em;
   }
-  .zf-hero__note-text {color:#54483D;font-size:12px;line-height:1.5;font-weight:500}
+  .zf-hero__note-text {color:#3F312A;font-size:13px;line-height:1.5;font-weight:500}
   .zf-hero__product-teaser {
     align-self:end;
     justify-self:end;
@@ -419,9 +429,11 @@
     .zf-hero__cta{min-height:56px;padding:5px 18px 5px 5px;gap:12px;font-size:12px}
     .zf-hero__cta-icon{width:45px;height:45px}
     .zf-hero__secondary{font-size:11px}
-    .zf-hero__bottom-note{margin-top:24px}
-    .zf-hero__note-mark{width:42px;height:42px;font-size:17px}
-    .zf-hero__note-logo{max-width:38px;max-height:38px}
+    .zf-hero__bottom-note{margin-top:24px;gap:12px}
+    .zf-hero__note-mark{flex-basis:50px;width:50px;height:50px;font-size:17px}
+    .zf-hero__note-logo{max-width:50px;max-height:50px}
+    .zf-hero__bottom-note>div{padding-inline-start:12px}
+    .zf-hero__bottom-note>div>span:first-child{font-size:9px}
     .zf-hero__note-text{font-size:11px}
     .zf-hero__product-teaser {width:100%;margin-top:auto;align-self:stretch;padding:12px 14px 15px}
     .zf-hero__teaser-eyebrow{font-size:9px;padding-bottom:9px}
