@@ -161,6 +161,7 @@
                   <span class="svg-wrapper icon-checkmark">
                     {{- 'icon-checkmark.svg' | inline_asset_content -}}
                   </span>
+                  <span class="zs-localization-country-flag" aria-hidden="true" style="background-image: url({{ country | image_url: width: 48 }})"></span>
                   <span class="country">{{- country.name }}</span>
                   <span
                     class="localization-form__currency"
@@ -216,6 +217,7 @@
                 <span class="svg-wrapper icon-checkmark">
                   {{- 'icon-checkmark.svg' | inline_asset_content -}}
                 </span>
+                <span class="zs-localization-country-flag" aria-hidden="true" style="background-image: url({{ country | image_url: width: 48 }})"></span>
                 <span class="country">{{- country.name }}</span>
                 <span
                   class="localization-form__currency"
@@ -585,4 +587,5 @@
   .country-selector__close-button {
     display: none;
   }
+  .zs-localization-country-flag{display:none}
 {% endstylesheet %}
