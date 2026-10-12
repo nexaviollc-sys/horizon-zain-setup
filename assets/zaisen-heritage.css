@@ -78,39 +78,3 @@ footer :is(a,button,input):focus-visible{outline-color:#E2C89E}
   .zbs-alt__item:nth-child(even){transform:none}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.product-grid__item img{transition:none}}
-
-
-/* ZAISEN editorial hero: authentic product photography, restrained finishes */
-.zs-hero2{background:#FAF9F6}
-.zs-hero2__ambient{display:none}
-.zs-hero2__eyebrow,.zs-hero2__heading em{color:#77523A}
-.zs-hero2__eyebrow-rule{background:#B69A6A}
-.zs-hero2__frame,.zs-hero2.is-shape-rounded .zs-hero2__frame{
-  aspect-ratio:1 / 1;
-  border-radius:12px;
-  background:#EBE6DE;
-  box-shadow:0 12px 38px rgba(40,34,29,.09);
-}
-.zs-hero2__media::before{display:none}
-.zs-hero2__frame::after{border:1px solid rgba(40,34,29,.07)}
-.zs-hero2__placeholder{
-  background:#EBE6DE;
-}
-.zs-hero2__placeholder-wood{display:none}
-.zs-hero2__placeholder-svg{opacity:.12}
-.zs-hero2__btn,.zs-hero2__btn--solid{
-  border-radius:7px;
-  background:#77523A;
-  border:1px solid #77523A;
-  box-shadow:none;
-  color:#FAF9F6;
-}
-.zs-hero2__btn--solid::after{display:none}
-.zs-hero2__btn--solid:hover{background:#66422D;box-shadow:none}
-.zs-hero2__link::after{background:#77523A}
-.zs-hero2__point-ic{background:#F1ECE5;border-color:#DDD3C7;color:#77523A}
-.zs-hero2__point-tx strong{color:#28221D}
-#zaisen-our-story{scroll-margin-top:130px}
-@media(max-width:749px){
-.zs-hero2__frame,.zs-hero2.is-shape-rounded .zs-hero2__frame{border-radius:9px;box-shadow:none}
-}
