@@ -306,6 +306,63 @@
         "zs_why_hand",
         "zs_why_care"
       ]
+    },
+    "zs_shop_the_look_2026": {
+      "type": "zs-shop-the-look",
+      "name": "ZAISEN Shop the Look",
+      "settings": {
+        "eyebrow": "THE ZAISEN EDIT",
+        "title_light": "Beautiful Spaces.",
+        "title_bold": "Natural Details.",
+        "description": "See how handcrafted wooden home decor brings warmth, character, and natural detail into your space. Explore the ZAISEN pieces behind the look.",
+        "selected_eyebrow": "THE FEATURED PIECES",
+        "image_alt": "ZAISEN handcrafted wooden home decor styled together in a warm interior",
+        "editorial_font": "poppins_n4",
+        "background": "#FFFFFF",
+        "ink": "#2B1D17",
+        "muted": "#80736A",
+        "accent": "#D8B56A"
+      },
+      "blocks": {
+        "zs_look_clock": {
+          "type": "product",
+          "settings": {
+            "product": "wooden-ship-wheel-wall-clock",
+            "label": "WALL DÉCOR",
+            "hotspot_x": 25,
+            "hotspot_y": 25,
+            "mobile_hotspot_x": 29,
+            "mobile_hotspot_y": 20
+          }
+        },
+        "zs_look_horse": {
+          "type": "product",
+          "settings": {
+            "product": "handcrafted-wooden-horse-statue",
+            "label": "SCULPTURAL DÉCOR",
+            "hotspot_x": 54,
+            "hotspot_y": 68,
+            "mobile_hotspot_x": 55,
+            "mobile_hotspot_y": 66
+          }
+        },
+        "zs_look_lamp": {
+          "type": "product",
+          "settings": {
+            "product": "handcrafted-carved-wooden-table-lamp",
+            "label": "AMBIENT LIGHTING",
+            "hotspot_x": 82,
+            "hotspot_y": 43,
+            "mobile_hotspot_x": 84,
+            "mobile_hotspot_y": 40
+          }
+        }
+      },
+      "block_order": [
+        "zs_look_clock",
+        "zs_look_horse",
+        "zs_look_lamp"
+      ]
     }
   },
   "order": [
@@ -314,6 +371,7 @@
     "zs_shop_by_collection_test_8x",
     "zs_why_zaisen_2026",
     "zs_best_sellers_alt_4x",
+    "zs_shop_the_look_2026",
     "zs_story_journal_2026"
   ]
 }
