@@ -233,12 +233,36 @@
         "padding_top": 84,
         "padding_bottom": 84
       }
+    },
+    "zs_story_journal_2026": {
+      "type": "zs-story-journal",
+      "name": "ZAISEN Story & Journal",
+      "settings": {
+        "eyebrow": "DISCOVER MORE ABOUT ZAISEN",
+        "heading_light": "More Than",
+        "heading_bold": "Wood.",
+        "intro_text": "Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth.",
+        "story_title": "Our Story",
+        "story_text": "Get to know the people and passion behind ZAISEN.",
+        "story_cta": "Discover Our Story",
+        "journal_title": "Our Blog",
+        "journal_text": "Explore ideas, inspiration, and stories about wooden living.",
+        "journal_cta": "Explore Our Blog",
+        "editorial_font": "poppins_n4",
+        "bg_color": "#FAF8F5",
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "padding_top": 92,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_craft_marquee_2026",
     "zs_shop_by_collection_test_8x",
-    "zs_best_sellers_alt_4x"
+    "zs_best_sellers_alt_4x",
+    "zs_story_journal_2026"
   ]
 }
