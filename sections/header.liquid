@@ -105,22 +105,6 @@
     render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
   endcapture
 
-  # Homepage-only action pills complement the native Horizon search/cart/account controls.
-  # The Contact page is published; all collections use the native Shopify collection URL.
-  if template.name == 'index'
-    capture zf_homepage_actions
-      echo '<nav class="zf-header-ctas" aria-label="Quick links">'
-      echo '<a class="zf-header-ctas__outline" href="'
-      echo pages['contact'].url
-      echo '">Contact</a>'
-      echo '<a class="zf-header-ctas__shop" href="'
-      echo routes.all_products_collection_url
-      echo '">Shop Now</a>'
-      echo '</nav>'
-    endcapture
-    assign actions = actions | append: zf_homepage_actions
-  endif
-
   if shop.customer_accounts_enabled
     assign search_class = 'search-action--hidden-on-drawer'
   endif

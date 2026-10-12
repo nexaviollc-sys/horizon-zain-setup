@@ -61,9 +61,6 @@
         <p class="zf-hero__description">{{ s.subheading | escape }}</p>
         <div class="zf-hero__actions">
           <a class="zf-hero__cta" href="{{ hero_link }}">
-            <span class="zf-hero__cta-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.2 11H6.2L5 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>
-            </span>
             <span class="zf-hero__cta-label">{{ s.primary_text | default: 'Explore Collection' | escape }}</span>
             <svg class="zf-hero__cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
           </a>
@@ -475,6 +472,16 @@
 @media(prefers-reduced-motion:reduce){
  .zf-hero__cta,.zf-hero__cta-icon,.zf-hero__cta-arrow,.zf-hero__secondary,.zf-hero__secondary::after,.zf-hero__secondary-arrow,.zf-hero__teaser-arrow{transition:none}
 }
+
+
+  /* Text-only Explore Collection pill, no bag-icon circle. */
+  .zf-hero__cta { padding:0 22px 0 25px; gap:14px; }
+  @media(max-width:1100px) {
+    .zf-hero__cta { padding:0 18px 0 20px; gap:12px; }
+  }
+  @media(max-width:749px) {
+    .zf-hero__cta { padding:0 17px 0 19px; gap:11px; }
+  }
 
 {% endstylesheet %}
 
