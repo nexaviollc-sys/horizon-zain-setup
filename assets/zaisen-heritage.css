@@ -1,5 +1,5 @@
 :root {
-  --zaisen-ivory: #FAF9F6;
+  --zaisen-ivory: #FFFFFF;
   --zaisen-espresso: #28221D;
   --zaisen-green: #39463A;
   --zaisen-walnut: #77523A;
@@ -78,3 +78,29 @@ footer :is(a,button,input):focus-visible{outline-color:#E2C89E}
   .zbs-alt__item:nth-child(even){transform:none}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.product-grid__item img{transition:none}}
+
+/* ZAISEN white-section palette — footer included, header & hero preserved */
+footer, footer .section-background, footer .section,
+footer .footer-content, footer .utilities {
+  background-color:#FFFFFF;
+  color:#28221D;
+}
+footer :is(h1,h2,h3,h4,h5,h6),
+footer .footer-content :is(h1,h2,h3,h4,h5,h6) { color:#28221D; }
+footer .footer-content :is(.text-block,.rte,p,span) { color:#514B44; }
+footer .footer-content :is(a,.rte a),
+footer .utilities a, footer .footer-utilities a { color:#77523A; }
+footer .footer-content :is(a,.rte a):hover,
+footer .utilities a:hover { color:#28221D; }
+footer .utilities,
+footer .footer-content,
+footer .footer-content .menu__heading__default { border-color:#E8E3DE; }
+footer input[type="email"]{
+  background-color:#FFFFFF;
+  color:#28221D;
+  border-color:#D4CDC4;
+}
+footer input[type="email"]::placeholder{color:#777068;opacity:1}
+footer .email-signup__button, footer button[type="submit"],
+footer .utilities,footer .utilities :is(span,small,svg) { color:#28221D; }
+footer :is(a,button,input):focus-visible{outline-color:#77523A}

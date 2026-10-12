@@ -197,6 +197,30 @@
     .zs-story-journal .zsj__journal-head{gap:12px}
     .zs-story-journal .zsj__journal-empty{min-height:285px}
   }
+
+  /* White background mode: dark legible content without the former forest-green panel. */
+  .zs-story-journal{background:var(--zsj-bg,#FFFFFF);color:var(--zsj-text,#28221D)}
+  .zs-story-journal .zsj__heading h2,
+  .zs-story-journal .zsj__journal-head h3,
+  .zs-story-journal .zsj__article-main h4,
+  .zs-story-journal .zsj__journal-empty h4{color:#28221D}
+  .zs-story-journal .zsj__intro,
+  .zs-story-journal .zsj__article-main p,
+  .zs-story-journal .zsj__journal-empty p{color:#69625B}
+  .zs-story-journal .zsj__overline,
+  .zs-story-journal .zsj__journal .zsj__kicker,
+  .zs-story-journal .zsj__article-date,
+  .zs-story-journal .zsj__read-link,
+  .zs-story-journal .zsj__empty-tag,
+  .zs-story-journal .zsj__empty-emblem{color:#77523A}
+  .zs-story-journal .zsj__story,
+  .zs-story-journal .zsj__journal-empty{background:#FFFFFF;border-color:#E8E3DE}
+  .zs-story-journal .zsj__journal-head,
+  .zs-story-journal .zsj__article{border-color:#E8E3DE}
+  .zs-story-journal .zsj__all-link{color:#77523A;border-color:#B69A6A}
+  .zs-story-journal .zsj__article-placeholder{background:#F1EEEA;color:#77523A}
+  .zs-story-journal .zsj__all-link:focus-visible,
+  .zs-story-journal .zsj__article-link:focus-visible{outline-color:#77523A}
 {% endstylesheet %}
 
 {% schema %}
@@ -205,31 +229,160 @@
   "tag": "section",
   "class": "zs-story-journal-section",
   "settings": [
-    {"type":"text","id":"eyebrow","label":"Top eyebrow","default":"THE WORLD OF ZAISEN"},
-    {"type":"text","id":"heading","label":"Main heading","default":"Our Story. Our Journal."},
-    {"type":"textarea","id":"intro","label":"Section introduction","default":"A closer look at the hands, materials and ideas behind the objects we make."},
-    {"type":"image_picker","id":"story_image","label":"Optional story photograph"},
-    {"type":"text","id":"visual_caption","label":"Image caption","default":"ROOTED IN NATURE · REFINED BY HAND"},
-    {"type":"text","id":"story_label","label":"Story eyebrow","default":"OUR STORY"},
-    {"type":"text","id":"story_title","label":"Story title","default":"A little closer to the craft."},
-    {"type":"richtext","id":"story_text","label":"Story text","default":"<p>At ZAISEN, we believe natural wood has its own quiet character. Through careful shaping and hand-finished details, we turn that character into pieces made to feel at home in the spaces you love.</p><p>Thoughtful materials. Unhurried craftsmanship. Everyday objects with something more to say.</p>"},
-    {"type":"text","id":"story_button","label":"Story button","default":"Explore our collection"},
-    {"type":"url","id":"story_link","label":"Story button link"},
-    {"type":"blog","id":"blog","label":"Featured blog"},
-    {"type":"text","id":"journal_label","label":"Journal eyebrow","default":"OUR BLOGS"},
-    {"type":"text","id":"journal_title","label":"Journal heading","default":"From the Journal"},
-    {"type":"text","id":"journal_button","label":"View all label","default":"View all stories"},
-    {"type":"text","id":"read_label","label":"Read article label","default":"Read the story"},
-    {"type":"text","id":"empty_label","label":"Empty journal eyebrow","default":"A NEW CHAPTER IS COMING"},
-    {"type":"text","id":"empty_title","label":"Empty journal title","default":"Stories worth sharing."},
-    {"type":"textarea","id":"empty_text","label":"Empty journal message","default":"Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon."},
-    {"type":"color","id":"bg_color","label":"Section background","default":"#39463A"},
-    {"type":"color","id":"text_color","label":"Text color","default":"#FAF9F6"},
-    {"type":"color","id":"accent_color","label":"Accent color","default":"#B69A6A"},
-    {"type":"color","id":"walnut_color","label":"Walnut color","default":"#7A5238"},
-    {"type":"range","id":"padding_top","label":"Top padding","min":40,"max":140,"step":4,"unit":"px","default":88},
-    {"type":"range","id":"padding_bottom","label":"Bottom padding","min":40,"max":140,"step":4,"unit":"px","default":88}
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Top eyebrow",
+      "default": "THE WORLD OF ZAISEN"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "Our Story. Our Journal."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Section introduction",
+      "default": "A closer look at the hands, materials and ideas behind the objects we make."
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Optional story photograph"
+    },
+    {
+      "type": "text",
+      "id": "visual_caption",
+      "label": "Image caption",
+      "default": "ROOTED IN NATURE · REFINED BY HAND"
+    },
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Story eyebrow",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "text",
+      "id": "story_title",
+      "label": "Story title",
+      "default": "A little closer to the craft."
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story text",
+      "default": "<p>At ZAISEN, we believe natural wood has its own quiet character. Through careful shaping and hand-finished details, we turn that character into pieces made to feel at home in the spaces you love.</p><p>Thoughtful materials. Unhurried craftsmanship. Everyday objects with something more to say.</p>"
+    },
+    {
+      "type": "text",
+      "id": "story_button",
+      "label": "Story button",
+      "default": "Explore our collection"
+    },
+    {
+      "type": "url",
+      "id": "story_link",
+      "label": "Story button link"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Featured blog"
+    },
+    {
+      "type": "text",
+      "id": "journal_label",
+      "label": "Journal eyebrow",
+      "default": "OUR BLOGS"
+    },
+    {
+      "type": "text",
+      "id": "journal_title",
+      "label": "Journal heading",
+      "default": "From the Journal"
+    },
+    {
+      "type": "text",
+      "id": "journal_button",
+      "label": "View all label",
+      "default": "View all stories"
+    },
+    {
+      "type": "text",
+      "id": "read_label",
+      "label": "Read article label",
+      "default": "Read the story"
+    },
+    {
+      "type": "text",
+      "id": "empty_label",
+      "label": "Empty journal eyebrow",
+      "default": "A NEW CHAPTER IS COMING"
+    },
+    {
+      "type": "text",
+      "id": "empty_title",
+      "label": "Empty journal title",
+      "default": "Stories worth sharing."
+    },
+    {
+      "type": "textarea",
+      "id": "empty_text",
+      "label": "Empty journal message",
+      "default": "Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#28221D"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#B69A6A"
+    },
+    {
+      "type": "color",
+      "id": "walnut_color",
+      "label": "Walnut color",
+      "default": "#7A5238"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 40,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 40,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
   ],
-  "presets":[{"name":"ZAISEN Story & Blogs"}]
+  "presets": [
+    {
+      "name": "ZAISEN Story & Blogs"
+    }
+  ]
 }
 {% endschema %}
