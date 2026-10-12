@@ -52,7 +52,7 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<h2>Join our email list</h2>",
+                "text": "<h2>Letters from ZAISEN</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -76,7 +76,7 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
+                "text": "<p>Notes on craft, natural living, and new collections.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -112,10 +112,10 @@
             "border_style": "all",
             "input_style": "custom",
             "border_width": 1,
-            "border_radius": 100,
-            "input_background_color": "{{ settings.color_palette.background }}",
-            "input_text_color": "{{ settings.color_palette.color1 }}",
-            "input_border_color": "{{ settings.color_palette.color2 }}",
+            "border_radius": 8,
+            "input_background_color": "#38332E",
+            "input_text_color": "#FAF9F6",
+            "input_border_color": "#786C60",
             "input_type_preset": "paragraph",
             "style_class": "button-unstyled",
             "display_type": "arrow",
@@ -138,9 +138,9 @@
       "settings": {
         "section_width": "page-width",
         "gap": 20,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 30,
-        "padding-block-end": 30
+        "background_color": "#28221D",
+        "padding-block-start": 42,
+        "padding-block-end": 42
       }
     },
     "footer_utilities_jLGE8U": {
@@ -185,10 +185,10 @@
         "section_width": "page-width",
         "gap": 24,
         "divider_thickness": 1,
-        "divider_color": "{{ settings.color_palette.color2 }}",
-        "background_color": "{{ settings.color_palette.background }}",
+        "divider_color": "#5A534C",
+        "background_color": "#28221D",
         "padding-block-start": 20,
-        "padding-block-end": 48
+        "padding-block-end": 36
       }
     }
   },

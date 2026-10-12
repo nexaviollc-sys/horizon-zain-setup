@@ -24,14 +24,16 @@
         "form_kicker": "Send a message",
         "form_heading": "Tell us what you need",
         "form_text": "Share the details below and we’ll make sure your message reaches the right place.",
-        "bg_color": "#FBF9F6",
-        "surface_color": "#FFFDFC",
-        "text_color": "#2C2A29",
+        "bg_color": "#FAF9F6",
+        "surface_color": "#FFFFFF",
+        "text_color": "#28221D",
         "muted_color": "#6F6861",
-        "accent_color": "#A8794A",
-        "deep_wood": "#6F4932"
+        "accent_color": "#B69A6A",
+        "deep_wood": "#77523A"
       }
     }
   },
-  "order": ["zs_premium_contact"]
+  "order": [
+    "zs_premium_contact"
+  ]
 }

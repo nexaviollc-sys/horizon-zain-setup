@@ -14,7 +14,7 @@
       "name": "ZS 3D Hero",
       "settings": {
         "shape": "arch",
-        "show_badge": true,
+        "show_badge": false,
         "badge_text": "HANDCRAFTED • SMALL BATCH • ZAISEN •",
         "eyebrow": "From Our Small Workshop to Your Home",
         "heading": "Timeless Art. Handcrafted from <em>Pure Wood.</em>",
@@ -23,8 +23,8 @@
         "primary_link": "shopify://collections",
         "secondary_text": "Explore Our Craft",
         "secondary_link": "shopify://collections/all",
-        "button_bg": "#7a5238",
-        "button_text_color": "#fbf9f6",
+        "button_bg": "#77523A",
+        "button_text_color": "#FAF9F6",
         "show_assurances": true,
         "a1_icon": "headset",
         "a1_title": "24/7 Customer Care",
@@ -35,9 +35,9 @@
         "a3_icon": "leaf",
         "a3_title": "True to Nature",
         "a3_text": "Pure wood, honestly sourced",
-        "bg_color": "#fbf9f6",
-        "text_color": "#2c2a29",
-        "accent_color": "#a8794a"
+        "bg_color": "#FAF9F6",
+        "text_color": "#28221D",
+        "accent_color": "#B69A6A"
       }
     },
     "zs_shop_by_collection_test_8x": {
@@ -141,13 +141,13 @@
         "max_width": 1440,
         "heading_font": "theme",
         "heading_size": 52,
-        "bg_color": "#f6f1e7",
-        "heading_color": "#2c2a29",
-        "text_color": "#2c2a29",
-        "accent_color": "#a8794a",
-        "wood_color": "#7a5238",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "bg_color": "#EBE6DE",
+        "heading_color": "#28221D",
+        "text_color": "#28221D",
+        "accent_color": "#B69A6A",
+        "wood_color": "#77523A",
+        "padding_top": 76,
+        "padding_bottom": 76
       }
     },
     "zs_best_sellers_alt_4x": {
@@ -200,13 +200,13 @@
         "show_index": true,
         "show_divider": true,
         "show_compare": true,
-        "bg_color": "#f6f1e7",
-        "heading_color": "#2c2a29",
-        "text_color": "#2c2a29",
-        "accent_color": "#a8794a",
-        "wood_color": "#7a5238",
-        "padding_top": 128,
-        "padding_bottom": 128
+        "bg_color": "#FAF9F6",
+        "heading_color": "#28221D",
+        "text_color": "#28221D",
+        "accent_color": "#B69A6A",
+        "wood_color": "#77523A",
+        "padding_top": 96,
+        "padding_bottom": 96
       }
     },
     "zs_statue_spotlight_1": {
@@ -218,13 +218,13 @@
         "description": "<p>One of ZAISEN’s signature art pieces, this handcrafted wooden horse captures movement, strength and character in a sculptural form. Natural grain and hand-finished detail give every piece a distinctive presence — made to stand apart in refined interiors.</p>",
         "offer_label": "SAVE 60%",
         "button_label": "Visit Product",
-        "bg_color": "#f5f0e7",
-        "text_color": "#2c2a29",
-        "accent_color": "#a8794a",
-        "wood_color": "#7a5238",
-        "line_color": "#d8c7b3",
-        "padding_top": 32,
-        "padding_bottom": 32
+        "bg_color": "#FAF9F6",
+        "text_color": "#28221D",
+        "accent_color": "#B69A6A",
+        "wood_color": "#77523A",
+        "line_color": "#EBE6DE",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "zs_story_journal_1": {
@@ -247,10 +247,10 @@
         "empty_label": "A NEW CHAPTER IS COMING",
         "empty_title": "Stories worth sharing.",
         "empty_text": "Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon.",
-        "bg_color": "#FBF9F6",
-        "text_color": "#2C2A29",
-        "accent_color": "#A8794A",
-        "walnut_color": "#7A5238",
+        "bg_color": "#39463A",
+        "text_color": "#FAF9F6",
+        "accent_color": "#B69A6A",
+        "walnut_color": "#77523A",
         "padding_top": 88,
         "padding_bottom": 88
       }

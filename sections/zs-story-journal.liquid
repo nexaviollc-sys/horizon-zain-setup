@@ -159,6 +159,44 @@
   @media(max-width:1120px){.zsj__columns{grid-template-columns:1fr;gap:42px}.zsj__story{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);min-height:390px}.zsj__story-visual{min-height:390px}.zsj__journal{padding-top:0}.zsj__journal-empty{min-height:270px}.zsj__articles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.zsj__article{border-bottom:0}.zsj__article-link{grid-template-columns:112px minmax(0,1fr)}}
   @media(max-width:680px){.zs-story-journal{padding-block:clamp(54px,12vw,74px)}.zsj__container{padding-inline:20px}.zsj__heading{margin-bottom:30px}.zsj__heading h2{font-size:clamp(2.55rem,9vw,3.8rem);margin-top:13px}.zsj__columns{gap:37px}.zsj__story{grid-template-columns:1fr}.zsj__story-visual{min-height:240px;height:240px}.zsj__wood-circle--one{height:420px}.zsj__wood-circle--two{height:330px}.zsj__wood-circle--three{height:240px}.zsj__story-body{padding:28px 24px 31px}.zsj__story-body h3{font-size:2.25rem;margin:18px 0 15px}.zsj__story-copy{font-size:.86rem;line-height:1.75}.zsj__story-bottom{padding-top:14px}.zsj__journal-head{padding-bottom:21px}.zsj__journal-head h3{font-size:2.2rem;margin-top:17px}.zsj__articles{display:block}.zsj__article{border-bottom:1px solid #E7DDD0}.zsj__article-link{grid-template-columns:95px minmax(0,1fr);gap:15px}.zsj__article-main p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.zsj__journal-empty{min-height:305px;padding:25px}.zsj__visual-caption{left:20px;top:20px}}
   @media(prefers-reduced-motion:reduce){.zsj__story-cta svg,.zsj__article-image{transition:none}}
+
+  .zs-story-journal .zsj__heading h2,
+  .zs-story-journal .zsj__journal-head h3{color:#FAF9F6}
+  .zs-story-journal .zsj__intro{color:#DDDCD5}
+  .zs-story-journal .zsj__overline,
+  .zs-story-journal .zsj__journal .zsj__kicker,
+  .zs-story-journal .zsj__article-date{color:#E2C89E}
+  .zs-story-journal .zsj__story{background:#F4F1EA;border-color:#D9D1C6;box-shadow:none}
+  .zs-story-journal .zsj__story-body h3{color:#28221D}
+  .zs-story-journal .zsj__story-body .zsj__kicker{color:#77523A}
+  .zs-story-journal .zsj__story-body .zsj__story-copy{color:#4D463E}
+  .zs-story-journal .zsj__story-cta{color:#77523A;border-color:#B69A6A}
+  .zs-story-journal .zsj__story-visual{background:#77523A}
+  .zs-story-journal .zsj__wood-art{background:#77523A}
+  .zs-story-journal .zsj__wood-circle{display:none}
+  .zs-story-journal .zsj__wood-monogram{color:#F4F1EA;text-shadow:none;font-size:clamp(6rem,10vw,9rem);font-style:normal;font-weight:500}
+  .zs-story-journal .zsj__wood-wordmark{color:#E2C89E}
+  .zs-story-journal .zsj__visual-caption{color:#F4F1EA;text-shadow:none}
+  .zs-story-journal .zsj__journal-head{border-color:rgba(250,249,246,.23)}
+  .zs-story-journal .zsj__all-link{color:#E2C89E;border-color:#B69A6A}
+  .zs-story-journal .zsj__article{border-color:rgba(250,249,246,.18)}
+  .zs-story-journal .zsj__article-main h4{color:#FAF9F6}
+  .zs-story-journal .zsj__article-main p{color:#D7DCD5}
+  .zs-story-journal .zsj__read-link{color:#E2C89E}
+  .zs-story-journal .zsj__article-placeholder{background:#526052;color:#E2C89E}
+  .zs-story-journal .zsj__journal-empty{background:#455348;border-color:#5B685D}
+  .zs-story-journal .zsj__journal-empty h4{color:#FAF9F6}
+  .zs-story-journal .zsj__journal-empty p{color:#E0E5DE}
+  .zs-story-journal .zsj__empty-tag,
+  .zs-story-journal .zsj__empty-emblem{color:#E2C89E}
+  .zs-story-journal .zsj__story-cta:focus-visible{outline-color:#77523A}
+  .zs-story-journal .zsj__all-link:focus-visible,
+  .zs-story-journal .zsj__article-link:focus-visible{outline-color:#FAF9F6}
+  @media(max-width:680px){
+    .zs-story-journal .zsj__story-visual{height:235px;min-height:235px}
+    .zs-story-journal .zsj__journal-head{gap:12px}
+    .zs-story-journal .zsj__journal-empty{min-height:285px}
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -185,9 +223,9 @@
     {"type":"text","id":"empty_label","label":"Empty journal eyebrow","default":"A NEW CHAPTER IS COMING"},
     {"type":"text","id":"empty_title","label":"Empty journal title","default":"Stories worth sharing."},
     {"type":"textarea","id":"empty_text","label":"Empty journal message","default":"Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon."},
-    {"type":"color","id":"bg_color","label":"Section background","default":"#FBF9F6"},
-    {"type":"color","id":"text_color","label":"Text color","default":"#2C2A29"},
-    {"type":"color","id":"accent_color","label":"Accent color","default":"#A8794A"},
+    {"type":"color","id":"bg_color","label":"Section background","default":"#39463A"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#FAF9F6"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#B69A6A"},
     {"type":"color","id":"walnut_color","label":"Walnut color","default":"#7A5238"},
     {"type":"range","id":"padding_top","label":"Top padding","min":40,"max":140,"step":4,"unit":"px","default":88},
     {"type":"range","id":"padding_bottom","label":"Bottom padding","min":40,"max":140,"step":4,"unit":"px","default":88}

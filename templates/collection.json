@@ -77,7 +77,7 @@
         "section_width": "page-width",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#EBE6DE",
         "video_position": "cover",
         "background_image_position": "cover",
         "border": "none",
@@ -209,7 +209,7 @@
         "columns_gap_vertical": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#FAF9F6",
         "padding-block-start": 0,
         "padding-block-end": 32
       }

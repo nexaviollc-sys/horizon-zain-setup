@@ -1,0 +1,80 @@
+:root {
+  --zaisen-ivory: #FAF9F6;
+  --zaisen-espresso: #28221D;
+  --zaisen-green: #39463A;
+  --zaisen-walnut: #77523A;
+  --zaisen-brass: #B69A6A;
+  --zaisen-linen: #EBE6DE;
+  --zaisen-rule: #DCD6CD;
+}
+html{scroll-behavior:smooth}
+body{background-color:var(--zaisen-ivory);color:var(--zaisen-espresso);-webkit-font-smoothing:antialiased}
+::selection{background:#D4C2A4;color:#28221D}
+:focus-visible{outline-color:var(--zaisen-walnut);outline-offset:3px}
+#header-group{z-index:var(--layer-header,10)}
+.header--zaisen{--zs-header-accent:#77523A;--zs-header-shadow:40 34 29}
+.header--zaisen .header__underlay-closed::before{display:none}
+.header--zaisen .header__underlay-open{border-radius:0 0 8px 8px}
+.header--zaisen .menu-list__link-title::after{height:1px}
+.header--zaisen .header-actions__action:not(.dropdown-localization__button):hover{box-shadow:none}
+.zs-announcement{background:var(--zs-a-bg,#39463A)}
+.zs-announcement::before,.zs-announcement::after{opacity:0}
+.zs-hero2__ambient{opacity:.22}
+.zs-hero2__placeholder-wood{opacity:.12}
+.zs-hero2__placeholder{background:#EBE6DE}
+.zs-hero2__frame{box-shadow:0 15px 46px rgba(40,34,29,.08)}
+.zs-hero2__btn--solid{box-shadow:0 7px 18px rgba(40,34,29,.1)}
+.zsbc__card{box-shadow:none}
+.zsbc__placeholder{background:#DCD6CD}
+.zsbc__media{background-color:#F4F1EA}
+.zsbc__arrow{box-shadow:none}
+.zbs-alt__media{box-shadow:none;border:1px solid #E8E2DA;background-color:#F3F0EB}
+.zbs-alt__item:nth-child(even){transform:none}
+.zbs-alt__products{padding-bottom:0}
+.zbs-alt__name{letter-spacing:0}
+.zbs-alt__price-now{color:var(--zaisen-walnut)}
+.zs-statue__card{box-shadow:none}
+.zs-statue__cta{box-shadow:none}
+main[data-template*="collection"] .product-grid-container,
+main[data-template*="search"] .product-grid-container{background:var(--zaisen-ivory)}
+.product-grid__item :is(.card-gallery,.product-card,.card-gallery__media){border-radius:5px}
+.product-grid__item :is(.card-gallery,.product-card){transition:border-color .2s ease,box-shadow .2s ease}
+.product-grid__item a:focus-visible{outline:2px solid var(--zaisen-walnut);outline-offset:3px}
+.product-grid__item img{transition:transform .35s ease}
+.product-grid__item a:hover img{transform:scale(1.012)}
+.facets__clear-all-link,.product-grid-container a.link,.cart-page a.link{color:var(--zaisen-walnut)}
+main[data-template*="product"] .content-for-layout,
+main[data-template*="product"] .product-information{background:var(--zaisen-ivory)}
+main[data-template*="product"] .product-details :is(h1,h2,h3){color:var(--zaisen-espresso)}
+main[data-template*="product"] .sticky-add-to-cart__bar{border-top:1px solid var(--zaisen-rule)}
+main[data-template*="cart"] .cart-page{color:var(--zaisen-espresso)}
+main[data-template*="blog"] .blog-posts-container,
+main[data-template*="article"] .section{color:var(--zaisen-espresso)}
+main[data-template*="blog"] .blog-post-item{border-color:var(--zaisen-rule)}
+main[data-template*="blog"] h1,
+main[data-template*="article"] h1,
+main[data-template*="collection"] h1,
+main[data-template*="page"] h1{font-family:var(--font-heading--family,Georgia,serif);font-weight:500;letter-spacing:-.025em}
+.zs-contact__grain{display:none}
+.zs-contact__support-card{box-shadow:none}
+.zs-contact__submit{background-color:var(--zaisen-walnut);color:var(--zaisen-ivory)}
+footer{background-color:var(--zaisen-espresso)}
+footer .section-background{background-color:var(--zaisen-espresso)}
+footer .section{color:#FAF9F6}
+footer .footer-content{color:#FAF9F6}
+footer :is(h2,h3,h4){color:#FAF9F6;font-family:var(--font-heading--family,Georgia,serif);font-weight:500;letter-spacing:-.01em}
+footer .footer-content :is(a,.rte a){color:#F0EBE3}
+footer .footer-content :is(a,.rte a):hover{color:#E2C89E}
+footer .utilities{color:#E2DED7}
+footer .utilities a{color:#E2DED7}
+footer .utilities a:hover{color:#E2C89E}
+footer input[type="email"]{background:#38332E;color:#FAF9F6;border-color:#786C60}
+footer input[type="email"]::placeholder{color:#CBC4B9;opacity:1}
+footer .email-signup__button,footer button[type="submit"]{color:#FAF9F6}
+footer :is(a,button,input):focus-visible{outline-color:#E2C89E}
+@media(max-width:749px){
+  .zs-hero2__frame{box-shadow:none}
+  .zsbc__card{box-shadow:none}
+  .zbs-alt__item:nth-child(even){transform:none}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.product-grid__item img{transition:none}}
