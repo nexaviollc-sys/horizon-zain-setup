@@ -231,7 +231,8 @@
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
         "padding_top": 60,
-        "padding_bottom": 84
+        "padding_bottom": 84,
+        "collection": "best-sellers"
       }
     },
     "zs_story_journal_2026": {
