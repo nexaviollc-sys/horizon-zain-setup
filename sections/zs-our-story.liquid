@@ -1,0 +1,410 @@
+{%- comment -%}
+  ZAISEN Our Story: people-first editorial page.
+  Uses the real Shopify page body for the core origin story, with editable
+  photography and supporting craftsmanship/shipping information.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign selected_font = s.editorial_font
+  assign font_light = selected_font | font_modify: 'weight', '300'
+  assign font_semibold = selected_font | font_modify: 'weight', '600'
+  assign font_bold = selected_font | font_modify: 'weight', '700'
+
+  assign hero_photo = s.hero_image
+  if hero_photo == blank
+    assign hero_photo = collections['handcrafted-wooden-statues'].products.first.featured_image
+  endif
+  assign origin_photo = s.origin_image
+  if origin_photo == blank
+    assign origin_photo = collections['home-decor'].products.first.featured_image
+  endif
+  assign wood_photo = s.wood_image
+  if wood_photo == blank
+    assign wood_photo = collections['kitchen-dining'].products.first.featured_image
+  endif
+  assign care_photo = s.care_image
+  if care_photo == blank
+    assign care_photo = collections['wooden-desk-shelf-decor'].products.first.featured_image
+  endif
+-%}
+{% if selected_font != blank %}
+  {% style %}
+    {{ selected_font | font_face: font_display: 'swap' }}
+    {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_semibold != blank %}{{ font_semibold | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_bold != blank %}{{ font_bold | font_face: font_display: 'swap' }}{% endif %}
+    #zs-story-{{ section.id }} { font-family: {{ selected_font.family | json }}, {{ selected_font.fallback_families }}; }
+  {% endstyle %}
+{% endif %}
+<section id="zs-story-{{ section.id }}" class="zs-story" aria-labelledby="zs-story-heading-{{ section.id }}"
+  style="--zs-story-bg:{{ s.background_color }};--zs-story-ink:{{ s.ink_color }};--zs-story-muted:{{ s.muted_color }};--zs-story-gold:{{ s.gold_color }};">
+  <div class="zs-story__inner">
+    <nav aria-label="Breadcrumb" class="zs-story__crumbs">
+      <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Our Story</span>
+    </nav>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | append: routes.root_url | json }}},
+          {"@type": "ListItem", "position": 2, "name": "Our Story", "item": {{ canonical_url | json }}}
+        ]
+      }
+    </script>
+    <div class="zs-story__hero">
+      <div class="zs-story__hero-copy">
+        <p class="zs-story__eyebrow"><span aria-hidden="true"></span> THE STORY BEHIND ZAISEN</p>
+        <h1 id="zs-story-heading-{{ section.id }}" class="zs-story__h1">Our Story.<br><strong>Made by Hand.</strong></h1>
+        <p class="zs-story__hero-description">{{ s.hero_text | escape }}</p>
+        <div class="zs-story__hero-points">
+          <span>Pure Wood</span><span aria-hidden="true" class="zs-story__separator"></span>
+          <span>Handcrafted</span><span aria-hidden="true" class="zs-story__separator"></span>
+          <span>Small Business</span>
+        </div>
+        <a class="zs-story__text-link" href="#zs-story-beginnings-{{ section.id }}">Discover our approach
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m-6-6 6 6 6-6"/></svg>
+        </a>
+      </div>
+      <div class="zs-story__hero-media">
+        {% if hero_photo != blank %}
+          {{ hero_photo | image_url: width: 1600 | image_tag: class: 'zs-story__photo', loading: 'eager', fetchpriority: 'high', widths: '480,720,900,1200,1600', sizes: '(min-width: 900px) 49vw, 100vw', alt: 'Handcrafted wooden design from ZAISEN' }}
+        {% else %}
+          <div class="zs-story__image-placeholder">ZAISEN <span>Crafted from wood</span></div>
+        {% endif %}
+        <span class="zs-story__image-caption">WOODEN HOME DÉCOR · ZAISEN</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="zs-story__inner zs-story__chapter" id="zs-story-beginnings-{{ section.id }}">
+    <div class="zs-story__chapter-media">
+      {% if origin_photo != blank %}
+        {{ origin_photo | image_url: width: 1300 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1300', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Handcrafted wooden home decor created for ZAISEN' }}
+      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Our beginnings</span></div>{% endif %}
+    </div>
+    <div class="zs-story__chapter-copy">
+      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> A SMALL BEGINNING</p>
+      <h2>Starting small.<br><strong>Making it matter.</strong></h2>
+      <div class="zs-story__richtext rte">
+        {{ page.content }}
+      </div>
+      <p class="zs-story__signature">From our hands to your home.</p>
+    </div>
+  </div>
+
+  <div class="zs-story__process-band">
+    <div class="zs-story__inner">
+      <header class="zs-story__section-heading">
+        <div>
+          <p class="zs-story__eyebrow"><span aria-hidden="true"></span> HOW OUR PIECES TAKE SHAPE</p>
+          <h2>From natural wood<br><strong>to everyday beauty.</strong></h2>
+        </div>
+        <p>Every piece begins with wood. Careful hands, time, and attention to the details turn that material into something to enjoy at home.</p>
+      </header>
+      <div class="zs-story__steps">
+        {% for block in section.blocks %}
+          <article class="zs-story__step" {{ block.shopify_attributes }}>
+            <div class="zs-story__step-media">
+              {% if block.settings.photo != blank %}
+                {{ block.settings.photo | image_url: width: 900 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '300,450,650,900', sizes: '(min-width: 900px) 22vw, (min-width: 600px) 44vw, 80vw', alt: block.settings.title }}
+              {% else %}
+                <div class="zs-story__process-placeholder">
+                  <span>0{{ forloop.index }}</span>
+                  <span>{{ block.settings.title | escape }}</span>
+                </div>
+              {% endif %}
+            </div>
+            <div class="zs-story__step-copy">
+              <span class="zs-story__step-number">0{{ forloop.index }}</span>
+              <h3>{{ block.settings.title | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="zs-story__inner zs-story__feature">
+    <div class="zs-story__feature-copy">
+      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> NATURAL MATERIALS</p>
+      <h2>Pure wood.<br><strong>Natural character.</strong></h2>
+      <p>Wood has a warmth and character of its own. Its grain, texture, and tone give each piece personality, so two handcrafted creations are never quite the same.</p>
+      <p>At ZAISEN, pure wooden products are at the heart of what we offer: wooden home décor, carefully crafted gifts, serving pieces, lighting, and more.</p>
+      <a class="zs-story__text-link" href="/collections/home-decor">Explore wooden home décor
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+      </a>
+    </div>
+    <div class="zs-story__feature-media">
+      {% if wood_photo != blank %}
+        {{ wood_photo | image_url: width: 1400 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1400', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Natural wood products and grain details in ZAISEN home decor' }}
+      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Natural wood</span></div>{% endif %}
+    </div>
+  </div>
+
+  <div class="zs-story__inner zs-story__feature zs-story__feature--reverse">
+    <div class="zs-story__feature-copy">
+      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> CRAFTED WITH CARE</p>
+      <h2>Little details.<br><strong>Lasting impressions.</strong></h2>
+      <p>We believe the finishing touches matter as much as the design itself. From shaping a wooden form to checking its surfaces and details, our approach is built around thoughtful handcrafting.</p>
+      <p>As a growing small business, we care about every order and the trust that comes with it. When you choose ZAISEN, you're supporting a business that's at the beginning of its journey and committed to growing with care.</p>
+      <a class="zs-story__text-link" href="/collections/gifts">Discover handcrafted wooden gifts
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+      </a>
+    </div>
+    <div class="zs-story__feature-media">
+      {% if care_photo != blank %}
+        {{ care_photo | image_url: width: 1400 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1400', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Detailing and finishing of handcrafted ZAISEN wooden decor' }}
+      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Made with care</span></div>{% endif %}
+    </div>
+  </div>
+
+  <div class="zs-story__shipping">
+    <div class="zs-story__inner">
+      <div class="zs-story__shipping-heading">
+        <p class="zs-story__eyebrow"><span aria-hidden="true"></span> FROM OUR WORKSHOP TO YOUR HOME</p>
+        <h2>Made with care.<br><strong>Shipped with care.</strong></h2>
+        <p>We offer free worldwide shipping and work to get your order to you quickly, wherever you call home.</p>
+      </div>
+      <div class="zs-story__shipping-facts">
+        <div class="zs-story__shipping-fact">
+          <span class="zs-story__ship-mark">01</span>
+          <h3>Free worldwide shipping</h3>
+          <p>Our goal is to make handcrafted wooden pieces easier to enjoy, with free shipping on ZAISEN orders.</p>
+        </div>
+        <div class="zs-story__shipping-fact">
+          <span class="zs-story__ship-mark">02</span>
+          <h3>United Kingdom · up to 5 days</h3>
+          <p>Estimated delivery to the UK is within 5 days after dispatch.</p>
+        </div>
+        <div class="zs-story__shipping-fact">
+          <span class="zs-story__ship-mark">03</span>
+          <h3>Other key destinations · up to 8 days</h3>
+          <p>Estimated delivery after dispatch to the USA, Germany, Canada, Australia, UAE, and Saudi Arabia is within 8 days.</p>
+        </div>
+      </div>
+      <p class="zs-story__shipping-disclaimer">Delivery windows are estimates after dispatch, not guarantees. Processing, carrier conditions, customs, and local delivery services may affect arrival times. See the shipping information provided at checkout for your order.</p>
+    </div>
+  </div>
+
+  <div class="zs-story__inner zs-story__collections">
+    <header class="zs-story__section-heading">
+      <div>
+        <p class="zs-story__eyebrow"><span aria-hidden="true"></span> WHAT WE LOVE TO MAKE</p>
+        <h2>Explore our<br><strong>wooden collections.</strong></h2>
+      </div>
+      <p>From small decorative details to statement pieces, find something natural to bring into your everyday space.</p>
+    </header>
+    <div class="zs-story__collection-grid">
+      {% assign story_collection_handles = 'home-decor,lighting,kitchen-dining,handcrafted-wooden-statues' | split: ',' %}
+      {% for story_handle in story_collection_handles %}
+        {% assign story_collection = collections[story_handle] %}
+        {% if story_collection != blank %}
+          {% assign story_collection_image = story_collection.image %}
+          {% if story_collection_image == blank %}
+            {% assign story_collection_image = story_collection.products.first.featured_image %}
+          {% endif %}
+          <a href="{{ story_collection.url }}" class="zs-story__collection-link">
+            <div class="zs-story__collection-photo">
+              {% if story_collection_image != blank %}
+                {{ story_collection_image | image_url: width: 800 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '240,400,600,800', sizes: '(min-width: 900px) 22vw, (min-width: 600px) 45vw, 90vw', alt: story_collection.title }}
+              {% else %}
+                <span class="zs-story__collection-fallback">{{ story_collection.title | escape }}</span>
+              {% endif %}
+            </div>
+            <span>{{ story_collection.title | escape }}
+              <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+            </span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="zs-story__closing">
+    <div class="zs-story__inner zs-story__closing-inner">
+      <div>
+        <p class="zs-story__closing-eyebrow">A NOTE FROM ZAISEN</p>
+        <h2>Wood brings the warmth.<br><strong>Our hands bring the details.</strong></h2>
+        <p>Thank you for discovering our small business. Every visit, message, and order is part of the story we’re building together.</p>
+      </div>
+      <div class="zs-story__closing-buttons">
+        <a href="/collections/all" class="zs-story__button">Explore collections
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+        </a>
+        <a href="/pages/contact" class="zs-story__contact-cta">Get in touch
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zs-story{display:block;background:var(--zs-story-bg,#FFFFFF);color:var(--zs-story-ink,#2B1D17)}
+.zs-story *{box-sizing:border-box}
+.zs-story__inner{width:100%;max-width:1440px;margin:0 auto;padding-inline:clamp(20px,4vw,58px)}
+.zs-story__crumbs{display:flex;align-items:center;gap:11px;padding:38px 0 25px;color:var(--zs-story-muted,#80736A);font-size:11px}
+.zs-story__crumbs a{color:inherit;text-decoration:none}
+.zs-story__crumbs a:hover{text-decoration:underline}
+.zs-story__hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(30px,5vw,75px);align-items:center;padding:5px 0 clamp(74px,8vw,110px)}
+.zs-story__hero-copy{min-width:0}
+.zs-story__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 25px;color:#967554;font-size:10px;line-height:1.5;font-weight:500;letter-spacing:.17em}
+.zs-story__eyebrow>span{display:block;width:29px;height:2px;flex:0 0 29px;background:var(--zs-story-gold,#D8B56A)}
+.zs-story__h1{margin:0;letter-spacing:-.065em;font-family:inherit!important;font-size:clamp(49px,5.2vw,81px);line-height:1.08;font-weight:300;text-wrap:balance}
+.zs-story__h1 strong,.zs-story h2 strong{font-weight:700}
+.zs-story__hero-description{margin:27px 0 0;max-width:48ch;color:var(--zs-story-muted,#80736A);font-size:clamp(13px,1.13vw,16px);line-height:1.8}
+.zs-story__hero-points{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-top:24px;color:#694D37;font-size:11px;font-weight:500}
+.zs-story__separator{width:3px;height:3px;border-radius:50%;background:var(--zs-story-gold,#D8B56A)}
+.zs-story__text-link{display:inline-flex;align-items:center;gap:10px;margin-top:27px;padding-bottom:6px;border-bottom:1px solid #D8B56A;color:#2B1D17;text-decoration:none;font-size:12px;font-weight:600;transition:color .2s ease,border-color .2s ease}
+.zs-story__text-link:hover{color:#86613F;border-color:#86613F}
+.zs-story__photo{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.zs-story__hero-media{position:relative;aspect-ratio:1.15/1;overflow:hidden;background:#F2E9DF;border-radius:22px}
+.zs-story__hero-media .zs-story__photo{object-fit:contain}
+.zs-story__image-caption{position:absolute;right:14px;bottom:13px;display:inline-block;padding:9px 13px;background:rgba(255,251,247,.91);color:#6C523C;font-size:9px;letter-spacing:.13em;border-radius:6px}
+.zs-story__image-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;width:100%;height:100%;min-height:230px;background:linear-gradient(145deg,#EEE5DB,#D8C6B4);font-size:clamp(24px,3vw,38px);letter-spacing:.25em;color:#80604B}
+.zs-story__image-placeholder span{font-size:11px;letter-spacing:.08em}
+.zs-story__chapter,.zs-story__feature{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:clamp(36px,7vw,105px);padding-block:clamp(48px,7.5vw,106px)}
+.zs-story__chapter-media,.zs-story__feature-media{height:100%;min-height:425px;max-height:570px;overflow:hidden;border-radius:18px;background:#F1E9E1}
+.zs-story__chapter-media .zs-story__photo,.zs-story__feature-media .zs-story__photo{object-fit:contain}
+.zs-story__chapter-copy h2,.zs-story__section-heading h2,.zs-story__feature h2,.zs-story__shipping h2{margin:0;font-family:inherit!important;font-size:clamp(37px,3.45vw,52px);line-height:1.15;letter-spacing:-.055em;font-weight:300}
+.zs-story__chapter-copy .zs-story__eyebrow,.zs-story__feature .zs-story__eyebrow{margin-bottom:18px}
+.zs-story__richtext{margin-top:25px;font-size:13.5px;line-height:1.85;color:var(--zs-story-muted,#80736A)}
+.zs-story__richtext p{margin:0 0 15px}
+.zs-story__richtext a{color:#654431;text-underline-offset:3px}
+.zs-story__signature{margin:20px 0 0;font-size:13px;letter-spacing:.015em;font-weight:600;color:#5D4637}
+.zs-story__process-band{padding:clamp(65px,7vw,100px) 0;background:#FAF7F3}
+.zs-story__section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin:0 0 33px}
+.zs-story__section-heading>p{margin:0 0 6px;max-width:42ch;color:var(--zs-story-muted,#80736A);font-size:12.5px;line-height:1.75}
+.zs-story__section-heading .zs-story__eyebrow{margin-bottom:17px}
+.zs-story__steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vw,26px)}
+.zs-story__step{min-width:0}
+.zs-story__step-media{height:auto;aspect-ratio:4/3;overflow:hidden;border-radius:13px;background:#E9DDCE}
+.zs-story__step-media .zs-story__photo{object-fit:contain}
+.zs-story__process-placeholder{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;width:100%;height:100%;padding:12px;background:linear-gradient(135deg,#ECE0D3,#DCC7B2);color:#785942;text-align:center}
+.zs-story__process-placeholder span:first-child{font-size:36px;font-weight:300;letter-spacing:-.06em;opacity:.6}
+.zs-story__process-placeholder span:last-child{font-size:12px;font-weight:600}
+.zs-story__step-copy{padding:16px 1px 0}
+.zs-story__step-number{font-size:10px;letter-spacing:.08em;color:#A1805E}
+.zs-story__step h3{margin:6px 0 6px;font-size:15px;line-height:1.35;font-weight:600}
+.zs-story__step p{margin:0;color:var(--zs-story-muted,#80736A);font-size:11.5px;line-height:1.65}
+.zs-story__process-note{margin:19px 0 0;color:#927D6B;font-size:10px}
+.zs-story__feature{min-height:520px}
+.zs-story__feature-copy{max-width:560px}
+.zs-story__feature-copy>p:not(.zs-story__eyebrow){margin:22px 0 0;color:var(--zs-story-muted,#80736A);font-size:13px;line-height:1.84}
+.zs-story__feature-copy>p+ p{margin-top:14px!important}
+.zs-story__feature--reverse .zs-story__feature-copy{order:2}
+.zs-story__feature--reverse .zs-story__feature-media{order:1}
+.zs-story__shipping{padding:clamp(58px,6.5vw,90px) 0;background:#F8F5F0}
+.zs-story__shipping-heading>p:not(.zs-story__eyebrow){margin:20px 0 0;color:var(--zs-story-muted,#80736A);font-size:13px;line-height:1.8}
+.zs-story__shipping-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(19px,3.1vw,44px);margin-top:35px}
+.zs-story__shipping-fact{border-top:1px solid #DCCBB7;padding-top:20px}
+.zs-story__ship-mark{display:block;margin-bottom:22px;color:#A1805E;font-size:11px}
+.zs-story__shipping-fact h3{margin:0 0 9px;font-size:16px;line-height:1.4;font-weight:600}
+.zs-story__shipping-fact p{margin:0;color:var(--zs-story-muted,#80736A);font-size:12px;line-height:1.7}
+.zs-story__shipping-disclaimer{max-width:95ch;margin:27px 0 0;color:#84786E;font-size:10.5px;line-height:1.65}
+.zs-story__collections{padding-block:clamp(75px,8vw,115px)}
+.zs-story__collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(15px,1.85vw,28px)}
+.zs-story__collection-link{display:block;min-width:0;color:inherit;text-decoration:none}
+.zs-story__collection-photo{aspect-ratio:1/1;overflow:hidden;border-radius:15px;background:#F4EEE8}
+.zs-story__collection-photo .zs-story__photo{object-fit:contain;transition:transform .3s ease}
+.zs-story__collection-link>span{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;font-size:13px;font-weight:600}
+.zs-story__collection-link:hover .zs-story__photo{transform:scale(1.035)}
+.zs-story__collection-link:hover>span{text-decoration:underline;text-underline-offset:4px}
+.zs-story__collection-fallback{display:grid;place-items:center;width:100%;height:100%;padding:15px;text-align:center;color:#816046}
+.zs-story__closing{padding:clamp(65px,7vw,100px) 0;background:#2B1D17;color:#FFF8F0}
+.zs-story__closing-inner{display:flex;align-items:end;justify-content:space-between;gap:48px}
+.zs-story__closing-eyebrow{margin:0 0 18px;color:#D8B56A;font-size:10px;letter-spacing:.18em}
+.zs-story__closing h2{margin:0;font-size:clamp(32px,3.8vw,54px);line-height:1.16;letter-spacing:-.05em;font-weight:300}
+.zs-story__closing h2 strong{font-weight:700}
+.zs-story__closing-inner>div>p:last-child{max-width:57ch;margin:17px 0 0;color:#D5C7BC;font-size:12.5px;line-height:1.8}
+.zs-story__closing-buttons{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;gap:18px}
+.zs-story__button{display:inline-flex;align-items:center;justify-content:center;gap:19px;padding:16px 20px;background:#FFF8F0;border-radius:999px;color:#2B1D17;text-decoration:none;font-size:12px;font-weight:600}
+.zs-story__contact-cta{display:inline-flex;align-items:center;gap:10px;color:#FFF8F0;text-decoration:none;font-size:12px;border-bottom:1px solid #D8B56A;padding-bottom:6px}
+.zs-story a:focus-visible{outline:2px solid #D8B56A;outline-offset:5px}
+@media(max-width:900px){
+  .zs-story__hero{grid-template-columns:1fr;gap:28px}
+  .zs-story__hero-media{max-height:550px}
+  .zs-story__chapter,.zs-story__feature{gap:30px}
+  .zs-story__steps,.zs-story__collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .zs-story__closing-inner{align-items:start;flex-direction:column}
+}
+@media(max-width:649px){
+  .zs-story__crumbs{padding:24px 0 20px}
+  .zs-story__hero{padding-bottom:45px}
+  .zs-story__h1{font-size:clamp(43px,11vw,61px)}
+  .zs-story__eyebrow{font-size:9px;gap:9px;margin-bottom:17px}
+  .zs-story__eyebrow>span{width:22px;flex-basis:22px}
+  .zs-story__hero-description{margin-top:17px;font-size:12.5px}
+  .zs-story__hero-media{aspect-ratio:4/3;border-radius:15px}
+  .zs-story__chapter,.zs-story__feature{display:flex;flex-direction:column;gap:26px;padding-block:47px}
+  .zs-story__chapter-media,.zs-story__feature-media{width:100%;height:auto;aspect-ratio:4/3;min-height:0;border-radius:14px}
+  .zs-story__feature--reverse .zs-story__feature-copy,.zs-story__feature--reverse .zs-story__feature-media{order:initial}
+  .zs-story__chapter-copy h2,.zs-story__section-heading h2,.zs-story__feature h2,.zs-story__shipping h2{font-size:clamp(33px,8.5vw,45px)}
+  .zs-story__richtext{font-size:12.5px}
+  .zs-story__section-heading{display:block;margin-bottom:23px}
+  .zs-story__section-heading>p{margin-top:15px;font-size:12px}
+  .zs-story__process-band{padding:48px 0}
+  .zs-story__steps{gap:21px 13px}
+  .zs-story__step-media{border-radius:10px}
+  .zs-story__step h3{font-size:13px}
+  .zs-story__step p{font-size:10.5px}
+  .zs-story__process-note{font-size:9px}
+  .zs-story__feature{min-height:0}
+  .zs-story__shipping{padding:50px 0}
+  .zs-story__shipping-facts{grid-template-columns:1fr;gap:19px;margin-top:25px}
+  .zs-story__shipping-fact{padding-top:14px}
+  .zs-story__ship-mark{margin-bottom:8px}
+  .zs-story__shipping-fact h3{font-size:15px}
+  .zs-story__collections{padding-block:55px}
+  .zs-story__collection-grid{gap:24px 12px}
+  .zs-story__collection-photo{border-radius:11px}
+  .zs-story__collection-link>span{font-size:11px;line-height:1.45}
+  .zs-story__closing{padding:58px 0}
+  .zs-story__closing h2{font-size:34px}
+  .zs-story__closing-buttons{gap:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  .zs-story__collection-photo .zs-story__photo{transition:none}
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name":"ZAISEN Our Story",
+  "tag":"section",
+  "class":"zs-story-section",
+  "max_blocks":4,
+  "settings":[
+    {"type":"font_picker","id":"editorial_font","label":"Typography","default":"poppins_n4"},
+    {"type":"textarea","id":"hero_text","label":"Hero introduction","default":"We’re a growing small business with a love for pure wood and the care that goes into making something by hand. Discover the people-first values and handcrafted wooden home décor behind ZAISEN."},
+    {"type":"image_picker","id":"hero_image","label":"Hero photo (ideally genuine workshop / product)"},
+    {"type":"image_picker","id":"origin_image","label":"Origins photo"},
+    {"type":"image_picker","id":"wood_image","label":"Wood textures photo"},
+    {"type":"image_picker","id":"care_image","label":"Craftsmanship photo"},
+    {"type":"color","id":"background_color","label":"Page background","default":"#FFFFFF"},
+    {"type":"color","id":"ink_color","label":"Walnut text","default":"#2B1D17"},
+    {"type":"color","id":"muted_color","label":"Supporting text","default":"#80736A"},
+    {"type":"color","id":"gold_color","label":"Champagne accent","default":"#D8B56A"}
+  ],
+  "blocks":[{
+    "type":"process","name":"Making process step",
+    "settings":[
+      {"type":"image_picker","id":"photo","label":"Real workshop / process photo"},
+      {"type":"text","id":"title","label":"Step heading","default":"Handcrafted with care"},
+      {"type":"textarea","id":"description","label":"Step description","default":"Every detail receives careful attention."}
+    ]
+  }],
+  "presets":[{
+    "name":"ZAISEN Our Story",
+    "blocks":[
+      {"type":"process","settings":{"title":"Selecting the wood","description":"It starts with natural wood, chosen for each piece's intended design."}},
+      {"type":"process","settings":{"title":"Shaping by hand","description":"Craftsmanship transforms the material into its intended form."}},
+      {"type":"process","settings":{"title":"Finishing touches","description":"Surfaces, contours, and small details receive attention."}},
+      {"type":"process","settings":{"title":"Ready for your home","description":"Each finished piece is prepared for the journey to its new home."}}
+    ]
+  }]
+}
+{% endschema %}
