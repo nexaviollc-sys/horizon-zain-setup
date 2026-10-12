@@ -171,7 +171,7 @@
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
         "padding_top": 88,
-        "padding_bottom": 96,
+        "padding_bottom": 40,
         "button_label": "Explore All Collections",
         "button_link": ""
       }
@@ -230,7 +230,7 @@
         "text_color": "#80736a",
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
-        "padding_top": 84,
+        "padding_top": 60,
         "padding_bottom": 84
       }
     },
@@ -256,12 +256,61 @@
         "padding_top": 92,
         "padding_bottom": 96
       }
+    },
+    "zs_why_zaisen_2026": {
+      "type": "zs-why-zaisen",
+      "name": "ZAISEN Why Choose Us",
+      "settings": {
+        "eyebrow": "THE ZAISEN DIFFERENCE",
+        "heading_light": "Made with",
+        "heading_bold": "Care.",
+        "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
+        "editorial_font": "poppins_n4",
+        "bg_color": "#F8F5F0",
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "padding_top": 44,
+        "padding_bottom": 44
+      },
+      "blocks": {
+        "zs_why_wood": {
+          "type": "feature",
+          "settings": {
+            "icon": "tree",
+            "title": "Pure Wood",
+            "description": "Made from natural wood."
+          }
+        },
+        "zs_why_hand": {
+          "type": "feature",
+          "settings": {
+            "icon": "hand",
+            "title": "Handcrafted",
+            "description": "Carefully made by skilled hands."
+          }
+        },
+        "zs_why_care": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Made with Care",
+            "description": "Attention to the little details."
+          }
+        }
+      },
+      "block_order": [
+        "zs_why_wood",
+        "zs_why_hand",
+        "zs_why_care"
+      ]
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_craft_marquee_2026",
     "zs_shop_by_collection_test_8x",
+    "zs_why_zaisen_2026",
     "zs_best_sellers_alt_4x",
     "zs_story_journal_2026"
   ]

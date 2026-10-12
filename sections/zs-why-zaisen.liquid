@@ -1,0 +1,181 @@
+{%- comment -%}
+  ZAISEN three-part craftsmanship statement, shown between Collections
+  and Best Sellers. Compact editorial strip; no promotional claims or cards.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign editorial_font = s.editorial_font
+  assign light_font = editorial_font | font_modify: 'weight', '300'
+  assign medium_font = editorial_font | font_modify: 'weight', '500'
+  assign bold_font = editorial_font | font_modify: 'weight', '700'
+-%}
+{%- if editorial_font != blank -%}
+  {% style %}
+    {{ editorial_font | font_face: font_display: 'swap' }}
+    {% if light_font != blank %}{{ light_font | font_face: font_display: 'swap' }}{% endif %}
+    {% if medium_font != blank %}{{ medium_font | font_face: font_display: 'swap' }}{% endif %}
+    {% if bold_font != blank %}{{ bold_font | font_face: font_display: 'swap' }}{% endif %}
+    #zs-why-{{ section.id }} {
+      font-family: {{ editorial_font.family | json }}, {{ editorial_font.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
+<section
+  id="zs-why-{{ section.id }}"
+  class="zs-why"
+  aria-labelledby="zs-why-title-{{ section.id }}"
+  style="--zs-why-bg:{{ s.bg_color }};--zs-why-ink:{{ s.heading_color }};--zs-why-text:{{ s.text_color }};--zs-why-accent:{{ s.accent_color }};--zs-why-top:{{ s.padding_top }}px;--zs-why-bottom:{{ s.padding_bottom }}px;"
+>
+  <div class="zs-why__inner">
+    <div class="zs-why__layout">
+      <div class="zs-why__intro">
+        {% if s.eyebrow != blank %}
+          <p class="zs-why__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+        {% endif %}
+        <h2 class="zs-why__title" id="zs-why-title-{{ section.id }}">
+          <span>{{ s.heading_light | escape }}</span>
+          <strong>{{ s.heading_bold | escape }}</strong>
+        </h2>
+        {% if s.intro_text != blank %}
+          <p class="zs-why__lead">{{ s.intro_text | escape }}</p>
+        {% endif %}
+      </div>
+
+      <div class="zs-why__features">
+        {% for block in section.blocks %}
+          <div class="zs-why__feature" {{ block.shopify_attributes }}>
+            <div class="zs-why__icon" aria-hidden="true">
+              {% case block.settings.icon %}
+                {% when 'tree' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 2 5 7h-3l5 7H5l5-7H7l5-7Z"/>
+                    <path d="M12 16v6"/>
+                  </svg>
+                {% when 'hand' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 13V6a1.75 1.75 0 0 1 3.5 0v5"/>
+                    <path d="M11.5 11V5a1.75 1.75 0 0 1 3.5 0v6"/>
+                    <path d="M15 11V8a1.75 1.75 0 0 1 3.5 0v7a6.5 6.5 0 0 1-6.5 6.5h-1.1a6 6 0 0 1-4.8-2.4L3 15a1.75 1.75 0 0 1 2.7-2.2L8 15"/>
+                  </svg>
+                {% else %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.8 4.9a5.4 5.4 0 0 0-7.7 0L12 6l-1.1-1.1a5.4 5.4 0 0 0-7.7 7.7L12 21l8.8-8.4a5.4 5.4 0 0 0 0-7.7Z"/>
+                  </svg>
+              {% endcase %}
+            </div>
+            <div class="zs-why__feature-copy">
+              {% if block.settings.title != blank %}
+                <h3 class="zs-why__feature-title">{{ block.settings.title | escape }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p class="zs-why__feature-text">{{ block.settings.description | escape }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zs-why {
+  display:block;
+  width:100%;
+  margin:0;
+  padding:var(--zs-why-top,44px) 0 var(--zs-why-bottom,44px);
+  background:var(--zs-why-bg,#F8F5F0);
+  color:var(--zs-why-ink,#2B1D17);
+}
+.zs-why *{box-sizing:border-box}
+.zs-why__inner{width:100%;max-width:1440px;margin:0 auto;padding-inline:clamp(20px,4vw,58px)}
+.zs-why__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);align-items:center;gap:clamp(30px,4.5vw,70px)}
+.zs-why__intro{min-width:0}
+.zs-why__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 14px;color:#916B4B;font-size:10px;font-weight:500;letter-spacing:.16em;line-height:1.4;text-transform:uppercase}
+.zs-why__eyebrow>span{display:block;flex:0 0 26px;width:26px;height:2px;background:var(--zs-why-accent,#D8B56A)}
+.zs-why__title{display:flex;flex-wrap:wrap;align-items:baseline;gap:.23em;margin:0;font-family:inherit!important;font-size:clamp(30px,2.65vw,40px);line-height:1.14;letter-spacing:-.055em;color:var(--zs-why-ink,#2B1D17)}
+.zs-why__title>span{font-weight:300}
+.zs-why__title>strong{font-weight:700}
+.zs-why__lead{max-width:44ch;margin:11px 0 0;color:var(--zs-why-text,#80736A);font-size:12px;line-height:1.7;font-weight:400}
+.zs-why__features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.7vw,40px);align-items:start}
+.zs-why__feature{min-width:0}
+.zs-why__icon{display:flex;align-items:center;justify-content:flex-start;width:32px;height:32px;margin-bottom:14px;color:#806044}
+.zs-why__icon svg{display:block;width:29px;height:29px}
+.zs-why__feature-title{margin:0;color:var(--zs-why-ink,#2B1D17);font-family:inherit!important;font-size:clamp(13px,1.04vw,15px);line-height:1.35;letter-spacing:-.023em;font-weight:600}
+.zs-why__feature-text{margin:6px 0 0;color:var(--zs-why-text,#80736A);font-size:11.5px;line-height:1.65;font-weight:400}
+@media(min-width:750px) and (max-width:1050px){
+  .zs-why__layout{grid-template-columns:1fr;gap:24px}
+  .zs-why__features{gap:32px}
+  .zs-why__feature{display:flex;gap:12px;align-items:flex-start}
+  .zs-why__icon{margin-bottom:0;flex-shrink:0}
+}
+@media(max-width:749px){
+  .zs-why{padding:34px 0 37px}
+  .zs-why__inner{padding-inline:16px}
+  .zs-why__layout{grid-template-columns:1fr;gap:25px}
+  .zs-why__eyebrow{font-size:9px;margin-bottom:12px}
+  .zs-why__title{font-size:clamp(31px,8vw,39px)}
+  .zs-why__lead{font-size:11.5px;line-height:1.6;margin-top:9px}
+  .zs-why__features{grid-template-columns:1fr;gap:0}
+  .zs-why__feature{display:flex;align-items:center;gap:15px;min-height:60px;padding:12px 0;border-top:1px solid rgba(128,96,68,.16)}
+  .zs-why__icon{margin:0;flex:0 0 34px}
+  .zs-why__icon svg{width:27px;height:27px}
+  .zs-why__feature-title{font-size:13px}
+  .zs-why__feature-text{margin-top:3px;font-size:11px}
+}
+@media(prefers-reduced-motion:no-preference){
+  @supports(animation-timeline:view()){
+    .zs-why__feature{
+      animation:zs-why-appear .55s ease both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 24%;
+    }
+    @keyframes zs-why-appear{
+      from{opacity:.6;transform:translateY(7px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name":"ZAISEN Why Choose Us",
+  "tag":"section",
+  "class":"section-zs-why-zaisen",
+  "max_blocks":3,
+  "settings":[
+    {"type":"header","content":"Editorial heading"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"THE ZAISEN DIFFERENCE"},
+    {"type":"text","id":"heading_light","label":"Light heading","default":"Made with"},
+    {"type":"text","id":"heading_bold","label":"Bold heading","default":"Care."},
+    {"type":"textarea","id":"intro_text","label":"Short description","default":"Real wood, careful craftsmanship, and little details that make every piece special."},
+    {"type":"header","content":"Visual style"},
+    {"type":"font_picker","id":"editorial_font","label":"Font","default":"poppins_n4"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#F8F5F0"},
+    {"type":"color","id":"heading_color","label":"Headings","default":"#2B1D17"},
+    {"type":"color","id":"text_color","label":"Supporting text","default":"#80736A"},
+    {"type":"color","id":"accent_color","label":"Line accent","default":"#D8B56A"},
+    {"type":"range","id":"padding_top","label":"Desktop top padding","min":20,"max":96,"step":4,"unit":"px","default":44},
+    {"type":"range","id":"padding_bottom","label":"Desktop bottom padding","min":20,"max":96,"step":4,"unit":"px","default":44}
+  ],
+  "blocks":[{
+    "type":"feature",
+    "name":"Craftsmanship point",
+    "settings":[
+      {"type":"select","id":"icon","label":"Icon","options":[{"value":"tree","label":"Pine tree"},{"value":"hand","label":"Hand"},{"value":"heart","label":"Heart"}],"default":"tree"},
+      {"type":"text","id":"title","label":"Title","default":"Pure Wood"},
+      {"type":"textarea","id":"description","label":"Short description","default":"Made from natural wood."}
+    ]
+  }],
+  "presets":[{
+    "name":"ZAISEN Why Choose Us",
+    "blocks":[
+      {"type":"feature","settings":{"icon":"tree","title":"Pure Wood","description":"Made from natural wood."}},
+      {"type":"feature","settings":{"icon":"hand","title":"Handcrafted","description":"Carefully made by skilled hands."}},
+      {"type":"feature","settings":{"icon":"heart","title":"Made with Care","description":"Attention to the little details."}}
+    ]
+  }]
+}
+{% endschema %}
