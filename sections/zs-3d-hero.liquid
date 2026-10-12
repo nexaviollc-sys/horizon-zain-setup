@@ -259,6 +259,155 @@
     body:has(.zf-hero) #header-component .header-logo__image{max-height:67px}
     body:has(.zf-hero) #header-group .header__row--top{min-height:68px}
   }
+
+  /* Phase 1 correction: true edge-to-edge hero, never a padded/rounded card. */
+  .zf-hero {
+    width:100%;
+    max-width:none;
+    padding:0!important;
+    margin:0;
+    background:#FFFFFF;
+  }
+  .zf-hero__canvas {
+    width:100%;
+    max-width:none;
+    height:clamp(720px, min(65vw, 92svh), 900px);
+    min-height:720px;
+    margin:0;
+    border-radius:0!important;
+    box-shadow:none!important;
+  }
+  /* Remove the artificial product photo disk. The natural photo fades into
+     the composition with a soft edge; source product pixels stay unchanged. */
+  .zf-hero__product {
+    width:min(100%, 650px);
+    border:0;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    overflow:visible;
+    transform:none;
+    aspect-ratio:1;
+    animation:zf-hero-float 8s ease-in-out infinite;
+  }
+  .zf-hero__product-image {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    transform:none;
+    border-radius:0!important;
+    -webkit-mask-image:radial-gradient(ellipse 48% 49% at 50% 50%, #000 70%, transparent 100%);
+    mask-image:radial-gradient(ellipse 48% 49% at 50% 50%, #000 70%, transparent 100%);
+    filter:drop-shadow(0 24px 25px rgba(18,9,5,.20));
+  }
+  .zf-hero__orbit{border:0;opacity:0}
+  .zf-hero__art {
+    width:min(51%,720px);
+    height:70%;
+    right:4%;
+    top:15%;
+  }
+  .zf-hero__copy{top:30%}
+  /* A sticky native Horizon header, translucent initially; white on scroll.
+     No hardcoded scroll listener: we reuse the theme's own sticky state. */
+  body:has(.zf-hero) #header-group {
+    background:transparent!important;
+  }
+  body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement) {
+    display:none!important;
+  }
+  body:has(.zf-hero) #header-group .zs-announcement {display:none!important}
+  body:has(.zf-hero) #header-component[transparent='not-sticky']:not([data-sticky-state='active']) {
+    position:absolute;
+    inset-inline:0;
+    top:0;
+    background:transparent!important;
+    --closed-underlay-height:0px;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky']:not([data-sticky-state='active']) .header__underlay-closed {
+    height:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky']:not([data-sticky-state='active']) .header__row {
+    background:transparent!important;
+    border-color:transparent!important;
+    box-shadow:none!important;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky'][data-sticky-state='active'] {
+    background:#FFFFFF!important;
+    color:#2B1D17!important;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky'][data-sticky-state='active'] .header__underlay-closed {
+    height:100%!important;
+    background:#FFFFFF!important;
+    box-shadow:0 8px 25px rgba(43,29,23,.08)!important;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky'][data-sticky-state='active'] .header__row {
+    background:#FFFFFF!important;
+    --color-foreground:#2B1D17;
+    border-color:transparent!important;
+  }
+  body:has(.zf-hero) #header-component[transparent='not-sticky'][data-sticky-state='active'] .zf-header-ctas__outline {
+    color:#2B1D17;
+    border-color:#2B1D17;
+  }
+  /* Reference: outlined secondary CTA floats on walnut; yellow main pill. */
+  body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .zf-header-ctas__outline {
+    color:#FFFFFF;
+    border-color:rgba(255,255,255,.84);
+    background:transparent;
+  }
+  body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .zf-header-ctas__outline:hover {
+    color:#2B1D17;
+    background:#FFFFFF;
+  }
+  .zf-hero__bottom-note{left:6%;bottom:9%}
+  .zf-hero__product-teaser{bottom:8%;right:5%;max-width:480px}
+  @media(min-width:1500px) {
+    .zf-hero__copy{left:clamp(160px,12.8%,230px)}
+    .zf-hero__art{right:7%}
+  }
+  @media(max-width:1099px) and (min-width:750px){
+    .zf-hero__canvas{height:740px;min-height:740px;border-radius:0!important}
+    .zf-hero__copy{top:29%}
+    .zf-hero__art{top:20%;width:50%;height:58%}
+    .zf-hero__product-teaser{bottom:6%}
+  }
+  @media(max-width:749px){
+    .zf-hero{padding:0!important;margin:0}
+    .zf-hero__canvas {
+      width:100%;max-width:none;
+      height:clamp(830px, 112svh, 970px);
+      min-height:830px;
+      border-radius:0!important;
+      box-shadow:none!important;
+    }
+    .zf-hero__canvas::before {
+      top:45%;
+      left:-13%;
+      width:130%;
+      height:75%;
+      transform:rotate(-8deg);
+      border-radius:46% 0 0 0 / 20% 0 0 0;
+      clip-path:none;
+      background:var(--zf-dark);
+    }
+    .zf-hero__copy{top:clamp(85px,13svh,112px);left:22px;right:22px}
+    .zf-hero__headline{font-size:clamp(36px,9vw,50px)}
+    .zf-hero__art{top:47%;left:6%;right:6%;width:88%;height:37%}
+    .zf-hero__product{width:min(100%,410px)}
+    .zf-hero__product-image {
+      -webkit-mask-image:radial-gradient(ellipse 49% 49% at 50% 50%,#000 66%,transparent 100%);
+      mask-image:radial-gradient(ellipse 49% 49% at 50% 50%,#000 66%,transparent 100%);
+    }
+    .zf-hero__product-teaser{bottom:2.5%;left:15px;right:15px}
+    .zf-hero__art-caption{top:3%;right:2%}
+    .zf-hero__bottom-note{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .zf-hero__product{animation:none}
+  }
 {% endstylesheet %}
 
 {% schema %}

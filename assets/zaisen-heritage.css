@@ -104,3 +104,9 @@ footer input[type="email"]::placeholder{color:#777068;opacity:1}
 footer .email-signup__button, footer button[type="submit"],
 footer .utilities,footer .utilities :is(span,small,svg) { color:#28221D; }
 footer :is(a,button,input):focus-visible{outline-color:#77523A}
+
+/* Transparent-home nav is allowed to overlay the edge-to-edge Fode-inspired hero. */
+body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement) {display:none!important}
+body:has(.zf-hero) #header-group .zs-announcement{display:none!important}
+body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__underlay-closed{background:transparent!important;box-shadow:none!important}
+body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__underlay-closed{background:#FFFFFF!important}
