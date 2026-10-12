@@ -266,7 +266,7 @@
         "heading_bold": "Care.",
         "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
         "editorial_font": "poppins_n4",
-        "bg_color": "#F8F5F0",
+        "bg_color": "#FFFFFF",
         "heading_color": "#2B1D17",
         "text_color": "#80736A",
         "accent_color": "#D8B56A",
@@ -277,7 +277,6 @@
         "zs_why_wood": {
           "type": "feature",
           "settings": {
-            "icon": "tree",
             "title": "Pure Wood",
             "description": "Made from natural wood."
           }
@@ -285,7 +284,6 @@
         "zs_why_hand": {
           "type": "feature",
           "settings": {
-            "icon": "hand",
             "title": "Handcrafted",
             "description": "Carefully made by skilled hands."
           }
@@ -293,7 +291,6 @@
         "zs_why_care": {
           "type": "feature",
           "settings": {
-            "icon": "heart",
             "title": "Made with Care",
             "description": "Attention to the little details."
           }
