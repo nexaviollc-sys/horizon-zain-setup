@@ -209,54 +209,6 @@
         "padding_bottom": 128
       }
     },
-    "zs_our_craft_1": {
-      "type": "zs-our-craft",
-      "blocks": {
-        "p1": {
-          "type": "principle",
-          "settings": {
-            "title": "Material Integrity",
-            "text": "Chosen for authentic grain, natural warmth and the individual character that makes every piece distinct."
-          }
-        },
-        "p2": {
-          "type": "principle",
-          "settings": {
-            "title": "Hand-Finished Detail",
-            "text": "Edges, surfaces and proportions are refined by hand for a tactile, considered finish."
-          }
-        },
-        "p3": {
-          "type": "principle",
-          "settings": {
-            "title": "Enduring Form",
-            "text": "Sculptural silhouettes designed to live naturally with modern interiors and age with character."
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3"
-      ],
-      "name": "ZAISEN Our Craft",
-      "settings": {
-        "eyebrow": "The Art of ZAISEN",
-        "heading": "Crafted by Nature. <em>Refined by Hand.</em>",
-        "text": "<p>At ZAISEN, wood is never treated as a blank surface. We preserve its grain, tone and natural variation, then shape each piece by hand into objects with quiet presence — considered for today and made to age beautifully.</p>",
-        "quote": "Objects with presence. Craft with permanence.",
-        "side_note": "Natural grain • human craft • enduring form",
-        "image_alt": "Handcrafted wooden pieces by ZAISEN",
-        "button_label": "Explore the Craft",
-        "bg_color": "#F6F1E7",
-        "text_color": "#2C2A29",
-        "accent_color": "#A8794A",
-        "wood_color": "#7A5238",
-        "line_color": "#D8C7B3",
-        "padding_top": 88,
-        "padding_bottom": 88
-      }
-    },
     "zs_statue_spotlight_1": {
       "type": "zs-statue-spotlight",
       "name": "ZAISEN Statue Spotlight",
@@ -274,13 +226,41 @@
         "padding_top": 32,
         "padding_bottom": 32
       }
+    },
+    "zs_story_journal_1": {
+      "type": "zs-story-journal",
+      "name": "ZAISEN Story & Blogs",
+      "settings": {
+        "eyebrow": "THE WORLD OF ZAISEN",
+        "heading": "Our Story. Our Journal.",
+        "intro": "A closer look at the hands, materials and ideas behind the objects we make.",
+        "visual_caption": "ROOTED IN NATURE · REFINED BY HAND",
+        "story_label": "OUR STORY",
+        "story_title": "A little closer to the craft.",
+        "story_text": "<p>At ZAISEN, we believe natural wood has its own quiet character. Through careful shaping and hand-finished details, we turn that character into pieces made to feel at home in the spaces you love.</p><p>Thoughtful materials. Unhurried craftsmanship. Everyday objects with something more to say.</p>",
+        "story_button": "Explore our collection",
+        "blog": "news",
+        "journal_label": "OUR BLOGS",
+        "journal_title": "From the Journal",
+        "journal_button": "View all stories",
+        "read_label": "Read the story",
+        "empty_label": "A NEW CHAPTER IS COMING",
+        "empty_title": "Stories worth sharing.",
+        "empty_text": "Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon.",
+        "bg_color": "#FBF9F6",
+        "text_color": "#2C2A29",
+        "accent_color": "#A8794A",
+        "walnut_color": "#7A5238",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x",
-    "zs_our_craft_1",
+    "zs_story_journal_1",
     "zs_statue_spotlight_1"
   ]
 }
