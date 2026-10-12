@@ -208,59 +208,11 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
-    },
-    "zs_statue_spotlight_1": {
-      "type": "zs-statue-spotlight",
-      "name": "ZAISEN Statue Spotlight",
-      "settings": {
-        "product": "handcrafted-wooden-horse-statue",
-        "heading": "Handcrafted Wooden Horse Sculpture",
-        "description": "<p>One of ZAISEN’s signature art pieces, this handcrafted wooden horse captures movement, strength and character in a sculptural form. Natural grain and hand-finished detail give every piece a distinctive presence — made to stand apart in refined interiors.</p>",
-        "offer_label": "SAVE 60%",
-        "button_label": "Visit Product",
-        "bg_color": "#FFFFFF",
-        "text_color": "#28221D",
-        "accent_color": "#B69A6A",
-        "wood_color": "#77523A",
-        "line_color": "#EBE6DE",
-        "padding_top": 56,
-        "padding_bottom": 56
-      }
-    },
-    "zs_story_journal_1": {
-      "type": "zs-story-journal",
-      "name": "ZAISEN Story & Blogs",
-      "settings": {
-        "eyebrow": "THE WORLD OF ZAISEN",
-        "heading": "Our Story. Our Journal.",
-        "intro": "A closer look at the hands, materials and ideas behind the objects we make.",
-        "visual_caption": "ROOTED IN NATURE · REFINED BY HAND",
-        "story_label": "OUR STORY",
-        "story_title": "A little closer to the craft.",
-        "story_text": "<p>At ZAISEN, we believe natural wood has its own quiet character. Through careful shaping and hand-finished details, we turn that character into pieces made to feel at home in the spaces you love.</p><p>Thoughtful materials. Unhurried craftsmanship. Everyday objects with something more to say.</p>",
-        "story_button": "Explore our collection",
-        "blog": "news",
-        "journal_label": "OUR BLOGS",
-        "journal_title": "From the Journal",
-        "journal_button": "View all stories",
-        "read_label": "Read the story",
-        "empty_label": "A NEW CHAPTER IS COMING",
-        "empty_title": "Stories worth sharing.",
-        "empty_text": "Wood, craftsmanship and considered living. Notes from the ZAISEN workshop will appear here soon.",
-        "bg_color": "#FFFFFF",
-        "text_color": "#28221D",
-        "accent_color": "#B69A6A",
-        "walnut_color": "#77523A",
-        "padding_top": 88,
-        "padding_bottom": 88
-      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
     "zs_shop_by_collection_test_8x",
-    "zs_best_sellers_alt_4x",
-    "zs_story_journal_1",
-    "zs_statue_spotlight_1"
+    "zs_best_sellers_alt_4x"
   ]
 }
