@@ -274,10 +274,64 @@
         "padding_top": 32,
         "padding_bottom": 32
       }
+    },
+    "zs_shopping_benefits_1": {
+      "type": "zs-shopping-benefits",
+      "name": "ZAISEN Shopping Benefits",
+      "settings": {
+        "accessible_label": "Why shop ZAISEN",
+        "background_color": "#FBF9F6",
+        "text_color": "#2C2A29",
+        "accent_color": "#A8794A",
+        "border_color": "#E6DACE"
+      },
+      "blocks": {
+        "wood_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "wood",
+            "title": "Handcrafted Pure Wood",
+            "description": "Natural grain, refined by hand."
+          }
+        },
+        "delivery_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "delivery",
+            "title": "Free Delivery",
+            "description": "On eligible orders to countries we serve.",
+            "link": "shopify://policies/shipping-policy"
+          }
+        },
+        "secure_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "secure",
+            "title": "Secure Checkout",
+            "description": "Shop confidently with protected payments."
+          }
+        },
+        "care_4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "care",
+            "title": "Here to Help",
+            "description": "Support for damaged or incorrect items.",
+            "link": "shopify://policies/refund-policy"
+          }
+        }
+      },
+      "block_order": [
+        "wood_1",
+        "delivery_2",
+        "secure_3",
+        "care_4"
+      ]
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
+    "zs_shopping_benefits_1",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x",
     "zs_our_craft_1",
