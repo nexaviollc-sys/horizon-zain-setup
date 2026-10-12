@@ -252,8 +252,103 @@
     }
   }
 
+  /* ZAISEN separate pill navigation and dark-hero utility contrast.
+     Style the original Horizon links without changing menu markup or events. */
+  @media screen and (min-width: 750px) {
+    #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link-title {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 39px;
+      padding: 8px 15px;
+      border: 1px solid rgba(43, 29, 23, .23);
+      border-radius: 999px;
+      background: rgba(255, 248, 240, .93);
+      color: #2B1D17;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: .005em;
+      white-space: nowrap;
+      transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+
+    #header-component.header--zaisen .header-menu .menu-list__link-title::after {
+      content: none;
+      display: none;
+    }
+
+    #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link:is(.menu-list__link--active, [aria-current='page']) .menu-list__link-title {
+      background: #2B1D17;
+      border-color: #2B1D17;
+      color: #FFFFFF;
+    }
+
+    #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link:is(:hover, :focus-visible) .menu-list__link-title,
+    #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__trigger:has(.menu-list__disclosure[aria-expanded='true']) .menu-list__link-title {
+      background: #2B1D17;
+      border-color: #2B1D17;
+      color: #FFFFFF;
+      box-shadow: 0 5px 12px rgba(43, 29, 23, .12);
+    }
+
+    /* Existing liquid navbar changes state on scroll; keep nontransparent
+       and sticky header icons their original dark color. */
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right {
+      --color-account-icon: #FFF8F0;
+    }
+
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+      .dropdown-localization__button,
+      .search-action .header-actions__action,
+      header-actions .header-actions__action,
+      .account-button
+    ) {
+      color: #FFF8F0 !important;
+      --color-account-icon: #FFF8F0;
+    }
+
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+      .dropdown-localization__button,
+      .search-action .header-actions__action,
+      header-actions .header-actions__action
+    ) svg {
+      color: currentColor;
+    }
+
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right .dropdown-localization__button {
+      border-color: rgba(255, 248, 240, .58);
+      background-color: rgba(43, 29, 23, .28);
+      box-shadow: none;
+    }
+
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right .dropdown-localization__button:is(:hover, :focus-visible) {
+      color: #FFFFFF !important;
+      border-color: #FFFFFF;
+      background: rgba(255, 255, 255, .16);
+    }
+
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+      .search-action .header-actions__action,
+      header-actions .header-actions__action,
+      .account-button
+    ):is(:hover, :focus-visible) {
+      color: #FFFFFF !important;
+      --color-account-icon: #FFFFFF;
+      background-color: rgba(255, 255, 255, .14);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .4);
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 1199px) {
+    #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link-title {
+      padding-inline: 11px;
+      min-height: 37px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .header--zaisen .menu-list__link-title::after,
+    .header--zaisen .header-menu .menu-list__link-title,
     .header--zaisen .header-actions__action:not(.dropdown-localization__button) {
       transition: none;
     }
