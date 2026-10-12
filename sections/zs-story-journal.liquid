@@ -85,7 +85,7 @@
       {% endif %}
     </header>
 
-    <div class="zs-sj__grid">
+    <div class="zs-sj__grid" aria-label="Discover ZAISEN stories and inspiration">
       <article class="zs-sj__card">
         {% if story_href != blank %}
           <a class="zs-sj__link" href="{{ story_href }}" aria-label="{{ s.story_cta | escape }}">
@@ -101,6 +101,7 @@
           </div>
           <div class="zs-sj__card-info">
             <div class="zs-sj__card-copy">
+              <p class="zs-sj__card-index">01 <span aria-hidden="true">/</span> BEHIND THE BRAND</p>
               <h3 class="zs-sj__card-title">{{ s.story_title | escape }}</h3>
               {% if s.story_text != blank %}
                 <p class="zs-sj__card-description">{{ s.story_text | escape }}</p>
@@ -133,6 +134,7 @@
           </div>
           <div class="zs-sj__card-info">
             <div class="zs-sj__card-copy">
+              <p class="zs-sj__card-index">02 <span aria-hidden="true">/</span> IDEAS & INSPIRATION</p>
               <h3 class="zs-sj__card-title">{{ s.journal_title | escape }}</h3>
               {% if s.journal_text != blank %}
                 <p class="zs-sj__card-description">{{ s.journal_text | escape }}</p>
@@ -154,86 +156,272 @@
 </section>
 
 {% stylesheet %}
-.zs-sj{background:var(--zs-sj-bg,#FAF8F5);color:var(--zs-sj-ink,#2B1D17);padding:var(--zs-sj-pad-top,92px) 0 var(--zs-sj-pad-bottom,96px)}
+.zs-sj{
+  background:var(--zs-sj-bg,#FFFFFF);
+  color:var(--zs-sj-ink,#2B1D17);
+  padding:var(--zs-sj-pad-top,72px) 0 var(--zs-sj-pad-bottom,76px);
+}
 .zs-sj *{box-sizing:border-box}
 .zs-sj__container{width:100%;max-width:1440px;margin:0 auto;padding-inline:clamp(20px,4vw,58px)}
-.zs-sj__intro{margin:0 0 clamp(33px,3.4vw,48px)}
-.zs-sj__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 22px;color:#906D50;font-size:clamp(10px,.82vw,12px);font-weight:500;letter-spacing:.17em;text-transform:uppercase}
-.zs-sj__eyebrow span{display:block;flex:0 0 32px;width:32px;height:2px;background:var(--zs-sj-accent,#D8B56A)}
-.zs-sj__headline{display:flex;align-items:baseline;flex-wrap:wrap;gap:.25em;margin:0;font-family:inherit!important;font-size:clamp(40px,4.1vw,60px);line-height:1.12;letter-spacing:-.054em;text-wrap:balance;color:var(--zs-sj-ink,#2B1D17)}
+.zs-sj__intro{
+  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+  align-items:end;column-gap:clamp(28px,6vw,110px);
+  margin:0 0 clamp(27px,3vw,43px);
+}
+.zs-sj__eyebrow{
+  grid-column:1/-1;display:flex;align-items:center;gap:13px;
+  margin:0 0 17px;color:#947255;font-size:10px;
+  font-weight:500;line-height:1.5;letter-spacing:.17em;text-transform:uppercase;
+}
+.zs-sj__eyebrow span{
+  display:block;flex:0 0 28px;width:28px;height:2px;background:var(--zs-sj-accent,#D8B56A);
+}
+.zs-sj__headline{
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:.22em;margin:0;
+  color:var(--zs-sj-ink,#2B1D17);font-family:inherit!important;
+  font-size:clamp(38px,4vw,58px);line-height:1.13;letter-spacing:-.058em;
+}
 .zs-sj__headline-light{font-weight:300}
 .zs-sj__headline-strong{font-weight:700}
-.zs-sj__intro-text{margin:17px 0 0;max-width:75ch;font-size:clamp(13px,1.02vw,15px);font-weight:400;line-height:1.75;color:var(--zs-sj-muted,#80736A)}
-.zs-sj__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.4vw,34px);align-items:start}
+.zs-sj__intro-text{
+  margin:0 0 6px;max-width:47ch;
+  color:var(--zs-sj-muted,#80736A);
+  font-size:clamp(12px,1vw,14px);font-weight:400;line-height:1.8;
+}
+.zs-sj__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.1vw,32px)}
 .zs-sj__card{min-width:0}
-.zs-sj__link{display:block;color:inherit;text-decoration:none;outline-offset:5px}
+.zs-sj__link{display:block;min-width:0;color:inherit;text-decoration:none;outline-offset:5px}
 .zs-sj__link:visited{color:inherit}
-.zs-sj__photo{position:relative;display:block;width:100%;aspect-ratio:16 / 9;overflow:hidden;border-radius:20px;background:#EDE4D8;isolation:isolate}
-.zs-sj__image{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .6s cubic-bezier(.22,.68,.2,1)}
-.zs-sj__image-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(145deg,#D7C7B5,#A98E76);color:#FDFBF8}
-.zs-sj__image-placeholder span{font-size:clamp(20px,3vw,36px);font-weight:300;letter-spacing:.23em}
-.zs-sj__card-info{display:flex;flex-direction:column;align-items:flex-start;gap:19px;padding:24px 2px 0}
-.zs-sj__card-title{margin:0;font-family:inherit!important;font-size:clamp(21px,1.9vw,28px);font-weight:700;letter-spacing:-.04em;line-height:1.27;color:var(--zs-sj-ink,#2B1D17)}
-.zs-sj__card-description{margin:9px 0 0;color:var(--zs-sj-muted,#80736A);font-size:clamp(12px,.98vw,14px);line-height:1.7;font-weight:400}
-.zs-sj__card-action{display:inline-flex;align-items:center;gap:10px;padding-bottom:5px;border-bottom:1px solid color-mix(in srgb,var(--zs-sj-accent,#D8B56A) 58%,transparent);font-size:13px;font-weight:500;line-height:1.45;color:var(--zs-sj-ink,#2B1D17);transition:border-color .25s ease}
-.zs-sj__card-action svg{flex-shrink:0;transition:transform .25s ease}
-.zs-sj__link:focus-visible{outline:2px solid var(--zs-sj-accent,#D8B56A)}
+.zs-sj__photo{
+  position:relative;display:block;width:100%;aspect-ratio:16/9;
+  overflow:hidden;isolation:isolate;border:0;
+  border-radius:18px;background:#F3EEE8;
+}
+.zs-sj__image{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .55s cubic-bezier(.22,.68,.2,1)}
+.zs-sj__image-placeholder{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;
+  background:linear-gradient(145deg,#E8DCCF,#C7AE98);color:#FFFCF9;
+}
+.zs-sj__image-placeholder span{font-size:clamp(18px,2.4vw,32px);font-weight:300;letter-spacing:.22em}
+.zs-sj__card-info{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:26px;padding:19px 2px 0;
+}
+.zs-sj__card-copy{flex:1 1 auto;min-width:0}
+.zs-sj__card-index{
+  margin:0 0 12px;color:#9A795B;
+  font-size:10px;font-weight:500;letter-spacing:.15em;line-height:1.5;
+}
+.zs-sj__card-index span{margin:0 5px;color:#BEA489}
+.zs-sj__card-title{
+  margin:0;color:var(--zs-sj-ink,#2B1D17);font-family:inherit!important;
+  font-size:clamp(22px,1.9vw,29px);font-weight:700;
+  letter-spacing:-.045em;line-height:1.28;
+}
+.zs-sj__card-description{
+  max-width:50ch;margin:8px 0 0;color:var(--zs-sj-muted,#80736A);
+  font-size:clamp(12px,.96vw,14px);font-weight:400;line-height:1.7;
+}
+.zs-sj__card-action{
+  display:inline-flex;align-items:center;gap:9px;
+  align-self:flex-end;flex:0 0 auto;
+  margin-bottom:3px;padding:0 0 5px;
+  border-bottom:1px solid var(--zs-sj-accent,#D8B56A);
+  color:var(--zs-sj-ink,#2B1D17);
+  font-size:12px;font-weight:600;line-height:1.5;white-space:nowrap;
+  transition:border-color .22s ease,color .22s ease;
+}
+.zs-sj__card-action svg{flex-shrink:0;transition:transform .22s ease}
+.zs-sj__link:focus-visible{outline:2px solid var(--zs-sj-accent,#D8B56A);outline-offset:5px}
 .zs-sj__link--pending{cursor:default}
-.zs-sj__link--pending .zs-sj__card-action{opacity:.68;border-bottom-color:transparent}
+.zs-sj__link--pending .zs-sj__card-action{opacity:.55;border-bottom-color:transparent}
 @media(hover:hover) and (pointer:fine){
- .zs-sj__link:not(.zs-sj__link--pending):hover .zs-sj__image{transform:scale(1.035)}
- .zs-sj__link:not(.zs-sj__link--pending):hover .zs-sj__card-action{border-bottom-color:var(--zs-sj-ink,#2B1D17)}
+ .zs-sj__link:not(.zs-sj__link--pending):hover .zs-sj__image{transform:scale(1.025)}
+ .zs-sj__link:not(.zs-sj__link--pending):hover .zs-sj__card-action{color:#8C6545;border-color:#8C6545}
  .zs-sj__link:not(.zs-sj__link--pending):hover .zs-sj__card-action svg{transform:translate(2px,-2px)}
 }
-@media(max-width:749px){
- .zs-sj{padding:66px 0 72px}
- .zs-sj__container{padding-inline:16px}
- .zs-sj__eyebrow{font-size:9px;margin-bottom:17px}
- .zs-sj__headline{font-size:clamp(36px,9.4vw,51px)}
- .zs-sj__intro{margin-bottom:29px}
- .zs-sj__intro-text{font-size:12px;line-height:1.65}
- .zs-sj__grid{grid-template-columns:1fr;gap:43px}
- .zs-sj__photo{border-radius:16px}
- .zs-sj__card-info{padding:17px 2px 0;gap:13px}
- .zs-sj__card-title{font-size:22px}
- .zs-sj__card-description{font-size:12px}
- .zs-sj__card-action{font-size:12px}
+@media(max-width:1150px){
+  .zs-sj__card-info{flex-wrap:wrap;gap:14px}
+  .zs-sj__card-action{align-self:flex-start}
 }
-@media(prefers-reduced-motion:reduce){.zs-sj__image,.zs-sj__card-action,.zs-sj__card-action svg{transition:none}}
+@media(max-width:749px){
+ .zs-sj{padding:52px 0 62px}
+ .zs-sj__container{padding-inline:16px}
+ .zs-sj__intro{display:block;margin-bottom:28px}
+ .zs-sj__eyebrow{font-size:9px;margin-bottom:15px}
+ .zs-sj__headline{font-size:clamp(36px,9vw,49px)}
+ .zs-sj__intro-text{max-width:52ch;margin:12px 0 0;font-size:12px;line-height:1.7}
+ .zs-sj__grid{grid-template-columns:1fr;gap:35px}
+ .zs-sj__photo{border-radius:15px}
+ .zs-sj__card-info{padding:15px 1px 0;gap:13px}
+ .zs-sj__card-index{font-size:9px;margin-bottom:7px}
+ .zs-sj__card-title{font-size:23px}
+ .zs-sj__card-description{font-size:12px}
+ .zs-sj__card-action{font-size:11.5px;margin:0}
+}
+@media(prefers-reduced-motion:reduce){
+ .zs-sj__image,.zs-sj__card-action,.zs-sj__card-action svg{transition:none}
+}
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name":"ZAISEN Story & Journal",
-  "tag":"section",
-  "class":"section-zs-story-journal",
-  "settings":[
-    {"type":"header","content":"Section heading"},
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"DISCOVER MORE ABOUT ZAISEN"},
-    {"type":"text","id":"heading_light","label":"Heading first part","default":"More Than"},
-    {"type":"text","id":"heading_bold","label":"Heading bold part","default":"Wood."},
-    {"type":"textarea","id":"intro_text","label":"Introduction","default":"Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth."},
-    {"type":"header","content":"Our Story"},
-    {"type":"image_picker","id":"story_image","label":"Story landscape image"},
-    {"type":"text","id":"story_title","label":"Story card heading","default":"Our Story"},
-    {"type":"textarea","id":"story_text","label":"Story description","default":"Get to know the people and passion behind ZAISEN."},
-    {"type":"text","id":"story_cta","label":"Story link text","default":"Discover Our Story"},
-    {"type":"url","id":"story_link","label":"Story page link (active when page exists)"},
-    {"type":"header","content":"Our Blog"},
-    {"type":"image_picker","id":"journal_image","label":"Blog landscape image"},
-    {"type":"text","id":"journal_title","label":"Blog card heading","default":"Our Blog"},
-    {"type":"textarea","id":"journal_text","label":"Blog description","default":"Explore ideas, inspiration, and stories about wooden living."},
-    {"type":"text","id":"journal_cta","label":"Blog link text","default":"Explore Our Blog"},
-    {"type":"url","id":"journal_link","label":"Blog destination"},
-    {"type":"header","content":"Appearance"},
-    {"type":"font_picker","id":"editorial_font","label":"Text font","default":"poppins_n4"},
-    {"type":"color","id":"bg_color","label":"Background","default":"#FAF8F5"},
-    {"type":"color","id":"heading_color","label":"Heading and links","default":"#2B1D17"},
-    {"type":"color","id":"text_color","label":"Body text","default":"#80736A"},
-    {"type":"color","id":"accent_color","label":"Accent","default":"#D8B56A"},
-    {"type":"range","id":"padding_top","label":"Top spacing","min":40,"max":160,"step":4,"unit":"px","default":92},
-    {"type":"range","id":"padding_bottom","label":"Bottom spacing","min":40,"max":160,"step":4,"unit":"px","default":96}
+  "name": "ZAISEN Story & Journal",
+  "tag": "section",
+  "class": "section-zs-story-journal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "DISCOVER MORE ABOUT ZAISEN"
+    },
+    {
+      "type": "text",
+      "id": "heading_light",
+      "label": "Heading first part",
+      "default": "More Than"
+    },
+    {
+      "type": "text",
+      "id": "heading_bold",
+      "label": "Heading bold part",
+      "default": "Wood."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introduction",
+      "default": "Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth."
+    },
+    {
+      "type": "header",
+      "content": "Our Story"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story landscape image"
+    },
+    {
+      "type": "text",
+      "id": "story_title",
+      "label": "Story card heading",
+      "default": "Our Story"
+    },
+    {
+      "type": "textarea",
+      "id": "story_text",
+      "label": "Story description",
+      "default": "Get to know the people and passion behind ZAISEN."
+    },
+    {
+      "type": "text",
+      "id": "story_cta",
+      "label": "Story link text",
+      "default": "Discover Our Story"
+    },
+    {
+      "type": "url",
+      "id": "story_link",
+      "label": "Story page link (active when page exists)"
+    },
+    {
+      "type": "header",
+      "content": "Our Blog"
+    },
+    {
+      "type": "image_picker",
+      "id": "journal_image",
+      "label": "Blog landscape image"
+    },
+    {
+      "type": "text",
+      "id": "journal_title",
+      "label": "Blog card heading",
+      "default": "Our Blog"
+    },
+    {
+      "type": "textarea",
+      "id": "journal_text",
+      "label": "Blog description",
+      "default": "Explore ideas, inspiration, and stories about wooden living."
+    },
+    {
+      "type": "text",
+      "id": "journal_cta",
+      "label": "Blog link text",
+      "default": "Explore Our Blog"
+    },
+    {
+      "type": "url",
+      "id": "journal_link",
+      "label": "Blog destination"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "font_picker",
+      "id": "editorial_font",
+      "label": "Text font",
+      "default": "poppins_n4"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading and links",
+      "default": "#2B1D17"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text",
+      "default": "#80736A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#D8B56A"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 40,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 40,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 76
+    }
   ],
-  "presets":[{"name":"ZAISEN Story & Journal"}]
+  "presets": [
+    {
+      "name": "ZAISEN Story & Journal"
+    }
+  ]
 }
 {% endschema %}

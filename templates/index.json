@@ -254,12 +254,12 @@
         "journal_text": "Explore ideas, inspiration, and stories about wooden living.",
         "journal_cta": "Explore Our Blog",
         "editorial_font": "poppins_n4",
-        "bg_color": "#FAF8F5",
+        "bg_color": "#FFFFFF",
         "heading_color": "#2B1D17",
         "text_color": "#80736A",
         "accent_color": "#D8B56A",
-        "padding_top": 92,
-        "padding_bottom": 96
+        "padding_top": 72,
+        "padding_bottom": 76
       }
     },
     "zs_why_zaisen_2026": {
