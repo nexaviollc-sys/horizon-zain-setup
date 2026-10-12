@@ -51,7 +51,7 @@
           "settings": {
             "collection": "lighting",
             "custom_title": "Wooden Lamps & Lighting",
-            "tagline": "Warm, handcrafted lighting.",
+            "tagline": "Illuminate naturally.",
             "badge": ""
           }
         },
@@ -60,7 +60,7 @@
           "settings": {
             "collection": "kitchen-dining",
             "custom_title": "Wooden Kitchen & Dining",
-            "tagline": "Crafted for everyday living.",
+            "tagline": "Beauty in every gathering.",
             "badge": ""
           }
         },
@@ -69,7 +69,7 @@
           "settings": {
             "collection": "wall-clocks",
             "custom_title": "Wooden Wall Clocks",
-            "tagline": "Timeless wooden timepieces.",
+            "tagline": "Time, beautifully crafted.",
             "badge": ""
           }
         },
@@ -78,7 +78,7 @@
           "settings": {
             "collection": "wooden-drinkware",
             "custom_title": "Wooden Drinkware Sets",
-            "tagline": "Crafted for every pour.",
+            "tagline": "A more natural ritual.",
             "badge": ""
           }
         },
@@ -87,7 +87,7 @@
           "settings": {
             "collection": "home-decor",
             "custom_title": "Wooden Home Decor",
-            "tagline": "Natural warmth for your home.",
+            "tagline": "Give your space a soul.",
             "badge": ""
           }
         },
@@ -96,7 +96,7 @@
           "settings": {
             "collection": "gifts",
             "custom_title": "Handcrafted Wooden Gifts",
-            "tagline": "Thoughtful gifts, made by hand.",
+            "tagline": "Made to mean more.",
             "badge": ""
           }
         },
@@ -105,7 +105,7 @@
           "settings": {
             "collection": "handcrafted-wooden-statues",
             "custom_title": "Handcrafted Wooden Statues",
-            "tagline": "Sculpted by hand in wood.",
+            "tagline": "Where wood becomes art.",
             "badge": ""
           }
         },
@@ -114,7 +114,7 @@
           "settings": {
             "collection": "wooden-desk-shelf-decor",
             "custom_title": "Wooden Desk & Shelf Decor",
-            "tagline": "Character for every space.",
+            "tagline": "Small details. Lasting beauty.",
             "badge": ""
           }
         }
@@ -131,26 +131,29 @@
       ],
       "name": "Shop by Collection",
       "settings": {
-        "eyebrow": "Handcrafted • Pure Wood",
-        "heading": "Shop by Collection",
+        "eyebrow": "DISCOVER ZAISEN",
+        "heading": "Crafted for",
         "heading_tag": "h2",
-        "subheading": "Timeless wooden pieces, handcrafted to bring natural warmth and character into your home.",
-        "alignment": "center",
+        "subheading": "From sculptural décor to everyday essentials. Discover the warmth of handcrafted wood in every space.",
+        "alignment": "left",
         "columns_desktop": "4",
         "mobile_layout": "two",
         "image_ratio": "portrait",
-        "gap": 28,
-        "card_radius": 4,
+        "gap": 24,
+        "card_radius": 24,
         "max_width": 1440,
         "heading_font": "theme",
-        "heading_size": 52,
+        "heading_size": 60,
         "bg_color": "#FFFFFF",
-        "heading_color": "#28221D",
-        "text_color": "#28221D",
-        "accent_color": "#B69A6A",
-        "wood_color": "#77523A",
-        "padding_top": 76,
-        "padding_bottom": 76
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "wood_color": "#2B1D17",
+        "padding_top": 88,
+        "padding_bottom": 96,
+        "heading_emphasis": "Every Corner.",
+        "editorial_font": "poppins_n4",
+        "button_label": "Explore All Collections"
       }
     },
     "zs_best_sellers_alt_4x": {

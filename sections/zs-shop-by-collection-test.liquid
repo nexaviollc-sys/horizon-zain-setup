@@ -1,449 +1,430 @@
 {%- comment -%}
-  ZAISEN – Shop by Collection (comparison version)
-  Based on supplied section code. 8 collection blocks, image override,
-  collection-image/product-image fallback, responsive grid, pure CSS.
+  ZAISEN curated-collections design.
+  8 existing merchant-selected collections, 4x2 desktop / 2x4 mobile.
+  Only images have rounded corners: cards stay borderless.
+  Preserves destination, image override and dynamic collection image/product fallback.
 {%- endcomment -%}
-
 {%- liquid
-  assign cols = section.settings.columns_desktop | default: 4
-  assign max_w = section.settings.max_width | default: 1440
-  assign vw = 100 | divide: cols
-  assign px = max_w | divide: cols
-  assign mobile_layout = section.settings.mobile_layout | default: 'two'
-
-  case mobile_layout
-    when 'one'
-      assign mobile_size = '100vw'
-    when 'swipe'
-      assign mobile_size = '72vw'
-    else
-      assign mobile_size = '50vw'
-  endcase
-
-  assign sizes = '(min-width: ' | append: max_w | append: 'px) ' | append: px | append: 'px, (min-width: 990px) ' | append: vw | append: 'vw, (min-width: 750px) 50vw, ' | append: mobile_size
-
-  case section.settings.image_ratio
+  assign s = section.settings
+  assign font_base = s.editorial_font
+  assign font_light = font_base | font_modify: 'weight', '300'
+  assign font_medium = font_base | font_modify: 'weight', '500'
+  assign font_bold = font_base | font_modify: 'weight', '700'
+  assign heading_tag = s.heading_tag | default: 'h2'
+  assign all_collections_link = s.button_link | default: routes.collections_url
+  assign radius = s.card_radius | default: 24
+  assign section_gap = s.gap | default: 24
+  assign max_width = s.max_width | default: 1440
+  case s.image_ratio
     when 'square'
-      assign ratio = '1 / 1'
+      assign aspect_ratio = '1 / 1'
     when 'tall'
-      assign ratio = '3 / 4'
+      assign aspect_ratio = '3 / 4'
     when 'landscape'
-      assign ratio = '4 / 3'
+      assign aspect_ratio = '4 / 3'
     else
-      assign ratio = '4 / 5'
+      assign aspect_ratio = '4 / 5'
   endcase
-
-  assign c_bg = section.settings.bg_color | default: '#F6F1E7'
-  assign c_heading = section.settings.heading_color | default: '#2A2522'
-  assign c_text = section.settings.text_color | default: '#6B5D50'
-  assign c_accent = section.settings.accent_color | default: '#856230'
-  assign c_wood = section.settings.wood_color | default: '#5C4033'
-  assign heading_tag = section.settings.heading_tag | default: 'h2'
 -%}
-
+{%- if font_base != blank -%}
+  {% style %}
+    {{ font_base | font_face: font_display: 'swap' }}
+    {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_medium != blank %}{{ font_medium | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_bold != blank %}{{ font_bold | font_face: font_display: 'swap' }}{% endif %}
+    #zsbc-{{ section.id }} {
+      font-family: {{ font_base.family | json }}, {{ font_base.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
 {% style %}
   #zsbc-{{ section.id }} {
-    --zsbc-bg: {{ c_bg }};
-    --zsbc-heading: {{ c_heading }};
-    --zsbc-text: {{ c_text }};
-    --zsbc-accent: {{ c_accent }};
-    --zsbc-accent-soft: {{ c_accent | color_modify: 'alpha', 0.45 }};
-    --zsbc-line: {{ c_heading | color_modify: 'alpha', 0.2 }};
-    --zsbc-wood: {{ c_wood }};
-    --zsbc-wood-light: {{ c_wood | color_lighten: 10 }};
-    --zsbc-cols: {{ cols }};
-    --zsbc-gap: {{ section.settings.gap }}px;
-    --zsbc-max: {{ max_w }}px;
-    --zsbc-radius: {{ section.settings.card_radius }}px;
-    --zsbc-ratio: {{ ratio }};
-    --zsbc-pt: {{ section.settings.padding_top }}px;
-    --zsbc-pb: {{ section.settings.padding_bottom }}px;
-    --zsbc-h-size: {{ section.settings.heading_size }}px;
-    {% if section.settings.heading_font == 'serif' %}
-      --zsbc-heading-font: 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
-      --zsbc-heading-weight: 400;
-    {% else %}
-      --zsbc-heading-font: var(--font-heading--family,var(--font-heading-family,Georgia,serif));
-      --zsbc-heading-weight: var(--font-heading--weight,400);
-    {% endif %}
+    --zsc-background: {{ s.bg_color }};
+    --zsc-heading: {{ s.heading_color }};
+    --zsc-body: {{ s.text_color }};
+    --zsc-accent: {{ s.accent_color }};
+    --zsc-walnut: {{ s.wood_color }};
+    --zsc-radius: {{ radius }}px;
+    --zsc-gap: {{ section_gap }}px;
+    --zsc-max-width: {{ max_width }}px;
+    --zsc-image-ratio: {{ aspect_ratio }};
+    --zsc-heading-size: {{ s.heading_size }}px;
+    --zsc-padding-top: {{ s.padding_top }}px;
+    --zsc-padding-bottom: {{ s.padding_bottom }}px;
   }
 {% endstyle %}
 
-<section
-  id="zsbc-{{ section.id }}"
-  class="zsbc{% if section.settings.alignment == 'center' %} zsbc--center{% endif %}"
-  {% if section.settings.heading != blank %}aria-labelledby="zsbc-heading-{{ section.id }}"{% endif %}
->
-  <div class="zsbc__inner">
-    {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank %}
-      <header class="zsbc__header">
-        {% if section.settings.eyebrow != blank %}
-          <p class="zsbc__eyebrow"><span class="zsbc__eyebrow-rule" aria-hidden="true"></span><span>{{ section.settings.eyebrow | escape }}</span><span class="zsbc__eyebrow-rule" aria-hidden="true"></span></p>
-        {% endif %}
+<section id="zsbc-{{ section.id }}" class="zsc-section" aria-labelledby="zsc-heading-{{ section.id }}">
+  <div class="zsc-section__inner">
+    <header class="zsc-section__header">
+      <div class="zsc-section__intro">
+        {%- if s.eyebrow != blank -%}
+          <p class="zsc-section__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+        {%- endif -%}
+        <{{ heading_tag }} id="zsc-heading-{{ section.id }}" class="zsc-section__title">
+          <span class="zsc-section__title-light">{{ s.heading | escape }}</span>
+          {%- if s.heading_emphasis != blank -%}
+            <strong class="zsc-section__title-bold">{{ s.heading_emphasis | escape }}</strong>
+          {%- endif -%}
+        </{{ heading_tag }}>
+      </div>
+      {%- if s.subheading != blank -%}
+        <p class="zsc-section__subtitle">{{ s.subheading | escape }}</p>
+      {%- endif -%}
+    </header>
 
-        {% if section.settings.heading != blank %}
-          <{{ heading_tag }} id="zsbc-heading-{{ section.id }}" class="zsbc__heading">
-    {% if section.settings.heading == 'Shop by Collection' %}
-      <span>Shop by </span><em>Collection</em>
-    {% else %}
-      {{ section.settings.heading }}
-    {% endif %}
-  </{{ heading_tag }}>
-        {% endif %}
-
-        {% if section.settings.subheading != blank %}
-          <p class="zsbc__sub">{{ section.settings.subheading | escape }}</p>
-        {% endif %}
-      </header>
-    {% endif %}
-
-    <ul class="zsbc__grid zsbc__grid--{{ mobile_layout }}" role="list">
-      {% assign n = 0 %}
-      {% for block in section.blocks %}
-        {% assign col = block.settings.collection %}
-        {% if col != blank or request.design_mode %}
-          {% assign n = n | plus: 1 %}
-          {% if n < 10 %}{% assign num = n | prepend: '0' %}{% else %}{% assign num = n %}{% endif %}
-
-          {% liquid
-            assign title = block.settings.custom_title | default: col.title | default: 'Select a collection'
-            assign url = col.url | default: '#'
-            assign img = block.settings.image
-            if img == blank and col != blank
-              assign img = col.image
-            endif
-
-            assign card_tagline = block.settings.tagline
-            if card_tagline == blank and col != blank
-              case col.handle
-                when 'lighting'
-                  assign card_tagline = 'Handcrafted wooden lighting for warm, inviting interiors.'
-                when 'kitchen-dining'
-                  assign card_tagline = 'Natural wooden essentials for everyday serving and dining.'
-                when 'wall-clocks'
-                  assign card_tagline = 'Handcrafted wooden timepieces for distinctive walls.'
-                when 'wooden-drinkware'
-                  assign card_tagline = 'Wooden drinkware crafted for serving, sharing and display.'
-                when 'home-decor'
-                  assign card_tagline = 'Natural wooden accents for warm, character-filled spaces.'
-                when 'gifts'
-                  assign card_tagline = 'Thoughtful handcrafted wooden gifts for every occasion.'
-                when 'handcrafted-wooden-statues'
-                  assign card_tagline = 'Sculpted by hand in wood.'
-                when 'wooden-desk-shelf-decor'
-                  assign card_tagline = 'Character for every space.'
-              endcase
-            endif
-          %}
-
-          <li class="zsbc__item" {{ block.shopify_attributes }}>
-            <a class="zsbc__card" href="{{ url }}">
-              <span class="zsbc__media">
-                {% if img != blank %}
-                  {{
-                    img
-                    | image_url: width: 1000
-                    | image_tag:
-                      class: 'zsbc__img',
-                      widths: '320,480,640,800,1000',
-                      sizes: sizes,
-                      loading: 'lazy',
-                      alt: title
-                  }}
-                {% else %}
-                  <span class="zsbc__placeholder" aria-hidden="true"></span>
-                {% endif %}
-
-                {% if block.settings.badge != blank %}
-                  <span class="zsbc__badge">{{ block.settings.badge | escape }}</span>
-                {% endif %}
+    <ul class="zsc-section__grid" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign selected_collection = block.settings.collection
+          assign collection_title = block.settings.custom_title | default: selected_collection.title | default: 'Choose a collection'
+          assign collection_link = selected_collection.url | default: routes.collections_url
+          assign collection_image = block.settings.image
+          if collection_image == blank and selected_collection != blank
+            assign collection_image = selected_collection.image
+          endif
+          if collection_image == blank and selected_collection != blank
+            assign collection_image = selected_collection.products.first.featured_image
+          endif
+          assign tagline = block.settings.tagline
+          assign tile_loading = 'lazy'
+          if section.index <= 2 and forloop.index <= 4
+            assign tile_loading = 'eager'
+          endif
+        -%}
+        <li class="zsc-collection" style="--zsc-delay:{{ forloop.index0 | modulo: 4 | times: 60 }}ms" {{ block.shopify_attributes }}>
+          <a class="zsc-collection__link" href="{{ collection_link }}" aria-label="{{ collection_title | escape }}">
+            <div class="zsc-collection__media">
+              {%- if collection_image != blank -%}
+                {{ collection_image | image_url: width: 1100 | image_tag: class: 'zsc-collection__image', loading: tile_loading, widths: '240, 340, 440, 560, 720, 900, 1100', sizes: '(min-width: 1500px) 325px, (min-width: 1200px) calc((100vw - 160px) / 4), (min-width: 750px) calc((100vw - 92px) / 3), calc((100vw - 56px) / 2)', alt: collection_title }}
+              {%- else -%}
+                <div class="zsc-collection__fallback" aria-hidden="true">
+                  <span>{{ collection_title | slice: 0, 1 | escape }}</span>
+                  <small>ZAISEN</small>
+                </div>
+              {%- endif -%}
+              <span class="zsc-collection__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 19 19 5M7 5h12v12"/>
+                </svg>
               </span>
-
-              <span class="zsbc__caption">
-                <span class="zsbc__text">
-                  <span class="zsbc__title"><span class="zsbc__title-text">{{ title | escape }}</span></span>
-                  {% if card_tagline != blank %}
-                    <span class="zsbc__tagline">{{ card_tagline | escape }}</span>
-                  {% endif %}
-                </span>
-
-                <span class="zsbc__arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14M13 6l6 6-6 6"/>
-                  </svg>
-                </span>
-              </span>
-            </a>
-          </li>
-        {% endif %}
-      {% endfor %}
+            </div>
+            <div class="zsc-collection__details">
+              <h3 class="zsc-collection__name">{{ collection_title | escape }}</h3>
+              {%- if tagline != blank -%}
+                <p class="zsc-collection__tagline">{{ tagline | escape }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        </li>
+      {%- endfor -%}
     </ul>
+
+    <div class="zsc-section__footer">
+      <a class="zsc-section__button" href="{{ all_collections_link }}">
+        <span class="zsc-section__button-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.1"/>
+          </svg>
+        </span>
+        <span>{{ s.button_label | default: 'Explore All Collections' | escape }}</span>
+        <svg class="zsc-section__button-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 19 19 5M7 5h12v12"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </section>
 
 {% stylesheet %}
-  .zsbc {
-    --zsbc-pad: clamp(20px,4.5vw,48px);
-    --zsbc-body-font: var(--font-body--family,var(--font-body-family,system-ui,-apple-system,'Segoe UI',sans-serif));
-    background: var(--zsbc-bg);
-    color: var(--zsbc-text);
-    font-family: var(--zsbc-body-font);
-    padding-block: var(--zsbc-pt) var(--zsbc-pb);
+.zsc-section {
+  background:var(--zsc-background,#FFFFFF);
+  color:var(--zsc-heading,#2B1D17);
+  padding:var(--zsc-padding-top,88px) 0 var(--zsc-padding-bottom,96px);
+  overflow:clip;
+}
+.zsc-section *{box-sizing:border-box}
+.zsc-section__inner{
+  width:100%;
+  max-width:var(--zsc-max-width,1440px);
+  margin:0 auto;
+  padding:0 clamp(20px,4vw,58px);
+}
+.zsc-section__header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:clamp(24px,5vw,90px);
+  margin-bottom:clamp(34px,4vw,55px);
+}
+.zsc-section__intro{min-width:0;flex-shrink:0}
+.zsc-section__eyebrow{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  color:#906D50;
+  font-size:clamp(10px,.81vw,12px);
+  font-weight:500;
+  letter-spacing:.18em;
+  line-height:1.4;
+  text-transform:uppercase;
+  margin:0 0 clamp(21px,2.4vw,32px);
+}
+.zsc-section__eyebrow span{
+  display:block;
+  width:33px;
+  height:2px;
+  flex-shrink:0;
+  background:var(--zsc-accent,#D8B56A);
+}
+.zsc-section__title {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  margin:0;
+  font-family:inherit!important;
+  font-size:clamp(42px,4.1vw,var(--zsc-heading-size,60px));
+  line-height:1.12;
+  letter-spacing:-.056em;
+  color:var(--zsc-heading,#2B1D17);
+  text-wrap:balance;
+}
+.zsc-section__title-light{
+  display:block;
+  font-weight:300;
+}
+.zsc-section__title-bold{
+  display:block;
+  font-weight:700;
+  line-height:1.12;
+}
+.zsc-section__subtitle{
+  max-width:430px;
+  margin:0 0 7px;
+  color:var(--zsc-body,#80736A);
+  opacity:.72;
+  font-family:inherit;
+  font-weight:400;
+  font-size:clamp(13px,1.05vw,15px);
+  line-height:1.9;
+}
+.zsc-section__grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(27px,3vw,46px) var(--zsc-gap,24px);
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.zsc-collection{min-width:0;list-style:none}
+.zsc-collection__link{
+  display:block;
+  color:inherit;
+  text-decoration:none;
+  outline-offset:4px;
+}
+.zsc-collection__link:hover{color:inherit}
+.zsc-collection__media{
+  position:relative;
+  width:100%;
+  aspect-ratio:var(--zsc-image-ratio,4 / 5);
+  overflow:hidden;
+  border-radius:var(--zsc-radius,24px);
+  background:#F1EDE8;
+  isolation:isolate;
+}
+.zsc-collection__image{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  transition:transform .55s cubic-bezier(.2,.7,.2,1);
+}
+.zsc-collection__fallback{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  gap:9px;
+  color:#977251;
+  background:#F0EAE3;
+  font-family:inherit;
+}
+.zsc-collection__fallback span{font-size:clamp(3rem,7vw,7rem);line-height:1;font-weight:300}
+.zsc-collection__fallback small{font-size:9px;letter-spacing:.3em;font-weight:600}
+.zsc-collection__arrow{
+  position:absolute;
+  right:15px;
+  bottom:15px;
+  display:grid;
+  place-items:center;
+  width:47px;
+  height:47px;
+  border-radius:999px;
+  background:var(--zsc-accent,#D8B56A);
+  color:#2B1D17;
+  box-shadow:0 8px 18px rgba(43,29,23,.11);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.zsc-collection__details{
+  padding:18px 1px 0;
+  background:transparent;
+}
+.zsc-collection__name{
+  display:inline;
+  margin:0;
+  padding:0 0 2px;
+  color:var(--zsc-heading,#2B1D17);
+  border-bottom:1px solid transparent;
+  font-family:inherit;
+  font-size:clamp(13px,1.07vw,16px);
+  line-height:1.5;
+  letter-spacing:-.022em;
+  font-weight:600;
+  transition:border-color .25s ease,color .25s ease;
+}
+.zsc-collection__tagline{
+  margin:7px 0 0;
+  color:var(--zsc-body,#80736A);
+  opacity:.72;
+  font-family:inherit;
+  font-size:clamp(11px,.86vw,13px);
+  font-weight:400;
+  line-height:1.7;
+}
+@media(hover:hover) and (pointer:fine){
+  .zsc-collection__link:hover .zsc-collection__image{transform:scale(1.035)}
+  .zsc-collection__link:hover .zsc-collection__arrow{opacity:1;transform:translateY(0)}
+  .zsc-collection__link:hover .zsc-collection__name{
+    border-bottom-color:var(--zsc-walnut,#2B1D17);
+    color:var(--zsc-walnut,#2B1D17);
   }
-  .zsbc *, .zsbc *::before, .zsbc *::after { box-sizing: border-box; }
-  .zsbc__inner { max-width: var(--zsbc-max); margin-inline: auto; padding-inline: var(--zsbc-pad); }
-
-  .zsbc__header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 760px;
-    margin-bottom: clamp(38px,5vw,64px);
+}
+.zsc-collection__link:focus-visible{outline:2px solid var(--zsc-walnut,#2B1D17)}
+.zsc-collection__link:focus-visible .zsc-collection__arrow{opacity:1;transform:none}
+.zsc-section__footer{
+  display:flex;
+  justify-content:center;
+  padding-top:clamp(44px,5vw,75px);
+}
+.zsc-section__button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:19px;
+  min-height:71px;
+  padding:7px 27px 7px 8px;
+  border-radius:999px;
+  border:0;
+  background:#2B1D17;
+  color:#FFFFFF;
+  text-decoration:none;
+  font-family:inherit;
+  font-size:clamp(12px,1vw,15px);
+  font-weight:500;
+  white-space:nowrap;
+  letter-spacing:-.015em;
+  box-shadow:0 13px 28px rgba(43,29,23,.12);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.zsc-section__button:hover{
+  color:#FFFFFF;
+  transform:translateY(-2px);
+  box-shadow:0 16px 33px rgba(43,29,23,.2);
+}
+.zsc-section__button-icon{
+  display:grid;
+  place-items:center;
+  flex:0 0 54px;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  color:#2B1D17;
+  background:var(--zsc-accent,#D8B56A);
+}
+.zsc-section__button-arrow{flex-shrink:0}
+.zsc-section__button:focus-visible{outline:2px solid var(--zsc-accent,#D8B56A);outline-offset:4px}
+@media(min-width:750px) and (max-width:1180px){
+  .zsc-section__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .zsc-section__header{gap:30px}
+  .zsc-section__title{font-size:clamp(42px,5vw,58px)}
+  .zsc-section__subtitle{max-width:310px}
+}
+@media(max-width:749px){
+  .zsc-section{padding:clamp(60px,8vw,78px) 0 clamp(60px,8vw,78px)}
+  .zsc-section__inner{padding:0 16px}
+  .zsc-section__header{display:block;margin-bottom:27px}
+  .zsc-section__eyebrow{font-size:9px;letter-spacing:.16em;margin-bottom:18px}
+  .zsc-section__title{font-size:clamp(36px,9.5vw,51px)}
+  .zsc-section__subtitle{max-width:43ch;margin:17px 0 0;font-size:12px;line-height:1.75}
+  .zsc-section__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 13px}
+  .zsc-collection__media{border-radius:min(var(--zsc-radius,24px),16px)}
+  .zsc-collection__arrow{
+    right:9px;bottom:9px;
+    width:35px;height:35px;
+    opacity:1;transform:none;
+    box-shadow:0 6px 13px rgba(43,29,23,.1);
   }
-  .zsbc--center .zsbc__header { align-items: center; text-align: center; margin-inline: auto; }
-
-  .zsbc__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 18px;
-    font-family: var(--font-body--family, inherit);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .24em;
-    line-height: 1.2;
-    text-transform: uppercase;
-    color: var(--zsbc-accent);
+  .zsc-collection__arrow svg{width:16px;height:16px}
+  .zsc-collection__details{padding:11px 1px 0}
+  .zsc-collection__name{font-size:12px;line-height:1.45;letter-spacing:-.024em}
+  .zsc-collection__tagline{font-size:10px;margin-top:5px;line-height:1.45}
+  .zsc-section__footer{padding-top:39px}
+  .zsc-section__button{min-height:58px;padding:6px 20px 6px 6px;gap:12px;font-size:12px}
+  .zsc-section__button-icon{width:46px;height:46px;flex-basis:46px}
+  .zsc-section__button-icon svg{width:19px;height:19px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .zsc-collection.zsc-is-in-view{
+    animation:zsc-reveal .55s cubic-bezier(.2,.7,.2,1) both;
+    animation-delay:var(--zsc-delay,0ms);
   }
-  .zsbc__eyebrow-rule {
-    display: inline-block;
-    width: 34px;
-    height: 2px;
-    flex: 0 0 auto;
-    border-radius: 2px;
-    background: var(--zsbc-accent);
+  @keyframes zsc-reveal{
+    from{opacity:.65;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
   }
-
-  .zsbc__heading {
-    margin: 0;
-    font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(38px,5vw,var(--zsbc-h-size));
-    font-weight: 550;
-    line-height: 1.04;
-    letter-spacing: -.02em;
-    color: var(--zsbc-heading);
-    text-wrap: balance;
-  }
-  .zsbc__heading em {
-    font-style: italic;
-    font-weight: 450;
-    color: var(--zsbc-accent);
-  }
-
-  .zsbc__sub {
-    margin: 18px 0 0;
-    max-width: 47ch;
-    font-family: var(--font-body--family, inherit);
-    font-size: 15.5px;
-    line-height: 1.7;
-    letter-spacing: .005em;
-    color: color-mix(in srgb,var(--zsbc-text) 74%,transparent);
-    text-wrap: pretty;
-  }
-
-  .zsbc__grid {
-    display:grid;
-    grid-template-columns:repeat(var(--zsbc-cols),minmax(0,1fr));
-    column-gap:var(--zsbc-gap);
-    row-gap:calc(var(--zsbc-gap) * 1.6);
-    list-style:none;
-    margin:0;
-    padding:0;
-  }
-  .zsbc__item { min-width:0; margin:0; padding:0; }
-  .zsbc__card { display:block; color:inherit; text-decoration:none; -webkit-tap-highlight-color:transparent; }
-  .zsbc__card:focus-visible { outline:2px solid var(--zsbc-accent); outline-offset:6px; border-radius:var(--zsbc-radius); }
-
-  .zsbc__media {
-    position:relative;
-    display:block;
-    overflow:hidden;
-    isolation:isolate;
-    aspect-ratio:var(--zsbc-ratio);
-    border-radius:var(--zsbc-radius);
-    background:linear-gradient(145deg,var(--zsbc-wood-light),var(--zsbc-wood));
-  }
-  .zsbc__img {
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
-  }
-  .zsbc__media::before {
-    content:'';
-    position:absolute;
-    inset:0;
-    z-index:1;
-    background:linear-gradient(to top,rgba(32,21,12,.32),rgba(32,21,12,0) 50%);
-    opacity:0;
-    transition:opacity .6s ease;
-    pointer-events:none;
-  }
-  .zsbc__media::after {
-    content:'';
-    position:absolute;
-    inset:12px;
-    z-index:2;
-    border:1px solid rgba(255,249,238,.8);
-    border-radius:max(calc(var(--zsbc-radius) - 2px),0px);
-    opacity:0;
-    transform:scale(.965);
-    transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1);
-    pointer-events:none;
-  }
-  .zsbc__placeholder,.zsbc__placeholder-svg { position:absolute; inset:0; width:100%; height:100%; }
-  .zsbc__placeholder-svg { fill:#f6f1e7; opacity:.22; }
-  .zsbc__badge {
-    position:absolute;
-    top:14px;
-    left:14px;
-    z-index:3;
-    padding:6px 12px;
-    font-size:.6875rem;
-    font-weight:500;
-    line-height:1;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--zsbc-heading);
-    background:color-mix(in srgb,var(--zsbc-bg) 94%,transparent);
-    border-radius:999px;
-  }
-
-  .zsbc__caption { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-top:18px; }
-  .zsbc__text { display:block; min-width:0; }
-  .zsbc__title {
-    display:block;
-    font-family:var(--zsbc-heading-font);
-    font-weight:var(--zsbc-heading-weight);
-    font-size:clamp(1.0625rem,1.5vw,1.375rem);
-    line-height:1.25;
-    letter-spacing:-.005em;
-    color:var(--zsbc-heading);
-    text-wrap:balance;
-  }
-  .zsbc__title-text {
-    padding-bottom:2px;
-    background:linear-gradient(var(--zsbc-accent),var(--zsbc-accent)) left bottom / 0 1px no-repeat;
-    transition:background-size .55s cubic-bezier(.2,.7,.2,1);
-  }
-  .zsbc__tagline {
-    display:block;
-    margin-top:7px;
-    max-width:31ch;
-    font-family:var(--font-body--family,inherit);
-    font-size:.82rem;
-    line-height:1.5;
-    letter-spacing:.01em;
-    color:color-mix(in srgb,var(--zsbc-text) 64%,transparent);
-    text-wrap:pretty;
-  }
-  .zsbc__arrow {
-    flex:none;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:38px;
-    height:38px;
-    margin-top:-2px;
-    color:var(--zsbc-accent);
-    border:1px solid color-mix(in srgb,var(--zsbc-accent) 34%,transparent);
-    border-radius:50%;
-    background:color-mix(in srgb,var(--zsbc-bg) 96%,white);
-    transition:background-color .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease;
-  }
-  .zsbc__arrow svg { transition:transform .5s cubic-bezier(.2,.7,.2,1); }
-
-  @media (hover:hover) and (pointer:fine) {
-    .zsbc__card:hover .zsbc__img { transform:scale(1.045); }
-    .zsbc__card:hover .zsbc__media::before { opacity:1; }
-    .zsbc__card:hover .zsbc__media::after { opacity:1; transform:scale(1); }
-    .zsbc__card:hover .zsbc__title-text { background-size:100% 1px; }
-    .zsbc__card:hover .zsbc__arrow { background:linear-gradient(180deg,color-mix(in srgb,#7A5238 90%,white),color-mix(in srgb,#7A5238 86%,black)); border-color:color-mix(in srgb,#7A5238 88%,black); color:#FBF9F6; box-shadow:0 8px 20px color-mix(in srgb,#7A5238 18%,transparent); }
-    .zsbc__card:hover .zsbc__arrow svg { transform:translateX(2px); }
-  }
-
-  @media (max-width:989px) {
-    .zsbc__grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  }
-  @media (max-width:749px) {
-    .zsbc { padding-block:calc(var(--zsbc-pt) * .65) calc(var(--zsbc-pb) * .65); }
-    .zsbc__header { margin-bottom: 34px; }
-    .zsbc__eyebrow { margin-bottom: 14px; font-size: 10px; gap: 10px; }
-    .zsbc__eyebrow-rule { width: 30px; }
-    .zsbc__heading { font-size: clamp(36px,10.4vw,46px); }
-    .zsbc__sub { margin-top: 16px; font-size: 14.5px; line-height: 1.65; }
-    .zsbc__grid { column-gap:14px; row-gap:22px; }
-    .zsbc__grid--one { grid-template-columns:minmax(0,1fr); }
-    .zsbc__grid--two .zsbc__caption {
-      display:block;
-      width:100%;
-      padding-top:11px;
-      gap:0;
-    }
-    .zsbc__grid--two .zsbc__text {
-      display:block;
-      width:100%;
-      max-width:none;
-    }
-    .zsbc__grid--two .zsbc__title {
-      width:100%;
-      max-width:none;
-      font-size:1rem;
-      line-height:1.22;
-    }
-    .zsbc__grid--two .zsbc__tagline {
-      width:100%;
-      max-width:none;
-      margin-top:5px;
-      font-size:.8rem;
-      line-height:1.4;
-    }
-    .zsbc__grid--two .zsbc__arrow { display:none; }
-    .zsbc__grid--two .zsbc__badge { top:10px; left:10px; padding:5px 9px; font-size:.625rem; }
-    .zsbc__grid--swipe {
-      display:flex;
-      gap:14px;
-      overflow-x:auto;
-      margin-inline:calc(var(--zsbc-pad) * -1);
-      padding-inline:var(--zsbc-pad);
-      padding-bottom:6px;
-      scroll-snap-type:x mandatory;
-      scrollbar-width:none;
-      -webkit-overflow-scrolling:touch;
-    }
-    .zsbc__grid--swipe::-webkit-scrollbar { display:none; }
-    .zsbc__grid--swipe .zsbc__item { flex:0 0 72%; scroll-snap-align:start; }
-  }
-
-  @keyframes zsbc-rise {
-    from { opacity:0; transform:translateY(26px); }
-    to { opacity:1; transform:none; }
-  }
-  @media (prefers-reduced-motion:no-preference) {
-    @supports (animation-timeline:view()) {
-      .zsbc__item { animation:zsbc-rise linear both; animation-timeline:view(); animation-range:entry 0% entry 38%; }
-    }
-  }
-  @media (prefers-reduced-motion:reduce) {
-    .zsbc *, .zsbc *::before, .zsbc *::after { transition:none !important; animation:none !important; }
-  }
+}
+@media(prefers-reduced-motion:reduce){
+  .zsc-collection__image,.zsc-collection__arrow,.zsc-collection__name,.zsc-section__button{transition:none}
+}
 {% endstylesheet %}
+{% javascript %}
+(function(){
+  function initCollections(){
+    var elements=document.querySelectorAll('.zsc-section .zsc-collection:not([data-zsc-ready])');
+    if(!elements.length)return;
+    if(!('IntersectionObserver' in window)){
+      elements.forEach(function(el){el.dataset.zscReady='true';});
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('zsc-is-in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.13,rootMargin:'0px 0px 55px 0px'});
+    elements.forEach(function(el){el.dataset.zscReady='true';io.observe(el);});
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initCollections,{once:true});
+  }else{initCollections();}
+  document.addEventListener('shopify:section:load',initCollections);
+})();
+{% endjavascript %}
 
 {% schema %}
 {
-  "name": "Shop by Collection",
+  "name": "ZAISEN Curved Collections",
   "tag": "section",
   "class": "section-zaisen-collections",
   "max_blocks": 12,
@@ -463,6 +444,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "Shop by Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Bold second line",
+      "default": "Every Corner."
     },
     {
       "type": "select",
@@ -489,6 +476,12 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Timeless wooden pieces, handcrafted to bring natural warmth and character into your home."
+    },
+    {
+      "type": "font_picker",
+      "id": "editorial_font",
+      "label": "Collections typography",
+      "default": "poppins_n4"
     },
     {
       "type": "select",
@@ -683,6 +676,17 @@
       "step": 4,
       "unit": "px",
       "default": 80
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Explore all button text",
+      "default": "Explore All Collections"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Explore all button link"
     }
   ],
   "blocks": [
@@ -721,7 +725,7 @@
   ],
   "presets": [
     {
-      "name": "Shop by Collection",
+      "name": "ZAISEN Curved Collections",
       "blocks": [
         {
           "type": "collection",
