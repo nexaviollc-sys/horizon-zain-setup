@@ -122,14 +122,6 @@
 
     <div class="zsc-section__footer">
       <a class="zsc-section__button" href="{{ all_collections_link }}">
-        <span class="zsc-section__button-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
-            <rect x="3" y="3" width="7" height="7" rx="1.1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1.1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1.1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1.1"/>
-          </svg>
-        </span>
         <span>{{ s.button_label | default: 'Explore All Collections' | escape }}</span>
         <svg class="zsc-section__button-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 19 19 5M7 5h12v12"/>
@@ -335,38 +327,37 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:19px;
-  min-height:71px;
-  padding:7px 27px 7px 8px;
+  gap:21px;
+  min-height:56px;
+  padding:13px 26px;
   border-radius:999px;
-  border:0;
+  border:1px solid #2B1D17;
   background:#2B1D17;
   color:#FFFFFF;
   text-decoration:none;
   font-family:inherit;
-  font-size:clamp(12px,1vw,15px);
+  font-size:13px;
   font-weight:500;
   white-space:nowrap;
-  letter-spacing:-.015em;
-  box-shadow:0 13px 28px rgba(43,29,23,.12);
-  transition:transform .25s ease,box-shadow .25s ease;
+  letter-spacing:-.01em;
+  box-shadow:0 5px 15px rgba(43,29,23,.07);
+  transition:background-color .24s ease,transform .24s ease,box-shadow .24s ease;
 }
 .zsc-section__button:hover{
+  background:#472F22;
   color:#FFFFFF;
   transform:translateY(-2px);
-  box-shadow:0 16px 33px rgba(43,29,23,.2);
+  box-shadow:0 9px 20px rgba(43,29,23,.12);
 }
-.zsc-section__button-icon{
-  display:grid;
-  place-items:center;
-  flex:0 0 54px;
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  color:#2B1D17;
-  background:var(--zsc-accent,#D8B56A);
+.zsc-section__button-arrow{
+  width:17px;
+  height:17px;
+  flex-shrink:0;
+  transition:transform .24s ease;
 }
-.zsc-section__button-arrow{flex-shrink:0}
+.zsc-section__button:hover .zsc-section__button-arrow{
+  transform:translate(2px,-2px);
+}
 .zsc-section__button:focus-visible{outline:2px solid var(--zsc-accent,#D8B56A);outline-offset:4px}
 @media(min-width:750px) and (max-width:1180px){
   .zsc-section__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -397,9 +388,8 @@
   .zsc-collection__name{font-size:12px;line-height:1.45;letter-spacing:-.024em}
   .zsc-collection__tagline{font-size:10px;margin-top:5px;line-height:1.45}
   .zsc-section__footer{padding-top:39px}
-  .zsc-section__button{min-height:58px;padding:6px 20px 6px 6px;gap:12px;font-size:12px}
-  .zsc-section__button-icon{width:46px;height:46px;flex-basis:46px}
-  .zsc-section__button-icon svg{width:19px;height:19px}
+  .zsc-section__button{min-height:52px;padding:12px 21px;gap:14px;font-size:12px}
+  .zsc-section__button-arrow{width:16px;height:16px}
 }
 @media(prefers-reduced-motion:no-preference){
   .zsc-collection.zsc-is-in-view{
@@ -412,7 +402,7 @@
   }
 }
 @media(prefers-reduced-motion:reduce){
-  .zsc-collection__image,.zsc-collection__arrow,.zsc-collection__arrow svg,.zsc-collection__name,.zsc-section__button{transition:none}
+  .zsc-collection__image,.zsc-collection__arrow,.zsc-collection__arrow svg,.zsc-collection__name,.zsc-section__button,.zsc-section__button-arrow{transition:none}
 }
 {% endstylesheet %}
 {% javascript %}
