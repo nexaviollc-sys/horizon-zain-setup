@@ -226,8 +226,8 @@
         "text_color": "#F7F3EE",
         "accent_color": "#D8B56A",
         "duration": 42,
-        "desktop_height": 68,
-        "mobile_height": 54
+        "desktop_height": 48,
+        "mobile_height": 44
       }
     }
   },
