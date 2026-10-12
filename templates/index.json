@@ -213,10 +213,27 @@
         "heading_emphasis": "Best Sellers.",
         "editorial_font": "poppins_n4"
       }
+    },
+    "zs_craft_marquee_2026": {
+      "type": "zs-craft-marquee",
+      "name": "ZAISEN Craft Marquee",
+      "settings": {
+        "line_1": "From our hands to your home.",
+        "line_2": "Every piece is crafted with care.",
+        "line_3": "Made from pure wood, with attention to every little detail.",
+        "marquee_font": "poppins_n4",
+        "background_color": "#2B1D17",
+        "text_color": "#F7F3EE",
+        "accent_color": "#D8B56A",
+        "duration": 42,
+        "desktop_height": 68,
+        "mobile_height": 54
+      }
     }
   },
   "order": [
     "zs_3d_hero_t3gPQN",
+    "zs_craft_marquee_2026",
     "zs_shop_by_collection_test_8x",
     "zs_best_sellers_alt_4x"
   ]

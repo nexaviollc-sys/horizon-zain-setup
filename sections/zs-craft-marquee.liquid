@@ -1,0 +1,156 @@
+{%- comment -%}
+  ZAISEN craftsmanship marquee.
+  Seamless horizontal loop using five identical groups (one animation cycle
+  equals the width of one group). Shopify editor settings control copy,
+  colors, pacing and height. One accessible content group; clones hidden.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign marquee_font = s.marquee_font
+  assign marquee_medium = marquee_font | font_modify: 'weight', '500'
+-%}
+{%- if marquee_font != blank -%}
+  {% style %}
+    {{ marquee_font | font_face: font_display: 'swap' }}
+    {% if marquee_medium != blank %}{{ marquee_medium | font_face: font_display: 'swap' }}{% endif %}
+    #zs-craft-marquee-{{ section.id }} {
+      font-family: {{ marquee_font.family | json }}, {{ marquee_font.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
+<section
+  id="zs-craft-marquee-{{ section.id }}"
+  class="zs-craft-marquee"
+  aria-label="ZAISEN craftsmanship"
+  style="--zs-craft-bg:{{ s.background_color }};--zs-craft-text:{{ s.text_color }};--zs-craft-accent:{{ s.accent_color }};--zs-craft-duration:{{ s.duration }}s;--zs-craft-height:{{ s.desktop_height }}px;--zs-craft-mobile-height:{{ s.mobile_height }}px;"
+>
+  <div class="zs-craft-marquee__viewport">
+    <div class="zs-craft-marquee__track">
+      {%- for copy in (1..5) -%}
+        <div class="zs-craft-marquee__group" {% unless forloop.first %}aria-hidden="true"{% endunless %}>
+          {%- if s.line_1 != blank -%}
+            <span class="zs-craft-marquee__line">{{ s.line_1 | escape }}</span>
+            <span class="zs-craft-marquee__separator" aria-hidden="true">✦</span>
+          {%- endif -%}
+          {%- if s.line_2 != blank -%}
+            <span class="zs-craft-marquee__line">{{ s.line_2 | escape }}</span>
+            <span class="zs-craft-marquee__separator" aria-hidden="true">✦</span>
+          {%- endif -%}
+          {%- if s.line_3 != blank -%}
+            <span class="zs-craft-marquee__line">{{ s.line_3 | escape }}</span>
+            <span class="zs-craft-marquee__separator" aria-hidden="true">✦</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zs-craft-marquee{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:0;
+  border:0;
+  background:var(--zs-craft-bg,#2B1D17);
+  color:var(--zs-craft-text,#F7F3EE);
+  overflow:hidden;
+}
+.zs-craft-marquee *{box-sizing:border-box}
+.zs-craft-marquee__viewport{
+  display:flex;
+  align-items:center;
+  width:100%;
+  min-height:var(--zs-craft-height,68px);
+  overflow:hidden;
+}
+.zs-craft-marquee__track{
+  display:flex;
+  flex:0 0 auto;
+  align-items:center;
+  width:max-content;
+  min-width:max-content;
+  white-space:nowrap;
+  animation:zs-craft-marquee-slide var(--zs-craft-duration,42s) linear infinite;
+  will-change:transform;
+}
+.zs-craft-marquee__group{
+  display:flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:space-around;
+  min-width:100vw;
+  white-space:nowrap;
+}
+.zs-craft-marquee__line{
+  display:inline-block;
+  flex:0 0 auto;
+  font-size:clamp(12px,.95vw,15px);
+  line-height:1.5;
+  font-weight:500;
+  letter-spacing:.012em;
+  white-space:nowrap;
+}
+.zs-craft-marquee__separator{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  margin-inline:clamp(22px,2.5vw,42px);
+  font-size:12px;
+  line-height:1;
+  color:var(--zs-craft-accent,#D8B56A);
+}
+.zs-craft-marquee:hover .zs-craft-marquee__track,
+.zs-craft-marquee:focus-within .zs-craft-marquee__track{
+  animation-play-state:paused;
+}
+@keyframes zs-craft-marquee-slide{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-20%,0,0)}
+}
+@media(max-width:749px){
+  .zs-craft-marquee__viewport{min-height:var(--zs-craft-mobile-height,54px)}
+  .zs-craft-marquee__line{font-size:12px;letter-spacing:.01em}
+  .zs-craft-marquee__separator{font-size:10px;margin-inline:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .zs-craft-marquee__viewport{height:auto;min-height:var(--zs-craft-mobile-height,54px)}
+  .zs-craft-marquee__track{
+    width:100%;
+    min-width:0;
+    white-space:normal;
+    animation:none;
+    will-change:auto;
+  }
+  .zs-craft-marquee__group{min-width:0;width:100%;flex-wrap:wrap;justify-content:center;gap:10px 14px;padding:14px 22px;white-space:normal}
+  .zs-craft-marquee__group:not(:first-child){display:none}
+  .zs-craft-marquee__line{white-space:normal;text-align:center}
+  .zs-craft-marquee__separator{margin-inline:0}
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ZAISEN Craft Marquee",
+  "tag": "section",
+  "class": "section-zs-craft-marquee",
+  "settings": [
+    {"type":"header","content":"Handcrafted messages"},
+    {"type":"text","id":"line_1","label":"Message 1","default":"From our hands to your home."},
+    {"type":"text","id":"line_2","label":"Message 2","default":"Every piece is crafted with care."},
+    {"type":"text","id":"line_3","label":"Message 3","default":"Made from pure wood, with attention to every little detail."},
+    {"type":"header","content":"Marquee appearance"},
+    {"type":"font_picker","id":"marquee_font","label":"Font","default":"poppins_n4"},
+    {"type":"color","id":"background_color","label":"Background","default":"#2B1D17"},
+    {"type":"color","id":"text_color","label":"Text","default":"#F7F3EE"},
+    {"type":"color","id":"accent_color","label":"Separators","default":"#D8B56A"},
+    {"type":"range","id":"duration","label":"Scroll time","min":20,"max":80,"step":2,"unit":"s","default":42},
+    {"type":"range","id":"desktop_height","label":"Desktop height","min":52,"max":88,"step":2,"unit":"px","default":68},
+    {"type":"range","id":"mobile_height","label":"Mobile height","min":44,"max":68,"step":2,"unit":"px","default":54}
+  ],
+  "presets":[{"name":"ZAISEN Craft Marquee"}]
+}
+{% endschema %}
