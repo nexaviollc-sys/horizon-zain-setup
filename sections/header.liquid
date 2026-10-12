@@ -265,30 +265,29 @@
         style="{{ localization_font }} {{ localization_font_size }}"
       >
         {% if show_country %}
-          {% if section.settings.country_selector_style == true %}
-            {% assign localization_background_color = 'background_color_[row]' | replace: '[row]', section.settings.localization_row %}
-            {% liquid
-              assign background_brightness = section.settings[localization_background_color] | color_brightness
-              if background_brightness < 64
-                assign shadow_size = 4
-              else
-                assign shadow_size = 2
-              endif
-            %}
-            <span
-              class="icon-flag"
-              style="
-                background-image: url({{- localization.country | image_url: width: 32 }});
-                --size-shadow: {{ shadow_size }}px;
-                --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
-              "
-            ></span>
-          {% endif %}
+          {% assign localization_background_color = 'background_color_[row]' | replace: '[row]', section.settings.localization_row %}
+          {% liquid
+            assign background_brightness = section.settings[localization_background_color] | color_brightness
+            if background_brightness < 64
+              assign shadow_size = 4
+            else
+              assign shadow_size = 2
+            endif
+          %}
           <span
-            class="currency-code"
+            class="icon-flag"
+            aria-hidden="true"
+            style="
+              background-image: url({{- localization.country | image_url: width: 48 }});
+              --size-shadow: {{ shadow_size }}px;
+              --color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-30-60));
+            "
+          ></span>
+          <span
+            class="currency-code visually-hidden"
             data-testid="localization-currency-code"
           >
-            {{- localization.country.currency.iso_code -}}
+            {{ localization.country.name }} ({{ localization.country.currency.iso_code }})
           </span>
         {% endif %}
         <span
