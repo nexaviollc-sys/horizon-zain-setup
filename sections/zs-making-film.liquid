@@ -1,0 +1,133 @@
+{%- assign s = section.settings -%}
+<section id="zaisen-making" class="za-making" aria-labelledby="za-making-title-{{ section.id }}">
+  <div class="za-making__shell">
+    <div class="za-making__editorial">
+      <p class="za-making__eyebrow">THE MAKING OF ZAISEN <span aria-hidden="true"> / 01—04</span></p>
+      <h2 id="za-making-title-{{ section.id }}">{{ s.heading | escape }}</h2>
+      <p class="za-making__body">{{ s.description | escape }}</p>
+      <div class="za-making__steps" aria-label="Craftsmanship process">
+        <span>01 SELECT</span><span>02 SHAPE</span><span>03 REFINE</span><span>04 ENDURE</span>
+      </div>
+      <a class="za-making__link" href="{{ s.link | default: routes.all_products_collection_url }}">{{ s.link_label | escape }} <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="za-making__screen" role="img" aria-label="Animated line art tells the journey of natural wood, from growth rings and shaping to hand finishing and ZAISEN craftsmanship">
+      <div class="za-making__screen-top"><span>WOOD / NATURE / FORM</span><span class="za-making__time">ZAISEN MOTION STUDY Nº 01</span></div>
+      <svg class="za-making__canvas" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 490" aria-hidden="true" fill="none">
+        <g class="za-making__scene za-making__scene--1">
+          <g stroke="#C6AD8C" stroke-width="1.3" opacity=".9">
+            <ellipse cx="350" cy="240" rx="165" ry="177" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="148" ry="161" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="131" ry="142" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="109" ry="121" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="91" ry="103" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="72" ry="81" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="55" ry="64" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="35" ry="42" transform="rotate(-10 350 240)"/>
+            <ellipse cx="350" cy="240" rx="14" ry="19" transform="rotate(-10 350 240)"/>
+            <path d="M180 243H132m434 0h-44M351 39V16m0 449v-27" stroke="#A28669" stroke-dasharray="5 7"/>
+          </g>
+          <text x="350" y="471" text-anchor="middle" class="za-making__svg-label">EVERY RING BEGINS A STORY</text>
+        </g>
+        <g class="za-making__scene za-making__scene--2">
+          <g stroke="#C6AD8C" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M174 152 391 93l154 74-214 59-157-74Zm0 0v162l157 77 214-60V167M331 226v165" stroke-linejoin="miter"/>
+            <path d="M203 180v123l108 54M352 251l166-47M353 276l165-47M353 300l165-46M353 325l165-46" opacity=".55"/>
+            <path class="za-making__cut-line" d="M250 82 478 414" stroke="#EEE2D3" stroke-width="2.4" stroke-dasharray="8 9"/>
+            <path d="m241 94 20-25M467 425l20-25" stroke="#EEE2D3"/>
+          </g>
+          <text x="350" y="471" text-anchor="middle" class="za-making__svg-label">MATERIAL, CONSIDERED</text>
+        </g>
+        <g class="za-making__scene za-making__scene--3">
+          <g stroke="#C6AD8C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M182 342c59 22 135 29 218 5 89-26 121-99 117-185"/>
+            <path d="M198 316c61 26 132 25 192 4 70-24 91-92 94-156" opacity=".75"/>
+            <path d="M230 287c57 22 112 21 158-7 44-27 62-72 59-120" opacity=".65"/>
+            <path d="M261 258c51 13 89 8 121-16 21-17 30-47 32-70" opacity=".55"/>
+            <path class="za-making__tool" d="m470 76 59 57-129 131-34 12 10-38L470 76Z"/>
+            <path d="m470 76 31 29M381 239l19 25" opacity=".8"/>
+            <path d="M154 384h392" stroke-width=".8" opacity=".55"/>
+          </g>
+          <text x="350" y="471" text-anchor="middle" class="za-making__svg-label">FINISHED BY HUMAN HANDS</text>
+        </g>
+        <g class="za-making__scene za-making__scene--4">
+          <g stroke="#B49A80" stroke-width="1.4">
+            <circle cx="350" cy="239" r="151"/>
+            <circle cx="350" cy="239" r="139" stroke-dasharray="1 9"/>
+            <path d="M350 50v28m0 323v28M162 239h33m310 0h33" opacity=".65"/>
+          </g>
+          <text x="350" y="246" text-anchor="middle" class="za-making__wordmark">ZAISEN</text>
+          <text x="350" y="277" text-anchor="middle" class="za-making__wordmark-sub">HANDCRAFTED · PURE WOOD</text>
+          <text x="350" y="471" text-anchor="middle" class="za-making__svg-label">OBJECTS WITH LASTING PRESENCE</text>
+        </g>
+      </svg>
+      <div class="za-making__screen-bottom"><span>FROM NATURE TO HOME</span><span>EST. / ZAISEN</span></div>
+      <div class="za-making__progress" aria-hidden="true"><span></span></div>
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+.za-making{background:#24211E;color:#F7F6F2;overflow:hidden;scroll-margin-top:105px}
+.za-making *{box-sizing:border-box}
+.za-making__shell{max-width:1670px;min-height:670px;margin:0 auto;padding:clamp(66px,8vw,118px) clamp(20px,5vw,90px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(40px,6vw,105px)}
+.za-making__eyebrow{font-size:.64rem;letter-spacing:.21em;font-weight:600;color:#C6AD8C;margin:0 0 23px;font-family:var(--font-body--family,Arial,sans-serif)}
+.za-making__eyebrow span{color:#807467;margin-left:12px}
+.za-making__editorial h2{font-size:clamp(3.3rem,5.3vw,6.5rem);font-family:var(--font-heading--family,Georgia,serif);font-weight:450;line-height:1.02;letter-spacing:-.05em;margin:0 0 27px;color:#F7F6F2;max-width:11ch}
+.za-making__body{max-width:43ch;color:#C9C3BA;font-size:.94rem;line-height:1.84;margin:0;font-family:var(--font-body--family,Arial,sans-serif)}
+.za-making__steps{display:grid;grid-template-columns:repeat(2,max-content);gap:13px 29px;margin:38px 0;color:#9B9184;font-size:.59rem;font-family:var(--font-body--family,Arial,sans-serif);letter-spacing:.13em}
+.za-making__link{color:#F7F6F2;display:inline-flex;align-items:center;gap:26px;text-decoration:none;border-bottom:1px solid #B49A80;padding-bottom:12px;text-transform:uppercase;font-weight:600;font-size:.7rem;letter-spacing:.12em}
+.za-making__link:hover{color:#DCC6A8}
+.za-making__screen{position:relative;min-height:480px;width:100%;border:1px solid #554A40;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate;background:#28231F}
+.za-making__screen-top,.za-making__screen-bottom{display:flex;justify-content:space-between;gap:12px;margin:0;padding:22px 26px;font-family:var(--font-body--family,Arial,sans-serif);font-size:.54rem;letter-spacing:.15em;color:#AFA394}
+.za-making__screen-top{border-bottom:1px solid #403831}
+.za-making__screen-bottom{border-top:1px solid #403831}
+.za-making__canvas{display:block;position:relative;width:100%;height:auto;max-height:490px;align-self:center;flex:1;min-height:320px}
+.za-making__scene{opacity:0;animation:za-making-scene 24s linear infinite;animation-play-state:paused;transform-origin:50% 50%}
+.za-making.is-visible .za-making__scene,.za-making.is-visible .za-making__progress span{animation-play-state:running}
+.za-making__scene--1{animation-delay:0s}
+.za-making__scene--2{animation-delay:-18s}
+.za-making__scene--3{animation-delay:-12s}
+.za-making__scene--4{animation-delay:-6s}
+@keyframes za-making-scene{0%{opacity:0}2%{opacity:1}21%{opacity:1}25%{opacity:0}100%{opacity:0}}
+.za-making__svg-label{font-family:var(--font-body--family,Arial,sans-serif);font-size:10px;letter-spacing:3px;fill:#BAA88F}
+.za-making__wordmark{font-family:Georgia,serif;font-size:55px;letter-spacing:17px;fill:#F7F6F2}
+.za-making__wordmark-sub{font-family:Arial,sans-serif;font-size:10px;letter-spacing:5px;fill:#B49A80}
+.za-making__progress{height:2px;background:#403831;position:absolute;bottom:0;left:0;right:0}
+.za-making__progress span{height:100%;display:block;background:#B49A80;transform-origin:left;animation:za-making-progress 24s linear infinite;animation-play-state:paused}
+@keyframes za-making-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.za-making a:focus-visible{outline:2px solid #C6AD8C;outline-offset:4px}
+@media(max-width:1100px){.za-making__shell{grid-template-columns:1fr;gap:38px}.za-making__editorial h2{max-width:16ch}.za-making__screen{min-height:470px}}
+@media(max-width:680px){.za-making__shell{padding:72px 20px;gap:33px}.za-making__editorial h2{font-size:clamp(3.1rem,12vw,4.6rem)}.za-making__steps{gap:14px 20px;margin:25px 0}.za-making__screen{min-height:330px}.za-making__screen-top,.za-making__screen-bottom{padding:14px 13px;font-size:.46rem}.za-making__time{display:none}.za-making__canvas{min-height:275px}.za-making__wordmark{font-size:49px;letter-spacing:13px}}
+@media(prefers-reduced-motion:reduce){.za-making__scene{animation:none!important;opacity:0!important}.za-making__scene--4{opacity:1!important}.za-making__progress span{animation:none!important;transform:scaleX(1)}}
+{% endstylesheet %}
+{% javascript %}
+(function(){
+  const init = () => {
+    const sections = document.querySelectorAll('.za-making:not([data-motion-ready])');
+    if (!('IntersectionObserver' in window)) {
+      sections.forEach((node) => {node.dataset.motionReady = 'true';node.classList.add('is-visible');});
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+    }, {rootMargin: '80px 0px 80px 0px', threshold: .05});
+    sections.forEach((node) => {node.dataset.motionReady = 'true';observer.observe(node);});
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once: true});
+  else init();
+  document.addEventListener('shopify:section:load', init);
+})();
+{% endjavascript %}
+{% schema %}
+{
+  "name": "ZAISEN Craft Motion",
+  "tag": "div",
+  "class": "za-making-section",
+  "settings": [
+    {"type":"text","id":"heading","label":"Title","default":"The art of becoming."},
+    {"type":"textarea","id":"description","label":"Introduction","default":"Every ZAISEN piece begins with natural wood. Its character guides the form; considered shaping and hand finishing give it lasting presence. A story told through material and craftsmanship."},
+    {"type":"text","id":"link_label","label":"Link label","default":"Explore our collection"},
+    {"type":"url","id":"link","label":"Link destination"}
+  ],
+  "presets":[{"name":"ZAISEN Craft Motion"}]
+}
+{% endschema %}

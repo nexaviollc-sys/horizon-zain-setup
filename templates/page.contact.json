@@ -24,12 +24,12 @@
         "form_kicker": "Send a message",
         "form_heading": "Tell us what you need",
         "form_text": "Share the details below and we’ll make sure your message reaches the right place.",
-        "bg_color": "#FAF9F6",
+        "bg_color": "#F7F6F2",
         "surface_color": "#FFFFFF",
-        "text_color": "#28221D",
-        "muted_color": "#6F6861",
-        "accent_color": "#B69A6A",
-        "deep_wood": "#77523A"
+        "text_color": "#24211E",
+        "muted_color": "#6B645D",
+        "accent_color": "#74533C",
+        "deep_wood": "#74533C"
       }
     }
   },
