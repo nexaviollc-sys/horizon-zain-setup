@@ -1,841 +1,355 @@
-{% liquid
-  assign contact_email = section.settings.contact_email | default: shop.email
-%}
+{%- liquid
+  assign s = section.settings
+  assign contact_email = s.contact_email | default: shop.email
+  assign contact_phone = s.contact_phone
+  assign phone_href = s.phone_link | default: contact_phone
+  assign display_font = s.editorial_font
+  assign light_font = display_font | font_modify: 'weight', '300'
+  assign medium_font = display_font | font_modify: 'weight', '500'
+  assign bold_font = display_font | font_modify: 'weight', '700'
+-%}
+{%- if display_font != blank -%}
+  {% style %}
+    {{ display_font | font_face: font_display: 'swap' }}
+    {% if light_font != blank %}{{ light_font | font_face: font_display: 'swap' }}{% endif %}
+    {% if medium_font != blank %}{{ medium_font | font_face: font_display: 'swap' }}{% endif %}
+    {% if bold_font != blank %}{{ bold_font | font_face: font_display: 'swap' }}{% endif %}
+    #zs-contact-{{ section.id }} {
+      font-family: {{ display_font.family | json }}, {{ display_font.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
 
-<section class="zs-contact" style="
-  --zs-bg: {{ section.settings.bg_color }};
-  --zs-surface: {{ section.settings.surface_color }};
-  --zs-text: {{ section.settings.text_color }};
-  --zs-muted: {{ section.settings.muted_color }};
-  --zs-accent: {{ section.settings.accent_color }};
-  --zs-deep: {{ section.settings.deep_wood }};
+<section id="zs-contact-{{ section.id }}" class="zs-contact" style="
+  --zs-bg:{{ s.bg_color }};
+  --zs-surface:{{ s.surface_color }};
+  --zs-text:{{ s.text_color }};
+  --zs-muted:{{ s.muted_color }};
+  --zs-accent:{{ s.accent_color }};
+  --zs-deep:{{ s.deep_wood }};
 ">
-  <div class="zs-contact__grain" aria-hidden="true"></div>
-
   <div class="zs-contact__shell">
     <div class="zs-contact__intro">
-      <div class="zs-contact__eyebrow">
-        <span class="zs-contact__eyebrow-line"></span>
-        {{ section.settings.eyebrow }}
-      </div>
+      {% if s.eyebrow != blank %}
+        <p class="zs-contact__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+      {% endif %}
+      <h1 class="zs-contact__title">{{ s.heading }}</h1>
+      <div class="zs-contact__lead">{{ s.subheading }}</div>
 
-      <h1 class="zs-contact__title">{{ section.settings.heading }}</h1>
-
-      <div class="zs-contact__lead">
-        {{ section.settings.subheading }}
-      </div>
-
-      <div class="zs-contact__support-grid">
-        <article class="zs-contact__support-card">
-          <div class="zs-contact__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5 12 12l8-5.5M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <span>Email us</span>
-            <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
-          </div>
-        </article>
-
-        <article class="zs-contact__support-card">
-          <div class="zs-contact__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <span>Customer care</span>
-            <strong>{{ section.settings.response_text }}</strong>
-          </div>
-        </article>
-
-        <article class="zs-contact__support-card">
-          <div class="zs-contact__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4.5 6.5v5.3c0 4.4 3.1 7.7 7.5 9.2 4.4-1.5 7.5-4.8 7.5-9.2V6.5L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.5 12 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <span>Order support</span>
-            <strong>{{ section.settings.order_text }}</strong>
-          </div>
-        </article>
-      </div>
-
-      <div class="zs-contact__note">
-        <div class="zs-contact__note-mark">Z</div>
-        <div>
-          <strong>{{ section.settings.note_title }}</strong>
-          <p>{{ section.settings.note_text }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="zs-contact__form-wrap">
-      <div class="zs-contact__form-top">
-        <span>{{ section.settings.form_kicker }}</span>
-        <h2>{{ section.settings.form_heading }}</h2>
-        <p>{{ section.settings.form_text }}</p>
-      </div>
-
-      {% form 'contact', class: 'zs-contact__form' %}
-        {% if form.posted_successfully? %}
-          <div class="zs-contact__success" role="status">
-            <span aria-hidden="true">✓</span>
-            <div>
-              <strong>Message received.</strong>
-              <p>Thank you for contacting ZAISEN. We’ll get back to you as soon as possible.</p>
+      <div class="zs-contact__channels" aria-label="Contact ZAISEN">
+        {% if contact_email != blank %}
+          <div class="zs-contact__channel">
+            <span class="zs-contact__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m3 7 9 6 9-6"/>
+              </svg>
+            </span>
+            <div class="zs-contact__channel-copy">
+              <span class="zs-contact__channel-label">Email ZAISEN</span>
+              <a class="zs-contact__contact-link" href="mailto:{{ contact_email | escape }}">{{ contact_email | escape }}
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+              </a>
             </div>
           </div>
         {% endif %}
+        {% if contact_phone != blank %}
+          <div class="zs-contact__channel">
+            <span class="zs-contact__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16.8v2.9a2 2 0 0 1-2.2 2A18.6 18.6 0 0 1 2.3 5.2 2 2 0 0 1 4.3 3h2.9a2 2 0 0 1 2 1.6l.6 2.8a2 2 0 0 1-.6 1.9L7.5 11a15 15 0 0 0 5.5 5.5l1.7-1.7a2 2 0 0 1 1.9-.6l2.8.6a2 2 0 0 1 1.6 2Z"/>
+              </svg>
+            </span>
+            <div class="zs-contact__channel-copy">
+              <span class="zs-contact__channel-label">Call ZAISEN</span>
+              <a class="zs-contact__contact-link" href="tel:{{ phone_href | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | escape }}">{{ contact_phone | escape }}
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
 
+      <div class="zs-contact__help-notes">
+        {% if s.response_text != blank %}
+          <p><span aria-hidden="true"></span>{{ s.response_text | escape }}</p>
+        {% endif %}
+        {% if s.order_text != blank %}
+          <p><span aria-hidden="true"></span>{{ s.order_text | escape }}</p>
+        {% endif %}
+      </div>
+
+      {% if s.note_title != blank or s.note_text != blank %}
+        <div class="zs-contact__craft-note">
+          {% if settings.logo != blank %}
+            {{ settings.logo | image_url: width: 100 | image_tag: class: 'zs-contact__brand-mark', loading: 'lazy', widths: '50, 100', sizes: '46px', alt: 'ZAISEN' }}
+          {% else %}
+            <span class="zs-contact__brand-fallback">ZS</span>
+          {% endif %}
+          <div>
+            {% if s.note_title != blank %}<strong>{{ s.note_title | escape }}</strong>{% endif %}
+            {% if s.note_text != blank %}<p>{{ s.note_text | escape }}</p>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="zs-contact__form-panel">
+      <div class="zs-contact__form-heading">
+        <p class="zs-contact__form-kicker">{{ s.form_kicker | escape }}</p>
+        <h2>{{ s.form_heading | escape }}</h2>
+        <p>{{ s.form_text | escape }}</p>
+      </div>
+      {% form 'contact', class: 'zs-contact__form' %}
+        {% if form.posted_successfully? %}
+          <div class="zs-contact__success" role="status">
+            <strong>Message received.</strong>
+            <p>Thank you for contacting ZAISEN. We’ll get back to you as soon as possible.</p>
+          </div>
+        {% endif %}
         {% if form.errors %}
           <div class="zs-contact__errors" role="alert">
             {{ form.errors | default_errors }}
           </div>
         {% endif %}
 
-        <div class="zs-contact__row">
-          <label class="zs-contact__field">
-            <span>Name</span>
-            <input
-              type="text"
-              name="contact[name]"
-              autocomplete="name"
-              value="{% if form.name %}{{ form.name | escape }}{% endif %}"
-              placeholder="Your name"
-            >
-          </label>
-
-          <label class="zs-contact__field">
-            <span>Email <em>*</em></span>
-            <input
-              type="email"
-              name="contact[email]"
-              autocomplete="email"
-              autocorrect="off"
-              autocapitalize="off"
-              required
-              value="{% if form.email %}{{ form.email | escape }}{% endif %}"
-              placeholder="you@example.com"
-            >
-          </label>
+        <div class="zs-contact__fields-row">
+          <div class="zs-contact__field">
+            <label for="zs-contact-name-{{ section.id }}">Your name</label>
+            <input id="zs-contact-name-{{ section.id }}" type="text" name="contact[name]" autocomplete="name"
+              value="{{ form.name | escape }}" placeholder="Your name">
+          </div>
+          <div class="zs-contact__field">
+            <label for="zs-contact-email-{{ section.id }}">Email address <span aria-hidden="true">*</span></label>
+            <input id="zs-contact-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email"
+              autocorrect="off" autocapitalize="off" required
+              value="{{ form.email | escape }}" placeholder="you@example.com">
+          </div>
         </div>
 
-        <div class="zs-contact__row">
-          <label class="zs-contact__field">
-            <span>Phone</span>
-            <input
-              type="tel"
-              name="contact[phone]"
-              autocomplete="tel"
-              value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
-              placeholder="Optional"
-            >
-          </label>
-
-          <label class="zs-contact__field">
-            <span>Order number</span>
-            <input
-              type="text"
-              name="contact[Order number]"
-              placeholder="Optional"
-            >
-          </label>
+        <div class="zs-contact__fields-row">
+          <div class="zs-contact__field">
+            <label for="zs-contact-phone-{{ section.id }}">Phone <small>(optional)</small></label>
+            <input id="zs-contact-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel"
+              value="{{ form.phone | escape }}" placeholder="Your phone number">
+          </div>
+          <div class="zs-contact__field">
+            <label for="zs-contact-order-{{ section.id }}">Order number <small>(optional)</small></label>
+            <input id="zs-contact-order-{{ section.id }}" type="text" name="contact[Order number]" placeholder="e.g. #1001">
+          </div>
         </div>
 
-        <label class="zs-contact__field">
-          <span>How can we help? <em>*</em></span>
-          <textarea
-            rows="7"
-            name="contact[body]"
-            required
-            placeholder="Tell us about your order, product question, gift inquiry, or anything else we can help with."
-          >{% if form.body %}{{ form.body | escape }}{% endif %}</textarea>
-        </label>
+        <div class="zs-contact__field">
+          <label for="zs-contact-message-{{ section.id }}">Your message <span aria-hidden="true">*</span></label>
+          <textarea id="zs-contact-message-{{ section.id }}" name="contact[body]" rows="5" required
+            placeholder="Tell us what we can help you with…">{{ form.body | escape }}</textarea>
+        </div>
 
         <div class="zs-contact__submit-row">
           <button type="submit" class="zs-contact__submit">
-            <span>Send Message</span>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Send message
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </button>
-
-          <p class="zs-contact__privacy">
-            Your details are used only to respond to your inquiry and provide customer support.
-          </p>
+          <p class="zs-contact__privacy">We'll use your details only to respond to your inquiry.</p>
         </div>
       {% endform %}
-    </div>
-  </div>
-
-  <div class="zs-contact__assurance">
-    <div class="zs-contact__assurance-item">
-      <span class="zs-contact__dot"></span>
-      <strong>Handcrafted with care</strong>
-      <small>Natural wood. Artisan character.</small>
-    </div>
-    <div class="zs-contact__assurance-item">
-      <span class="zs-contact__dot"></span>
-      <strong>Worldwide customer support</strong>
-      <small>Support for all ZAISEN orders.</small>
-    </div>
-    <div class="zs-contact__assurance-item">
-      <span class="zs-contact__dot"></span>
-      <strong>Thoughtful gifting</strong>
-      <small>Questions before ordering? Ask us.</small>
     </div>
   </div>
 </section>
 
 {% stylesheet %}
-  .zs-contact {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--zs-accent) 13%, transparent), transparent 28%),
-      radial-gradient(circle at 94% 95%, color-mix(in srgb, var(--zs-deep) 8%, transparent), transparent 34%),
-      var(--zs-bg);
-    color: var(--zs-text);
-    padding: clamp(44px, 6vw, 92px) 20px clamp(50px, 7vw, 104px);
+.zs-contact{
+  background:var(--zs-bg,#FFFFFF);
+  color:var(--zs-text,#2B1D17);
+  padding:clamp(55px,6.7vw,96px) 0 clamp(60px,6.7vw,100px);
+  font-family:inherit;
+}
+.zs-contact *{box-sizing:border-box}
+.zs-contact__shell{
+  width:100%;max-width:1440px;margin:0 auto;
+  padding:0 clamp(20px,4vw,58px);
+  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  align-items:start;gap:clamp(50px,7.5vw,125px);
+}
+.zs-contact__intro{min-width:0;padding-top:15px}
+.zs-contact__eyebrow{
+  display:flex;align-items:center;gap:13px;margin:0 0 24px;
+  font-size:10px;font-weight:500;line-height:1.4;letter-spacing:.17em;
+  color:#947255;text-transform:uppercase;
+}
+.zs-contact__eyebrow span{width:28px;height:2px;background:var(--zs-accent,#D8B56A);flex-shrink:0}
+.zs-contact__title{
+  max-width:12ch;margin:0;
+  color:var(--zs-text,#2B1D17);
+  font-family:inherit!important;
+  font-size:clamp(45px,5.1vw,72px);font-weight:300;line-height:1.11;letter-spacing:-.06em;
+}
+.zs-contact__title em{font-style:normal;font-weight:700;color:var(--zs-text,#2B1D17)}
+.zs-contact__lead{
+  max-width:48ch;margin:22px 0 0;
+  color:var(--zs-muted,#80736A);font-size:14px;line-height:1.85;
+}
+.zs-contact__lead p{margin:0}
+.zs-contact__channels{display:grid;gap:0;margin-top:40px}
+.zs-contact__channel{
+  display:flex;align-items:center;gap:18px;padding:18px 0;
+  border-top:1px solid #E9E1D9;
+}
+.zs-contact__channel:last-child{border-bottom:1px solid #E9E1D9}
+.zs-contact__icon{
+  display:grid;place-items:center;flex:0 0 40px;
+  width:40px;height:40px;color:#72503B;
+}
+.zs-contact__icon svg{display:block;width:25px;height:25px}
+.zs-contact__channel-copy{display:flex;flex-direction:column;gap:6px;min-width:0}
+.zs-contact__channel-label{
+  font-size:10px;letter-spacing:.13em;line-height:1.3;
+  font-weight:500;color:#937C6A;text-transform:uppercase;
+}
+.zs-contact__contact-link{
+  display:inline-flex;align-items:center;gap:9px;
+  color:var(--zs-text,#2B1D17);font-size:clamp(14px,1.15vw,17px);
+  font-weight:600;line-height:1.45;overflow-wrap:anywhere;text-decoration:none;
+  transition:color .2s ease;
+}
+.zs-contact__contact-link svg{
+  width:16px;height:16px;flex:0 0 16px;transition:transform .2s ease;
+}
+.zs-contact__contact-link:hover{color:#9B6F48}
+.zs-contact__contact-link:hover svg{transform:translate(2px,-2px)}
+.zs-contact__help-notes{display:grid;gap:7px;padding-top:21px}
+.zs-contact__help-notes p{display:flex;align-items:flex-start;gap:10px;margin:0;color:var(--zs-muted,#80736A);font-size:12px;line-height:1.6}
+.zs-contact__help-notes p span{width:5px;height:5px;flex:0 0 5px;margin-top:8px;border-radius:50%;background:var(--zs-accent,#D8B56A)}
+.zs-contact__craft-note{
+  display:flex;align-items:center;gap:17px;
+  margin-top:clamp(28px,3.4vw,50px);padding:18px 0 0;
+  border-top:1px solid #E9E1D9;
+}
+.zs-contact__brand-mark{display:block;width:46px;height:46px;flex:0 0 46px;object-fit:contain;mix-blend-mode:multiply}
+.zs-contact__brand-fallback{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;font-size:18px;font-weight:700;letter-spacing:-.08em;color:#936D4E}
+.zs-contact__craft-note strong{display:block;font-size:12px;font-weight:600;color:var(--zs-text,#2B1D17)}
+.zs-contact__craft-note p{margin:5px 0 0;font-size:11.5px;line-height:1.65;color:var(--zs-muted,#80736A)}
+.zs-contact__form-panel{
+  min-width:0;padding:clamp(26px,3.3vw,44px);
+  border:1px solid #ECE3DA;border-radius:22px;
+  background:var(--zs-surface,#FBF8F4);
+}
+.zs-contact__form-kicker{
+  margin:0;color:#947255;text-transform:uppercase;
+  font-size:10px;font-weight:500;letter-spacing:.17em;
+}
+.zs-contact__form-heading h2{
+  margin:11px 0 7px;color:var(--zs-text,#2B1D17);
+  font-family:inherit!important;font-size:clamp(27px,2.4vw,35px);
+  line-height:1.2;letter-spacing:-.045em;font-weight:600;
+}
+.zs-contact__form-heading>p:last-child{
+  max-width:47ch;margin:0 0 26px;color:var(--zs-muted,#80736A);
+  font-size:12.5px;line-height:1.75;
+}
+.zs-contact__fields-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.zs-contact__field{display:flex;flex-direction:column;gap:8px;margin:0 0 16px;min-width:0}
+.zs-contact__field label{
+  font-size:12px;font-weight:500;line-height:1.45;color:var(--zs-text,#2B1D17);
+}
+.zs-contact__field label span{color:#9B6C44}
+.zs-contact__field label small{font-size:11px;font-weight:400;color:#8D8177}
+.zs-contact__field input,.zs-contact__field textarea{
+  display:block;width:100%;min-height:48px;margin:0;
+  padding:12px 13px;border:1px solid #DCD1C6;
+  border-radius:10px;background:#FFFFFF;color:var(--zs-text,#2B1D17);
+  outline:0;box-shadow:none;
+  font:400 13px/1.5 inherit;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.zs-contact__field textarea{min-height:132px;resize:vertical}
+.zs-contact__field input::placeholder,.zs-contact__field textarea::placeholder{color:#A69B93;opacity:1}
+.zs-contact__field input:focus,.zs-contact__field textarea:focus{
+  border-color:#9B775B;box-shadow:0 0 0 3px rgba(155,119,91,.1)
+}
+.zs-contact__submit-row{display:flex;align-items:center;gap:20px;margin-top:7px}
+.zs-contact__submit{
+  display:inline-flex;align-items:center;justify-content:center;gap:20px;
+  min-height:52px;padding:13px 25px;border:1px solid #2B1D17;
+  border-radius:999px;background:#2B1D17;color:#FFF9F2;
+  font:600 12.5px/1.1 inherit;letter-spacing:0;
+  cursor:pointer;transition:background .2s ease,transform .2s ease;
+  white-space:nowrap;
+}
+.zs-contact__submit svg{width:17px;height:17px;transition:transform .2s ease}
+.zs-contact__submit:hover{background:#4A3025;transform:translateY(-1px)}
+.zs-contact__submit:hover svg{transform:translateX(3px)}
+.zs-contact__submit:focus-visible,.zs-contact__contact-link:focus-visible{
+  outline:2px solid var(--zs-accent,#D8B56A);outline-offset:4px;
+}
+.zs-contact__privacy{max-width:210px;margin:0;font-size:10.5px;line-height:1.55;color:var(--zs-muted,#80736A)}
+.zs-contact__success,.zs-contact__errors{
+  margin:0 0 20px;padding:13px 16px;border-radius:10px;
+  font-size:13px;line-height:1.6;
+}
+.zs-contact__success{background:#F0F7EE;border:1px solid #C7D9BF;color:#355432}
+.zs-contact__success strong{display:block}
+.zs-contact__success p{margin:2px 0 0}
+.zs-contact__errors{background:#FFF0ED;border:1px solid #E8C9C1;color:#732C22}
+@media(max-width:1020px){
+  .zs-contact__shell{gap:40px;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  .zs-contact__fields-row{grid-template-columns:1fr;gap:0}
+  .zs-contact__title{font-size:clamp(40px,5vw,55px)}
+}
+@media(max-width:749px){
+  .zs-contact{padding:43px 0 60px}
+  .zs-contact__shell{display:block;padding:0 16px}
+  .zs-contact__intro{padding:0}
+  .zs-contact__eyebrow{font-size:9px;margin-bottom:17px}
+  .zs-contact__title{max-width:14ch;font-size:clamp(40px,9vw,56px)}
+  .zs-contact__lead{margin-top:13px;font-size:12.5px;line-height:1.7}
+  .zs-contact__channels{margin-top:24px}
+  .zs-contact__channel{padding:13px 0;gap:13px}
+  .zs-contact__icon{flex-basis:34px;width:34px;height:34px}
+  .zs-contact__icon svg{width:22px;height:22px}
+  .zs-contact__contact-link{font-size:14px}
+  .zs-contact__help-notes{padding-top:15px}
+  .zs-contact__craft-note{margin-top:24px}
+  .zs-contact__form-panel{margin-top:35px;padding:22px 17px;border-radius:17px}
+  .zs-contact__form-heading h2{font-size:28px}
+  .zs-contact__form-heading>p:last-child{margin-bottom:22px}
+  .zs-contact__submit-row{flex-direction:column;align-items:stretch;gap:12px}
+  .zs-contact__submit{width:100%}
+  .zs-contact__privacy{max-width:none;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .zs-contact__submit,.zs-contact__submit svg,.zs-contact__contact-link,.zs-contact__contact-link svg{
+    transition:none;
   }
-
-  .zs-contact__grain {
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    opacity: .24;
-    z-index: -1;
-    background-image:
-      linear-gradient(90deg, rgba(117,79,48,.028) 1px, transparent 1px),
-      linear-gradient(rgba(117,79,48,.02) 1px, transparent 1px);
-    background-size: 42px 42px;
-    mask-image: linear-gradient(to bottom, black, transparent 72%);
-  }
-
-  .zs-contact__shell {
-    width: min(1180px, 100%);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-    gap: clamp(38px, 6vw, 78px);
-    align-items: start;
-  }
-
-  .zs-contact__intro {
-    position: sticky;
-    top: 110px;
-    padding-top: 12px;
-  }
-
-  .zs-contact__eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-body--family, inherit);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .17em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--zs-deep) 78%, var(--zs-accent));
-  }
-
-  .zs-contact__eyebrow-line {
-    width: 34px;
-    height: 1px;
-    background: var(--zs-accent);
-  }
-
-  .zs-contact__title {
-    margin: 18px 0 18px;
-    max-width: 9.5ch;
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: clamp(44px, 5.7vw, 74px);
-    line-height: .98;
-    font-weight: 500;
-    letter-spacing: -.035em;
-    color: var(--zs-text);
-  }
-
-  .zs-contact__title em {
-    color: var(--zs-accent);
-    font-family: var(--font-accent--family, var(--font-heading--family, Georgia, serif));
-    font-weight: 500;
-  }
-
-  .zs-contact__lead {
-    max-width: 560px;
-    font-family: var(--font-body--family, inherit);
-    font-size: clamp(15.5px, 1.4vw, 17px);
-    line-height: 1.75;
-    color: var(--zs-muted);
-  }
-
-  .zs-contact__lead p {
-    margin: 0;
-  }
-
-  .zs-contact__support-grid {
-    display: grid;
-    gap: 12px;
-    margin-top: 34px;
-  }
-
-  .zs-contact__support-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 17px 18px;
-    border-radius: 18px;
-    border: 1px solid color-mix(in srgb, var(--zs-accent) 20%, transparent);
-    background: color-mix(in srgb, var(--zs-surface) 90%, transparent);
-    box-shadow: 0 10px 34px rgba(77, 48, 29, .055);
-    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-  }
-
-  .zs-contact__icon {
-    width: 46px;
-    height: 46px;
-    flex: 0 0 46px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: var(--zs-deep);
-    background: linear-gradient(145deg, color-mix(in srgb, var(--zs-accent) 18%, white), color-mix(in srgb, var(--zs-bg) 96%, white));
-    border: 1px solid color-mix(in srgb, var(--zs-accent) 28%, transparent);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-  }
-
-  .zs-contact__icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .zs-contact__support-card div:last-child {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .zs-contact__support-card span {
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--zs-muted);
-  }
-
-  .zs-contact__support-card strong,
-  .zs-contact__support-card a {
-    overflow-wrap: anywhere;
-    font-family: var(--font-body--family, inherit);
-    font-size: 14.5px;
-    font-weight: 650;
-    color: var(--zs-text);
-    text-decoration: none;
-  }
-
-  .zs-contact__note {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-top: 28px;
-    padding: 20px 20px 20px 18px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, color-mix(in srgb, var(--zs-deep) 96%, black), color-mix(in srgb, var(--zs-deep) 88%, var(--zs-accent)));
-    color: #fffaf3;
-    box-shadow: 0 18px 42px rgba(63, 39, 23, .14);
-  }
-
-  .zs-contact__note-mark {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
-    display: grid;
-    place-items: center;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,.22);
-    color: #f0cf9c;
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 24px;
-    background: rgba(255,255,255,.07);
-  }
-
-  .zs-contact__note strong {
-    display: block;
-    font-size: 14px;
-    letter-spacing: .015em;
-  }
-
-  .zs-contact__note p {
-    margin: 5px 0 0;
-    font-size: 13px;
-    line-height: 1.55;
-    color: rgba(255,250,243,.74);
-  }
-
-  .zs-contact__form-wrap {
-    position: relative;
-    padding: clamp(26px, 3.4vw, 42px);
-    border-radius: 30px;
-    background:
-      linear-gradient(145deg, rgba(255,255,255,.93), rgba(252,248,242,.88));
-    border: 1px solid color-mix(in srgb, var(--zs-accent) 22%, transparent);
-    box-shadow:
-      0 28px 70px rgba(73, 45, 27, .11),
-      inset 0 1px 0 rgba(255,255,255,.9);
-  }
-
-  .zs-contact__form-wrap::before {
-    content: "";
-    position: absolute;
-    inset: 12px;
-    border-radius: 22px;
-    border: 1px solid rgba(168,121,74,.08);
-    pointer-events: none;
-  }
-
-  .zs-contact__form-top {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 26px;
-  }
-
-  .zs-contact__form-top > span {
-    font-size: 11px;
-    font-weight: 750;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--zs-accent);
-  }
-
-  .zs-contact__form-top h2 {
-    margin: 7px 0 8px;
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: clamp(29px, 3vw, 40px);
-    line-height: 1.05;
-    font-weight: 500;
-    letter-spacing: -.025em;
-  }
-
-  .zs-contact__form-top p {
-    margin: 0;
-    max-width: 580px;
-    font-size: 14.5px;
-    line-height: 1.65;
-    color: var(--zs-muted);
-  }
-
-  .zs-contact__form {
-    position: relative;
-    z-index: 1;
-  }
-
-  .zs-contact__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  .zs-contact__field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-  }
-
-  .zs-contact__field > span {
-    font-size: 12.5px;
-    font-weight: 650;
-    letter-spacing: .012em;
-    color: var(--zs-text);
-  }
-
-  .zs-contact__field em {
-    font-style: normal;
-    color: var(--zs-accent);
-  }
-
-  .zs-contact__field input,
-  .zs-contact__field textarea {
-    width: 100%;
-    min-height: 52px;
-    margin: 0;
-    padding: 14px 15px;
-    color: var(--zs-text);
-    background: rgba(255,255,255,.72);
-    border: 1px solid color-mix(in srgb, var(--zs-accent) 24%, #d8d1c9);
-    border-radius: 13px;
-    outline: none;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
-    font: 400 14.5px/1.45 var(--font-body--family, inherit);
-    transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
-  }
-
-  .zs-contact__field textarea {
-    min-height: 168px;
-    resize: vertical;
-  }
-
-  .zs-contact__field input::placeholder,
-  .zs-contact__field textarea::placeholder {
-    color: color-mix(in srgb, var(--zs-muted) 67%, transparent);
-  }
-
-  .zs-contact__field input:focus,
-  .zs-contact__field textarea:focus {
-    border-color: color-mix(in srgb, var(--zs-accent) 78%, var(--zs-deep));
-    background: #fff;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--zs-accent) 10%, transparent);
-  }
-
-  .zs-contact__submit-row {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-top: 8px;
-  }
-
-  .zs-contact__submit {
-    position: relative;
-    overflow: hidden;
-    min-height: 52px;
-    padding: 13px 22px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 13px;
-    border: 0;
-    border-radius: 14px;
-    cursor: pointer;
-    color: #fffaf4;
-    background: linear-gradient(135deg, var(--zs-deep), color-mix(in srgb, var(--zs-deep) 72%, var(--zs-accent)));
-    box-shadow: 0 12px 26px color-mix(in srgb, var(--zs-deep) 21%, transparent);
-    font: 700 13px/1 var(--font-body--family, inherit);
-    letter-spacing: .055em;
-    text-transform: uppercase;
-    transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
-  }
-
-  .zs-contact__submit::after {
-    content: "";
-    position: absolute;
-    top: -70%;
-    left: -30%;
-    width: 32%;
-    height: 240%;
-    transform: rotate(18deg);
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.24), transparent);
-    transition: left 600ms ease;
-  }
-
-  .zs-contact__submit svg {
-    width: 19px;
-    height: 19px;
-    transition: transform 200ms ease;
-  }
-
-  .zs-contact__privacy {
-    margin: 0;
-    max-width: 330px;
-    font-size: 11.5px;
-    line-height: 1.5;
-    color: color-mix(in srgb, var(--zs-muted) 82%, transparent);
-  }
-
-  .zs-contact__success,
-  .zs-contact__errors {
-    margin-bottom: 18px;
-    padding: 15px 16px;
-    border-radius: 13px;
-    font-size: 13.5px;
-  }
-
-  .zs-contact__success {
-    display: flex;
-    gap: 12px;
-    color: #385b3a;
-    background: #eff7ed;
-    border: 1px solid #cadfc6;
-  }
-
-  .zs-contact__success > span {
-    font-weight: 800;
-  }
-
-  .zs-contact__success strong,
-  .zs-contact__success p {
-    margin: 0;
-  }
-
-  .zs-contact__success p {
-    margin-top: 2px;
-  }
-
-  .zs-contact__errors {
-    color: #7a312b;
-    background: #fff3f1;
-    border: 1px solid #ebc7c2;
-  }
-
-  .zs-contact__assurance {
-    width: min(1180px, 100%);
-    margin: clamp(34px, 5vw, 58px) auto 0;
-    padding-top: 24px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    border-top: 1px solid color-mix(in srgb, var(--zs-text) 9%, transparent);
-  }
-
-  .zs-contact__assurance-item {
-    display: grid;
-    grid-template-columns: 10px 1fr;
-    column-gap: 10px;
-    row-gap: 2px;
-    align-items: center;
-  }
-
-  .zs-contact__dot {
-    width: 7px;
-    height: 7px;
-    grid-row: 1 / span 2;
-    align-self: start;
-    margin-top: 6px;
-    border-radius: 50%;
-    background: var(--zs-accent);
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--zs-accent) 10%, transparent);
-  }
-
-  .zs-contact__assurance-item strong {
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-
-  .zs-contact__assurance-item small {
-    font-size: 12px;
-    line-height: 1.45;
-    color: var(--zs-muted);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .zs-contact__support-card:hover {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--zs-accent) 38%, transparent);
-      box-shadow: 0 15px 38px rgba(77, 48, 29, .09);
-    }
-
-    .zs-contact__submit:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.04);
-      box-shadow: 0 16px 34px color-mix(in srgb, var(--zs-deep) 26%, transparent);
-    }
-
-    .zs-contact__submit:hover::after {
-      left: 128%;
-    }
-
-    .zs-contact__submit:hover svg {
-      transform: translateX(3px);
-    }
-  }
-
-  @media screen and (max-width: 989px) {
-    .zs-contact__shell {
-      grid-template-columns: 1fr;
-      gap: 34px;
-    }
-
-    .zs-contact__intro {
-      position: static;
-    }
-
-    .zs-contact__title {
-      max-width: 12ch;
-      font-size: clamp(42px, 8vw, 62px);
-    }
-
-    .zs-contact__support-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .zs-contact__support-card {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .zs-contact {
-      padding-inline: 16px;
-    }
-
-    .zs-contact__support-grid,
-    .zs-contact__assurance {
-      grid-template-columns: 1fr;
-    }
-
-    .zs-contact__support-card {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .zs-contact__form-wrap {
-      border-radius: 24px;
-      padding: 24px 18px;
-    }
-
-    .zs-contact__form-wrap::before {
-      inset: 8px;
-      border-radius: 18px;
-    }
-
-    .zs-contact__row {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-
-    .zs-contact__submit-row {
-      align-items: stretch;
-      flex-direction: column;
-    }
-
-    .zs-contact__submit {
-      width: 100%;
-    }
-
-    .zs-contact__privacy {
-      max-width: none;
-      text-align: center;
-    }
-
-    .zs-contact__assurance {
-      gap: 17px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .zs-contact__support-card,
-    .zs-contact__submit,
-    .zs-contact__submit::after,
-    .zs-contact__submit svg {
-      transition: none !important;
-    }
-  }
+}
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "ZS Premium Contact",
-  "disabled_on": {
-    "groups": [
-      "header",
-      "footer"
-    ]
-  },
+  "name": "ZAISEN Contact",
+  "disabled_on": {"groups": ["header", "footer"]},
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "ZAISEN Customer Care"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "label": "Heading",
-      "default": "We’re Here to <em>Help.</em>"
-    },
-    {
-      "type": "richtext",
-      "id": "subheading",
-      "label": "Introduction",
-      "default": "<p>Questions about a handcrafted piece, an existing order, or choosing the right gift? Send us a message and our team will help you with care.</p>"
-    },
-    {
-      "type": "text",
-      "id": "contact_email",
-      "label": "Contact email",
-      "default": "zaisenstore@gmail.com"
-    },
-    {
-      "type": "text",
-      "id": "response_text",
-      "label": "Customer care text",
-      "default": "Friendly help for product and order questions"
-    },
-    {
-      "type": "text",
-      "id": "order_text",
-      "label": "Order support text",
-      "default": "Include your order number for faster assistance"
-    },
-    {
-      "type": "text",
-      "id": "note_title",
-      "label": "Craft note heading",
-      "default": "Natural wood has its own character"
-    },
-    {
-      "type": "textarea",
-      "id": "note_text",
-      "label": "Craft note text",
-      "default": "Small variations in grain, tone and handcrafted detail are part of what makes each ZAISEN piece unique."
-    },
-    {
-      "type": "text",
-      "id": "form_kicker",
-      "label": "Form kicker",
-      "default": "Send a message"
-    },
-    {
-      "type": "text",
-      "id": "form_heading",
-      "label": "Form heading",
-      "default": "Tell us what you need"
-    },
-    {
-      "type": "textarea",
-      "id": "form_text",
-      "label": "Form introduction",
-      "default": "Share the details below and we’ll make sure your message reaches the right place."
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background",
-      "default": "#FAF9F6"
-    },
-    {
-      "type": "color",
-      "id": "surface_color",
-      "label": "Card surface",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text",
-      "default": "#28221D"
-    },
-    {
-      "type": "color",
-      "id": "muted_color",
-      "label": "Muted text",
-      "default": "#6F6861"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Wood accent",
-      "default": "#B69A6A"
-    },
-    {
-      "type": "color",
-      "id": "deep_wood",
-      "label": "Deep wood",
-      "default": "#77523A"
-    }
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"ZAISEN Customer Care"},
+    {"type":"inline_richtext","id":"heading","label":"Heading","default":"We’re Here to <em>Help.</em>"},
+    {"type":"richtext","id":"subheading","label":"Introduction","default":"<p>Questions about a handcrafted piece, an existing order, or choosing the right gift? Send us a message and our team will help you with care.</p>"},
+    {"type":"font_picker","id":"editorial_font","label":"Font","default":"poppins_n4"},
+    {"type":"text","id":"contact_email","label":"Contact email","default":"zaisenstore@gmail.com"},
+    {"type":"text","id":"contact_phone","label":"Contact phone (display)","default":"(303) 943-8555"},
+    {"type":"text","id":"phone_link","label":"Phone link (international)","default":"+13039438555"},
+    {"type":"text","id":"response_text","label":"Customer care text","default":"Friendly help for product and order questions"},
+    {"type":"text","id":"order_text","label":"Order support text","default":"Include your order number for faster assistance"},
+    {"type":"text","id":"note_title","label":"Craft note heading","default":"Natural wood has its own character"},
+    {"type":"textarea","id":"note_text","label":"Craft note text","default":"Small variations in grain, tone and handcrafted detail are part of what makes each ZAISEN piece unique."},
+    {"type":"text","id":"form_kicker","label":"Form kicker","default":"Send a message"},
+    {"type":"text","id":"form_heading","label":"Form heading","default":"Tell us what you need"},
+    {"type":"textarea","id":"form_text","label":"Form introduction","default":"Share the details below and we’ll make sure your message reaches the right place."},
+    {"type":"color","id":"bg_color","label":"Background","default":"#FFFFFF"},
+    {"type":"color","id":"surface_color","label":"Form surface","default":"#FBF8F4"},
+    {"type":"color","id":"text_color","label":"Text","default":"#2B1D17"},
+    {"type":"color","id":"muted_color","label":"Muted text","default":"#80736A"},
+    {"type":"color","id":"accent_color","label":"Gold accent","default":"#D8B56A"},
+    {"type":"color","id":"deep_wood","label":"Deep walnut","default":"#2B1D17"}
   ],
-  "presets": [
-    {
-      "name": "ZS Premium Contact"
-    }
-  ]
+  "presets":[{"name":"ZAISEN Contact"}]
 }
 {% endschema %}

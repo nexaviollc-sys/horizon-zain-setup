@@ -25,11 +25,14 @@
         "form_heading": "Tell us what you need",
         "form_text": "Share the details below and we’ll make sure your message reaches the right place.",
         "bg_color": "#FFFFFF",
-        "surface_color": "#FFFFFF",
-        "text_color": "#28221D",
-        "muted_color": "#6F6861",
-        "accent_color": "#B69A6A",
-        "deep_wood": "#77523A"
+        "surface_color": "#FBF8F4",
+        "text_color": "#2B1D17",
+        "muted_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "deep_wood": "#2B1D17",
+        "contact_phone": "(303) 943-8555",
+        "phone_link": "+13039438555",
+        "editorial_font": "poppins_n4"
       }
     }
   },
