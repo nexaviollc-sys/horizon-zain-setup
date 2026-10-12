@@ -1,54 +1,572 @@
 {%- liquid
   assign s = section.settings
   assign product = s.product
+  assign current_price = product.price
+  assign compare_price = product.compare_at_price
 -%}
-<section class="za-signature" aria-labelledby="za-signature-title-{{ section.id }}">
-  <div class="za-signature__shell">
-    <div class="za-signature__visual">
-      {%- if product != blank and product.featured_image != blank -%}
-        {{ product.featured_image | image_url: width: 1400 | image_tag: class: 'za-signature__photo', loading: 'lazy', widths: '450, 700, 900, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: product.title }}
-      {%- else -%}
-        <span class="za-signature__fallback">ZAISEN</span>
-      {%- endif -%}
-    </div>
-    <div class="za-signature__editorial">
-      <span class="za-signature__overline">THE SIGNATURE COLLECTION <span> / 001</span></span>
-      <h2 id="za-signature-title-{{ section.id }}">{{ s.heading | escape }}</h2>
-      <div class="za-signature__description rte">{{ s.description }}</div>
-      {%- if product != blank -%}
-        <div class="za-signature__pricing">
-          <strong>{{ product.price | money }}</strong>
-          {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+
+<section
+  id="zs-statue-{{ section.id }}"
+  class="zs-statue"
+  style="
+    --zs-statue-bg: {{ s.bg_color }};
+    --zs-statue-text: {{ s.text_color }};
+    --zs-statue-accent: {{ s.accent_color }};
+    --zs-statue-wood: {{ s.wood_color }};
+    --zs-statue-line: {{ s.line_color }};
+    --zs-statue-pt: {{ s.padding_top }}px;
+    --zs-statue-pb: {{ s.padding_bottom }}px;
+  "
+>
+  <div class="zs-statue__shell">
+    <div class="zs-statue__card">
+      <div class="zs-statue__gallery-wrap">
+        <div
+          class="zs-statue__gallery"
+          data-zs-statue-gallery
+          tabindex="0"
+          aria-label="{{ product.title | default: s.heading | escape }} image gallery"
+        >
+          {% if product != blank and product.images.size > 0 %}
+            {% for image in product.images limit: 5 %}
+              {% assign gallery_alt = image.alt | default: product.title %}
+              <figure class="zs-statue__slide" data-zs-statue-slide>
+                {{
+                  image
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'zs-statue__image',
+                    widths: '360, 520, 720, 900, 1100, 1200',
+                    sizes: '(max-width: 989px) calc(100vw - 48px), 470px',
+                    loading: 'lazy',
+                    alt: gallery_alt
+                }}
+              </figure>
+            {% endfor %}
+          {% else %}
+            <figure class="zs-statue__slide zs-statue__slide--placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'zs-statue__placeholder' }}
+            </figure>
+          {% endif %}
         </div>
-        <a class="za-signature__button" href="{{ product.url }}">{{ s.button_label | escape }} <span aria-hidden="true">↗</span></a>
-      {%- endif -%}
-      <p class="za-signature__closing">NATURAL GRAIN. LASTING PRESENCE.</p>
+
+        {% if product != blank and product.images.size > 1 %}
+          <div class="zs-statue__arrows" aria-label="Gallery controls">
+            <button class="zs-statue__arrow" type="button" data-zs-statue-prev aria-label="Previous image">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M11 6l-6 6 6 6"/>
+              </svg>
+            </button>
+            <button class="zs-statue__arrow" type="button" data-zs-statue-next aria-label="Next image">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="zs-statue__content">
+        <span class="zs-statue__kicker" aria-hidden="true"></span>
+
+        {% if s.heading != blank %}
+          <h2 class="zs-statue__heading">{{ s.heading }}</h2>
+        {% elsif product != blank %}
+          <h2 class="zs-statue__heading">{{ product.title | escape }}</h2>
+        {% endif %}
+
+        {% if s.description != blank %}
+          <div class="zs-statue__description">{{ s.description }}</div>
+        {% endif %}
+
+        <div class="zs-statue__purchase">
+          <div class="zs-statue__price-wrap">
+            {% if product != blank %}
+              <div class="zs-statue__price-row">
+                <span class="zs-statue__price">{{ current_price | money }}</span>
+                {% if compare_price > current_price %}
+                  <s class="zs-statue__compare">{{ compare_price | money }}</s>
+                {% endif %}
+                {% if s.offer_label != blank %}
+                  <span class="zs-statue__offer">{{ s.offer_label | escape }}</span>
+                {% endif %}
+              </div>
+
+            {% else %}
+              <div class="zs-statue__price-row">
+                <span class="zs-statue__price">$81.99</span>
+                {% if s.offer_label != blank %}
+                  <span class="zs-statue__offer">{{ s.offer_label | escape }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          {% if product != blank %}
+            <a class="zs-statue__cta" href="{{ product.url }}">
+              <span>{{ s.button_label | default: 'Visit Product' | escape }}</span>
+              <span class="zs-statue__cta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6"/>
+                </svg>
+              </span>
+            </a>
+          {% elsif request.design_mode %}
+            <span class="zs-statue__cta is-disabled">
+              <span>{{ s.button_label | default: 'Visit Product' | escape }}</span>
+            </span>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
 {% stylesheet %}
-.za-signature{background:#F7F6F2;color:#24211E;overflow:hidden}
-.za-signature *{box-sizing:border-box}
-.za-signature__shell{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);max-width:1850px;margin:0 auto}
-.za-signature__visual{min-height:590px;position:relative;overflow:hidden;background:#EAE4DB}
-.za-signature__photo{display:block;width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
-.za-signature__fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-heading--family,Georgia,serif);letter-spacing:.16em;color:#988878;font-size:5rem}
-.za-signature__editorial{padding:clamp(64px,8vw,124px) clamp(28px,6.6vw,105px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
-.za-signature__overline{font-family:var(--font-body--family,Arial,sans-serif);color:#74533C;font-size:.66rem;letter-spacing:.18em;font-weight:700}
-.za-signature__overline span{color:#B49A80;padding-left:9px}
-.za-signature__editorial h2{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(3.15rem,5.05vw,6.2rem);font-weight:500;line-height:1.01;letter-spacing:-.051em;margin:27px 0;max-width:11ch}
-.za-signature__description{font-family:var(--font-body--family,Arial,sans-serif);font-size:.93rem;line-height:1.83;max-width:45ch;color:#686158}
-.za-signature__description p{margin:0 0 12px}
-.za-signature__pricing{display:flex;align-items:baseline;gap:17px;margin:26px 0 22px;font-family:var(--font-body--family,Arial,sans-serif)}
-.za-signature__pricing strong{font-weight:600;font-size:1.1rem}
-.za-signature__pricing s{font-weight:400;font-size:.86rem;color:#8F877D}
-.za-signature__button{display:inline-flex;align-items:center;gap:34px;padding:16px 18px;min-height:54px;background:#74533C;color:#F7F6F2;text-transform:uppercase;letter-spacing:.13em;text-decoration:none;font-size:.71rem;font-weight:700;font-family:var(--font-body--family,Arial,sans-serif);transition:background .2s}
-.za-signature__button:hover{background:#5A3C28}
-.za-signature__closing{font-family:var(--font-body--family,Arial,sans-serif);font-size:.6rem;letter-spacing:.18em;color:#97897C;margin:42px 0 0}
-.za-signature a:focus-visible{outline:2px solid #74533C;outline-offset:4px}
-@media(max-width:990px){.za-signature__shell{grid-template-columns:1fr}.za-signature__visual{min-height:500px}.za-signature__editorial{padding:65px 6vw}}
-@media(max-width:600px){.za-signature__visual{min-height:400px}.za-signature__editorial{padding:59px 22px 76px}.za-signature__editorial h2{font-size:clamp(3rem,12vw,4.4rem)}}
+  .zs-statue {
+    background: var(--zs-statue-bg, #f5f0e7);
+    color: var(--zs-statue-text, #2c2a29);
+    padding-block: var(--zs-statue-pt) var(--zs-statue-pb);
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 56%, transparent);
+    overflow: clip;
+  }
+
+  .zs-statue * { box-sizing: border-box; }
+
+  .zs-statue__shell {
+    width: min(calc(100% - 56px), 980px);
+    margin-inline: auto;
+  }
+
+  .zs-statue__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, white 72%, var(--zs-statue-line));
+    border-radius: 18px;
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, white 78%, transparent),
+        color-mix(in srgb, var(--zs-statue-bg) 92%, transparent)
+      );
+    box-shadow:
+      0 12px 28px color-mix(in srgb, var(--zs-statue-wood) 6%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.88);
+    transform: translateZ(0);
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+  }
+
+
+  .zs-statue__gallery-wrap {
+    position: relative;
+    min-width: 0;
+    background:
+      radial-gradient(circle at 50% 36%, rgba(255,255,255,1) 0 46%, #fbfaf7 100%);
+    box-shadow:
+      inset 1px 0 0 rgba(255,255,255,.82),
+      inset 0 0 34px rgba(97,68,45,.035);
+  }
+
+  .zs-statue__gallery {
+    position: relative;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    outline: none;
+  }
+
+  .zs-statue__gallery::-webkit-scrollbar { display: none; }
+
+  .zs-statue__gallery::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    left: 17%;
+    right: 17%;
+    bottom: 4%;
+    height: 7%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(86,57,36,.12), transparent 68%);
+    filter: blur(7px);
+    pointer-events: none;
+  }
+
+  .zs-statue__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+
+  .zs-statue__image,
+  .zs-statue__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    padding: 0;
+  }
+
+  .zs-statue__placeholder {
+    fill: color-mix(in srgb, var(--zs-statue-wood) 14%, white);
+  }
+
+  .zs-statue__arrows {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 3;
+    display: flex;
+    gap: 7px;
+  }
+
+  .zs-statue__arrow {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,.66);
+    border-radius: 50%;
+    background: rgba(250,247,241,.88);
+    color: #6f4d35;
+    cursor: pointer;
+    box-shadow:
+      0 7px 16px rgba(58,38,22,.08),
+      inset 0 1px 0 rgba(255,255,255,.9);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    transition: transform .22s ease, background-color .22s ease, color .22s ease;
+  }
+
+  .zs-statue__content {
+    position: relative;
+    padding: 26px 30px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 44%, transparent);
+    background: rgba(255,255,255,.38);
+  }
+
+
+  .zs-statue__kicker {
+    display: block;
+    width: 32px;
+    height: 1px;
+    margin-bottom: 12px;
+    background: color-mix(in srgb, var(--zs-statue-accent) 82%, var(--zs-statue-wood));
+  }
+
+  .zs-statue__heading {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
+    font-size: clamp(34px, 3vw, 42px);
+    font-weight: 500;
+    line-height: .98;
+    letter-spacing: -.03em;
+    color: var(--zs-statue-text);
+    text-wrap: balance;
+  }
+
+  .zs-statue__description {
+    max-width: 42ch;
+    margin-top: 11px;
+    font-size: 12.6px;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--zs-statue-text) 70%, transparent);
+  }
+
+  .zs-statue__description p { margin: 0; }
+
+  .zs-statue__purchase {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-line) 46%, transparent);
+  }
+
+  .zs-statue__price-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px 9px;
+  }
+
+  .zs-statue__price {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: 26px;
+    font-weight: 550;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--zs-statue-wood);
+  }
+
+  .zs-statue__compare {
+    font-size: 12px;
+    color: color-mix(in srgb, var(--zs-statue-text) 42%, transparent);
+  }
+
+  .zs-statue__offer {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 22px;
+    padding: 3px 7px;
+    border-top: 1px solid color-mix(in srgb, var(--zs-statue-accent) 32%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--zs-statue-accent) 32%, transparent);
+    color: color-mix(in srgb, var(--zs-statue-accent) 86%, var(--zs-statue-text));
+    font-size: 8px;
+    font-weight: 760;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .zs-statue__offer::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .72;
+  }
+
+
+  .zs-statue__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 38px;
+    padding: 8px 9px 8px 13px;
+    border: 1px solid color-mix(in srgb, var(--zs-statue-wood) 54%, transparent);
+    border-radius: 8px;
+    background: var(--zs-statue-wood);
+    color: #fbf9f6;
+    text-decoration: none;
+    font-size: 8.8px;
+    font-weight: 720;
+    letter-spacing: .105em;
+    text-transform: uppercase;
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--zs-statue-wood) 10%, transparent);
+    transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+
+  .zs-statue__cta-icon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+  }
+
+  .zs-statue__cta.is-disabled { opacity: .55; }
+
+  @media (hover:hover) and (pointer:fine) {
+    .zs-statue__card:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 40px color-mix(in srgb, var(--zs-statue-wood) 8%, transparent),
+        inset 0 1px 0 rgba(255,255,255,.92);
+    }
+
+    .zs-statue__cta:hover {
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--zs-statue-wood) 92%, black);
+      box-shadow: 0 8px 18px color-mix(in srgb, var(--zs-statue-wood) 13%, transparent);
+    }
+
+    .zs-statue__cta:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 8px color-mix(in srgb, var(--zs-statue-wood) 9%, transparent);
+    }
+
+    .zs-statue__arrow:hover {
+      transform: translateY(-2px);
+      background: #fffaf3;
+      color: var(--zs-statue-accent);
+      box-shadow:
+        0 10px 20px rgba(58,38,22,.11),
+        inset 0 1px 0 rgba(255,255,255,.92);
+    }
+  }
+
+  @media (min-width: 990px) {
+    .zs-statue__shell {
+      width: min(calc(100% - 72px), 980px);
+    }
+
+    .zs-statue__card {
+      grid-template-columns: minmax(0, 1fr) 350px;
+      align-items: stretch;
+      max-height: 350px;
+    }
+
+    .zs-statue__gallery-wrap {
+      order: 2;
+      width: 350px;
+      height: 350px;
+      display: block;
+      border-left: 1px solid color-mix(in srgb, var(--zs-statue-line) 42%, transparent);
+      background: #fff;
+    }
+
+    .zs-statue__gallery {
+      width: 350px;
+      height: 350px;
+    }
+
+    .zs-statue__slide {
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .zs-statue__content {
+      order: 1;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      justify-content: center;
+      padding: 26px 32px;
+      border-top: 0;
+    }
+
+    .zs-statue__purchase {
+      margin-top: 15px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .zs-statue {
+      padding-block: 30px 34px;
+    }
+
+    .zs-statue__shell {
+      width: min(calc(100% - 24px), 1180px);
+    }
+
+    .zs-statue__card {
+      border-radius: 20px;
+    }
+
+    .zs-statue__slide {
+      aspect-ratio: 1 / 1;
+    }
+
+    .zs-statue__image,
+    .zs-statue__placeholder {
+      padding: 0;
+    }
+
+    .zs-statue__arrows {
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .zs-statue__arrow {
+      width: 36px;
+      height: 36px;
+    }
+
+    .zs-statue__content {
+      padding: 17px 16px 16px;
+    }
+
+    .zs-statue__kicker {
+      width: 34px;
+      margin-bottom: 13px;
+    }
+
+    .zs-statue__heading {
+      max-width: 11ch;
+      font-size: clamp(31px, 8.5vw, 35px);
+      line-height: .99;
+    }
+
+    .zs-statue__description {
+      margin-top: 10px;
+      max-width: 100%;
+      font-size: 12.4px;
+      line-height: 1.48;
+    }
+
+    .zs-statue__purchase {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+      padding-top: 13px;
+    }
+
+    .zs-statue__price {
+      font-size: 27px;
+    }
+
+    .zs-statue__cta {
+      width: 100%;
+      min-height: 44px;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .zs-statue {
+      padding-block: 34px 38px;
+    }
+
+    .zs-statue__heading {
+      font-size: clamp(31px, 8.7vw, 35px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zs-statue__gallery { scroll-behavior: auto; }
+    .zs-statue__card,
+    .zs-statue__cta,
+    .zs-statue__arrow { transition: none; transform: none; }
+  }
 {% endstylesheet %}
+
+{% javascript %}
+  const initZsStatueGallery = (root = document) => {
+    root.querySelectorAll('.zs-statue').forEach((section) => {
+      const gallery = section.querySelector('[data-zs-statue-gallery]');
+      const prev = section.querySelector('[data-zs-statue-prev]');
+      const next = section.querySelector('[data-zs-statue-next]');
+      if (!gallery || !prev || !next || gallery.dataset.zsReady === 'true') return;
+
+      gallery.dataset.zsReady = 'true';
+
+      const move = (direction) => {
+        gallery.scrollBy({
+          left: gallery.clientWidth * direction,
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        });
+      };
+
+      prev.addEventListener('click', () => move(-1));
+      next.addEventListener('click', () => move(1));
+    });
+  };
+
+  initZsStatueGallery();
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initZsStatueGallery(event.target);
+  });
+{% endjavascript %}
 
 {% schema %}
 {

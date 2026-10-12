@@ -52,12 +52,12 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<h2>ZAISEN</h2>",
+                "text": "<h2>Letters from ZAISEN</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "h2",
-                "font": "var(--font-heading--family)",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -76,7 +76,7 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Natural materials. Quietly extraordinary objects. Crafted with care, made for everyday living.</p>",
+                "text": "<p>Notes on craft, natural living, and new collections.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -112,10 +112,10 @@
             "border_style": "all",
             "input_style": "custom",
             "border_width": 1,
-            "border_radius": 0,
-            "input_background_color": "#24211E",
-            "input_text_color": "#F7F6F2",
-            "input_border_color": "#62574D",
+            "border_radius": 8,
+            "input_background_color": "#38332E",
+            "input_text_color": "#FAF9F6",
+            "input_border_color": "#786C60",
             "input_type_preset": "paragraph",
             "style_class": "button-unstyled",
             "display_type": "arrow",
@@ -137,10 +137,10 @@
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
-        "gap": 30,
-        "background_color": "#24211E",
-        "padding-block-start": 68,
-        "padding-block-end": 68
+        "gap": 20,
+        "background_color": "#28221D",
+        "padding-block-start": 42,
+        "padding-block-end": 42
       }
     },
     "footer_utilities_jLGE8U": {
@@ -166,11 +166,11 @@
         "social_links_Ew63Kq": {
           "type": "social-links",
           "settings": {
-            "facebook_url": "",
-            "instagram_url": "",
-            "youtube_url": "",
-            "tiktok_url": "",
-            "twitter_url": ""
+            "facebook_url": "https://www.facebook.com/",
+            "instagram_url": "https://www.instagram.com/",
+            "youtube_url": "https://www.youtube.com/",
+            "tiktok_url": "https://www.tiktok.com/",
+            "twitter_url": "https://x.com/"
           },
           "blocks": {}
         }
@@ -185,10 +185,10 @@
         "section_width": "page-width",
         "gap": 24,
         "divider_thickness": 1,
-        "divider_color": "#5B5148",
-        "background_color": "#24211E",
+        "divider_color": "#5A534C",
+        "background_color": "#28221D",
         "padding-block-start": 20,
-        "padding-block-end": 32
+        "padding-block-end": 36
       }
     }
   },

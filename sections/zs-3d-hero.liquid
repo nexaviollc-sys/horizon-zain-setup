@@ -1,64 +1,855 @@
-{%- liquid
-  assign s = section.settings
-  assign image = s.image
-  if image == blank
-    assign hero_product = all_products['handcrafted-carved-wooden-table-lamp']
-    assign image = hero_product.featured_image
-  endif
-  assign primary_destination = s.primary_link | default: routes.all_products_collection_url
-  assign secondary_destination = s.secondary_link | default: '#zaisen-making'
--%}
-<section id="zaisen-hero" class="za-hero" aria-label="ZAISEN handcrafted wooden home decor">
-  <div class="za-hero__shell">
-    <div class="za-hero__editorial">
-      <p class="za-eyebrow za-hero__eyebrow"><span class="za-rule" aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
-      <h1 class="za-hero__title">{{ s.heading }}</h1>
-      <p class="za-hero__description">{{ s.subheading | escape }}</p>
-      <div class="za-hero__actions">
-        <a class="za-link-primary" href="{{ primary_destination }}">{{ s.primary_text | default: 'Explore the collection' | escape }} <span aria-hidden="true">↗</span></a>
-        <a class="za-link-text" href="{{ secondary_destination }}">{{ s.secondary_text | default: 'Our craftsmanship' | escape }} <span aria-hidden="true">→</span></a>
+{%- comment -%}
+  ================================================================
+  ZS 3D HERO — Light wooden editorial hero
+  Airy alabaster canvas, organic arch imagery, rotating craft badge,
+  three distinct assurance items with individual line icons.
+  Zero JavaScript. Transform/opacity motion only.
+  ================================================================
+{%- endcomment -%}
+
+{%- assign hero_img = section.settings.image -%}
+{%- assign hero_alt = hero_img.alt | default: 'Handcrafted wooden decor by Zaisen' -%}
+{%- assign shape = section.settings.shape | default: 'arch' -%}
+
+<section
+  id="zs-hero2-{{ section.id }}"
+  class="zs-hero2 zs-hero2--{{ section.id }} is-shape-{{ shape }}"
+  style="
+    --w-bg: {{ section.settings.bg_color | default: '#FBF9F6' }};
+    --w-text: {{ section.settings.text_color | default: '#2C2A29' }};
+    --w-accent: {{ section.settings.accent_color | default: '#A8794A' }};
+    --w-btn: {{ section.settings.button_bg | default: '#7A5238' }};
+    --w-btn-text: {{ section.settings.button_text_color | default: '#FBF9F6' }};
+  "
+  aria-label="Featured collection"
+>
+  {%- comment -%} Icon library (referenced per assurance item) {%- endcomment -%}
+  <svg width="0" height="0" style="position: absolute;" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="zhi-headset-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 15v-2.5a8 8 0 0 1 16 0V15"/>
+        <rect x="3" y="14" width="4.5" height="7" rx="2.2"/>
+        <rect x="16.5" y="14" width="4.5" height="7" rx="2.2"/>
+        <path d="M19.5 21c-.5 1.3-2 2-4 2"/>
+      </symbol>
+      <symbol id="zhi-shield-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l7.5 2.8v6.1c0 4.6-3.2 7.7-7.5 9.1-4.3-1.4-7.5-4.5-7.5-9.1V5.8L12 3z"/>
+        <path d="M9 11.8l2.2 2.2 4.3-4.5"/>
+      </symbol>
+      <symbol id="zhi-leaf-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21v-9"/>
+        <path d="M12 12C12 8 15 5 20 5c0 5-3 8-8 7z"/>
+        <path d="M12 12c0-3-2.5-5.5-7-5.5 0 4 2.5 6.5 7 5.5z"/>
+      </symbol>
+      <symbol id="zhi-truck-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.5 6.5h11.5V16H2.5z"/>
+        <path d="M14 10.5h3.8l3.7 3.7V16H14"/>
+        <circle cx="7" cy="18.2" r="1.7"/>
+        <circle cx="17" cy="18.2" r="1.7"/>
+      </symbol>
+      <symbol id="zhi-gift-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="9" width="16" height="4" rx="1"/>
+        <path d="M6 13v7.5h12V13"/>
+        <path d="M12 9v11.5"/>
+        <path d="M12 9C8.5 9 7.2 7.2 7.7 5.7 8.1 4.5 10 5 12 9z"/>
+        <path d="M12 9c3.5 0 4.8-1.8 4.3-3.3-.4-1.2-2.3-.7-4.3 3.3z"/>
+      </symbol>
+      <symbol id="zhi-refresh-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.5 12a7.5 7.5 0 0 1 13-5.1L19.5 9"/>
+        <path d="M19.5 4.5V9H15"/>
+        <path d="M19.5 12a7.5 7.5 0 0 1-13 5.1L4.5 15"/>
+        <path d="M4.5 19.5V15H9"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  {%- comment -%} Soft ambient warmth {%- endcomment -%}
+  <div class="zs-hero2__ambient" aria-hidden="true"></div>
+
+  <div class="zs-hero2__inner">
+    <div class="zs-hero2__grid">
+      {%- comment -%} ===== CONTENT ===== {%- endcomment -%}
+      <div class="zs-hero2__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="zs-hero2__eyebrow zs-hero2__rise" style="--rise-d: 0.05s">
+            <span class="zs-hero2__eyebrow-rule" aria-hidden="true"></span>
+            <span>{{ section.settings.eyebrow | escape }}</span>
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="zs-hero2__heading zs-hero2__rise" style="--rise-d: 0.15s">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="zs-hero2__sub zs-hero2__rise" style="--rise-d: 0.25s">
+            {{ section.settings.subheading | escape }}
+          </p>
+        {%- endif -%}
+
+        <div class="zs-hero2__btns zs-hero2__rise" style="--rise-d: 0.35s">
+          {%- if section.settings.primary_text != blank -%}
+            {%- if section.settings.primary_link != blank -%}
+              <a href="{{ section.settings.primary_link }}" class="zs-hero2__btn zs-hero2__btn--solid">
+                <span>{{ section.settings.primary_text | escape }}</span>
+                <svg viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {%- else -%}
+              <span class="zs-hero2__btn zs-hero2__btn--solid" role="link" aria-disabled="true">
+                <span>{{ section.settings.primary_text | escape }}</span>
+                <svg viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if section.settings.secondary_text != blank -%}
+            {%- if section.settings.secondary_link != blank -%}
+              <a href="{{ section.settings.secondary_link }}" class="zs-hero2__link">
+                <span>{{ section.settings.secondary_text | escape }}</span>
+                <svg viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M2 7h10M8.5 3.5L12 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {%- else -%}
+              <span class="zs-hero2__link" role="link" aria-disabled="true">
+                <span>{{ section.settings.secondary_text | escape }}</span>
+                <svg viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M2 7h10M8.5 3.5L12 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
       </div>
-      <div class="za-hero__signature" aria-hidden="true"><span>01</span><span class="za-hero__signature-line"></span><span>ZAISEN / EST. FOR TIMELESS LIVING</span></div>
+
+      {%- comment -%} ===== MEDIA ===== {%- endcomment -%}
+      <div class="zs-hero2__media zs-hero2__rise" style="--rise-d: 0.2s">
+        <div class="zs-hero2__frame">
+          {%- if hero_img != blank -%}
+            {{
+              hero_img
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '600, 800, 1000, 1200, 1400, 1600',
+                sizes: '(max-width: 989px) 100vw, 46vw',
+                alt: hero_alt,
+                class: 'zs-hero2__img'
+            }}
+          {%- else -%}
+            <div class="zs-hero2__placeholder" role="img" aria-label="Handcrafted wood texture">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'zs-hero2__placeholder-svg' }}
+              <div class="zs-hero2__placeholder-wood" aria-hidden="true"></div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_badge and section.settings.badge_text != blank -%}
+          <div class="zs-hero2__badge" aria-hidden="true" focusable="false">
+            <svg class="zs-hero2__badge-ring" viewBox="0 0 120 120">
+              <defs>
+                <path id="zhc-{{ section.id }}" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0" fill="none"/>
+              </defs>
+              <text class="zs-hero2__badge-text">
+                <textPath href="#zhc-{{ section.id }}" textLength="280">{{ section.settings.badge_text | escape }}</textPath>
+              </text>
+            </svg>
+            <span class="zs-hero2__badge-core">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 8 15 5 20 5c0 5-3 8-8 7z"/><path d="M12 12c0-3-2.5-5.5-7-5.5 0 4 2.5 6.5 7 5.5z"/></svg>
+            </span>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
-    <div class="za-hero__visual">
-      {%- if image != blank -%}
-        {{ image | image_url: width: 1800 | image_tag: class: 'za-hero__photo', widths: '540, 750, 990, 1200, 1500, 1800', sizes: '(min-width: 990px) 51vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: 'ZAISEN handcrafted wooden table lamp shown in warm light' }}
-      {%- else -%}
-        <div class="za-hero__fallback"><span>ZAISEN</span><small>OBJECTS OF NATURAL BEAUTY</small></div>
-      {%- endif -%}
-      <span class="za-hero__photo-caption">WOOD / FORM / FEELING</span>
-    </div>
+
+    {%- comment -%} ===== ASSURANCES — three distinct items ===== {%- endcomment -%}
+    {%- if section.settings.show_assurances -%}
+      <ul class="zs-hero2__assure zs-hero2__rise" style="--rise-d: 0.45s">
+        {%- if section.settings.a1_title != blank -%}
+          <li class="zs-hero2__point">
+            <span class="zs-hero2__point-ic">
+              <svg aria-hidden="true" focusable="false"><use href="#zhi-{{ section.settings.a1_icon | default: 'headset' }}-{{ section.id }}"></use></svg>
+            </span>
+            <span class="zs-hero2__point-tx">
+              <strong>{{ section.settings.a1_title | escape }}</strong>
+              {%- if section.settings.a1_text != blank -%}
+                <small>{{ section.settings.a1_text | escape }}</small>
+              {%- endif -%}
+            </span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.a2_title != blank -%}
+          <li class="zs-hero2__point">
+            <span class="zs-hero2__point-ic">
+              <svg aria-hidden="true" focusable="false"><use href="#zhi-{{ section.settings.a2_icon | default: 'shield' }}-{{ section.id }}"></use></svg>
+            </span>
+            <span class="zs-hero2__point-tx">
+              <strong>{{ section.settings.a2_title | escape }}</strong>
+              {%- if section.settings.a2_text != blank -%}
+                <small>{{ section.settings.a2_text | escape }}</small>
+              {%- endif -%}
+            </span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.a3_title != blank -%}
+          <li class="zs-hero2__point">
+            <span class="zs-hero2__point-ic">
+              <svg aria-hidden="true" focusable="false"><use href="#zhi-{{ section.settings.a3_icon | default: 'leaf' }}-{{ section.id }}"></use></svg>
+            </span>
+            <span class="zs-hero2__point-tx">
+              <strong>{{ section.settings.a3_title | escape }}</strong>
+              {%- if section.settings.a3_text != blank -%}
+                <small>{{ section.settings.a3_text | escape }}</small>
+              {%- endif -%}
+            </span>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
   </div>
 </section>
+
 {% stylesheet %}
-.za-hero{background:#F7F6F2;color:#24211E;overflow:clip}
-.za-hero *{box-sizing:border-box}
-.za-hero__shell{display:grid;grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr);min-height:clamp(610px,65vw,810px);max-width:1800px;margin:0 auto}
-.za-hero__editorial{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(118px,11vw,174px) clamp(30px,5.6vw,110px) 57px clamp(24px,6.2vw,112px)}
-.za-hero__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 30px!important;font-family:var(--font-body--family,Arial,sans-serif);font-size:.67rem!important;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#74533C}
-.za-rule{width:28px;height:1px;background:#74533C;flex:0 0 28px}
-.za-hero__title{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(3.2rem,5.8vw,7.2rem);font-weight:500;line-height:.98;letter-spacing:-.052em;max-width:9.8ch;margin:0;color:#24211E;text-wrap:balance;animation:za-fade-up .8s cubic-bezier(.2,.7,.2,1) both}
-.za-hero__title em{font-weight:400;color:#74533C}
-.za-hero__description{max-width:43ch;margin:30px 0 0;font-family:var(--font-body--family,Arial,sans-serif);font-size:clamp(.9rem,1.1vw,1.04rem);line-height:1.8;letter-spacing:0;color:#59534C;animation:za-fade-up .9s .1s cubic-bezier(.2,.7,.2,1) both}
-.za-hero__actions{display:flex;flex-wrap:wrap;align-items:center;gap:28px;margin-top:38px}
-.za-link-primary{display:inline-flex;align-items:center;justify-content:space-between;gap:30px;min-height:54px;padding:15px 19px;text-transform:uppercase;font-family:var(--font-body--family,Arial,sans-serif);font-size:.7rem;letter-spacing:.14em;font-weight:700;text-decoration:none;background:#74533C;color:#F7F6F2;transition:background .2s ease,transform .2s ease}
-.za-link-primary:hover{background:#593B28;transform:translateY(-2px)}
-.za-link-primary span{font-size:1.1rem}
-.za-link-text{display:inline-flex;gap:11px;align-items:center;min-height:44px;padding:2px 0;color:#24211E;text-transform:uppercase;font-size:.7rem;font-family:var(--font-body--family,Arial,sans-serif);letter-spacing:.13em;text-decoration:none;border-bottom:1px solid #B49A80;transition:color .2s}
-.za-link-text:hover{color:#74533C}
-.za-hero__signature{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:90px;font-size:.57rem;letter-spacing:.13em;color:#857C70;font-family:var(--font-body--family,Arial,sans-serif)}
-.za-hero__signature-line{width:28px;height:1px;background:#B49A80}
-.za-hero__visual{position:relative;background:#EAE4DB;overflow:hidden;min-height:600px}
-.za-hero__photo{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;position:absolute;inset:0;transform:scale(1.01)}
-.za-hero__photo-caption{position:absolute;right:26px;bottom:25px;color:#F7F6F2;font-family:var(--font-body--family,Arial,sans-serif);font-size:.59rem;letter-spacing:.18em;text-shadow:0 1px 8px #24211E}
-.za-hero__fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#74533C;background:#EAE4DB}
-.za-hero__fallback span{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(4rem,8vw,8rem);letter-spacing:.16em}
-.za-hero__fallback small{font-size:.7rem;letter-spacing:.2em}
-@keyframes za-fade-up{from{transform:translateY(22px)}to{transform:translateY(0)}}
-.za-hero a:focus-visible{outline:2px solid #74533C;outline-offset:5px}
-@media(max-width:989px){.za-hero__shell{grid-template-columns:1fr;min-height:auto}.za-hero__editorial{padding:96px 6vw 42px}.za-hero__title{font-size:clamp(3.45rem,9vw,5.5rem);max-width:12ch}.za-hero__signature{display:none}.za-hero__visual{min-height:clamp(350px,68vw,620px)}}
-@media(max-width:600px){.za-hero__editorial{padding:62px 22px 36px}.za-hero__eyebrow{margin-bottom:20px!important}.za-hero__title{font-size:clamp(3.15rem,14vw,4.55rem)}.za-hero__description{margin-top:22px}.za-hero__actions{gap:14px;margin-top:27px}.za-hero__visual{min-height:360px}.za-hero__photo-caption{bottom:17px;right:16px}}
-@media(prefers-reduced-motion:reduce){.za-hero__title,.za-hero__description{animation:none}.za-link-primary{transition:none}}
+  /* ================================================================
+     ZS HERO 2 — light wooden editorial, mobile-first, zero-JS
+     ================================================================ */
+  .zs-hero2 {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    width: 100%;
+    background: var(--w-bg);
+    color: var(--w-text);
+    border-block: 1px solid color-mix(in srgb, var(--w-text) 7%, transparent);
+  }
+
+  /* Soft ambient warmth */
+  .zs-hero2__ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(640px 380px at 12% 8%, color-mix(in srgb, var(--w-accent) 12%, transparent), transparent 65%),
+      radial-gradient(760px 460px at 92% 88%, color-mix(in srgb, var(--w-accent) 10%, transparent), transparent 65%);
+  }
+
+  .zs-hero2__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 152px 20px 52px;
+  }
+
+  .zs-hero2__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  /* ---------- Entrance ---------- */
+  .zs-hero2__rise {
+    animation: zs-hero2-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--rise-d, 0s);
+  }
+
+  @keyframes zs-hero2-rise {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Keep the premium entrance motion, but never hide likely LCP candidates
+     (hero heading/media) behind an opacity animation. They paint immediately. */
+  .zs-hero2__heading.zs-hero2__rise,
+  .zs-hero2__media.zs-hero2__rise {
+    animation-name: zs-hero2-critical-rise;
+  }
+
+  @keyframes zs-hero2-critical-rise {
+    from { transform: translateY(18px); }
+    to { transform: translateY(0); }
+  }
+
+  /* ---------- Content ---------- */
+  .zs-hero2__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 600px;
+  }
+
+  .zs-hero2__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 18px;
+    font-family: var(--font-body--family, inherit);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--w-accent);
+  }
+
+  .zs-hero2__eyebrow-rule {
+    display: inline-block;
+    width: 34px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--w-accent);
+    flex-shrink: 0;
+  }
+
+  .zs-hero2__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
+    font-size: clamp(38px, 10.4vw, 52px);
+    font-weight: 550;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .zs-hero2__heading em {
+    font-style: italic;
+    font-weight: 450;
+    color: var(--w-accent);
+  }
+
+  .zs-hero2__heading a {
+    color: inherit;
+    text-underline-offset: 4px;
+  }
+
+  .zs-hero2__sub {
+    margin: 18px 0 0;
+    max-width: 47ch;
+    font-family: var(--font-body--family, inherit);
+    font-size: 15.5px;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+    color: color-mix(in srgb, var(--w-text) 74%, transparent);
+    text-wrap: pretty;
+  }
+
+  /* ---------- Buttons ---------- */
+  .zs-hero2__btns {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .zs-hero2__btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 56px;
+    padding: 17px 32px;
+    overflow: hidden;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--w-btn) 90%, white), color-mix(in srgb, var(--w-btn) 86%, black));
+    color: var(--w-btn-text);
+    font-family: var(--font-body--family, inherit);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid color-mix(in srgb, var(--w-btn) 88%, black);
+    border-radius: 999px;
+    box-shadow:
+      0 10px 26px color-mix(in srgb, var(--w-btn) 20%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .zs-hero2__btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    transition: transform 220ms ease;
+  }
+
+  .zs-hero2__btn--solid::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -70%;
+    width: 50%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-18deg);
+    transition: left 650ms ease;
+    pointer-events: none;
+  }
+
+  .zs-hero2__btn[aria-disabled="true"] {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  .zs-hero2__btn:focus-visible,
+  .zs-hero2__link:focus-visible {
+    outline: 2px solid var(--w-accent);
+    outline-offset: 3px;
+  }
+
+  /* Quiet text link with growing underline */
+  .zs-hero2__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    align-self: center;
+    padding: 6px 2px;
+    font-family: var(--font-body--family, inherit);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--w-text);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .zs-hero2__link svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 220ms ease;
+  }
+
+  .zs-hero2__link::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--w-accent);
+    transform: scaleX(0.35);
+    transform-origin: left;
+    transition: transform 280ms ease;
+  }
+
+  .zs-hero2__link[aria-disabled="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* ---------- Media : organic arch ---------- */
+  .zs-hero2__media {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+
+  .zs-hero2__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 4.5;
+    border-radius: 999px 999px 28px 28px;
+    background: linear-gradient(150deg, #e9ddcb 0%, #d9c4a5 55%, #c2a173 100%);
+    box-shadow:
+      0 30px 70px rgba(84, 60, 32, 0.22),
+      0 4px 14px rgba(84, 60, 32, 0.12);
+  }
+
+  .zs-hero2.is-shape-rounded .zs-hero2__frame {
+    border-radius: 28px;
+  }
+
+  /* Offset outline ring for crafted depth */
+  .zs-hero2__frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid color-mix(in srgb, #fffdf8 55%, transparent);
+    pointer-events: none;
+  }
+
+  .zs-hero2__media::before {
+    content: "";
+    position: absolute;
+    inset: 18px -14px -14px 14px;
+    border-radius: 999px 999px 32px 32px;
+    border: 1.5px solid color-mix(in srgb, var(--w-accent) 45%, transparent);
+    pointer-events: none;
+  }
+
+  .zs-hero2.is-shape-rounded .zs-hero2__media::before {
+    border-radius: 34px;
+  }
+
+  .zs-hero2__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .zs-hero2__placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(560px 340px at 30% 20%, rgba(255, 255, 255, 0.5), transparent 62%),
+      radial-gradient(520px 420px at 82% 86%, rgba(168, 121, 74, 0.22), transparent 66%),
+      linear-gradient(180deg, #f2ebdd 0%, #e6d7bf 55%, #d3b98f 100%);
+    overflow: hidden;
+  }
+
+  .zs-hero2__placeholder-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.14;
+  }
+
+  .zs-hero2__placeholder-wood {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image:
+      repeating-linear-gradient(94deg, rgba(84, 60, 32, 0.08) 0 1px, transparent 1px 70px),
+      repeating-linear-gradient(2deg, rgba(84, 60, 32, 0.05) 0 1px, transparent 1px 26px);
+    pointer-events: none;
+  }
+
+  /* ---------- Rotating craft badge ---------- */
+  .zs-hero2__badge {
+    position: absolute;
+    top: -34px;
+    right: 6px;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: #fffdf8;
+    border: 1px solid color-mix(in srgb, var(--w-accent) 30%, transparent);
+    box-shadow: 0 16px 40px rgba(84, 60, 32, 0.2);
+  }
+
+  .zs-hero2__badge-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: zs-hero2-spin 18s linear infinite;
+  }
+
+  @keyframes zs-hero2-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .zs-hero2__badge-text {
+    font-family: var(--font-body--family, inherit);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    fill: color-mix(in srgb, var(--w-text) 80%, transparent);
+  }
+
+  .zs-hero2__badge-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--w-accent) 14%, #fffdf8);
+    border: 1px solid color-mix(in srgb, var(--w-accent) 35%, transparent);
+    color: var(--w-accent);
+  }
+
+  .zs-hero2__badge-core svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ---------- Assurances : three distinct items ---------- */
+  .zs-hero2__assure {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 46px 0 0;
+    padding: 8px 0 0;
+    list-style: none;
+    border-top: 1px solid color-mix(in srgb, var(--w-text) 10%, transparent);
+  }
+
+  .zs-hero2__point {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 2px;
+  }
+
+  .zs-hero2__point + .zs-hero2__point {
+    border-top: 1px dashed color-mix(in srgb, var(--w-text) 12%, transparent);
+  }
+
+  .zs-hero2__point-ic {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--w-accent) 12%, #ffffff);
+    border: 1px solid color-mix(in srgb, var(--w-accent) 28%, transparent);
+    color: color-mix(in srgb, var(--w-accent) 88%, #3d2c17);
+  }
+
+  .zs-hero2__point-ic svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .zs-hero2__point-tx {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-top: 2px;
+  }
+
+  .zs-hero2__point-tx strong {
+    font-family: var(--font-body--family, inherit);
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--w-text);
+  }
+
+  .zs-hero2__point-tx small {
+    font-family: var(--font-body--family, inherit);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--w-text) 64%, transparent);
+  }
+
+  /* ---------- Tablet ---------- */
+  @media screen and (min-width: 750px) {
+    .zs-hero2__inner {
+      padding: 126px 36px 64px;
+    }
+
+    .zs-hero2__heading {
+      font-size: clamp(46px, 6.4vw, 60px);
+    }
+
+    .zs-hero2__btns {
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+    }
+
+    .zs-hero2__btn {
+      width: auto;
+      min-width: 220px;
+      transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+    }
+
+    .zs-hero2__link {
+      align-self: auto;
+    }
+
+    .zs-hero2__assure {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      padding-top: 30px;
+    }
+
+    .zs-hero2__point {
+      padding: 0;
+    }
+
+    .zs-hero2__point + .zs-hero2__point {
+      border-top: 0;
+      border-left: 1px solid color-mix(in srgb, var(--w-text) 10%, transparent);
+      padding-left: 28px;
+    }
+  }
+
+  /* ---------- Desktop : side-by-side ---------- */
+  @media screen and (min-width: 990px) {
+    .zs-hero2__inner {
+      padding: 104px 56px 28px;
+    }
+
+    .zs-hero2__grid {
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 48px;
+    }
+
+    .zs-hero2__heading {
+      font-size: clamp(44px, 3.8vw, 56px);
+      line-height: 1.02;
+    }
+
+    .zs-hero2__sub {
+      font-size: 15.5px;
+    }
+
+    .zs-hero2__media {
+      max-width: 390px;
+      margin-inline: 0;
+      margin-top: 42px;
+      justify-self: end;
+      width: 100%;
+    }
+
+    .zs-hero2__frame {
+      aspect-ratio: 4 / 4.5;
+    }
+
+    .zs-hero2__img {
+      transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .zs-hero2__badge {
+      top: auto;
+      right: auto;
+      left: -46px;
+      bottom: 46px;
+      width: 118px;
+      height: 118px;
+    }
+
+    .zs-hero2__badge-core {
+      width: 52px;
+      height: 52px;
+    }
+
+    .zs-hero2__badge-core svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .zs-hero2__assure {
+      margin-top: 22px;
+      padding-top: 18px;
+    }
+
+    .zs-hero2__btns {
+      margin-top: 22px;
+    }
+
+    .zs-hero2__btn {
+      min-height: 50px;
+      padding-block: 14px;
+    }
+  }
+
+  @media screen and (min-width: 1500px) {
+    .zs-hero2__inner {
+      padding: 106px 64px 30px;
+    }
+  }
+
+  /* ---------- Hover polish (fine pointers only) ---------- */
+  @media (hover: hover) and (pointer: fine) {
+    .zs-hero2__btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+      box-shadow:
+        0 16px 38px color-mix(in srgb, var(--w-btn) 28%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .zs-hero2__btn:hover::after {
+      left: 130%;
+    }
+
+    .zs-hero2__btn:hover svg {
+      transform: translateX(3px);
+    }
+
+    .zs-hero2__btn:active {
+      transform: translateY(0);
+    }
+
+    .zs-hero2__link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .zs-hero2__link:hover svg {
+      transform: translateX(4px);
+    }
+
+    .zs-hero2:hover .zs-hero2__img {
+      transform: scale(1.045);
+    }
+  }
+
+  /* Small phones */
+  @media screen and (max-width: 380px) {
+    .zs-hero2__inner {
+      padding: 138px 16px 44px;
+    }
+
+    .zs-hero2__heading {
+      font-size: 34px;
+    }
+
+    .zs-hero2__sub {
+      font-size: 14.5px;
+    }
+
+    .zs-hero2__badge {
+      width: 94px;
+      height: 94px;
+      top: -28px;
+    }
+
+    .zs-hero2__badge-core {
+      width: 38px;
+      height: 38px;
+    }
+
+    .zs-hero2__badge-core svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .zs-hero2__rise {
+      animation: none !important;
+    }
+
+    .zs-hero2__badge-ring {
+      animation: none !important;
+    }
+
+    .zs-hero2__btn,
+    .zs-hero2__btn::after,
+    .zs-hero2__btn svg,
+    .zs-hero2__link::after,
+    .zs-hero2__link svg,
+    .zs-hero2__img {
+      transition: none !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

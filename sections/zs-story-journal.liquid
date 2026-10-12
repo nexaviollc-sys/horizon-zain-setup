@@ -1,95 +1,202 @@
 {%- liquid
-  assign s = section.settings
-  assign blog = s.blog
-  if blog == blank
-    assign blog = blogs['news']
+  assign sj_blog = section.settings.blog
+  if sj_blog == blank
+    assign sj_blog = blogs['news']
   endif
-  assign story_link = s.story_link | default: routes.all_products_collection_url
+  assign sj_story_link = section.settings.story_link | default: routes.all_products_collection_url
 -%}
-<section id="zaisen-our-story" class="za-journal" aria-labelledby="za-journal-title-{{ section.id }}">
-  <div class="za-journal__shell">
-    <header class="za-journal__head">
-      <p class="za-small-label">ROOTED IN MATERIAL / INSPIRED BY LIFE</p>
-      <h2 id="za-journal-title-{{ section.id }}">{{ s.heading | escape }}</h2>
-      <p>{{ s.intro | escape }}</p>
+<div id="zs-story-journal-{{ section.id }}" class="zs-story-journal" style="
+  --zsj-bg: {{ section.settings.bg_color }};
+  --zsj-text: {{ section.settings.text_color }};
+  --zsj-accent: {{ section.settings.accent_color }};
+  --zsj-walnut: {{ section.settings.walnut_color }};
+  --zsj-pt: {{ section.settings.padding_top }}px;
+  --zsj-pb: {{ section.settings.padding_bottom }}px;
+">
+  <div class="zsj__container">
+    <header class="zsj__heading">
+      <span class="zsj__overline"><span class="zsj__small-rule" aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</span>
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <p class="zsj__intro">{{ section.settings.intro | escape }}</p>
     </header>
-    <div class="za-journal__layout">
-      <article class="za-journal__story">
-        <p class="za-journal__index">01 <span> / {{ s.story_label | escape }}</span></p>
-        {%- if s.story_image != blank -%}
-          <div class="za-journal__photograph">
-            {{ s.story_image | image_url: width: 1100 | image_tag: loading: 'lazy', widths: '400, 600, 850, 1100', sizes: '(min-width: 900px) 47vw, 95vw', alt: 'ZAISEN natural wooden craftsmanship' }}
-          </div>
-        {%- endif -%}
-        <h3>{{ s.story_title | escape }}</h3>
-        <div class="za-journal__copy rte">{{ s.story_text }}</div>
-        <a href="{{ story_link }}" class="za-editorial-link">{{ s.story_button | escape }} <span aria-hidden="true">↗</span></a>
-      </article>
-      <div class="za-journal__entries">
-        <div class="za-journal__entries-head">
-          <p class="za-journal__index">02 <span> / {{ s.journal_label | escape }}</span></p>
-          <h3>{{ s.journal_title | escape }}</h3>
+
+    <div class="zsj__columns">
+      <article class="zsj__story" aria-labelledby="zsj-story-{{ section.id }}">
+        <div class="zsj__story-visual">
+          {%- if section.settings.story_image != blank -%}
+            {{ section.settings.story_image | image_url: width: 1100 | image_tag: class: 'zsj__story-image', loading: 'lazy', widths: '400, 650, 850, 1100', sizes: '(min-width: 1100px) 270px, (min-width: 680px) 35vw, 100vw', alt: section.settings.story_image.alt }}
+          {%- else -%}
+            <div class="zsj__wood-art" aria-hidden="true">
+              <span class="zsj__wood-circle zsj__wood-circle--one"></span>
+              <span class="zsj__wood-circle zsj__wood-circle--two"></span>
+              <span class="zsj__wood-circle zsj__wood-circle--three"></span>
+              <span class="zsj__wood-monogram">Z</span>
+              <span class="zsj__wood-wordmark">ZAISEN</span>
+            </div>
+          {%- endif -%}
+          <span class="zsj__visual-caption">{{ section.settings.visual_caption | escape }}</span>
         </div>
-        {%- if blog != blank and blog.articles_count > 0 -%}
-          <div class="za-journal__articles">
-            {%- for article in blog.articles limit:2 -%}
-              <article class="za-journal__article">
-                <a href="{{ article.url }}" aria-label="{{ article.title | escape }}">
-                  <span class="za-journal__date">{{ article.published_at | date: '%B %d, %Y' }}</span>
-                  <h4>{{ article.title | escape }}</h4>
-                  <p>{{ article.excerpt_or_content | strip_html | truncate: 125 }}</p>
-                  <span class="za-journal__read">{{ s.read_label | escape }} <span aria-hidden="true">↗</span></span>
+        <div class="zsj__story-body">
+          <span class="zsj__kicker"><span class="zsj__index">01</span>{{ section.settings.story_label | escape }}</span>
+          <h3 id="zsj-story-{{ section.id }}">{{ section.settings.story_title | escape }}</h3>
+          <div class="zsj__story-copy rte">{{ section.settings.story_text }}</div>
+          <div class="zsj__story-bottom">
+            <a class="zsj__story-cta" href="{{ sj_story_link }}">
+              {{ section.settings.story_button | escape }}
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <div class="zsj__journal" aria-labelledby="zsj-journal-{{ section.id }}">
+        <div class="zsj__journal-head">
+          <div>
+            <span class="zsj__kicker"><span class="zsj__index">02</span>{{ section.settings.journal_label | escape }}</span>
+            <h3 id="zsj-journal-{{ section.id }}">{{ section.settings.journal_title | escape }}</h3>
+          </div>
+          {%- if sj_blog != blank and sj_blog.articles_count > 0 -%}
+            <a class="zsj__all-link" href="{{ sj_blog.url }}">{{ section.settings.journal_button | escape }} <span aria-hidden="true">↗</span></a>
+          {%- endif -%}
+        </div>
+
+        {%- if sj_blog != blank and sj_blog.articles_count > 0 -%}
+          <div class="zsj__articles">
+            {%- for article in sj_blog.articles limit: 2 -%}
+              <article class="zsj__article">
+                <a href="{{ article.url }}" class="zsj__article-link" aria-label="{{ article.title | escape }}">
+                  <div class="zsj__article-media">
+                    {%- if article.image != blank -%}
+                      {{ article.image | image_url: width: 500 | image_tag: class: 'zsj__article-image', loading: 'lazy', widths: '160, 240, 360, 500', sizes: '(min-width: 1100px) 140px, (min-width: 700px) 130px, 104px', alt: article.image.alt }}
+                    {%- else -%}
+                      <span class="zsj__article-placeholder" aria-hidden="true"><span>{{ forloop.index | prepend: '0' }}</span></span>
+                    {%- endif -%}
+                  </div>
+                  <div class="zsj__article-main">
+                    <span class="zsj__article-date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+                    <h4>{{ article.title | escape }}</h4>
+                    <p>{{ article.excerpt_or_content | strip_html | truncate: 92 }}</p>
+                    <span class="zsj__read-link">{{ section.settings.read_label | escape }} <span aria-hidden="true">→</span></span>
+                  </div>
                 </a>
               </article>
             {%- endfor -%}
-            <a class="za-editorial-link" href="{{ blog.url }}">{{ s.journal_button | escape }} <span aria-hidden="true">↗</span></a>
           </div>
         {%- else -%}
-          <div class="za-journal__empty">
-            <span class="za-journal__thin-rule" aria-hidden="true"></span>
-            <span class="za-journal__empty-kicker">{{ s.empty_label | escape }}</span>
-            <h4>{{ s.empty_title | escape }}</h4>
-            <p>{{ s.empty_text | escape }}</p>
+          <div class="zsj__journal-empty">
+            <div class="zsj__empty-emblem" aria-hidden="true">
+              <svg viewBox="0 0 112 112" fill="none"><circle cx="56" cy="56" r="42" stroke="currentColor" stroke-width=".85"/><circle cx="56" cy="56" r="33" stroke="currentColor" stroke-width=".85"/><path d="M37 75c18-8 15-27 34-38M45 31c-7 13-6 26 3 36M69 43c5 11 1 22-8 30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="zsj__empty-tag">{{ section.settings.empty_label | escape }}</span>
+            <h4>{{ section.settings.empty_title | escape }}</h4>
+            <p>{{ section.settings.empty_text | escape }}</p>
+            <span class="zsj__empty-accent" aria-hidden="true"></span>
           </div>
         {%- endif -%}
       </div>
     </div>
   </div>
-</section>
+</div>
+
 {% stylesheet %}
-.za-journal{background:#EAE4DB;color:#24211E;padding:clamp(75px,8vw,115px) 0;scroll-margin-top:95px}
-.za-journal *{box-sizing:border-box}
-.za-journal__shell{max-width:1520px;margin:0 auto;padding:0 clamp(20px,4.6vw,75px)}
-.za-journal__head{margin-bottom:62px}
-.za-journal__head h2{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(3rem,5vw,6rem);letter-spacing:-.05em;line-height:1;font-weight:500;margin:0 0 16px}
-.za-journal__head>p:last-child{font-size:.9rem;line-height:1.8;color:#777067;margin:0}
-.za-journal__layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(46px,7vw,105px)}
-.za-journal__story{min-width:0}
-.za-journal__index{font-family:var(--font-body--family,Arial,sans-serif);font-size:.9rem;letter-spacing:.06em;color:#74533C;font-weight:650;margin:0 0 25px}
-.za-journal__index span{font-size:.63rem;letter-spacing:.15em;font-weight:600;text-transform:uppercase}
-.za-journal__story h3,.za-journal__entries h3{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(2.4rem,3.9vw,4.5rem);font-weight:500;letter-spacing:-.038em;line-height:1.03;margin:0 0 27px;max-width:13ch}
-.za-journal__copy{max-width:53ch;font-family:var(--font-body--family,Arial,sans-serif);color:#5F5851;line-height:1.85;font-size:.92rem}
-.za-journal__copy p{margin:0 0 16px}
-.za-journal__story>.za-editorial-link{margin-top:21px}
-.za-journal__photograph{aspect-ratio:16/9;overflow:hidden;margin:0 0 30px;background:#DCD3C7}
-.za-journal__photograph img{display:block;width:100%;height:100%;object-fit:cover}
-.za-journal__entries{border-left:1px solid #CFC3B5;padding-left:clamp(30px,5vw,70px)}
-.za-journal__entries-head h3{margin-bottom:20px}
-.za-journal__article{border-top:1px solid #CFC3B5;padding:23px 0 26px}
-.za-journal__article a{display:block;color:inherit;text-decoration:none}
-.za-journal__date,.za-journal__empty-kicker{font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:#74533C;font-weight:650}
-.za-journal__article h4{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(1.75rem,2.6vw,2.7rem);font-weight:500;letter-spacing:-.03em;line-height:1.1;margin:10px 0}
-.za-journal__article p{font-size:.82rem;line-height:1.65;color:#6D655C;margin:0 0 13px}
-.za-journal__read{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#74533C}
-.za-journal__read span{margin-left:8px}
-.za-journal__article a:hover h4{color:#74533C}
-.za-journal__empty{border-top:1px solid #CFC3B5;padding-top:28px}
-.za-journal__thin-rule{display:block;width:67px;height:1px;background:#74533C;margin:2px 0 45px}
-.za-journal__empty h4{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(2.1rem,3vw,3.3rem);line-height:1.1;letter-spacing:-.038em;font-weight:500;margin:17px 0}
-.za-journal__empty p{max-width:39ch;font-size:.87rem;line-height:1.75;color:#706960;margin:0}
-.za-journal a:focus-visible{outline:2px solid #74533C;outline-offset:4px}
-@media(max-width:900px){.za-journal__layout{grid-template-columns:1fr;gap:65px}.za-journal__entries{border-left:0;border-top:1px solid #CFC3B5;padding-left:0;padding-top:40px}.za-journal__story h3,.za-journal__entries h3{max-width:20ch}}
-@media(max-width:600px){.za-journal{padding:67px 0}.za-journal__head{margin-bottom:40px}.za-journal__head h2{font-size:clamp(3.05rem,12vw,4.4rem)}.za-journal__layout{gap:48px}.za-journal__story h3{font-size:3rem}.za-journal__entries h3{font-size:2.9rem}.za-journal__copy{font-size:.85rem}}
+  .zs-story-journal{background:var(--zsj-bg,#FBF9F6);color:var(--zsj-text,#2C2A29);padding-block:var(--zsj-pt,90px) var(--zsj-pb,90px);overflow:hidden}
+  .zs-story-journal *{box-sizing:border-box}
+  .zsj__container{max-width:1512px;margin:0 auto;padding-inline:clamp(20px,4.4vw,72px)}
+  .zsj__heading{max-width:850px;margin-bottom:clamp(32px,4.5vw,62px)}
+  .zsj__overline,.zsj__kicker,.zsj__empty-tag,.zsj__article-date{font-family:var(--font-body--family,Arial,sans-serif);font-size:.675rem;font-weight:650;letter-spacing:.19em;text-transform:uppercase}
+  .zsj__overline{color:var(--zsj-accent,#A8794A);display:flex;align-items:center;gap:13px}
+  .zsj__small-rule{height:1px;width:28px;background:currentColor;display:block}
+  .zsj__heading h2{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(2.7rem,5.1vw,5.15rem);font-weight:500;line-height:1.02;letter-spacing:-.035em;margin:18px 0 16px;color:var(--zsj-text,#2C2A29)}
+  .zsj__intro{font-family:var(--font-body--family,Arial,sans-serif);font-size:clamp(.94rem,1.2vw,1.03rem);line-height:1.75;color:color-mix(in srgb,var(--zsj-text,#2C2A29) 67%,transparent);margin:0;max-width:62ch}
+  .zsj__columns{display:grid;grid-template-columns:minmax(0,1.24fr) minmax(0,1fr);gap:clamp(24px,3.7vw,58px);align-items:stretch}
+  .zsj__story{display:grid;grid-template-columns:minmax(0,.83fr) minmax(0,1.2fr);min-height:500px;background:#EFE6D9;border:1px solid #E3D7C7;overflow:hidden}
+  .zsj__story-visual{position:relative;min-height:420px;overflow:hidden;background:linear-gradient(145deg,#D6BB9B,#A97E57 52%,#6F492E);isolation:isolate}
+  .zsj__story-image{width:100%;height:100%;display:block;object-fit:cover}
+  .zsj__wood-art{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;overflow:hidden;background:linear-gradient(115deg,rgba(255,245,222,.1),transparent 42%),repeating-linear-gradient(165deg,rgba(89,53,29,.04) 0 2px,transparent 3px 12px)}
+  .zsj__wood-circle{position:absolute;border-radius:49% 47% 52% 45%;border:1px solid rgba(249,233,209,.35);transform:rotate(-24deg)}
+  .zsj__wood-circle--one{width:380px;height:550px}
+  .zsj__wood-circle--two{width:304px;height:462px}
+  .zsj__wood-circle--three{width:228px;height:370px}
+  .zsj__wood-monogram{position:relative;margin-top:-25px;font-family:var(--font-heading--family,Georgia,serif);font-style:italic;font-size:clamp(6rem,10vw,10rem);font-weight:400;line-height:1;color:#FBF4E8;text-shadow:0 12px 24px rgba(41,25,13,.14)}
+  .zsj__wood-wordmark{position:absolute;bottom:51px;font-family:var(--font-body--family,Arial,sans-serif);font-size:.68rem;font-weight:600;letter-spacing:.44em;color:rgba(255,245,229,.8);padding-left:.44em}
+  .zsj__visual-caption{position:absolute;top:23px;left:24px;font-family:var(--font-body--family,Arial,sans-serif);text-transform:uppercase;font-size:.59rem;letter-spacing:.2em;color:#FBF5EB;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .zsj__story-body{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(24px,3vw,44px) clamp(22px,2.9vw,42px)}
+  .zsj__kicker{display:flex;align-items:center;gap:12px;color:var(--zsj-accent,#A8794A)}
+  .zsj__index{font-family:var(--font-heading--family,Georgia,serif);font-size:1.4rem;font-weight:500;line-height:1;letter-spacing:0}
+  .zsj__story-body h3,.zsj__journal-head h3{font-family:var(--font-heading--family,Georgia,serif);font-weight:500;line-height:1.1;letter-spacing:-.027em;color:var(--zsj-text,#2C2A29)}
+  .zsj__story-body h3{font-size:clamp(1.9rem,3vw,3.25rem);margin:30px 0 22px}
+  .zsj__story-copy{font-family:var(--font-body--family,Arial,sans-serif);font-size:.94rem;line-height:1.83;color:color-mix(in srgb,var(--zsj-text,#2C2A29) 76%,transparent)}
+  .zsj__story-copy p{margin:0 0 1em}
+  .zsj__story-bottom{margin-top:auto;padding-top:29px}
+  .zsj__story-cta{display:inline-flex;align-items:center;gap:16px;padding-bottom:9px;border-bottom:1px solid var(--zsj-accent,#A8794A);font-family:var(--font-body--family,Arial,sans-serif);font-size:.73rem;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--zsj-walnut,#7A5238);text-decoration:none}
+  .zsj__story-cta svg{transition:transform .2s ease}
+  .zsj__story-cta:hover svg{transform:translateX(5px)}
+  .zsj__journal{display:flex;flex-direction:column;min-width:0;padding-top:10px}
+  .zsj__journal-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-bottom:27px;border-bottom:1px solid #DBCEBC}
+  .zsj__journal-head h3{font-size:clamp(2rem,3vw,3.25rem);margin:24px 0 0}
+  .zsj__all-link{flex:0 0 auto;font-family:var(--font-body--family,Arial,sans-serif);font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--zsj-walnut,#7A5238);text-decoration:none;padding-bottom:7px;border-bottom:1px solid var(--zsj-accent,#A8794A)}
+  .zsj__all-link span{font-size:1rem;margin-left:5px}
+  .zsj__articles{display:flex;flex-direction:column;flex:1}
+  .zsj__article{padding:25px 0;border-bottom:1px solid #E7DDD0}
+  .zsj__article-link{display:grid;grid-template-columns:clamp(98px,10vw,135px) 1fr;align-items:start;gap:clamp(15px,2vw,25px);color:inherit;text-decoration:none}
+  .zsj__article-media{aspect-ratio:1/1;overflow:hidden;background:#E7D9C6}
+  .zsj__article-image{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s ease}
+  .zsj__article-link:hover .zsj__article-image{transform:scale(1.05)}
+  .zsj__article-placeholder{display:grid;place-items:center;height:100%;font-family:var(--font-heading--family,Georgia,serif);font-size:3.4rem;color:#9F7F5D}
+  .zsj__article-date{color:var(--zsj-accent,#A8794A);font-size:.59rem;letter-spacing:.1em}
+  .zsj__article-main h4{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(1.23rem,1.85vw,1.55rem);line-height:1.24;margin:8px 0;color:var(--zsj-text,#2C2A29);font-weight:550}
+  .zsj__article-main p{font-family:var(--font-body--family,Arial,sans-serif);font-size:.76rem;line-height:1.55;color:color-mix(in srgb,var(--zsj-text,#2C2A29) 65%,transparent);margin:0 0 12px}
+  .zsj__read-link{font-family:var(--font-body--family,Arial,sans-serif);font-size:.66rem;color:var(--zsj-walnut,#7A5238);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+  .zsj__read-link span{margin-left:8px}
+  .zsj__journal-empty{flex:1;min-height:345px;margin-top:25px;background:#F6F0E7;border:1px solid #EAE0D2;display:flex;align-items:center;flex-direction:column;justify-content:center;text-align:center;padding:30px clamp(22px,3vw,48px)}
+  .zsj__empty-emblem{width:96px;height:96px;color:#B08D67;margin:0 auto 10px}
+  .zsj__empty-emblem svg{display:block;width:100%;height:100%}
+  .zsj__empty-tag{color:var(--zsj-accent,#A8794A);font-size:.61rem}
+  .zsj__journal-empty h4{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(1.9rem,2.6vw,2.8rem);font-weight:500;letter-spacing:-.02em;line-height:1.08;margin:15px auto 11px;max-width:350px}
+  .zsj__journal-empty p{max-width:320px;font-family:var(--font-body--family,Arial,sans-serif);font-size:.83rem;line-height:1.8;margin:0;color:color-mix(in srgb,var(--zsj-text,#2C2A29) 66%,transparent)}
+  .zsj__empty-accent{width:40px;height:1px;background:var(--zsj-accent,#A8794A);margin-top:25px}
+  .zsj__story-cta:focus-visible,.zsj__all-link:focus-visible,.zsj__article-link:focus-visible{outline:2px solid var(--zsj-walnut,#7A5238);outline-offset:5px}
+  @media(max-width:1120px){.zsj__columns{grid-template-columns:1fr;gap:42px}.zsj__story{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);min-height:390px}.zsj__story-visual{min-height:390px}.zsj__journal{padding-top:0}.zsj__journal-empty{min-height:270px}.zsj__articles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.zsj__article{border-bottom:0}.zsj__article-link{grid-template-columns:112px minmax(0,1fr)}}
+  @media(max-width:680px){.zs-story-journal{padding-block:clamp(54px,12vw,74px)}.zsj__container{padding-inline:20px}.zsj__heading{margin-bottom:30px}.zsj__heading h2{font-size:clamp(2.55rem,9vw,3.8rem);margin-top:13px}.zsj__columns{gap:37px}.zsj__story{grid-template-columns:1fr}.zsj__story-visual{min-height:240px;height:240px}.zsj__wood-circle--one{height:420px}.zsj__wood-circle--two{height:330px}.zsj__wood-circle--three{height:240px}.zsj__story-body{padding:28px 24px 31px}.zsj__story-body h3{font-size:2.25rem;margin:18px 0 15px}.zsj__story-copy{font-size:.86rem;line-height:1.75}.zsj__story-bottom{padding-top:14px}.zsj__journal-head{padding-bottom:21px}.zsj__journal-head h3{font-size:2.2rem;margin-top:17px}.zsj__articles{display:block}.zsj__article{border-bottom:1px solid #E7DDD0}.zsj__article-link{grid-template-columns:95px minmax(0,1fr);gap:15px}.zsj__article-main p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.zsj__journal-empty{min-height:305px;padding:25px}.zsj__visual-caption{left:20px;top:20px}}
+  @media(prefers-reduced-motion:reduce){.zsj__story-cta svg,.zsj__article-image{transition:none}}
+
+  .zs-story-journal .zsj__heading h2,
+  .zs-story-journal .zsj__journal-head h3{color:#FAF9F6}
+  .zs-story-journal .zsj__intro{color:#DDDCD5}
+  .zs-story-journal .zsj__overline,
+  .zs-story-journal .zsj__journal .zsj__kicker,
+  .zs-story-journal .zsj__article-date{color:#E2C89E}
+  .zs-story-journal .zsj__story{background:#F4F1EA;border-color:#D9D1C6;box-shadow:none}
+  .zs-story-journal .zsj__story-body h3{color:#28221D}
+  .zs-story-journal .zsj__story-body .zsj__kicker{color:#77523A}
+  .zs-story-journal .zsj__story-body .zsj__story-copy{color:#4D463E}
+  .zs-story-journal .zsj__story-cta{color:#77523A;border-color:#B69A6A}
+  .zs-story-journal .zsj__story-visual{background:#77523A}
+  .zs-story-journal .zsj__wood-art{background:#77523A}
+  .zs-story-journal .zsj__wood-circle{display:none}
+  .zs-story-journal .zsj__wood-monogram{color:#F4F1EA;text-shadow:none;font-size:clamp(6rem,10vw,9rem);font-style:normal;font-weight:500}
+  .zs-story-journal .zsj__wood-wordmark{color:#E2C89E}
+  .zs-story-journal .zsj__visual-caption{color:#F4F1EA;text-shadow:none}
+  .zs-story-journal .zsj__journal-head{border-color:rgba(250,249,246,.23)}
+  .zs-story-journal .zsj__all-link{color:#E2C89E;border-color:#B69A6A}
+  .zs-story-journal .zsj__article{border-color:rgba(250,249,246,.18)}
+  .zs-story-journal .zsj__article-main h4{color:#FAF9F6}
+  .zs-story-journal .zsj__article-main p{color:#D7DCD5}
+  .zs-story-journal .zsj__read-link{color:#E2C89E}
+  .zs-story-journal .zsj__article-placeholder{background:#526052;color:#E2C89E}
+  .zs-story-journal .zsj__journal-empty{background:#455348;border-color:#5B685D}
+  .zs-story-journal .zsj__journal-empty h4{color:#FAF9F6}
+  .zs-story-journal .zsj__journal-empty p{color:#E0E5DE}
+  .zs-story-journal .zsj__empty-tag,
+  .zs-story-journal .zsj__empty-emblem{color:#E2C89E}
+  .zs-story-journal .zsj__story-cta:focus-visible{outline-color:#77523A}
+  .zs-story-journal .zsj__all-link:focus-visible,
+  .zs-story-journal .zsj__article-link:focus-visible{outline-color:#FAF9F6}
+  @media(max-width:680px){
+    .zs-story-journal .zsj__story-visual{height:235px;min-height:235px}
+    .zs-story-journal .zsj__journal-head{gap:12px}
+    .zs-story-journal .zsj__journal-empty{min-height:285px}
+  }
 {% endstylesheet %}
 
 {% schema %}

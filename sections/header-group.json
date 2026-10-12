@@ -26,8 +26,7 @@
         "border_color": "#39463A",
         "desktop_height": 46,
         "mobile_height": 40
-      },
-      "disabled": true
+      }
     },
     "header_section": {
       "type": "header",
@@ -47,19 +46,19 @@
           "static": true,
           "settings": {
             "menu": "main-menu",
-            "background_color": "#F7F6F2",
-            "text_color": "#24211E",
-            "type_font_primary_size": "1rem",
+            "background_color": "#FAF9F6",
+            "text_color": "#28221D",
+            "type_font_primary_size": "1.125rem",
             "menu_font_style": "inverse",
             "type_font_primary_link": "heading",
             "type_case_primary_link": "none",
             "menu_style": "featured_products",
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
-            "image_border_radius": 0,
+            "image_border_radius": 6,
             "navigation_bar": false,
-            "background_color_navigation_bar": "#F7F6F2",
-            "text_color_navigation_bar": "#24211E",
+            "background_color_navigation_bar": "#FAF9F6",
+            "text_color_navigation_bar": "#28221D",
             "drawer_accordion": false,
             "drawer_accordion_expand_first": false,
             "drawer_dividers": false
@@ -83,25 +82,25 @@
         "localization_position": "right",
         "localization_row": "top",
         "section_width": "page-width",
-        "section_height": "compact",
+        "section_height": "standard",
         "enable_sticky_header": "always",
         "divider_width": 0,
         "divider_size": "page-width",
         "divider_color": "",
         "border_width": 1,
-        "bottom_border_color": "#DCD6CD",
+        "bottom_border_color": "#EBE6DE",
         "actions_display_style": "icon",
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#F7F6F2",
-        "text_color_top": "#24211E",
-        "background_color_bottom": "#F7F6F2",
-        "text_color_bottom": "#24211E",
+        "background_color_top": "#FAF9F6",
+        "text_color_top": "#28221D",
+        "background_color_bottom": "#FAF9F6",
+        "text_color_bottom": "#28221D",
         "bubble_style": "custom",
-        "bubble_background_color": "#74533C",
-        "bubble_text_color": "#F7F6F2",
-        "enable_transparent_header_home": false,
+        "bubble_background_color": "#77523A",
+        "bubble_text_color": "#FAF9F6",
+        "enable_transparent_header_home": true,
         "home_inverse_logo": false,
         "text_color_transparent_home": "#2C2A29",
         "enable_transparent_header_product": false,
@@ -111,11 +110,12 @@
         "collection_inverse_logo": false,
         "text_color_transparent_collection": "",
         "zaisen_premium_header": true,
-        "zaisen_accent_color": "#74533C"
+        "zaisen_accent_color": "#77523A"
       }
     }
   },
   "order": [
+    "zs_3d_announcement_bar_bRxW36",
     "header_section"
   ]
 }
