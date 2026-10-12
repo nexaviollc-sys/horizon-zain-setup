@@ -21,7 +21,7 @@
     </header>
 
     <div class="zsj__columns">
-      <article class="zsj__story" aria-labelledby="zsj-story-{{ section.id }}">
+      <article id="zaisen-our-story" class="zsj__story" aria-labelledby="zsj-story-{{ section.id }}">
         <div class="zsj__story-visual">
           {%- if section.settings.story_image != blank -%}
             {{ section.settings.story_image | image_url: width: 1100 | image_tag: class: 'zsj__story-image', loading: 'lazy', widths: '400, 650, 850, 1100', sizes: '(min-width: 1100px) 270px, (min-width: 680px) 35vw, 100vw', alt: section.settings.story_image.alt }}

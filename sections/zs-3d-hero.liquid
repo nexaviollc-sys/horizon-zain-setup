@@ -8,6 +8,10 @@
 {%- endcomment -%}
 
 {%- assign hero_img = section.settings.image -%}
+{%- if hero_img == blank -%}
+  {%- assign hero_featured_product = all_products['handcrafted-carved-wooden-table-lamp'] -%}
+  {%- assign hero_img = hero_featured_product.featured_image -%}
+{%- endif -%}
 {%- assign hero_alt = hero_img.alt | default: 'Handcrafted wooden decor by Zaisen' -%}
 {%- assign shape = section.settings.shape | default: 'arch' -%}
 
@@ -15,11 +19,11 @@
   id="zs-hero2-{{ section.id }}"
   class="zs-hero2 zs-hero2--{{ section.id }} is-shape-{{ shape }}"
   style="
-    --w-bg: {{ section.settings.bg_color | default: '#FBF9F6' }};
-    --w-text: {{ section.settings.text_color | default: '#2C2A29' }};
-    --w-accent: {{ section.settings.accent_color | default: '#A8794A' }};
-    --w-btn: {{ section.settings.button_bg | default: '#7A5238' }};
-    --w-btn-text: {{ section.settings.button_text_color | default: '#FBF9F6' }};
+    --w-bg: {{ section.settings.bg_color | default: '#FAF9F6' }};
+    --w-text: {{ section.settings.text_color | default: '#28221D' }};
+    --w-accent: {{ section.settings.accent_color | default: '#B69A6A' }};
+    --w-btn: {{ section.settings.button_bg | default: '#77523A' }};
+    --w-btn-text: {{ section.settings.button_text_color | default: '#FAF9F6' }};
   "
   aria-label="Featured collection"
 >
@@ -136,7 +140,7 @@
                 class: 'zs-hero2__img'
             }}
           {%- else -%}
-            <div class="zs-hero2__placeholder" role="img" aria-label="Handcrafted wood texture">
+            <div class="zs-hero2__placeholder" role="img" aria-label="ZAISEN handcrafted wooden decor">
               {{ 'lifestyle-1' | placeholder_svg_tag: 'zs-hero2__placeholder-svg' }}
               <div class="zs-hero2__placeholder-wood" aria-hidden="true"></div>
             </div>
