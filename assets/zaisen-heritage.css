@@ -131,3 +131,6 @@ footer :is(a,button,input):focus-visible{outline:2px solid #E0C6A6;outline-offse
 
 /* Shared editorial labels are available to independent sections too. */
 .za-small-label{font-family:var(--font-body--family,Arial,sans-serif);font-size:.64rem;letter-spacing:.22em;font-weight:700;color:#74533C;text-transform:uppercase;margin:0 0 15px}
+
+/* Legacy bar is intentionally hidden for the minimal Atelier navigation. */
+.zs-announcement{display:none!important}
