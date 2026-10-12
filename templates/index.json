@@ -13,6 +13,7 @@
       "type": "zs-3d-hero",
       "name": "ZS 3D Hero",
       "settings": {
+        "image": "shopify://shop_images/b2.jpg",
         "shape": "arch",
         "show_badge": false,
         "badge_text": "HANDCRAFTED • SMALL BATCH • ZAISEN •",
@@ -23,8 +24,8 @@
         "primary_link": "shopify://collections/all",
         "secondary_text": "Discover Our Craft",
         "secondary_link": "shopify://collections/all",
-        "button_bg": "#2B1D17",
-        "button_text_color": "#FFFFFF",
+        "button_bg": "#2b1d17",
+        "button_text_color": "#ffffff",
         "show_assurances": false,
         "a1_icon": "headset",
         "a1_title": "24/7 Customer Care",
@@ -35,12 +36,30 @@
         "a3_icon": "leaf",
         "a3_title": "True to Nature",
         "a3_text": "Pure wood, honestly sourced",
-        "bg_color": "#FFFFFF",
-        "text_color": "#2B1D17",
-        "accent_color": "#D8B56A",
-        "dark_color": "#2B1D17",
-        "champagne_color": "#D8B56A",
-        "hero_font": "poppins_n4"
+        "bg_color": "#ffffff",
+        "text_color": "#2b1d17",
+        "accent_color": "#d8b56a",
+        "hero_product": "",
+        "dark_color": "#2b1d17",
+        "champagne_color": "#d8b56a",
+        "hero_font": "poppins_n4",
+        "show_featured_card": true
+      }
+    },
+    "zs_craft_marquee_2026": {
+      "type": "zs-craft-marquee",
+      "name": "ZAISEN Craft Marquee",
+      "settings": {
+        "line_1": "From our hands to your home.",
+        "line_2": "Every piece is crafted with care.",
+        "line_3": "Made from pure wood, with attention to every little detail.",
+        "marquee_font": "poppins_n4",
+        "background_color": "#2b1d17",
+        "text_color": "#f7f3ee",
+        "accent_color": "#d8b56a",
+        "duration": 34,
+        "desktop_height": 48,
+        "mobile_height": 44
       }
     },
     "zs_shop_by_collection_test_8x": {
@@ -133,8 +152,10 @@
       "settings": {
         "eyebrow": "DISCOVER ZAISEN",
         "heading": "Crafted for",
+        "heading_emphasis": "Every Corner.",
         "heading_tag": "h2",
         "subheading": "From sculptural décor to everyday essentials. Discover the warmth of handcrafted wood in every space.",
+        "editorial_font": "poppins_n4",
         "alignment": "left",
         "columns_desktop": "4",
         "mobile_layout": "two",
@@ -144,16 +165,15 @@
         "max_width": 1440,
         "heading_font": "theme",
         "heading_size": 60,
-        "bg_color": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "wood_color": "#2B1D17",
+        "bg_color": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "wood_color": "#2b1d17",
         "padding_top": 88,
         "padding_bottom": 96,
-        "heading_emphasis": "Every Corner.",
-        "editorial_font": "poppins_n4",
-        "button_label": "Explore All Collections"
+        "button_label": "Explore All Collections",
+        "button_link": ""
       }
     },
     "zs_best_sellers_alt_4x": {
@@ -198,36 +218,20 @@
       "settings": {
         "eyebrow": "ZAISEN FAVORITES",
         "heading": "Our",
+        "heading_emphasis": "Best Sellers.",
+        "editorial_font": "poppins_n4",
         "text": "Thoughtfully handcrafted pieces that bring warmth, character, and timeless beauty into your home.",
         "button_label": "Shop Best Sellers",
         "button_link": "shopify://collections/best-sellers",
         "heading_size": 60,
         "show_compare": true,
-        "bg_color": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "wood_color": "#2B1D17",
+        "bg_color": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "wood_color": "#2b1d17",
         "padding_top": 84,
-        "padding_bottom": 84,
-        "heading_emphasis": "Best Sellers.",
-        "editorial_font": "poppins_n4"
-      }
-    },
-    "zs_craft_marquee_2026": {
-      "type": "zs-craft-marquee",
-      "name": "ZAISEN Craft Marquee",
-      "settings": {
-        "line_1": "From our hands to your home.",
-        "line_2": "Every piece is crafted with care.",
-        "line_3": "Made from pure wood, with attention to every little detail.",
-        "marquee_font": "poppins_n4",
-        "background_color": "#2B1D17",
-        "text_color": "#F7F3EE",
-        "accent_color": "#D8B56A",
-        "duration": 34,
-        "desktop_height": 48,
-        "mobile_height": 44
+        "padding_bottom": 84
       }
     }
   },
