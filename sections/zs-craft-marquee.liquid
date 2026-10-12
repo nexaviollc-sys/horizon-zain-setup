@@ -8,6 +8,7 @@
   assign s = section.settings
   assign marquee_font = s.marquee_font
   assign marquee_bold = marquee_font | font_modify: 'weight', '700'
+  assign brand_logo = s.logo_image | default: settings.logo
 -%}
 {%- if marquee_font != blank -%}
   {% style %}
@@ -26,7 +27,13 @@
   style="--zs-craft-bg:{{ s.background_color }};--zs-craft-text:{{ s.text_color }};--zs-craft-accent:{{ s.accent_color }};--zs-craft-duration:{{ s.duration }}s;--zs-craft-height:{{ s.desktop_height }}px;--zs-craft-mobile-height:{{ s.mobile_height }}px;"
 >
   <div class="zs-craft-marquee__inner">
-    <div class="zs-craft-marquee__brand" aria-hidden="true"><span>Z.</span></div>
+    <a class="zs-craft-marquee__brand" href="{{ routes.root_url }}" aria-label="ZAISEN homepage">
+      {%- if brand_logo != blank -%}
+        {{ brand_logo | image_url: width: 200 | image_tag: class: 'zs-craft-marquee__logo', loading: 'eager', widths: '88,132,200', alt: '' }}
+      {%- else -%}
+        <span class="zs-craft-marquee__brand-fallback">ZS</span>
+      {%- endif -%}
+    </a>
     <div class="zs-craft-marquee__viewport">
       <div class="zs-craft-marquee__track">
       {%- for copy in (1..5) -%}
@@ -73,17 +80,33 @@
 .zs-craft-marquee__brand{
   position:relative;
   display:flex;
-  flex:0 0 73px;
+  flex:0 0 84px;
   align-items:center;
   justify-content:center;
   height:100%;
-  color:var(--zs-craft-accent,#D8B56A);
+  padding:3px 9px;
+  background:#FFFFFF;
+  color:var(--zs-craft-bg,#2B1D17);
+  text-decoration:none;
 }
-.zs-craft-marquee__brand span{
-  font-size:20px;
+.zs-craft-marquee__logo{
+  display:block;
+  width:100%;
+  max-width:64px;
+  height:100%;
+  max-height:42px;
+  object-fit:contain;
+  object-position:center;
+}
+.zs-craft-marquee__brand-fallback{
+  font-size:18px;
   font-weight:700;
   line-height:1;
-  letter-spacing:-.08em;
+  letter-spacing:-.045em;
+}
+.zs-craft-marquee__brand:focus-visible{
+  outline:2px solid var(--zs-craft-accent,#D8B56A);
+  outline-offset:-3px;
 }
 .zs-craft-marquee__brand::after{
   content:"";
@@ -152,8 +175,9 @@
 }
 @media(max-width:749px){
   .zs-craft-marquee__inner{height:var(--zs-craft-mobile-height,44px)}
-  .zs-craft-marquee__brand{flex-basis:49px}
-  .zs-craft-marquee__brand span{font-size:17px}
+  .zs-craft-marquee__brand{flex-basis:64px;padding:3px 6px}
+  .zs-craft-marquee__logo{max-width:52px;max-height:38px}
+  .zs-craft-marquee__brand-fallback{font-size:16px}
   .zs-craft-marquee__line{font-size:12px;letter-spacing:-.025em}
   .zs-craft-marquee__separator{font-size:8px;margin-inline:21px}
 }
@@ -221,6 +245,11 @@
       "content": "Marquee appearance"
     },
     {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Left logo (defaults to store logo)"
+    },
+    {
       "type": "font_picker",
       "id": "marquee_font",
       "label": "Font",
@@ -252,7 +281,7 @@
       "max": 80,
       "step": 2,
       "unit": "s",
-      "default": 42
+      "default": 34
     },
     {
       "type": "range",
