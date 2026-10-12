@@ -26,7 +26,8 @@
         "border_color": "#39463A",
         "desktop_height": 46,
         "mobile_height": 40
-      }
+      },
+      "disabled": true
     },
     "header_section": {
       "type": "header",
