@@ -67,7 +67,13 @@
         </a>
         <a class="zf-hero__secondary" href="{{ routes.all_products_collection_url }}">Discover our pieces <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="zf-hero__pagination" aria-hidden="true"><span class="zf-hero__pagination-active"></span><span></span><span></span></div>
+      <div class="zf-hero__bottom-note">
+        <span class="zf-hero__note-mark" aria-hidden="true">Z.</span>
+        <div>
+          <span>MADE WITH INTENTION</span>
+          <span class="zf-hero__note-text">Discover the beauty in every grain.</span>
+        </div>
+      </div>
     </div>
 
     <div class="zf-hero__art" aria-label="Featured ZAISEN wooden sculpture">
@@ -82,20 +88,16 @@
       <span class="zf-hero__art-caption" aria-hidden="true">CRAFTED IN WOOD · MADE TO LAST</span>
     </div>
 
-    <div class="zf-hero__bottom-note">
-      <span class="zf-hero__note-mark" aria-hidden="true">Z.</span>
-      <div><span>MADE WITH INTENTION</span><strong>Discover the beauty in every grain <span aria-hidden="true">↗</span></strong></div>
-    </div>
 
     {%- if hero_product != blank -%}
       <a class="zf-hero__product-teaser" href="{{ hero_product.url }}" aria-label="View {{ hero_product.title | escape }}">
-        <span class="zf-hero__teaser-eyebrow">FEATURED CRAFT <span class="zf-hero__teaser-direction">01 / 01</span></span>
+        <span class="zf-hero__teaser-eyebrow">FEATURED CRAFT</span>
         <span class="zf-hero__teaser-row">
           {%- if hero_product.featured_image != blank -%}
             {{ hero_product.featured_image | image_url: width: 180 | image_tag: class: 'zf-hero__teaser-photo', loading: 'lazy', widths: '90, 180', sizes: '70px', alt: hero_product.title }}
           {%- endif -%}
           <span class="zf-hero__teaser-description">
-            <strong>{{ hero_product.title | escape }}</strong>
+            <strong>{%- if hero_product.handle == 'handcrafted-wooden-horse-statue' -%}Handcrafted Wooden Horse Statue{%- else -%}{{ hero_product.title | truncate: 46 | escape }}{%- endif -%}</strong>
             <small>{{ hero_product.price | money }}</small>
           </span>
           <span class="zf-hero__teaser-arrow" aria-hidden="true">↗</span>
@@ -408,6 +410,159 @@
   @media(prefers-reduced-motion:reduce){
     .zf-hero__product{animation:none}
   }
+
+  /* Refinements: keep CTA and editorial note in normal flow so they never overlap. */
+  .zf-hero__actions{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    column-gap:clamp(22px,2.4vw,38px);
+    row-gap:15px;
+    margin-top:35px;
+  }
+  .zf-hero__cta{
+    min-height:74px;
+    padding:7px 26px 7px 8px;
+    gap:17px;
+    box-shadow:0 12px 28px rgba(43,29,23,.13);
+  }
+  .zf-hero__cta-icon{width:56px;height:56px}
+  .zf-hero__secondary{font-size:13px;font-weight:500;white-space:nowrap}
+  .zf-hero__bottom-note{
+    position:static!important;
+    z-index:auto;
+    left:auto!important;
+    bottom:auto!important;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:max-content;
+    max-width:100%;
+    margin-top:30px;
+  }
+  .zf-hero__note-mark{
+    width:49px;height:49px;
+    min-width:49px;
+    border:1px dashed #DCCFC0;
+    background:#FAF7F2;
+    color:#74533C;
+    font-size:19px;
+    font-weight:600;
+    border-radius:50%;
+  }
+  .zf-hero__bottom-note>div{gap:5px;min-width:0}
+  .zf-hero__bottom-note>div>span:first-child{font-size:9px;letter-spacing:.14em;color:#9A8B7D}
+  .zf-hero__bottom-note .zf-hero__note-text{
+    color:#54483D;
+    font-size:12px;
+    letter-spacing:0;
+    font-weight:500;
+    line-height:1.5;
+  }
+
+  /* One featured product, not a fictitious slider. Clear image / copy / arrow alignment. */
+  .zf-hero__product-teaser{
+    right:5%;
+    bottom:7%;
+    width:min(445px,36%);
+    max-width:445px;
+    padding:17px 19px 19px;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:18px;
+    background:rgba(30,18,13,.86);
+    -webkit-backdrop-filter:blur(5px);
+    backdrop-filter:blur(5px);
+  }
+  .zf-hero__product-teaser:hover{
+    background:rgba(30,18,13,.94);
+    border-color:rgba(216,181,106,.55);
+  }
+  .zf-hero__teaser-eyebrow{
+    display:block;
+    padding:0 0 12px;
+    color:#E4D7C9;
+    font-size:10px;
+    font-weight:500;
+    line-height:1.3;
+    letter-spacing:.13em;
+  }
+  .zf-hero__teaser-row{
+    display:grid;
+    grid-template-columns:64px minmax(0,1fr) 46px;
+    align-items:center;
+    gap:15px;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.2);
+  }
+  .zf-hero__teaser-photo{width:64px;height:64px}
+  .zf-hero__teaser-description{gap:7px;min-width:0}
+  .zf-hero__teaser-description strong{
+    max-width:none;
+    font-size:12.5px;
+    font-weight:600;
+    line-height:1.45;
+    color:#FFFFFF;
+    overflow-wrap:anywhere;
+  }
+  .zf-hero__teaser-description small{
+    font-size:21px;
+    line-height:1.2;
+    font-weight:700;
+  }
+  .zf-hero__teaser-arrow{
+    display:grid;
+    place-items:center;
+    margin:0;
+    justify-self:end;
+    align-self:center;
+    width:45px;height:45px;
+    font-size:18px;
+    border-radius:50%;
+    flex:none;
+    background:var(--zf-gold);
+    color:var(--zf-dark);
+    transition:transform .2s ease;
+  }
+  .zf-hero__product-teaser:hover .zf-hero__teaser-arrow{transform:translate(2px,-2px)}
+  @media(min-width:750px) and (max-width:1099px){
+    .zf-hero__copy{top:23%}
+    .zf-hero__actions{margin-top:26px;gap:12px}
+    .zf-hero__cta{min-height:60px;padding:6px 17px 6px 6px;gap:9px}
+    .zf-hero__cta-icon{width:47px;height:47px}
+    .zf-hero__secondary{font-size:11px}
+    .zf-hero__bottom-note{margin-top:23px}
+    .zf-hero__note-mark{width:43px;height:43px;min-width:43px}
+    .zf-hero__product-teaser{right:3%;bottom:5%;width:42%}
+    .zf-hero__teaser-row{grid-template-columns:54px minmax(0,1fr) 38px;gap:9px}
+    .zf-hero__teaser-photo{width:54px;height:54px}
+    .zf-hero__teaser-arrow{width:38px;height:38px}
+  }
+  @media(max-width:749px){
+    .zf-hero__actions{gap:12px;margin-top:21px}
+    .zf-hero__cta{min-height:55px;padding:5px 17px 5px 5px;gap:12px}
+    .zf-hero__cta-icon{width:44px;height:44px}
+    .zf-hero__secondary{font-size:11px}
+    .zf-hero__bottom-note{display:none!important}
+    .zf-hero__product-teaser{
+      width:auto;
+      max-width:none;
+      left:15px;
+      right:15px;
+      bottom:2.5%;
+      padding:12px 15px 14px;
+      border-radius:17px;
+    }
+    .zf-hero__teaser-eyebrow{font-size:9px;padding-bottom:8px}
+    .zf-hero__teaser-row{grid-template-columns:52px minmax(0,1fr) 41px;gap:11px;padding-top:10px}
+    .zf-hero__teaser-photo{width:52px;height:52px}
+    .zf-hero__teaser-description strong{font-size:11px;line-height:1.35}
+    .zf-hero__teaser-description small{font-size:16px}
+    .zf-hero__teaser-arrow{width:41px;height:41px;font-size:16px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .zf-hero__teaser-arrow{transition:none}
+  }
+
 {% endstylesheet %}
 
 {% schema %}
