@@ -265,16 +265,16 @@
       justify-content: center;
       min-height: 39px;
       padding: 8px 15px;
-      border: 1px solid rgba(116, 91, 74, .27);
+      border: 1px solid rgba(89, 62, 45, .46);
       border-radius: 12px;
-      background: rgba(251, 245, 239, .94);
+      background: transparent;
       color: #34231B;
       font-weight: 500;
       line-height: 1.25;
       letter-spacing: .005em;
       white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(55, 35, 23, .035);
-      transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+      box-shadow: none;
+      transition: border-color .2s ease, color .2s ease;
     }
 
     #header-component.header--zaisen .header-menu .menu-list__link-title::after {
@@ -283,18 +283,31 @@
     }
 
     #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link:is(.menu-list__link--active, [aria-current='page']) .menu-list__link-title {
-      background: #36231B;
-      border-color: #36231B;
-      color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(43, 29, 23, .11);
+      background: transparent;
+      border-color: #2B1D17;
+      color: #2B1D17;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 .35px #2B1D17;
     }
 
     #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__link:is(:hover, :focus-visible) .menu-list__link-title,
     #header-component.header--zaisen[data-menu-style='menu'] .header-menu .menu-list__trigger:has(.menu-list__disclosure[aria-expanded='true']) .menu-list__link-title {
-      background: #4A3025;
-      border-color: #4A3025;
+      background: transparent;
+      border-color: #9A6A44;
+      color: #2B1D17;
+      box-shadow: none;
+    }
+
+    /* The last menu item crosses the brown portion of the homepage banner.
+       Make its outline and label readable there without a filled capsule. */
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title {
+      color: #FFF8F0;
+      border-color: rgba(255, 248, 240, .82);
+    }
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4):hover .menu-list__link-title,
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4):focus-within .menu-list__link-title {
       color: #FFFFFF;
-      box-shadow: 0 5px 12px rgba(43, 29, 23, .13);
+      border-color: #FFFFFF;
     }
 
     /* Existing liquid navbar changes state on scroll; keep nontransparent

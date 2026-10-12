@@ -67,7 +67,13 @@
           <a class="zf-hero__secondary" href="{{ secondary_link }}"><span>{{ s.secondary_text | default: 'Discover Our Craft' | escape }}</span><svg class="zf-hero__secondary-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></a>
         </div>
         <div class="zf-hero__bottom-note">
-          <span class="zf-hero__note-mark" aria-hidden="true">Z.</span>
+          <span class="zf-hero__note-mark" aria-hidden="true">
+            {%- if settings.logo != blank -%}
+              {{ settings.logo | image_url: width: 144 | image_tag: class: 'zf-hero__note-logo', loading: 'lazy', widths: '72,108,144', sizes: '52px', alt: '' }}
+            {%- else -%}
+              Z.
+            {%- endif -%}
+          </span>
           <div>
             <span>MADE WITH INTENTION</span>
             <span class="zf-hero__note-text">Discover the beauty in every grain.</span>
@@ -278,6 +284,16 @@
     font-size:19px;
     font-weight:600;
   }
+  .zf-hero__note-logo {
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:45px;
+    max-height:45px;
+    object-fit:contain;
+    object-position:center;
+    border-radius:50%;
+  }
   .zf-hero__bottom-note>div {display:flex;flex-direction:column;gap:5px;min-width:0}
   .zf-hero__bottom-note>div>span:first-child {
     color:#9A8B7D;
@@ -405,6 +421,7 @@
     .zf-hero__secondary{font-size:11px}
     .zf-hero__bottom-note{margin-top:24px}
     .zf-hero__note-mark{width:42px;height:42px;font-size:17px}
+    .zf-hero__note-logo{max-width:38px;max-height:38px}
     .zf-hero__note-text{font-size:11px}
     .zf-hero__product-teaser {width:100%;margin-top:auto;align-self:stretch;padding:12px 14px 15px}
     .zf-hero__teaser-eyebrow{font-size:9px;padding-bottom:9px}
