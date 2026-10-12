@@ -1,161 +1,213 @@
-{% liquid
+{%- comment -%}
+  ZAISEN Best Sellers — a quiet four-product editorial gallery.
+  Existing product selectors, custom images, real money fields and best-sellers
+  collection destination stay merchant-editable. No boxed cards or fake reviews.
+{%- endcomment -%}
+{%- liquid
   assign s = section.settings
   assign cta_link = s.button_link | default: routes.all_products_collection_url
-%}
+  assign display_font = s.editorial_font
+  assign font_light = display_font | font_modify: 'weight', '300'
+  assign font_medium = display_font | font_modify: 'weight', '500'
+  assign font_semibold = display_font | font_modify: 'weight', '600'
+  assign font_bold = display_font | font_modify: 'weight', '700'
+-%}
+{%- if display_font != blank -%}
+  {% style %}
+    {{ display_font | font_face: font_display: 'swap' }}
+    {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_medium != blank %}{{ font_medium | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_semibold != blank %}{{ font_semibold | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_bold != blank %}{{ font_bold | font_face: font_display: 'swap' }}{% endif %}
+    #zsp-{{ section.id }} {
+      font-family: {{ display_font.family | json }}, {{ display_font.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
+{% style %}
+  #zsp-{{ section.id }}{
+    --zsp-white:{{ s.bg_color }};
+    --zsp-ink:{{ s.heading_color }};
+    --zsp-walnut:{{ s.wood_color }};
+    --zsp-accent:{{ s.accent_color }};
+    --zsp-description:{{ s.text_color }};
+    --zsp-size:{{ s.heading_size }}px;
+    --zsp-pt:{{ s.padding_top }}px;
+    --zsp-pb:{{ s.padding_bottom }}px;
+  }
+{% endstyle %}
 
-<section class="zbs-alt{% if s.show_divider %} zbs-alt--divider{% endif %}" style="--zbs-alt-pt:{{ s.padding_top }}px;--zbs-alt-pb:{{ s.padding_bottom }}px;--zbs-alt-stagger:{{ s.stagger }}px;--zbs-alt-heading:{{ s.heading_size }}px;--zbs-alt-bg:{{ s.bg_color }};--zbs-alt-heading-color:{{ s.heading_color }};--zbs-alt-text:{{ s.text_color }};--zbs-alt-accent:{{ s.accent_color }};--zbs-alt-wood:{{ s.wood_color }};">
-  <div class="zbs-alt__inner">
-    <aside class="zbs-alt__intro">
-      {% if s.eyebrow != blank %}
-        <p class="zbs-alt__eyebrow">{{ s.eyebrow }}</p>
-      {% endif %}
-      {% if s.heading != blank %}
-        <h2 class="zbs-alt__heading">
-          {% if s.heading == 'Our Best Sellers' %}
-            <span>Our </span><em>Best Sellers</em>
-          {% else %}
-            {{ s.heading }}
-          {% endif %}
-        </h2>
-      {% endif %}
-      {% if s.text != blank %}
-        <div class="zbs-alt__text">{{ s.text }}</div>
-      {% endif %}
-      {% if s.button_label != blank %}
-        <a href="{{ cta_link }}" class="zbs-alt__cta">
-          <span>{{ s.button_label }}</span>
-          <svg width="34" height="10" viewBox="0 0 34 10" fill="none" aria-hidden="true"><path d="M0 5h33M29 1l4 4-4 4" stroke="currentColor" stroke-width="1"/></svg>
-        </a>
-      {% endif %}
-    </aside>
+<section id="zsp-{{ section.id }}" class="zsp" aria-labelledby="zsp-heading-{{ section.id }}">
+  <div class="zsp__inner">
+    <header class="zsp__header">
+      {%- if s.eyebrow != blank -%}
+        <p class="zsp__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 id="zsp-heading-{{ section.id }}" class="zsp__title">
+        <span class="zsp__title-light">{{ s.heading | escape }}</span>
+        {%- if s.heading_emphasis != blank -%}
+          <strong class="zsp__title-strong">{{ s.heading_emphasis | escape }}</strong>
+        {%- endif -%}
+      </h2>
+      {%- if s.text != blank -%}
+        <p class="zsp__description">{{ s.text | escape }}</p>
+      {%- endif -%}
+    </header>
 
-    <div class="zbs-alt__products">
-      {% for block in section.blocks %}
-        {% assign product = block.settings.product %}
-        {% assign primary = block.settings.custom_image | default: product.featured_image %}
-        {% assign current_variant = product.selected_or_first_available_variant %}
-        {% assign sale_percent = 0 %}
-        {% if current_variant != blank and current_variant.compare_at_price > current_variant.price %}
-          {% assign sale_amount = current_variant.compare_at_price | minus: current_variant.price %}
-          {% assign sale_percent = sale_amount | times: 100.0 | divided_by: current_variant.compare_at_price | round %}
-        {% endif %}
-        <article class="zbs-alt__item" {{ block.shopify_attributes }}>
-          <a class="zbs-alt__link" href="{{ product.url | default: '#' }}">
-            <div class="zbs-alt__media">
-              {% if primary %}
-                {{ primary | image_url: width: 1200 | image_tag: class: 'zbs-alt__img', widths: '320,480,640,800,1000,1200', sizes: '(min-width: 990px) 30vw, 50vw', loading: 'lazy', alt: product.title }}
-              {% else %}
-                {{ 'product-1' | placeholder_svg_tag: 'zbs-alt__placeholder' }}
-              {% endif %}
-
+    <div class="zsp__products">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign product = block.settings.product
+          assign main_image = block.settings.custom_image
+          if main_image == blank and product != blank
+            assign main_image = product.featured_image
+          endif
+          assign variant = product.selected_or_first_available_variant
+          assign display_price = product.price
+          assign compare_price = product.compare_at_price
+          if variant != blank
+            assign display_price = variant.price
+            assign compare_price = variant.compare_at_price
+          endif
+          assign product_title = product.title | default: 'Choose a product'
+          assign product_url = product.url | default: routes.all_products_collection_url
+        -%}
+        <article class="zsp__product" {{ block.shopify_attributes }}>
+          <a class="zsp__link" href="{{ product_url }}" aria-label="Discover {{ product_title | escape }}">
+            <div class="zsp__media">
+              {%- if main_image != blank -%}
+                {{ main_image | image_url: width: 1100 | image_tag: class: 'zsp__image', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: product_title }}
+              {%- else -%}
+                <span class="zsp__fallback" aria-hidden="true">ZAISEN</span>
+              {%- endif -%}
+              <span class="zsp__image-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+              </span>
             </div>
-
-            <div class="zbs-alt__meta">
-              {% if s.show_index %}
-                <span class="zbs-alt__index">{{ forloop.index | prepend: '0' }}</span>
-              {% endif %}
-              <div class="zbs-alt__info">
-                <h3 class="zbs-alt__name">{{ product.title | default: 'Product title' }}</h3>
-                {% if block.settings.note != blank %}
-                  <p class="zbs-alt__note">{{ block.settings.note }}</p>
-                {% endif %}
-                <span class="zbs-alt__product-link">
-                  <span>View product</span>
-                  <svg viewBox="0 0 20 20" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 10h11M11 6l4 4-4 4"/>
-                  </svg>
-                </span>
-              </div>
-              <div class="zbs-alt__price">
-                {% if product == blank %}
-                  {{ 0 | money }}
-                {% elsif product.available == false %}
-                  <span>Sold out</span>
-                {% else %}
-                  <span class="zbs-alt__price-now">{{ product.price | money }}</span>
-                  {% if s.show_compare and product.compare_at_price > product.price %}
-                    <s class="zbs-alt__price-was">{{ product.compare_at_price | money }}</s>
-                    {% if sale_percent > 0 %}
-                      <span class="zbs-alt__saving">{{ sale_percent }}% off</span>
-                    {% endif %}
-                  {% endif %}
-                {% endif %}
-              </div>
+            <div class="zsp__details">
+              <h3 class="zsp__name">{{ product_title | escape }}</h3>
+              {%- if block.settings.note != blank -%}
+                <p class="zsp__note">{{ block.settings.note | escape }}</p>
+              {%- endif -%}
+              {%- if product != blank -%}
+                <div class="zsp__prices">
+                  <span class="zsp__price-now">{{ display_price | money }}</span>
+                  {%- if s.show_compare and compare_price > display_price -%}
+                    <s class="zsp__price-old">{{ compare_price | money }}</s>
+                  {%- endif -%}
+                </div>
+                {%- unless product.available -%}
+                  <span class="zsp__sold-out">Sold out</span>
+                {%- endunless -%}
+              {%- endif -%}
+              <span class="zsp__discover">Discover this piece <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span>
             </div>
           </a>
         </article>
-      {% endfor %}
+      {%- endfor -%}
     </div>
+    {%- if s.button_label != blank -%}
+      <div class="zsp__footer">
+        <a class="zsp__shop-all" href="{{ cta_link }}">
+          <span>{{ s.button_label | escape }}</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
+        </a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
-
 {% stylesheet %}
-.zbs-alt{
-  --line:color-mix(in srgb,var(--zbs-alt-heading-color) 20%,transparent);
-  --muted:color-mix(in srgb,var(--zbs-alt-text) 64%,transparent);
-  background:var(--zbs-alt-bg,#F6F1E7);
-  color:var(--zbs-alt-text,#2C2A29);
-  padding-block:calc(var(--zbs-alt-pt)*.6) calc(var(--zbs-alt-pb)*.6);
+.zsp{background:var(--zsp-white,#FFFFFF);color:var(--zsp-ink,#2B1D17);padding:clamp(60px,7vw,var(--zsp-pt,84px)) 0 clamp(60px,7vw,var(--zsp-pb,84px));overflow:clip}
+.zsp *{box-sizing:border-box}
+.zsp__inner{width:100%;max-width:1440px;margin:auto;padding:0 clamp(20px,4vw,58px)}
+.zsp__header{margin:0 0 clamp(36px,4vw,56px)}
+.zsp__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 23px;color:#946F51;font-size:clamp(10px,.82vw,12px);font-weight:500;letter-spacing:.17em;line-height:1.45;text-transform:uppercase}
+.zsp__eyebrow span{display:block;flex:0 0 30px;width:30px;height:2px;background:var(--zsp-accent,#D8B56A)}
+.zsp__title{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin:0;font-family:inherit!important;font-size:clamp(42px,4.1vw,var(--zsp-size,64px));line-height:1.12;letter-spacing:-.055em;color:var(--zsp-ink,#2B1D17);text-wrap:balance}
+.zsp__title-light{display:block;font-weight:300}
+.zsp__title-strong{display:block;font-weight:700;line-height:1.12}
+.zsp__description{margin:18px 0 0;max-width:72ch;color:var(--zsp-description,#80736A);opacity:.75;font-size:clamp(13px,1.02vw,15px);line-height:1.75;font-weight:400}
+.zsp__products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(15px,1.8vw,27px);align-items:start}
+.zsp__product{min-width:0}
+.zsp__link{display:block;text-decoration:none;color:inherit;outline-offset:4px}
+.zsp__link:hover{color:inherit}
+.zsp__media{position:relative;display:block;overflow:hidden;isolation:isolate;aspect-ratio:4 / 5;border-radius:22px;background:#F1ECE6;box-shadow:none;border:0}
+.zsp__image{display:block;width:100%;height:100%;object-fit:cover;object-position:center center;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.zsp__fallback{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:clamp(15px,2vw,26px);font-weight:300;letter-spacing:.23em;color:#A0836B}
+.zsp__image-arrow{position:absolute;right:13px;bottom:13px;width:37px;height:37px;display:grid;place-items:center;border:1px solid rgba(43,29,23,.09);border-radius:50%;background:rgba(255,255,255,.95);color:var(--zsp-walnut,#2B1D17);box-shadow:0 4px 12px rgba(43,29,23,.08);opacity:0;transform:translateY(6px);transition:transform .26s ease,opacity .26s ease,background .26s ease,color .26s ease}
+.zsp__details{display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:16px 1px 0;background:transparent}
+.zsp__name{margin:0;font-family:inherit!important;font-size:clamp(13px,1vw,15px);font-weight:500;line-height:1.5;color:var(--zsp-ink,#2B1D17);letter-spacing:-.02em;min-height:3em}
+.zsp__note{margin:5px 0 0;color:#81766D;font-size:12px;line-height:1.5}
+.zsp__prices{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 12px;margin:11px 0 0}
+.zsp__price-now{color:var(--zsp-ink,#2B1D17);font-size:clamp(16px,1.28vw,19px);font-weight:600;line-height:1.35}
+.zsp__price-old{color:#968B81;font-size:clamp(11px,.91vw,13px);font-weight:400;line-height:1.35;text-decoration:line-through;text-decoration-thickness:1px}
+.zsp__sold-out{margin-top:7px;color:#83634D;font-size:11px;letter-spacing:.04em}
+.zsp__discover{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding-bottom:4px;color:var(--zsp-walnut,#2B1D17);font-size:11px;font-weight:500;letter-spacing:.01em;border-bottom:1px solid transparent;transition:border-color .25s ease}
+.zsp__discover svg{transition:transform .26s ease}
+.zsp__footer{display:flex;justify-content:center;padding-top:clamp(40px,4.7vw,68px)}
+.zsp__shop-all{display:inline-flex;align-items:center;justify-content:center;gap:22px;min-height:56px;padding:14px 26px;border-radius:999px;border:1px solid #2B1D17;background:#2B1D17;color:#FFFFFF;text-decoration:none;font-family:inherit;font-size:13px;font-weight:500;letter-spacing:-.01em;transition:background .25s ease,transform .25s ease,box-shadow .25s ease}
+.zsp__shop-all svg{transition:transform .25s ease}
+.zsp__shop-all:hover{background:#472F22;color:#FFF;transform:translateY(-2px);box-shadow:0 9px 19px rgba(43,29,23,.12)}
+.zsp__shop-all:hover svg{transform:translate(2px,-2px)}
+.zsp a:focus-visible{outline:2px solid var(--zsp-accent,#D8B56A);outline-offset:4px}
+@media(hover:hover) and (pointer:fine){
+ .zsp__link:hover .zsp__image{transform:scale(1.024)}
+ .zsp__link:hover .zsp__image-arrow{opacity:1;transform:translateY(0);background:#2B1D17;color:var(--zsp-accent,#D8B56A)}
+ .zsp__link:hover .zsp__discover{border-bottom-color:var(--zsp-accent,#D8B56A)}
+ .zsp__link:hover .zsp__discover svg{transform:translate(2px,-2px)}
 }
-.zbs-alt--divider{border-top:1px solid var(--line)}
-.zbs-alt *{box-sizing:border-box}
-.zbs-alt__inner{max-width:1560px;margin:auto;padding-inline:clamp(20px,4.2vw,72px);display:grid;grid-template-columns:1fr}
-.zbs-alt__intro{margin-bottom:28px}
-.zbs-alt__eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:.6875rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--zbs-alt-accent)}
-.zbs-alt__eyebrow:before{content:"";width:28px;height:1px;background:var(--zbs-alt-accent);opacity:.9}
-.zbs-alt__heading{margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-weight:550;font-size:clamp(2.125rem,9vw,3rem);line-height:1.04;letter-spacing:-.02em;color:var(--zbs-alt-heading-color);text-wrap:balance}
-.zbs-alt__heading em{font-style:italic;font-weight:450;color:var(--zbs-alt-accent)}
-.zbs-alt__text{margin-top:16px;max-width:30ch;font-size:.9375rem;line-height:1.6;color:var(--muted)}
-.zbs-alt__cta{position:relative;margin-top:42px;display:inline-flex;align-items:center;justify-content:flex-start;gap:18px;width:fit-content;padding:0 0 10px;color:var(--zbs-alt-wood);text-decoration:none;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
-.zbs-alt__cta::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:color-mix(in srgb,var(--zbs-alt-accent) 58%,transparent);transform-origin:left center;transition:transform .35s ease,background-color .35s ease}
-.zbs-alt__cta svg{color:var(--zbs-alt-accent);transition:transform .35s ease}
-.zbs-alt__products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:30px}
-.zbs-alt__item:nth-child(even){transform:translateY(calc(var(--zbs-alt-stagger)/3))}
-.zbs-alt__link{display:block;color:inherit;text-decoration:none}
-.zbs-alt__media{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:5px;background:color-mix(in srgb,var(--zbs-alt-wood) 9%,var(--zbs-alt-bg));box-shadow:0 1px 0 color-mix(in srgb,var(--zbs-alt-heading-color) 5%,transparent)}
-.zbs-alt__img,.zbs-alt__placeholder{width:100%;height:100%;display:block;object-fit:cover;transition:transform .8s ease}
-.zbs-alt__meta{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
-.zbs-alt__index{display:none;color:var(--zbs-alt-wood)}
-.zbs-alt__name{margin:0;font-family:var(--font-heading--family,"Cormorant Garamond",Georgia,serif);font-weight:500;font-size:.96rem;line-height:1.26;letter-spacing:-.005em;color:var(--zbs-alt-heading-color);text-wrap:balance;transition:color .3s ease}
-.zbs-alt__note{margin:4px 0 0;font-size:.75rem;line-height:1.4;color:var(--muted)}
-.zbs-alt__price{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.8125rem;font-variant-numeric:tabular-nums}
-.zbs-alt__price-now{color:var(--zbs-alt-wood);font-weight:700}
-.zbs-alt__price-was{color:var(--muted);font-size:.75rem;font-weight:400;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--zbs-alt-text) 38%,transparent)}
-.zbs-alt__saving{font-size:.66rem;font-weight:650;letter-spacing:.04em;color:var(--zbs-alt-accent);white-space:nowrap}
-.zbs-alt__product-link{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding-bottom:2px;border-bottom:1px solid color-mix(in srgb,var(--zbs-alt-accent) 40%,transparent);color:color-mix(in srgb,var(--zbs-alt-wood) 90%,var(--zbs-alt-heading-color));font-family:var(--font-body--family,inherit);font-size:.72rem;font-weight:650;letter-spacing:.07em;text-transform:uppercase;transition:color .3s ease,border-color .3s ease}
-.zbs-alt__product-link svg{transition:transform .3s ease}
-
-@media(min-width:990px){
-  .zbs-alt{padding-block:var(--zbs-alt-pt) var(--zbs-alt-pb)}
-  .zbs-alt__inner{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,32px);align-items:start}
-  .zbs-alt__intro{grid-column:1/span 4;position:sticky;top:calc(var(--header-height,0px) + 48px);margin:0;padding-top:clamp(0px,2vw,32px)}
-  .zbs-alt__heading{font-size:clamp(2.75rem,4.6vw,var(--zbs-alt-heading))}
-  .zbs-alt__text{margin-top:28px;font-size:1rem;max-width:26ch}
-  .zbs-alt__cta{width:fit-content;justify-content:flex-start;gap:20px;margin-top:52px;padding:0 0 11px}
-  .zbs-alt__products{grid-column:6/span 7;column-gap:clamp(24px,3.4vw,56px);row-gap:clamp(56px,6vw,104px);padding-bottom:var(--zbs-alt-stagger)}
-  .zbs-alt__item:nth-child(even){transform:translateY(var(--zbs-alt-stagger))}
-  .zbs-alt__meta{margin-top:18px;padding-top:16px;gap:0 16px}
-  .zbs-alt__meta{grid-template-columns:34px minmax(0,1fr) auto;align-items:start}
-  .zbs-alt__index{display:block;padding-top:.2em;font-size:.68rem;font-weight:650;letter-spacing:.12em;color:var(--zbs-alt-accent);font-variant-numeric:tabular-nums}
-  .zbs-alt__index::after{content:"";display:block;width:18px;height:1px;margin-top:7px;background:color-mix(in srgb,var(--zbs-alt-accent) 45%,transparent)}
-  .zbs-alt__name{font-size:1.02rem;line-height:1.28}
-  .zbs-alt__price{flex-direction:column;align-items:flex-end;gap:5px;font-size:.9rem;padding-top:3px}
-  .zbs-alt__price-was{font-size:.77rem}
+.zsp__link:focus-visible .zsp__image-arrow{opacity:1;transform:none}
+@media(min-width:750px) and (max-width:1099px){.zsp__products{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 22px}.zsp__name{min-height:auto}}
+@media(max-width:749px){
+ .zsp{padding:65px 0 74px}
+ .zsp__inner{padding:0 16px}
+ .zsp__header{margin-bottom:28px}
+ .zsp__eyebrow{font-size:9px;margin-bottom:18px}
+ .zsp__title{font-size:clamp(36px,9.5vw,51px)}
+ .zsp__description{font-size:12px;margin-top:15px}
+ .zsp__products{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 13px}
+ .zsp__media{border-radius:16px}
+ .zsp__image-arrow{opacity:1;transform:none;width:33px;height:33px;right:9px;bottom:9px}
+ .zsp__image-arrow svg{width:15px;height:15px}
+ .zsp__details{padding:12px 0 0}
+ .zsp__name{font-size:12px;line-height:1.4;min-height:2.8em}
+ .zsp__prices{gap:3px 7px;margin-top:8px}
+ .zsp__price-now{font-size:14px}
+ .zsp__price-old{font-size:11px}
+ .zsp__discover{font-size:10px;margin-top:12px;gap:5px}
+ .zsp__footer{padding-top:40px}
+ .zsp__shop-all{min-height:52px;padding:13px 22px;font-size:12px;gap:16px}
 }
-@media(hover:hover) and (min-width:990px){
-  .zbs-alt__media:hover .zbs-alt__img{transform:scale(1.035)}
-  .zbs-alt__name:hover{color:var(--zbs-alt-accent)}
-  .zbs-alt__product-link:hover{color:var(--zbs-alt-accent);border-color:var(--zbs-alt-accent)}
-  .zbs-alt__product-link:hover svg{transform:translateX(2px)}
-  .zbs-alt__cta:hover{color:var(--zbs-alt-accent)}
-  .zbs-alt__cta:hover::after{background:var(--zbs-alt-accent);transform:scaleX(.78)}
-  .zbs-alt__cta:hover svg{transform:translateX(4px)}
+@media(prefers-reduced-motion:no-preference){
+ .zsp__product.zsp-is-in-view{animation:zsp-reveal .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--zsp-delay,0ms)}
+ @keyframes zsp-reveal{from{opacity:.75;transform:translateY(11px)}to{opacity:1;transform:translateY(0)}}
 }
+@media(prefers-reduced-motion:reduce){.zsp__image,.zsp__image-arrow,.zsp__discover,.zsp__discover svg,.zsp__shop-all,.zsp__shop-all svg{transition:none}}
 {% endstylesheet %}
+{% javascript %}
+(function(){
+ function initBestSellers(){
+   var elements=document.querySelectorAll('.zsp .zsp__product:not([data-zsp-ready])');
+   if(!elements.length||!('IntersectionObserver' in window))return;
+   var observer=new IntersectionObserver(function(entries){
+     entries.forEach(function(entry){
+       if(entry.isIntersecting){
+         entry.target.classList.add('zsp-is-in-view');
+         observer.unobserve(entry.target);
+       }
+     });
+   },{threshold:.11,rootMargin:'0px 0px 50px 0px'});
+   elements.forEach(function(el,i){el.dataset.zspReady='true';el.style.setProperty('--zsp-delay',(i%4)*65+'ms');observer.observe(el);});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initBestSellers,{once:true});
+ else initBestSellers();
+ document.addEventListener('shopify:section:load',initBestSellers);
+})();
+{% endjavascript %}
 
 {% schema %}
 {
-  "name": "ZAISEN Best Sellers Alt",
+  "name": "ZAISEN Best Sellers",
   "tag": "section",
   "class": "section-zaisen-best-sellers-alt",
   "max_blocks": 4,
@@ -171,6 +223,18 @@
       "id": "heading",
       "label": "Heading",
       "default": "Our Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "heading_emphasis",
+      "label": "Bold second headline line",
+      "default": "Best Sellers."
+    },
+    {
+      "type": "font_picker",
+      "id": "editorial_font",
+      "label": "Heading and product font",
+      "default": "poppins_n4"
     },
     {
       "type": "textarea",
@@ -191,16 +255,6 @@
     },
     {
       "type": "range",
-      "id": "stagger",
-      "label": "Desktop stagger",
-      "min": 0,
-      "max": 180,
-      "step": 4,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
       "id": "heading_size",
       "label": "Max heading size",
       "min": 40,
@@ -208,18 +262,6 @@
       "step": 2,
       "unit": "px",
       "default": 76
-    },
-    {
-      "type": "checkbox",
-      "id": "show_index",
-      "label": "Show 01–04 numerals",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_divider",
-      "label": "Show top divider",
-      "default": true
     },
     {
       "type": "checkbox",
@@ -303,7 +345,7 @@
   ],
   "presets": [
     {
-      "name": "ZAISEN Best Sellers Alt",
+      "name": "ZAISEN Best Sellers",
       "blocks": [
         {
           "type": "product"

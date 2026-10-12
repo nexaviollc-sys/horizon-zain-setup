@@ -197,22 +197,21 @@
       "name": "ZAISEN Best Sellers Alt",
       "settings": {
         "eyebrow": "ZAISEN FAVORITES",
-        "heading": "Our Best Sellers",
-        "text": "Most-loved handcrafted pieces.",
+        "heading": "Our",
+        "text": "Thoughtfully handcrafted pieces that bring warmth, character, and timeless beauty into your home.",
         "button_label": "Shop Best Sellers",
         "button_link": "shopify://collections/best-sellers",
-        "stagger": 96,
-        "heading_size": 66,
-        "show_index": true,
-        "show_divider": true,
+        "heading_size": 60,
         "show_compare": true,
         "bg_color": "#FFFFFF",
-        "heading_color": "#28221D",
-        "text_color": "#28221D",
-        "accent_color": "#B69A6A",
-        "wood_color": "#77523A",
-        "padding_top": 96,
-        "padding_bottom": 96
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "wood_color": "#2B1D17",
+        "padding_top": 84,
+        "padding_bottom": 84,
+        "heading_emphasis": "Best Sellers.",
+        "editorial_font": "poppins_n4"
       }
     }
   },
