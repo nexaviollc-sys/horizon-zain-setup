@@ -69,66 +69,27 @@
         </button>
       </div>
       <div class="zsp__products" id="zsp-products-{{ section.id }}" data-zsp-carousel>
-        {%- for product in featured_collection.products limit: 8 -%}
-          {%- liquid
-            assign main_image = product.featured_image
-            assign note_text = blank
-            for block in section.blocks
-              if block.settings.product.id == product.id
-                if block.settings.custom_image != blank
-                  assign main_image = block.settings.custom_image
-                endif
-                assign note_text = block.settings.note
-                break
-              endif
-            endfor
-
-            assign variant = product.selected_or_first_available_variant
-            assign display_price = product.price
-            assign compare_price = product.compare_at_price
-            if variant != blank
-              assign display_price = variant.price
-              assign compare_price = variant.compare_at_price
-            endif
-
-            assign discount_percent = 0
-            if compare_price != blank and compare_price > display_price and compare_price > 0
-              assign discount_percent = compare_price | minus: display_price | times: 100.0 | divided_by: compare_price | round
-            endif
-          -%}
-          <article class="zsp__product">
-            <a class="zsp__link" href="{{ product.url }}" aria-label="Discover {{ product.title | escape }}">
-              <div class="zsp__media">
-                {%- if main_image != blank -%}
-                  {{ main_image | image_url: width: 1100 | image_tag: class: 'zsp__image', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: product.title }}
-                {%- else -%}
-                  <span class="zsp__fallback" aria-hidden="true">ZAISEN</span>
-                {%- endif -%}
-                {%- if discount_percent > 0 -%}
-                  <span class="zsp__discount" aria-label="{{ discount_percent }} percent off">-{{ discount_percent }}%</span>
-                {%- endif -%}
-                <span class="zsp__image-arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-                </span>
-              </div>
-              <div class="zsp__details">
-                <h3 class="zsp__name">{{ product.title | escape }}</h3>
-                {%- if note_text != blank -%}
-                  <p class="zsp__note">{{ note_text | escape }}</p>
-                {%- endif -%}
-                <div class="zsp__prices">
-                  <span class="zsp__price-now">{{ display_price | money }}</span>
-                  {%- if s.show_compare and discount_percent > 0 -%}
-                    <s class="zsp__price-old">{{ compare_price | money }}</s>
-                  {%- endif -%}
-                </div>
-                {%- unless product.available -%}
-                  <span class="zsp__sold-out">Sold out</span>
-                {%- endunless -%}
-                <span class="zsp__discover">Discover this piece <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span>
-              </div>
-            </a>
-          </article>
+        {%- liquid
+          assign ordered_handles = s.first_product.handle | append: '|' | append: s.second_product.handle | append: '|' | append: s.third_product.handle | append: '|' | append: s.fourth_product.handle | split: '|'
+          assign shown_count = 0
+        -%}
+        {%- for preferred_handle in ordered_handles -%}
+          {%- if preferred_handle != blank -%}
+            {%- for product in featured_collection.products -%}
+              {%- if product.handle == preferred_handle -%}
+                {% render 'zs-best-seller-card', product: product, blocks: section.blocks, show_compare: s.show_compare %}
+                {%- assign shown_count = shown_count | plus: 1 -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for product in featured_collection.products -%}
+          {%- if shown_count >= 8 -%}{%- break -%}{%- endif -%}
+          {%- unless ordered_handles contains product.handle -%}
+            {% render 'zs-best-seller-card', product: product, blocks: section.blocks, show_compare: s.show_compare %}
+            {%- assign shown_count = shown_count | plus: 1 -%}
+          {%- endunless -%}
         {%- endfor -%}
       </div>
     {% endif %}
@@ -163,8 +124,8 @@
 .zsp__product{min-width:0;scroll-snap-align:start}
 .zsp__link{display:block;text-decoration:none;color:inherit;outline-offset:4px}
 .zsp__link:hover{color:inherit}
-.zsp__media{position:relative;display:block;overflow:hidden;isolation:isolate;aspect-ratio:1 / 1;border-radius:22px;background:#F8F5F1;box-shadow:none;border:0}
-.zsp__image{display:block;width:100%;height:100%;padding:12px;object-fit:contain;object-position:center center;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.zsp__media{position:relative;display:block;overflow:hidden;isolation:isolate;aspect-ratio:1 / 1;border-radius:22px;background:#FFFFFF;box-shadow:none;border:0}
+.zsp__image{display:block;width:100%;height:100%;padding:0;object-fit:contain;object-position:center center;transition:opacity .25s ease}
 .zsp__discount{position:absolute;top:12px;left:12px;z-index:2;display:inline-flex;align-items:center;justify-content:center;min-height:27px;padding:5px 9px;border-radius:7px;background:#35241B;color:#FFFFFF;font-size:11px;font-weight:600;line-height:1.2;letter-spacing:.015em;box-shadow:0 2px 7px rgba(43,29,23,.1)}
 .zsp__fallback{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:clamp(15px,2vw,26px);font-weight:300;letter-spacing:.23em;color:#A0836B}
 .zsp__image-arrow{position:absolute;right:13px;bottom:13px;width:37px;height:37px;display:grid;place-items:center;border:1px solid rgba(43,29,23,.09);border-radius:50%;background:rgba(255,255,255,.95);color:var(--zsp-walnut,#2B1D17);box-shadow:0 4px 12px rgba(43,29,23,.08);opacity:0;transform:translateY(6px);transition:transform .26s ease,opacity .26s ease,background .26s ease,color .26s ease}
@@ -184,7 +145,7 @@
 .zsp__shop-all:hover svg{transform:translate(2px,-2px)}
 .zsp a:focus-visible{outline:2px solid var(--zsp-accent,#D8B56A);outline-offset:4px}
 @media(hover:hover) and (pointer:fine){
- .zsp__link:hover .zsp__image{transform:scale(1.024)}
+ .zsp__link:hover .zsp__image{opacity:.96}
  .zsp__link:hover .zsp__image-arrow{opacity:1;transform:translateY(0);background:#2B1D17;color:var(--zsp-accent,#D8B56A)}
  .zsp__link:hover .zsp__discover{border-bottom-color:var(--zsp-accent,#D8B56A)}
  .zsp__link:hover .zsp__discover svg{transform:translate(2px,-2px)}
@@ -201,7 +162,7 @@
  .zsp__carousel-nav{display:none}
  .zsp__products{display:grid;grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 13px;overflow:visible;scroll-snap-type:none}
  .zsp__media{border-radius:16px}
- .zsp__image{padding:7px}
+ .zsp__image{padding:0}
  .zsp__discount{top:8px;left:8px;min-height:23px;padding:4px 7px;font-size:10px;border-radius:6px}
  .zsp__image-arrow{opacity:1;transform:none;width:33px;height:33px;right:9px;bottom:9px}
  .zsp__image-arrow svg{width:15px;height:15px}
@@ -309,6 +270,30 @@
       "type": "collection",
       "id": "collection",
       "label": "Products collection (up to 8)"
+    },
+    {
+      "type": "header",
+      "content": "Homepage first four products"
+    },
+    {
+      "type": "product",
+      "id": "first_product",
+      "label": "1. First: wall clock"
+    },
+    {
+      "type": "product",
+      "id": "second_product",
+      "label": "2. Second: horse statue"
+    },
+    {
+      "type": "product",
+      "id": "third_product",
+      "label": "3. Third: serving tray"
+    },
+    {
+      "type": "product",
+      "id": "fourth_product",
+      "label": "4. Fourth: ship decor"
     },
     {
       "type": "font_picker",

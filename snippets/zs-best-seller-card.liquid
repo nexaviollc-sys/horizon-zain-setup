@@ -1,0 +1,65 @@
+{% doc %}
+  Render one ZAISEN Best Sellers product card.
+  @param {product} product - Product from the featured collection
+  @param {array} blocks - Optional legacy product image and note overrides
+  @param {boolean} show_compare - Whether to show the compare-at price
+{% enddoc %}
+{%- liquid
+            assign main_image = product.featured_image
+            assign note_text = blank
+            for block in blocks
+              if block.settings.product.id == product.id
+                if block.settings.custom_image != blank
+                  assign main_image = block.settings.custom_image
+                endif
+                assign note_text = block.settings.note
+                break
+              endif
+            endfor
+
+            assign variant = product.selected_or_first_available_variant
+            assign display_price = product.price
+            assign compare_price = product.compare_at_price
+            if variant != blank
+              assign display_price = variant.price
+              assign compare_price = variant.compare_at_price
+            endif
+
+            assign discount_percent = 0
+            if compare_price != blank and compare_price > display_price and compare_price > 0
+              assign discount_percent = compare_price | minus: display_price | times: 100.0 | divided_by: compare_price | round
+            endif
+          -%}
+          <article class="zsp__product">
+            <a class="zsp__link" href="{{ product.url }}" aria-label="Discover {{ product.title | escape }}">
+              <div class="zsp__media">
+                {%- if main_image != blank -%}
+                  {{ main_image | image_url: width: 1100 | image_tag: class: 'zsp__image', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: product.title }}
+                {%- else -%}
+                  <span class="zsp__fallback" aria-hidden="true">ZAISEN</span>
+                {%- endif -%}
+                {%- if discount_percent > 0 -%}
+                  <span class="zsp__discount" aria-label="{{ discount_percent }} percent off">-{{ discount_percent }}%</span>
+                {%- endif -%}
+                <span class="zsp__image-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
+                </span>
+              </div>
+              <div class="zsp__details">
+                <h3 class="zsp__name">{{ product.title | escape }}</h3>
+                {%- if note_text != blank -%}
+                  <p class="zsp__note">{{ note_text | escape }}</p>
+                {%- endif -%}
+                <div class="zsp__prices">
+                  <span class="zsp__price-now">{{ display_price | money }}</span>
+                  {%- if show_compare and discount_percent > 0 -%}
+                    <s class="zsp__price-old">{{ compare_price | money }}</s>
+                  {%- endif -%}
+                </div>
+                {%- unless product.available -%}
+                  <span class="zsp__sold-out">Sold out</span>
+                {%- endunless -%}
+                <span class="zsp__discover">Discover this piece <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span>
+              </div>
+            </a>
+          </article>

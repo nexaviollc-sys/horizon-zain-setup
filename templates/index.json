@@ -232,7 +232,11 @@
         "wood_color": "#2b1d17",
         "padding_top": 60,
         "padding_bottom": 84,
-        "collection": "best-sellers"
+        "collection": "best-sellers",
+        "first_product": "wooden-ship-wheel-wall-clock",
+        "second_product": "handcrafted-wooden-horse-statue",
+        "third_product": "hand-carved-wooden-foldable-serving-tray",
+        "fourth_product": "handcrafted-wooden-ship-decor"
       }
     },
     "zs_story_journal_2026": {
