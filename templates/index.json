@@ -182,7 +182,7 @@
         "zs_why_wood": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/Rustic_Woodgrain_Still_Life.png",
+            "image": "shopify://shop_images/Rustic_Woodgrain_Still_Life.jpg",
             "title": "Pure Wood",
             "description": "Made from natural wood."
           }
@@ -190,7 +190,7 @@
         "zs_why_hand": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/Craftsman_Refining_a_Wooden_Horse.png",
+            "image": "shopify://shop_images/Craftsman_Refining_a_Wooden_Horse.jpg",
             "title": "Handcrafted",
             "description": "Carefully made by skilled hands."
           }
@@ -198,7 +198,7 @@
         "zs_why_care": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/Artisan_Bowl_Finishing_in_a_Sunlit_Workshop.png",
+            "image": "shopify://shop_images/Artisan_Bowl_Finishing_in_a_Sunlit_Workshop.jpg",
             "title": "Made with Care",
             "description": "Attention to the little details."
           }
@@ -455,12 +455,12 @@
         "heading_light": "More Than",
         "heading_bold": "Wood.",
         "intro_text": "Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth.",
-        "story_image": "shopify://shop_images/story.jpg",
+        "story_image": "shopify://shop_images/story_eaafa7f0-3752-4be5-a12a-9767bd49d445.jpg",
         "story_title": "Our Story",
         "story_text": "Get to know the people and passion behind ZAISEN.",
         "story_cta": "Discover Our Story",
         "story_link": "",
-        "journal_image": "shopify://shop_images/blogs.jpg",
+        "journal_image": "shopify://shop_images/blogs_500ebf86-a24e-4e91-ae91-8acccfaf3316.jpg",
         "journal_title": "Our Blog",
         "journal_text": "Explore ideas, inspiration, and stories about wooden living.",
         "journal_cta": "Explore Our Blog",
@@ -476,35 +476,6 @@
     },
     "zs_shipping_faq_2026": {
       "type": "zs-shipping-faq",
-      "name": "ZAISEN Shipping & FAQs",
-      "settings": {
-        "eyebrow": "ZAISEN CUSTOMER CARE",
-        "heading_light": "Shipping & Delivery,",
-        "heading_bold": "Made Simple.",
-        "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
-        "country_heading": "Estimated delivery by country",
-        "country_intro": "FREE shipping on all orders to these countries",
-        "free_label": "FREE",
-        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
-        "shipping_policy_label": "Shipping Policy",
-        "contact_eyebrow": "PERSONAL SUPPORT",
-        "contact_heading": "Need a hand?",
-        "contact_description": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help.",
-        "contact_button": "Contact Us",
-        "contact_link": "",
-        "faq_eyebrow": "GOOD TO KNOW",
-        "faq_heading": "Frequently Asked Questions",
-        "first_faq_open": false,
-        "refund_policy_label": "Read our Refund Policy",
-        "background": "#fcfaf7",
-        "card_background": "#ffffff",
-        "heading_color": "#2b1d17",
-        "text_color": "#80736a",
-        "accent_color": "#d8b56a",
-        "contact_background": "#2b1d17",
-        "padding_top": 72,
-        "padding_bottom": 88
-      },
       "blocks": {
         "shf_country_uk": {
           "type": "country",
@@ -625,7 +596,36 @@
         "shf_faq_wood",
         "shf_faq_choose",
         "shf_faq_damaged"
-      ]
+      ],
+      "name": "ZAISEN Shipping & FAQs",
+      "settings": {
+        "eyebrow": "ZAISEN CUSTOMER CARE",
+        "heading_light": "Shipping & Delivery,",
+        "heading_bold": "Made Simple.",
+        "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
+        "country_heading": "Estimated delivery by country",
+        "country_intro": "FREE shipping on all orders to these countries",
+        "free_label": "FREE",
+        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
+        "shipping_policy_label": "Shipping Policy",
+        "contact_eyebrow": "PERSONAL SUPPORT",
+        "contact_heading": "Need a hand?",
+        "contact_description": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help.",
+        "contact_button": "Contact Us",
+        "contact_link": "",
+        "faq_eyebrow": "GOOD TO KNOW",
+        "faq_heading": "Frequently Asked Questions",
+        "first_faq_open": false,
+        "refund_policy_label": "Read our Refund Policy",
+        "background": "#fcfaf7",
+        "card_background": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "contact_background": "#2b1d17",
+        "padding_top": 72,
+        "padding_bottom": 88
+      }
     }
   },
   "order": [
