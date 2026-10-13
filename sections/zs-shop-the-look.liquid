@@ -1,367 +1,253 @@
-{%- comment -%}
-  ZAISEN Shop the Look: responsive editorial merchandising.
-  - Real selected Shopify products, prices and destinations.
-  - If no room photograph is assigned, showcase exact product images instead
-    of pretending one product photo contains all selected items.
-  - When a room photo is added, hotspots become editable in Theme Editor.
-{%- endcomment -%}
-{%- liquid
+{% liquid
   assign s = section.settings
-  assign display_font = s.editorial_font
-  assign light_font = display_font | font_modify: 'weight', '300'
-  assign medium_font = display_font | font_modify: 'weight', '500'
-  assign semibold_font = display_font | font_modify: 'weight', '600'
-  assign bold_font = display_font | font_modify: 'weight', '700'
-  assign active_count = 0
+  assign lead_block = nil
+  assign num_items = 0
   for block in section.blocks
     if block.settings.product != blank
-      assign active_count = active_count | plus: 1
+      assign num_items = num_items | plus: 1
+      if lead_block == nil
+        assign lead_block = block
+      endif
     endif
   endfor
--%}
-{% if display_font != blank %}
-  {% style %}
-    {{ display_font | font_face: font_display: 'swap' }}
-    {% if light_font != blank %}{{ light_font | font_face: font_display: 'swap' }}{% endif %}
-    {% if medium_font != blank %}{{ medium_font | font_face: font_display: 'swap' }}{% endif %}
-    {% if semibold_font != blank %}{{ semibold_font | font_face: font_display: 'swap' }}{% endif %}
-    {% if bold_font != blank %}{{ bold_font | font_face: font_display: 'swap' }}{% endif %}
-    #zs-look-{{ section.id }} {font-family:{{ display_font.family | json }},{{ display_font.fallback_families }};}
-  {% endstyle %}
+  assign lead = lead_block.settings.product
+  assign typeface = s.editorial_font
+  assign font_light = typeface | font_modify: 'weight', '300'
+  assign font_semibold = typeface | font_modify: 'weight', '600'
+%}
+{% if typeface != blank %}
+{% style %}
+  {{ typeface | font_face: font_display: 'swap' }}
+  {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
+  {% if font_semibold != blank %}{{ font_semibold | font_face: font_display: 'swap' }}{% endif %}
+  #zs-kitchen-{{ section.id }}{font-family:{{ typeface.family | json }},{{ typeface.fallback_families }}}
+{% endstyle %}
 {% endif %}
 {% style %}
-  #zs-look-{{ section.id }} {
-    --zs-look-bg:{{ s.background }};
-    --zs-look-ink:{{ s.ink }};
-    --zs-look-muted:{{ s.muted }};
-    --zs-look-gold:{{ s.accent }};
-  }
+#zs-kitchen-{{ section.id }}{
+  --zk-bg:{{ s.background }};--zk-ink:{{ s.ink }};
+  --zk-muted:{{ s.muted }};--zk-gold:{{ s.accent }};
+  --zk-top:{{ s.padding_top }}px;--zk-bottom:{{ s.padding_bottom }}px;
+}
 {% endstyle %}
-{% if active_count > 0 %}
-<section id="zs-look-{{ section.id }}" class="zs-look" aria-labelledby="zs-look-heading-{{ section.id }}" data-zs-look>
-  <div class="zs-look__inner">
-    <header class="zs-look__header">
-      {% if s.eyebrow != blank %}
-        <p class="zs-look__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+{% if lead != blank %}
+<section id="zs-kitchen-{{ section.id }}" class="zs-kitchen" aria-labelledby="zs-kitchen-heading-{{ section.id }}">
+  <div class="zs-kitchen__wrap">
+    <header class="zs-kitchen__header">
+      <div class="zs-kitchen__intro-wrap">
+        {% if s.eyebrow != blank %}<p class="zs-kitchen__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>{% endif %}
+        <h2 class="zs-kitchen__heading" id="zs-kitchen-heading-{{ section.id }}"><span>{{ s.title_light | escape }}</span> <strong>{{ s.title_bold | escape }}</strong></h2>
+        {% if s.description != blank %}<p class="zs-kitchen__intro">{{ s.description | escape }}</p>{% endif %}
+      </div>
+      {% if s.collection != blank %}
+      <a class="zs-kitchen__collection-cta" href="{{ s.collection.url }}">{{ s.button_label | escape }}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg>
+      </a>
       {% endif %}
-      <div class="zs-look__header-row">
-        <h2 id="zs-look-heading-{{ section.id }}" class="zs-look__title">
-          <span>{{ s.title_light | escape }}</span>
-          <strong>{{ s.title_bold | escape }}</strong>
-        </h2>
-        {% if s.description != blank %}
-          <p class="zs-look__description">{{ s.description | escape }}</p>
-        {% endif %}
-      </div>
     </header>
-    <div class="zs-look__composition">
-      <div class="zs-look__visual">
-        {% if s.desktop_image != blank %}
-          <div class="zs-look__room">
-            <picture>
-              {% if s.mobile_image != blank %}
-                <source media="(max-width: 749px)" srcset="{{ s.mobile_image | image_url: width: 900 }}">
-              {% endif %}
-              {{ s.desktop_image | image_url: width: 1800 | image_tag: class: 'zs-look__scene-photo', loading: 'lazy', widths: '600,900,1200,1500,1800', sizes: '(min-width: 1000px) 60vw, 100vw', alt: s.image_alt }}
-            </picture>
-            {% assign chosen_index = 0 %}
-            {% for block in section.blocks %}
-              {% assign item = block.settings.product %}
-              {% if item != blank %}
-                <button
-                  type="button"
-                  class="zs-look__hotspot{% if chosen_index == 0 %} is-active{% endif %}"
-                  style="--zs-hx:{{ block.settings.hotspot_x }}%;--zs-hy:{{ block.settings.hotspot_y }}%;--zs-mx:{{ block.settings.mobile_hotspot_x }}%;--zs-my:{{ block.settings.mobile_hotspot_y }}%;"
-                  aria-label="View {{ item.title | escape }}"
-                  aria-pressed="{% if chosen_index == 0 %}true{% else %}false{% endif %}"
-                  data-zs-look-pick="{{ chosen_index }}"
-                  {{ block.shopify_attributes }}>
-                  <span aria-hidden="true">+</span>
-                </button>
-                {% assign chosen_index = chosen_index | plus: 1 %}
-              {% endif %}
-            {% endfor %}
-            <span class="zs-look__scene-label" aria-hidden="true">CURATED BY ZAISEN</span>
+    <div class="zs-kitchen__body{% if num_items == 1 %} zs-kitchen__body--single{% endif %}">
+      {% assign lead_picture = lead_block.settings.image_override | default: lead.featured_image %}
+      <article class="zs-kitchen__featured" {{ lead_block.shopify_attributes }}>
+        <div class="zs-kitchen__featured-photo">
+          <span class="zs-kitchen__number" aria-hidden="true">01 / 0{{ num_items }}</span>
+          <a href="{{ lead.url }}" aria-label="Shop {{ lead.title | escape }}" class="zs-kitchen__featured-image-link">
+            {% if lead_picture != blank %}
+              {{ lead_picture | image_url: width: 1400 | image_tag: class: 'zs-kitchen__featured-img', alt: lead.title, widths: '480,720,960,1200,1400', sizes: '(min-width: 950px) 48vw, 100vw', loading: 'lazy' }}
+            {% else %}<span class="zs-kitchen__no-image">ZAISEN</span>{% endif %}
+          </a>
+          {% if lead_block.settings.label != blank %}<span class="zs-kitchen__photo-label">{{ lead_block.settings.label | escape }}</span>{% endif %}
+        </div>
+        <div class="zs-kitchen__featured-details">
+          <div class="zs-kitchen__featured-copy">
+            <p class="zs-kitchen__type-label">{{ s.feature_label | escape }}</p>
+            <h3><a href="{{ lead.url }}">{{ lead.title | escape }}</a></h3>
+            <div class="zs-kitchen__price"><span>{{ lead.price | money }}</span>
+              {% if lead.compare_at_price > lead.price %}<s>{{ lead.compare_at_price | money }}</s>{% endif %}
+              {% unless lead.available %}<span class="zs-kitchen__sold-out">{{ s.sold_out_text | escape }}</span>{% endunless %}
+            </div>
           </div>
-        {% else %}
-          <div class="zs-look__mosaic" aria-label="Featured handcrafted wooden pieces from ZAISEN">
-            {% assign chosen_index = 0 %}
-            {% for block in section.blocks %}
-              {% assign item = block.settings.product %}
-              {% if item != blank %}
-                {% assign featured_photo = block.settings.image_override | default: item.featured_image %}
-                <div class="zs-look__mosaic-item{% if chosen_index == 0 %} is-active{% endif %}" data-zs-look-tile="{{ chosen_index }}">
-                  {% if featured_photo != blank %}
-                    {{ featured_photo | image_url: width: 900 | image_tag: class: 'zs-look__mosaic-image', loading: 'lazy', widths: '260,400,600,900', sizes: '(min-width: 1000px) 20vw, 30vw', alt: item.title }}
-                  {% else %}
-                    <div class="zs-look__photo-fallback">ZAISEN</div>
-                  {% endif %}
-                  <button
-                    class="zs-look__mosaic-hotspot"
-                    type="button"
-                    aria-label="View {{ item.title | escape }}"
-                    aria-pressed="{% if chosen_index == 0 %}true{% else %}false{% endif %}"
-                    data-zs-look-pick="{{ chosen_index }}"
-                    {{ block.shopify_attributes }}><span aria-hidden="true">+</span></button>
+          <a href="{{ lead.url }}" class="zs-kitchen__featured-arrow" aria-label="View {{ lead.title | escape }}"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></a>
+        </div>
+      </article>
+      {% if num_items > 1 %}
+      <div class="zs-kitchen__products" aria-label="{{ s.picks_label | escape }}">
+        {% for block in section.blocks %}
+          {% assign item = block.settings.product %}
+          {% if item != blank and block.id != lead_block.id %}
+            {% assign photo = block.settings.image_override | default: item.featured_image %}
+            <article class="zs-kitchen__product" {{ block.shopify_attributes }}>
+              <a href="{{ item.url }}" class="zs-kitchen__product-image-link" aria-label="Shop {{ item.title | escape }}">
+                {% if photo != blank %}
+                  {{ photo | image_url: width: 620 | image_tag: class: 'zs-kitchen__product-img', alt: item.title, widths: '220,350,500,620', sizes: '(min-width: 950px) 180px, 33vw', loading: 'lazy' }}
+                {% else %}<span class="zs-kitchen__no-image">ZAISEN</span>{% endif %}
+              </a>
+              <div class="zs-kitchen__product-copy">
+                {% if block.settings.label != blank %}<p class="zs-kitchen__type-label">{{ block.settings.label | escape }}</p>{% endif %}
+                <h3><a href="{{ item.url }}">{{ item.title | escape }}</a></h3>
+                <div class="zs-kitchen__price"><span>{{ item.price | money }}</span>
+                  {% if item.compare_at_price > item.price %}<s>{{ item.compare_at_price | money }}</s>{% endif %}
                 </div>
-                {% assign chosen_index = chosen_index | plus: 1 %}
-              {% endif %}
-            {% endfor %}
-            <span class="zs-look__mosaic-label" aria-hidden="true">THREE DISTINCTIVE PIECES · ZAISEN</span>
-          </div>
-        {% endif %}
+                {% unless item.available %}<span class="zs-kitchen__sold-out">{{ s.sold_out_text | escape }}</span>{% endunless %}
+              </div>
+              <a href="{{ item.url }}" class="zs-kitchen__product-arrow" aria-label="View {{ item.title | escape }}"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
+            </article>
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="zs-look__information">
-        <div class="zs-look__selection-heading">
-          <p class="zs-look__selection-eyebrow">{{ s.selected_eyebrow | escape }}</p>
-          <span class="zs-look__selection-count">
-            <span data-zs-look-current>01</span><span aria-hidden="true"> / </span>{{ active_count | prepend: '0' }}
-          </span>
-        </div>
-        <div class="zs-look__product-panels" aria-live="polite">
-          {% assign chosen_index = 0 %}
-          {% for block in section.blocks %}
-            {% assign item = block.settings.product %}
-            {% if item != blank %}
-              {% assign featured_photo = block.settings.image_override | default: item.featured_image %}
-              {% assign variant = item.selected_or_first_available_variant %}
-              {% assign item_price = variant.price | default: item.price %}
-              {% assign compare_price = variant.compare_at_price %}
-              <article class="zs-look__product" data-zs-look-panel="{{ chosen_index }}"{% unless chosen_index == 0 %} hidden{% endunless %}>
-                <a href="{{ item.url }}" class="zs-look__product-thumb" aria-label="View {{ item.title | escape }}">
-                  {% if featured_photo != blank %}
-                    {{ featured_photo | image_url: width: 570 | image_tag: class: 'zs-look__product-image', loading: 'lazy', widths: '250,400,570', sizes: '(min-width: 1000px) 240px, 48vw', alt: item.title }}
-                  {% else %}
-                    <span class="zs-look__product-fallback">ZAISEN</span>
-                  {% endif %}
-                </a>
-                <p class="zs-look__product-label">{{ block.settings.label | default: 'HANDCRAFTED WOODEN DÉCOR' | escape }}</p>
-                <h3 class="zs-look__product-title">{{ item.title | escape }}</h3>
-                <div class="zs-look__price-line">
-                  <span class="zs-look__price">{{ item_price | money }}</span>
-                  {% if compare_price > item_price %}
-                    <s class="zs-look__compare">{{ compare_price | money }}</s>
-                  {% endif %}
-                </div>
-                {% unless item.available %}
-                  <p class="zs-look__sold-out">Currently sold out</p>
-                {% endunless %}
-                <a class="zs-look__view-product" href="{{ item.url }}">
-                  View product
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="17" height="17" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
-                </a>
-              </article>
-              {% assign chosen_index = chosen_index | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-        </div>
-        <div class="zs-look__product-nav" role="group" aria-label="Select a featured ZAISEN product">
-          {% assign chosen_index = 0 %}
-          {% for block in section.blocks %}
-            {% assign item = block.settings.product %}
-            {% if item != blank %}
-              {% assign nav_image = block.settings.image_override | default: item.featured_image %}
-              <button class="zs-look__nav-button{% if chosen_index == 0 %} is-active{% endif %}"
-                type="button" data-zs-look-pick="{{ chosen_index }}"
-                aria-label="Select {{ item.title | escape }}"
-                aria-pressed="{% if chosen_index == 0 %}true{% else %}false{% endif %}">
-                {% if nav_image != blank %}
-                  {{ nav_image | image_url: width: 120 | image_tag: class: 'zs-look__nav-image', loading: 'lazy', widths: '80,120', sizes: '52px', alt: '' }}
-                {% else %}<span class="zs-look__nav-fallback">{{ chosen_index | plus: 1 }}</span>{% endif %}
-              </button>
-              {% assign chosen_index = chosen_index | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-        </div>
-        <p class="zs-look__footnote">Real pieces. Thoughtfully made from wood.</p>
-      </div>
+      {% endif %}
     </div>
+    {% if s.bottom_text != blank %}<p class="zs-kitchen__footnote">{{ s.bottom_text | escape }}</p>{% endif %}
+    {% if s.collection != blank %}
+      <a class="zs-kitchen__mobile-cta" href="{{ s.collection.url }}">{{ s.button_label | escape }}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg>
+      </a>
+    {% endif %}
   </div>
 </section>
 {% endif %}
 {% stylesheet %}
-.zs-look{background:var(--zs-look-bg,#FFFFFF);color:var(--zs-look-ink,#2B1D17);padding:clamp(64px,6vw,90px) 0 clamp(72px,7vw,98px)}
-.zs-look *{box-sizing:border-box}
-.zs-look__inner{max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,58px)}
-.zs-look__header{margin-bottom:clamp(26px,3.5vw,47px)}
-.zs-look__eyebrow{display:flex;align-items:center;gap:13px;margin:0 0 18px;color:#947255;font-weight:500;font-size:10px;line-height:1.5;letter-spacing:.17em;text-transform:uppercase}
-.zs-look__eyebrow span{display:block;width:28px;height:2px;flex:0 0 28px;background:var(--zs-look-gold,#D8B56A)}
-.zs-look__header-row{display:flex;justify-content:space-between;align-items:end;gap:36px}
-.zs-look__title{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:.22em;margin:0;font-family:inherit!important;font-size:clamp(37px,3.9vw,58px);letter-spacing:-.057em;line-height:1.13}
-.zs-look__title span{font-weight:300}
-.zs-look__title strong{font-weight:700}
-.zs-look__description{max-width:47ch;margin:0 0 5px;color:var(--zs-look-muted,#80736A);font-size:13px;line-height:1.77}
-.zs-look__composition{display:grid;grid-template-columns:minmax(0,1.58fr) minmax(280px,.88fr);gap:clamp(30px,4.2vw,66px);align-items:stretch}
-.zs-look__visual{min-width:0}
-.zs-look__room{position:relative;overflow:hidden;border-radius:19px;aspect-ratio:1.35/1;background:#F0E7DC}
-.zs-look__room picture,.zs-look__scene-photo{width:100%;height:100%;display:block}
-.zs-look__scene-photo{object-fit:cover;object-position:center}
-.zs-look__scene-label,.zs-look__mosaic-label{position:absolute;bottom:15px;left:17px;background:rgba(255,252,249,.94);color:#7E6149;font-size:9px;letter-spacing:.14em;padding:8px 12px;border-radius:5px;pointer-events:none}
-.zs-look__hotspot,.zs-look__mosaic-hotspot{
-  display:grid;place-items:center;border:1px solid #EADCCF;outline-offset:4px;border-radius:50%;
-  background:#FFF9F1;color:#503526;box-shadow:0 2px 9px rgba(47,28,18,.12);
-  width:36px;height:36px;padding:0;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;
-}
-.zs-look__hotspot{position:absolute;left:var(--zs-hx);top:var(--zs-hy);transform:translate(-50%,-50%);z-index:3}
-.zs-look__hotspot>span,.zs-look__mosaic-hotspot>span{font-size:24px;font-weight:300;line-height:1}
-.zs-look__hotspot:is(:hover,.is-active){background:#2B1D17;color:#FFF8F0;border-color:#2B1D17}
-.zs-look__mosaic-hotspot:is(:hover,.is-active){background:#2B1D17;color:#FFF8F0;border-color:#2B1D17}
-.zs-look__hotspot:focus-visible,.zs-look__mosaic-hotspot:focus-visible,.zs-look__nav-button:focus-visible{outline:2px solid var(--zs-look-gold,#D8B56A);outline-offset:4px}
-.zs-look__mosaic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;position:relative;aspect-ratio:1.35/1;background:#F3ECE4;overflow:hidden;border-radius:19px;padding:15px}
-.zs-look__mosaic-item{position:relative;min-width:0;overflow:hidden;border-radius:12px;background:#FCFAF7}
-.zs-look__mosaic-item.is-active{box-shadow:inset 0 0 0 1px rgba(125,84,55,.25)}
-.zs-look__mosaic-image{display:block;width:100%;height:100%;object-fit:contain}
-.zs-look__mosaic-hotspot{position:absolute;bottom:14px;right:14px;z-index:2}
-.zs-look__mosaic-label{left:28px;bottom:29px;z-index:3;font-size:8px}
-.zs-look__photo-fallback{display:grid;place-items:center;width:100%;height:100%;color:#A48567;font-size:20px;letter-spacing:.18em}
-.zs-look__information{min-width:0;display:flex;flex-direction:column;justify-content:space-between;border-top:1px solid #E8E0D7}
-.zs-look__selection-heading{display:flex;align-items:center;justify-content:space-between;padding-top:16px;gap:13px}
-.zs-look__selection-eyebrow{margin:0;color:#9A7759;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase}
-.zs-look__selection-count{font-size:11px;letter-spacing:.09em;color:var(--zs-look-muted,#80736A)}
-.zs-look__product-panels{margin:22px 0 18px}
-.zs-look__product[hidden]{display:none!important}
-.zs-look__product-thumb{display:block;width:min(100%,208px);height:clamp(135px,15vw,205px);overflow:hidden;margin-bottom:16px;border-radius:11px;background:#FAF7F2}
-.zs-look__product-image{display:block;width:100%;height:100%;object-fit:contain}
-.zs-look__product-fallback{display:grid;place-items:center;width:100%;height:100%;font-size:18px;letter-spacing:.2em;color:#A08466}
-.zs-look__product-label{margin:0 0 8px;color:#9C7859;font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
-.zs-look__product-title{margin:0;max-width:31ch;font-family:inherit!important;font-size:clamp(17px,1.35vw,22px);font-weight:600;line-height:1.4;letter-spacing:-.032em}
-.zs-look__price-line{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:12px}
-.zs-look__price{font-size:18px;font-weight:600;color:var(--zs-look-ink,#2B1D17)}
-.zs-look__compare{font-size:12px;color:#9B8E83}
-.zs-look__sold-out{margin:8px 0 0;color:#855D47;font-size:11px}
-.zs-look__view-product{display:inline-flex;align-items:center;justify-content:center;gap:19px;margin-top:20px;min-height:47px;padding:12px 20px;background:#2B1D17;border-radius:999px;color:#FFFFFF;text-decoration:none;font-size:12px;font-weight:600;transition:background .2s ease,transform .2s ease}
-.zs-look__view-product:hover{color:#FFFFFF;background:#50372A;transform:translateY(-1px)}
-.zs-look__product-nav{display:flex;align-items:center;gap:9px;border-top:1px solid #EBE5DD;padding-top:15px}
-.zs-look__nav-button{display:block;flex:0 0 56px;width:56px;height:56px;overflow:hidden;padding:3px;background:#FBF8F4;border:1px solid #E5DCD2;border-radius:9px;cursor:pointer;transition:border-color .2s ease}
-.zs-look__nav-button.is-active,.zs-look__nav-button:hover{border-color:#876346}
-.zs-look__nav-image{display:block;width:100%;height:100%;object-fit:contain}
-.zs-look__nav-fallback{display:grid;place-items:center;width:100%;height:100%;color:#896F58}
-.zs-look__footnote{margin:13px 0 0;color:#9A8C7D;font-size:10px;line-height:1.5}
-.zs-look a:focus-visible{outline:2px solid var(--zs-look-gold,#D8B56A);outline-offset:4px}
+.zs-kitchen{background:var(--zk-bg,#fff);color:var(--zk-ink,#2b1d17);padding:var(--zk-top,76px) 0 var(--zk-bottom,80px)}
+.zs-kitchen *{box-sizing:border-box}
+.zs-kitchen__wrap{width:100%;max-width:1440px;margin:auto;padding:0 clamp(18px,4vw,58px)}
+.zs-kitchen__header{display:flex;justify-content:space-between;align-items:flex-end;gap:34px;margin-bottom:32px}
+.zs-kitchen__intro-wrap{max-width:820px;min-width:0}
+.zs-kitchen__eyebrow{display:flex;gap:13px;align-items:center;margin:0 0 17px;color:#906d4d;letter-spacing:.16em;font-weight:600;font-size:10px;text-transform:uppercase}
+.zs-kitchen__eyebrow span{display:block;width:29px;height:2px;background:var(--zk-gold,#d8b56a)}
+.zs-kitchen__heading{margin:0;font-family:inherit!important;letter-spacing:-.05em;line-height:1.18;font-size:clamp(34px,3.8vw,56px)}
+.zs-kitchen__heading span{font-weight:300}
+.zs-kitchen__heading strong{font-weight:600}
+.zs-kitchen__intro{margin:14px 0 0;max-width:720px;color:var(--zk-muted,#80736a);font-size:13px;line-height:1.8}
+.zs-kitchen__collection-cta{display:inline-flex;align-items:center;gap:16px;flex-shrink:0;padding:0 0 11px;border-bottom:1px solid #cdbca7;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap;color:var(--zk-ink,#2b1d17)}
+.zs-kitchen__collection-cta svg,.zs-kitchen__mobile-cta svg{width:19px;height:19px}
+.zs-kitchen__collection-cta:hover{border-color:var(--zk-ink,#2b1d17)}
+.zs-kitchen__body{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,1fr);gap:17px}
+.zs-kitchen__body--single{grid-template-columns:1fr}
+.zs-kitchen__featured{min-width:0;display:flex;flex-direction:column;justify-content:space-between;background:#f7f3ed;border:1px solid #efe7dc;border-radius:18px;overflow:hidden}
+.zs-kitchen__featured-photo{position:relative;flex:1;min-height:310px}
+.zs-kitchen__number{position:absolute;top:23px;left:24px;z-index:1;font-size:10px;font-weight:600;letter-spacing:.16em;color:#8e7966}
+.zs-kitchen__featured-image-link{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:310px;padding:49px 32px 35px}
+.zs-kitchen__featured-img{display:block;max-height:355px;height:100%;width:100%;object-fit:contain;transition:transform .3s}
+.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img{transform:scale(1.026)}
+.zs-kitchen__photo-label{position:absolute;left:23px;bottom:19px;background:rgba(255,255,255,.86);padding:8px 12px;border-radius:5px;font-size:9px;font-weight:600;letter-spacing:.12em;color:#785a42}
+.zs-kitchen__featured-details{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fffdfb;border-top:1px solid #ede6dc;padding:25px 28px}
+.zs-kitchen__featured-copy{min-width:0}
+.zs-kitchen__type-label{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#96704e;font-weight:600;margin:0 0 8px}
+.zs-kitchen h3{font-family:inherit!important;letter-spacing:-.02em;line-height:1.4;margin:0}
+.zs-kitchen h3 a{color:var(--zk-ink,#2b1d17);text-decoration:none}
+.zs-kitchen h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.zs-kitchen__featured h3{font-size:clamp(16px,1.45vw,20px);font-weight:600}
+.zs-kitchen__price{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;color:#593f2c;font-size:14px;font-weight:600}
+.zs-kitchen__price s{font-size:11px;color:#9f9287;font-weight:400}
+.zs-kitchen__sold-out{color:#955943;font-size:10px;font-weight:500}
+.zs-kitchen__featured-arrow{flex:0 0 44px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;color:#fff;background:#2b1d17;transition:background .2s}
+.zs-kitchen__featured-arrow:hover{background:#59402e}
+.zs-kitchen__featured-arrow svg{width:19px;height:19px}
+.zs-kitchen__products{min-width:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:13px}
+.zs-kitchen__product{min-width:0;display:grid;grid-template-columns:minmax(125px,32%) minmax(0,1fr) 22px;align-items:center;gap:17px;border:1px solid #eee7de;background:#fcfaf7;border-radius:14px;overflow:hidden;min-height:151px;padding:9px 14px 9px 9px;transition:transform .2s,border-color .2s}
+.zs-kitchen__product:hover{transform:translateY(-2px);border-color:#dcc6ac}
+.zs-kitchen__product-image-link{display:flex;align-items:center;justify-content:center;align-self:stretch;min-height:132px;padding:10px;background:#f3eee8;border-radius:10px}
+.zs-kitchen__product-img{display:block;width:100%;height:100%;max-height:145px;object-fit:contain}
+.zs-kitchen__product-copy{min-width:0}
+.zs-kitchen__product h3{font-size:clamp(13px,1.12vw,16px);font-weight:600}
+.zs-kitchen__product .zs-kitchen__price{font-size:13px}
+.zs-kitchen__product-arrow{display:grid;place-items:center;width:22px;color:#76533d}
+.zs-kitchen__product-arrow svg{width:20px;height:20px}
+.zs-kitchen__no-image{display:grid;place-items:center;width:100%;min-height:125px;color:#a28a72;letter-spacing:.18em}
+.zs-kitchen__footnote{font-size:11px;color:#998a7d;margin:17px 0 0;line-height:1.7}
+.zs-kitchen__mobile-cta{display:none}
+.zs-kitchen a:focus-visible{outline:2px solid var(--zk-gold,#d8b56a);outline-offset:4px}
 @media(max-width:1100px){
- .zs-look__composition{grid-template-columns:minmax(0,1.5fr) minmax(265px,1fr);gap:27px}
- .zs-look__header-row{display:block}
- .zs-look__description{margin:13px 0 0}
- .zs-look__product-panels{margin:16px 0}
+.zs-kitchen__body{grid-template-columns:1fr 1fr}
+.zs-kitchen__product{grid-template-columns:minmax(100px,32%) minmax(0,1fr) 18px;gap:11px;padding-right:9px}
+.zs-kitchen__featured-details{padding:20px}
+}
+@media(max-width:850px){
+.zs-kitchen__header{display:block}
+.zs-kitchen__collection-cta{margin-top:17px}
+.zs-kitchen__body{grid-template-columns:1fr}
+.zs-kitchen__products{grid-template-rows:repeat(3,auto)}
+.zs-kitchen__product{grid-template-columns:145px minmax(0,1fr) 25px;min-height:136px}
 }
 @media(max-width:749px){
- .zs-look{padding:53px 0 63px}
- .zs-look__inner{padding:0 16px}
- .zs-look__header{margin-bottom:25px}
- .zs-look__eyebrow{font-size:9px;margin-bottom:14px}
- .zs-look__title{font-size:clamp(35px,8.8vw,49px)}
- .zs-look__description{font-size:12px;line-height:1.7}
- .zs-look__composition{display:block}
- .zs-look__room,.zs-look__mosaic{aspect-ratio:1.15/1;border-radius:15px}
- .zs-look__mosaic{padding:9px;gap:6px}
- .zs-look__mosaic-item{border-radius:9px}
- .zs-look__mosaic-label{left:14px;bottom:14px;padding:6px 7px;font-size:7px}
- .zs-look__hotspot{left:var(--zs-mx);top:var(--zs-my);width:31px;height:31px}
- .zs-look__mosaic-hotspot{width:29px;height:29px;bottom:7px;right:7px}
- .zs-look__hotspot>span,.zs-look__mosaic-hotspot>span{font-size:21px}
- .zs-look__scene-label{left:10px;bottom:10px;padding:7px 8px;font-size:8px}
- .zs-look__information{margin-top:22px}
- .zs-look__product-panels{margin:15px 0}
- .zs-look__product{display:grid;grid-template-columns:108px minmax(0,1fr);column-gap:16px;align-content:start}
- .zs-look__product-thumb{grid-column:1;grid-row:1/span 5;width:108px;height:132px;margin:0}
- .zs-look__product-label,.zs-look__product-title,.zs-look__price-line,.zs-look__sold-out,.zs-look__view-product{grid-column:2}
- .zs-look__product-title{font-size:14px;line-height:1.45}
- .zs-look__product-label{font-size:8px;margin-bottom:5px}
- .zs-look__price-line{margin-top:7px}
- .zs-look__price{font-size:15px}
- .zs-look__view-product{justify-self:start;min-height:35px;padding:9px 13px;margin-top:12px;gap:9px;font-size:10px}
- .zs-look__product-nav{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-top:12px}
- .zs-look__nav-button{scroll-snap-align:start;flex-basis:52px;width:52px;height:52px}
- .zs-look__footnote{font-size:9px}
+.zs-kitchen{padding-top:min(var(--zk-top,60px),60px);padding-bottom:min(var(--zk-bottom,60px),65px)}
+.zs-kitchen__wrap{padding:0 16px}
+.zs-kitchen__header{margin-bottom:22px}
+.zs-kitchen__eyebrow{font-size:9px;margin-bottom:13px}
+.zs-kitchen__heading{font-size:clamp(30px,8.1vw,44px)}
+.zs-kitchen__intro{font-size:12px;line-height:1.75;margin-top:12px}
+.zs-kitchen__collection-cta{display:none}
+.zs-kitchen__body{gap:11px}
+.zs-kitchen__featured{border-radius:14px}
+.zs-kitchen__featured-photo{min-height:270px;height:270px}
+.zs-kitchen__featured-image-link{min-height:270px;padding:35px 23px 24px}
+.zs-kitchen__featured-img{max-height:240px}
+.zs-kitchen__number{left:17px;top:17px}
+.zs-kitchen__photo-label{left:15px;bottom:13px;padding:6px 9px;font-size:8px}
+.zs-kitchen__featured-details{padding:17px}
+.zs-kitchen__featured h3{font-size:15px}
+.zs-kitchen__featured-arrow{flex-basis:38px;width:38px;height:38px}
+.zs-kitchen__products{gap:10px}
+.zs-kitchen__product{grid-template-columns:110px minmax(0,1fr) 17px;min-height:125px;gap:10px;padding:7px 9px 7px 7px;border-radius:11px}
+.zs-kitchen__product-image-link{min-height:111px;padding:8px;border-radius:7px}
+.zs-kitchen__product-img{max-height:107px}
+.zs-kitchen__product h3{font-size:12px}
+.zs-kitchen__product .zs-kitchen__type-label{font-size:8px;margin-bottom:5px}
+.zs-kitchen__product .zs-kitchen__price{font-size:12px;gap:5px;margin-top:6px}
+.zs-kitchen__product .zs-kitchen__price s{font-size:10px}
+.zs-kitchen__product-arrow,.zs-kitchen__product-arrow svg{width:17px}
+.zs-kitchen__footnote{font-size:10px}
+.zs-kitchen__mobile-cta{display:flex;align-items:center;justify-content:space-between;margin-top:19px;background:#2b1d17;color:#fff;padding:14px 17px;text-decoration:none;font-weight:600;font-size:12px;border-radius:9px}
+}
+@media(max-width:390px){
+.zs-kitchen__product{grid-template-columns:92px minmax(0,1fr) 16px;gap:8px}
 }
 @media(prefers-reduced-motion:reduce){
- .zs-look__hotspot,.zs-look__mosaic-hotspot,.zs-look__nav-button,.zs-look__view-product{transition:none}
+.zs-kitchen__featured-img,.zs-kitchen__product{transition:none}
+.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img,.zs-kitchen__product:hover{transform:none}
 }
 {% endstylesheet %}
-{% javascript %}
-(function(){
-  function initShopTheLook(){
-    document.querySelectorAll('[data-zs-look]').forEach(function(section){
-      if(section.dataset.zsLookReady === 'true')return;
-      section.dataset.zsLookReady = 'true';
-      var controls = Array.prototype.slice.call(section.querySelectorAll('[data-zs-look-pick]'));
-      var panels = Array.prototype.slice.call(section.querySelectorAll('[data-zs-look-panel]'));
-      var tiles = Array.prototype.slice.call(section.querySelectorAll('[data-zs-look-tile]'));
-      var counter = section.querySelector('[data-zs-look-current]');
-      function pick(index){
-        if(!panels[index])return;
-        panels.forEach(function(panel,i){panel.hidden=(i!==index)});
-        controls.forEach(function(control){
-          var isActive=Number(control.getAttribute('data-zs-look-pick'))===index;
-          control.classList.toggle('is-active',isActive);
-          control.setAttribute('aria-pressed',isActive?'true':'false');
-        });
-        tiles.forEach(function(tile){
-          tile.classList.toggle('is-active',Number(tile.getAttribute('data-zs-look-tile'))===index);
-        });
-        if(counter)counter.textContent=String(index+1).padStart(2,'0');
-      }
-      controls.forEach(function(control){
-        control.addEventListener('click',function(){
-          pick(Number(control.getAttribute('data-zs-look-pick')));
-        });
-      });
-      pick(0);
-    });
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',initShopTheLook,{once:true});
-  }else{
-    initShopTheLook();
-  }
-  document.addEventListener('shopify:section:load',initShopTheLook);
-})();
-{% endjavascript %}
 {% schema %}
 {
-  "name":"ZAISEN Shop the Look",
+  "name":"ZAISEN Kitchen Edit",
   "tag":"section",
   "class":"section-zs-shop-the-look",
   "max_blocks":4,
   "settings":[
-    {"type":"header","content":"Heading"},
-    {"type":"text","id":"eyebrow","label":"Small heading","default":"THE ZAISEN EDIT"},
-    {"type":"text","id":"title_light","label":"Light heading","default":"Beautiful Spaces."},
-    {"type":"text","id":"title_bold","label":"Bold heading","default":"Natural Details."},
-    {"type":"textarea","id":"description","label":"SEO-friendly introduction","default":"See how handcrafted wooden home decor brings warmth, character, and natural detail into your space. Explore the ZAISEN pieces behind the look."},
-    {"type":"text","id":"selected_eyebrow","label":"Product panel label","default":"THE FEATURED PIECES"},
-    {"type":"header","content":"Lifestyle room image"},
-    {"type":"image_picker","id":"desktop_image","label":"Desktop room photo (enables hotspots)"},
-    {"type":"image_picker","id":"mobile_image","label":"Optional mobile room photo"},
-    {"type":"text","id":"image_alt","label":"Room image alt text","default":"ZAISEN handcrafted wooden home decor styled together in a warm interior"},
-    {"type":"paragraph","content":"Until you add a room photo, this section presents your real selected product images in a premium editorial layout. When you add the photo, the editable hotspots appear."},
+    {"type":"header","content":"Kitchen editorial heading"},
+    {"type":"text","id":"eyebrow","label":"Small heading","default":"THE ZAISEN KITCHEN EDIT"},
+    {"type":"text","id":"title_light","label":"Heading (light)","default":"Handcrafted Wooden"},
+    {"type":"text","id":"title_bold","label":"Heading (bold)","default":"Kitchen & Dining Essentials"},
+    {"type":"textarea","id":"description","label":"SEO introduction","default":"Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood."},
+    {"type":"collection","id":"collection","label":"Kitchen collection"},
+    {"type":"text","id":"button_label","label":"Collection link label","default":"Shop Kitchen & Dining"},
+    {"type":"text","id":"feature_label","label":"Featured label","default":"FEATURED KITCHEN PIECE"},
+    {"type":"text","id":"picks_label","label":"Product list label","default":"Featured handcrafted wooden kitchen accessories"},
+    {"type":"text","id":"sold_out_text","label":"Sold-out label","default":"Sold out"},
+    {"type":"text","id":"bottom_text","label":"Supporting caption","default":"Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table."},
     {"type":"header","content":"Style"},
-    {"type":"font_picker","id":"editorial_font","label":"Text font","default":"poppins_n4"},
+    {"type":"font_picker","id":"editorial_font","label":"Font","default":"poppins_n4"},
     {"type":"color","id":"background","label":"Background","default":"#FFFFFF"},
-    {"type":"color","id":"ink","label":"Text","default":"#2B1D17"},
-    {"type":"color","id":"muted","label":"Body text","default":"#80736A"},
-    {"type":"color","id":"accent","label":"Gold accent","default":"#D8B56A"}
+    {"type":"color","id":"ink","label":"Heading color","default":"#2B1D17"},
+    {"type":"color","id":"muted","label":"Body text color","default":"#80736A"},
+    {"type":"color","id":"accent","label":"Accent color","default":"#D8B56A"},
+    {"type":"range","id":"padding_top","label":"Top spacing","min":20,"max":140,"step":4,"unit":"px","default":76},
+    {"type":"range","id":"padding_bottom","label":"Bottom spacing","min":20,"max":140,"step":4,"unit":"px","default":80}
   ],
   "blocks":[{
-    "type":"product","name":"Hotspot product",
+    "type":"product","name":"Kitchen product",
     "settings":[
-      {"type":"product","id":"product","label":"ZAISEN product"},
-      {"type":"text","id":"label","label":"Small product label","default":"HANDCRAFTED WOODEN DÉCOR"},
-      {"type":"image_picker","id":"image_override","label":"Optional product image override"},
-      {"type":"header","content":"Desktop hotspot position"},
-      {"type":"range","id":"hotspot_x","label":"Left to right","min":5,"max":95,"step":1,"unit":"%","default":50},
-      {"type":"range","id":"hotspot_y","label":"Top to bottom","min":5,"max":95,"step":1,"unit":"%","default":50},
-      {"type":"header","content":"Mobile hotspot position"},
-      {"type":"range","id":"mobile_hotspot_x","label":"Left to right (mobile)","min":5,"max":95,"step":1,"unit":"%","default":50},
-      {"type":"range","id":"mobile_hotspot_y","label":"Top to bottom (mobile)","min":5,"max":95,"step":1,"unit":"%","default":50}
+      {"type":"product","id":"product","label":"Selected product"},
+      {"type":"text","id":"label","label":"Small category title","default":"HANDCRAFTED KITCHENWARE"},
+      {"type":"image_picker","id":"image_override","label":"Alternate product photo (optional)"}
     ]
   }],
   "presets":[{
-    "name":"ZAISEN Shop the Look",
+    "name":"ZAISEN Kitchen Edit",
     "blocks":[
-      {"type":"product","settings":{"label":"WALL DÉCOR","hotspot_x":22,"hotspot_y":28,"mobile_hotspot_x":30,"mobile_hotspot_y":20}},
-      {"type":"product","settings":{"label":"SCULPTURAL DÉCOR","hotspot_x":52,"hotspot_y":62,"mobile_hotspot_x":55,"mobile_hotspot_y":64}},
-      {"type":"product","settings":{"label":"AMBIENT LIGHTING","hotspot_x":82,"hotspot_y":42,"mobile_hotspot_x":84,"mobile_hotspot_y":43}}
+      {"type":"product","settings":{"label":"WOODEN SERVING TRAYS"}},
+      {"type":"product","settings":{"label":"WOODEN BOWL SETS"}},
+      {"type":"product","settings":{"label":"WOODEN DRINKWARE"}},
+      {"type":"product","settings":{"label":"KITCHEN STORAGE"}}
     ]
   }]
 }
