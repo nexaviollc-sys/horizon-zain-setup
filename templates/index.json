@@ -289,14 +289,13 @@
       "name": "ZAISEN Delivery Marquee",
       "settings": {
         "message_1": "FREE WORLDWIDE SHIPPING",
-        "message_2": "SECURE SHIPPING",
-        "message_3": "FAST SHIPPING",
-        "message_4": "UK DELIVERY: APPROX. 6 DAYS",
-        "message_5": "OTHER COUNTRIES: APPROX. 9 DAYS",
-        "message_6": "24/7 CUSTOMER SUPPORT",
-        "background": "#F5EFE6",
-        "text_color": "#654733",
-        "accent_color": "#B9945C",
+        "message_2": "24/7 SUPPORT",
+        "message_3": "14-DAY REFUNDS",
+        "message_4": "SECURE PAYMENT",
+
+        "background": "#2B1D17",
+        "text_color": "#F7F3EE",
+        "accent_color": "#D8B56A",
         "height": 54,
         "duration": 45
       }
