@@ -176,6 +176,51 @@
         "button_link": ""
       }
     },
+    "zs_why_zaisen_2026": {
+      "type": "zs-why-zaisen",
+      "blocks": {
+        "zs_why_wood": {
+          "type": "feature",
+          "settings": {
+            "title": "Pure Wood",
+            "description": "Made from natural wood."
+          }
+        },
+        "zs_why_hand": {
+          "type": "feature",
+          "settings": {
+            "title": "Handcrafted",
+            "description": "Carefully made by skilled hands."
+          }
+        },
+        "zs_why_care": {
+          "type": "feature",
+          "settings": {
+            "title": "Made with Care",
+            "description": "Attention to the little details."
+          }
+        }
+      },
+      "block_order": [
+        "zs_why_wood",
+        "zs_why_hand",
+        "zs_why_care"
+      ],
+      "name": "ZAISEN Why Choose Us",
+      "settings": {
+        "eyebrow": "THE ZAISEN DIFFERENCE",
+        "heading_light": "Made with",
+        "heading_bold": "Care.",
+        "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
+        "editorial_font": "poppins_n4",
+        "bg_color": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "padding_top": 44,
+        "padding_bottom": 44
+      }
+    },
     "zs_best_sellers_alt_4x": {
       "type": "zs-best-sellers-alt",
       "blocks": {
@@ -219,6 +264,11 @@
         "eyebrow": "ZAISEN FAVORITES",
         "heading": "Our",
         "heading_emphasis": "Best Sellers.",
+        "collection": "best-sellers",
+        "first_product": "wooden-ship-wheel-wall-clock",
+        "second_product": "handcrafted-wooden-horse-statue",
+        "third_product": "hand-carved-wooden-foldable-serving-tray",
+        "fourth_product": "handcrafted-wooden-ship-decor",
         "editorial_font": "poppins_n4",
         "text": "Thoughtfully handcrafted pieces that bring warmth, character, and timeless beauty into your home.",
         "button_label": "Shop Best Sellers",
@@ -231,81 +281,8 @@
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
         "padding_top": 60,
-        "padding_bottom": 84,
-        "collection": "best-sellers",
-        "first_product": "wooden-ship-wheel-wall-clock",
-        "second_product": "handcrafted-wooden-horse-statue",
-        "third_product": "hand-carved-wooden-foldable-serving-tray",
-        "fourth_product": "handcrafted-wooden-ship-decor"
+        "padding_bottom": 84
       }
-    },
-    "zs_story_journal_2026": {
-      "type": "zs-story-journal",
-      "name": "ZAISEN Story & Journal",
-      "settings": {
-        "eyebrow": "DISCOVER MORE ABOUT ZAISEN",
-        "heading_light": "More Than",
-        "heading_bold": "Wood.",
-        "intro_text": "Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth.",
-        "story_title": "Our Story",
-        "story_text": "Get to know the people and passion behind ZAISEN.",
-        "story_cta": "Discover Our Story",
-        "journal_title": "Our Blog",
-        "journal_text": "Explore ideas, inspiration, and stories about wooden living.",
-        "journal_cta": "Explore Our Blog",
-        "editorial_font": "poppins_n4",
-        "bg_color": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "padding_top": 72,
-        "padding_bottom": 76
-      }
-    },
-    "zs_why_zaisen_2026": {
-      "type": "zs-why-zaisen",
-      "name": "ZAISEN Why Choose Us",
-      "settings": {
-        "eyebrow": "THE ZAISEN DIFFERENCE",
-        "heading_light": "Made with",
-        "heading_bold": "Care.",
-        "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
-        "editorial_font": "poppins_n4",
-        "bg_color": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "padding_top": 44,
-        "padding_bottom": 44
-      },
-      "blocks": {
-        "zs_why_wood": {
-          "type": "feature",
-          "settings": {
-            "title": "Pure Wood",
-            "description": "Made from natural wood."
-          }
-        },
-        "zs_why_hand": {
-          "type": "feature",
-          "settings": {
-            "title": "Handcrafted",
-            "description": "Carefully made by skilled hands."
-          }
-        },
-        "zs_why_care": {
-          "type": "feature",
-          "settings": {
-            "title": "Made with Care",
-            "description": "Attention to the little details."
-          }
-        }
-      },
-      "block_order": [
-        "zs_why_wood",
-        "zs_why_hand",
-        "zs_why_care"
-      ]
     },
     "zs_real_homes_2026": {
       "type": "zs-loved-in-real-homes",
@@ -318,6 +295,9 @@
             "title": "Sculptural Wooden Horse",
             "caption": "A handcrafted rearing horse sculpture that brings natural character to living rooms, shelves and consoles.",
             "show_review": false,
+            "quote": "",
+            "customer": "",
+            "location": "",
             "rating": 0
           }
         },
@@ -329,6 +309,9 @@
             "title": "Nautical Ship Display",
             "caption": "A handcrafted wooden ship display model for timeless nautical styling on shelves, desks and consoles.",
             "show_review": false,
+            "quote": "",
+            "customer": "",
+            "location": "",
             "rating": 0
           }
         },
@@ -340,6 +323,9 @@
             "title": "Coastal Dolphin Lighting",
             "caption": "An ocean-inspired handcrafted wooden dolphin table lamp for soft ambient light and coastal home decor.",
             "show_review": false,
+            "quote": "",
+            "customer": "",
+            "location": "",
             "rating": 0
           }
         }
@@ -359,45 +345,17 @@
         "button_label": "Shop Home Decor",
         "product_label": "Explore this piece",
         "editorial_font": "poppins_n4",
-        "background": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "card_color": "#F8F5F0",
+        "background": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "card_color": "#f8f5f0",
         "padding_top": 64,
         "padding_bottom": 72
       }
     },
     "zs_shop_the_look_2026": {
       "type": "zs-shop-the-look",
-      "name": "ZAISEN Kitchen Edit",
-      "settings": {
-        "eyebrow": "THE ZAISEN KITCHEN EDIT",
-        "title_light": "Handcrafted Wooden",
-        "title_bold": "Kitchen & Dining Essentials",
-        "description": "Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood.",
-        "collection": "kitchen-dining",
-        "button_label": "Shop Kitchen & Dining",
-        "feature_label": "FEATURED KITCHEN PIECE",
-        "picks_label": "Featured handcrafted wooden kitchen accessories",
-        "sold_out_text": "Sold out",
-        "show_carousel": true,
-        "carousel_eyebrow": "COMPLETE THE TABLE",
-        "carousel_title": "More for Your Table",
-        "carousel_description": "Explore more handcrafted wooden kitchen and dining pieces, from serving sets to everyday essentials.",
-        "carousel_product_button": "View Product",
-        "show_urgency": false,
-        "urgency_product": "",
-        "urgency_threshold": 15,
-        "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
-        "editorial_font": "poppins_n4",
-        "background": "#FFFFFF",
-        "ink": "#2B1D17",
-        "muted": "#80736A",
-        "accent": "#D8B56A",
-        "padding_top": 76,
-        "padding_bottom": 80
-      },
       "blocks": {
         "k_trays": {
           "type": "product",
@@ -441,7 +399,62 @@
         "k_drinks",
         "k_storage",
         "k_cutlery"
-      ]
+      ],
+      "name": "ZAISEN Kitchen Edit",
+      "settings": {
+        "eyebrow": "THE ZAISEN KITCHEN EDIT",
+        "title_light": "Handcrafted Wooden",
+        "title_bold": "Kitchen & Dining Essentials",
+        "description": "Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood.",
+        "collection": "kitchen-dining",
+        "button_label": "Shop Kitchen & Dining",
+        "feature_label": "FEATURED KITCHEN PIECE",
+        "picks_label": "Featured handcrafted wooden kitchen accessories",
+        "sold_out_text": "Sold out",
+        "show_carousel": true,
+        "carousel_eyebrow": "COMPLETE THE TABLE",
+        "carousel_title": "More for Your Table",
+        "carousel_description": "Explore more handcrafted wooden kitchen and dining pieces, from serving sets to everyday essentials.",
+        "carousel_product_button": "View Product",
+        "show_urgency": false,
+        "urgency_product": "",
+        "urgency_threshold": 15,
+        "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
+        "editorial_font": "poppins_n4",
+        "background": "#ffffff",
+        "ink": "#2b1d17",
+        "muted": "#80736a",
+        "accent": "#d8b56a",
+        "padding_top": 76,
+        "padding_bottom": 80
+      }
+    },
+    "zs_story_journal_2026": {
+      "type": "zs-story-journal",
+      "name": "ZAISEN Story & Journal",
+      "settings": {
+        "eyebrow": "DISCOVER MORE ABOUT ZAISEN",
+        "heading_light": "More Than",
+        "heading_bold": "Wood.",
+        "intro_text": "Meet the people behind ZAISEN and find inspiration for a home filled with natural warmth.",
+        "story_image": "shopify://shop_images/story.jpg",
+        "story_title": "Our Story",
+        "story_text": "Get to know the people and passion behind ZAISEN.",
+        "story_cta": "Discover Our Story",
+        "story_link": "",
+        "journal_image": "shopify://shop_images/blogs.jpg",
+        "journal_title": "Our Blog",
+        "journal_text": "Explore ideas, inspiration, and stories about wooden living.",
+        "journal_cta": "Explore Our Blog",
+        "journal_link": "",
+        "editorial_font": "poppins_n4",
+        "bg_color": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "padding_top": 72,
+        "padding_bottom": 76
+      }
     }
   },
   "order": [
