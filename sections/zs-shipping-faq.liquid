@@ -1,0 +1,574 @@
+{%- comment -%}
+  ZAISEN Shipping & FAQ — country estimates match the published shipping policy (October 2026).
+  Native details accordions: keyboard accessible, no extra JavaScript.
+  Free shipping badges refer to eligible orders in supported countries, not an unconditional global promise.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign contact_href = s.contact_link
+  if contact_href == blank
+    assign contact_page = pages['contact']
+    if contact_page != blank
+      assign contact_href = contact_page.url
+    else
+      assign contact_href = '/pages/contact'
+    endif
+  endif
+-%}
+{% style %}
+  #zs-shf-{{ section.id }}{
+    --zs-shf-bg:{{ s.background }};
+    --zs-shf-card:{{ s.card_background }};
+    --zs-shf-ink:{{ s.heading_color }};
+    --zs-shf-muted:{{ s.text_color }};
+    --zs-shf-accent:{{ s.accent_color }};
+    --zs-shf-contact:{{ s.contact_background }};
+    --zs-shf-top:{{ s.padding_top }}px;
+    --zs-shf-bottom:{{ s.padding_bottom }}px;
+  }
+{% endstyle %}
+<section class="zs-shf" id="zs-shf-{{ section.id }}" aria-labelledby="zs-shf-title-{{ section.id }}">
+  <div class="zs-shf__container">
+    <header class="zs-shf__header">
+      {%- if s.eyebrow != blank -%}
+        <p class="zs-shf__eyebrow"><span class="zs-shf__eyebrow-line" aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 class="zs-shf__heading" id="zs-shf-title-{{ section.id }}">
+        <span>{{ s.heading_light | escape }}</span> <strong>{{ s.heading_bold | escape }}</strong>
+      </h2>
+      {%- if s.intro != blank -%}
+        <p class="zs-shf__intro">{{ s.intro | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="zs-shf__delivery">
+      <div class="zs-shf__subhead">
+        <h3>{{ s.country_heading | escape }}</h3>
+        <p>{{ s.country_intro | escape }}</p>
+      </div>
+      <div class="zs-shf__countries" role="list" aria-label="Estimated ZAISEN delivery by country">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'country' -%}
+            <div class="zs-shf__country" role="listitem" {{ block.shopify_attributes }}>
+              <div class="zs-shf__country-name">
+                <span class="zs-shf__flag" aria-hidden="true">{{ block.settings.flag | escape }}</span>
+                <span class="zs-shf__country-title">{{ block.settings.country_name | escape }}</span>
+              </div>
+              <div class="zs-shf__country-bottom">
+                <span class="zs-shf__time"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path stroke-linecap="round" d="M10 5.5v4.8l3.2 2"/></svg>{{ block.settings.delivery_time | escape }}</span>
+                <span class="zs-shf__free" aria-label="Free shipping for eligible orders">{{ s.free_label | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="zs-shf__delivery-note">
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path stroke-linecap="round" d="M10 9v4.5M10 5.7v.4"/></svg>
+        <span>{{ s.shipping_note | escape }}
+          {%- if shop.shipping_policy != blank -%}
+            <a href="{{ shop.shipping_policy.url }}">{{ s.shipping_policy_label | escape }}</a>
+          {%- endif -%}
+        </span>
+      </div>
+    </div>
+
+    <div class="zs-shf__support">
+      <aside class="zs-shf__contact" aria-labelledby="zs-shf-contact-{{ section.id }}">
+        <span class="zs-shf__contact-glow" aria-hidden="true"></span>
+        <span class="zs-shf__contact-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="27" height="27" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17v-2a11 11 0 0 1 22 0v2"/><rect x="3.5" y="16" width="5" height="9" rx="2"/><rect x="23.5" y="16" width="5" height="9" rx="2"/><path d="M26 25c0 3-4 4.5-9 4.5h-2"/><rect x="12" y="27.5" width="5" height="3" rx="1.5"/></svg>
+        </span>
+        <div class="zs-shf__contact-copy">
+          <p class="zs-shf__contact-eyebrow">{{ s.contact_eyebrow | escape }}</p>
+          <h3 id="zs-shf-contact-{{ section.id }}">{{ s.contact_heading | escape }}</h3>
+          <p>{{ s.contact_description | escape }}</p>
+        </div>
+        <a href="{{ contact_href }}" class="zs-shf__contact-link">
+          <span>{{ s.contact_button | escape }}</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
+        </a>
+      </aside>
+
+      <div class="zs-shf__faq" aria-labelledby="zs-shf-faq-title-{{ section.id }}">
+        <p class="zs-shf__faq-eyebrow">{{ s.faq_eyebrow | escape }}</p>
+        <h3 id="zs-shf-faq-title-{{ section.id }}" class="zs-shf__faq-heading">{{ s.faq_heading | escape }}</h3>
+        <div class="zs-shf__faq-list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'faq' -%}
+              <details class="zs-shf__faq-item" {{ block.shopify_attributes }}{% if forloop.first and s.first_faq_open %} open{% endif %}>
+                <summary class="zs-shf__question">
+                  <span>{{ block.settings.question | escape }}</span>
+                  <span class="zs-shf__faq-toggle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path class="zs-shf__vertical" d="M12 5v14"/></svg>
+                  </span>
+                </summary>
+                <div class="zs-shf__answer">
+                  <p>{{ block.settings.answer | escape | newline_to_br }}</p>
+                  {%- if block.settings.show_refund_link and shop.refund_policy != blank -%}
+                    <a href="{{ shop.refund_policy.url }}">{{ s.refund_policy_label | escape }} <span aria-hidden="true">↗</span></a>
+                  {%- endif -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+.zs-shf{background:var(--zs-shf-bg,#FCFAF7);color:var(--zs-shf-ink,#2B1D17);padding:var(--zs-shf-top,72px) 0 var(--zs-shf-bottom,88px)}
+.zs-shf *{box-sizing:border-box}
+.zs-shf__container{max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,58px)}
+.zs-shf__header{max-width:830px;margin-bottom:37px}
+.zs-shf__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:11px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--zs-shf-ink,#2B1D17)}
+.zs-shf__eyebrow-line{display:block;width:28px;height:2px;background:var(--zs-shf-accent,#D8B56A);flex-shrink:0}
+.zs-shf__heading{font-size:clamp(35px,4.25vw,62px);font-family:inherit!important;line-height:1.13;letter-spacing:-.048em;font-weight:300;margin:0}
+.zs-shf__heading strong{font-weight:700}
+.zs-shf__intro{margin:16px 0 0;max-width:67ch;color:var(--zs-shf-muted,#80736A);line-height:1.75;font-size:14px}
+.zs-shf__delivery{margin:0 0 48px}
+.zs-shf__subhead{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:19px}
+.zs-shf__subhead h3{font-family:inherit!important;font-size:21px;line-height:1.35;letter-spacing:-.025em;font-weight:650;margin:0}
+.zs-shf__subhead p{color:var(--zs-shf-muted,#80736A);font-size:12px;margin:0;line-height:1.6}
+.zs-shf__countries{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.zs-shf__country{display:flex;flex-direction:column;justify-content:space-between;min-height:121px;padding:19px 17px 16px;background:var(--zs-shf-card,#FFFFFF);border:1px solid #E9E0D7;border-radius:13px;transition:border-color .2s ease,box-shadow .2s ease}
+.zs-shf__country-name{display:flex;align-items:center;gap:9px;min-width:0}
+.zs-shf__flag{display:inline-block;flex-shrink:0;font-size:23px;line-height:1}
+.zs-shf__country-title{font-size:13px;line-height:1.4;font-weight:650;min-width:0}
+.zs-shf__country-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:17px}
+.zs-shf__time{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:#6D6055;font-size:12px;font-weight:500}
+.zs-shf__time svg{color:#A0805F;flex-shrink:0}
+.zs-shf__free{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border-radius:6px;padding:5px 8px;background:#E1EFE6;color:#285B45;font-weight:800;font-size:10px;line-height:1;letter-spacing:.065em;text-transform:uppercase}
+.zs-shf__delivery-note{display:flex;align-items:flex-start;gap:9px;margin:15px 2px 0;color:var(--zs-shf-muted,#80736A);font-size:12px;line-height:1.65}
+.zs-shf__delivery-note svg{flex-shrink:0;margin-top:1px;color:#997C5B}
+.zs-shf__delivery-note a{color:var(--zs-shf-ink,#2B1D17);font-weight:650;text-decoration:underline;text-underline-offset:3px;margin-left:5px}
+.zs-shf__support{display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);gap:clamp(28px,4vw,62px);align-items:stretch}
+.zs-shf__contact{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;min-height:455px;padding:clamp(29px,3.2vw,46px);border-radius:18px;background:linear-gradient(135deg,var(--zs-shf-contact,#2B1D17),#543727);color:#F9F6F1}
+.zs-shf__contact-glow{pointer-events:none;position:absolute;z-index:-1;width:285px;height:285px;right:-118px;top:-104px;border:1px solid rgba(216,181,106,.16);border-radius:50%;box-shadow:0 0 0 40px rgba(216,181,106,.035),0 0 0 85px rgba(216,181,106,.025)}
+.zs-shf__contact-icon{display:grid;place-items:center;width:57px;height:57px;border:1px solid rgba(216,181,106,.4);border-radius:14px;color:#D8B56A;background:rgba(255,255,255,.045)}
+.zs-shf__contact-copy{margin-top:33px;margin-bottom:32px}
+.zs-shf__contact-eyebrow{color:#D8B56A;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin:0 0 12px}
+.zs-shf__contact h3{font-family:inherit!important;color:#F9F6F1;margin:0;font-size:clamp(29px,2.7vw,39px);letter-spacing:-.04em;line-height:1.22;font-weight:700}
+.zs-shf__contact-copy>p:last-child{max-width:39ch;color:#E2D5C9;font-size:13px;line-height:1.8;margin:17px 0 0}
+.zs-shf__contact-link{display:inline-flex;justify-content:space-between;align-items:center;gap:32px;min-height:51px;min-width:177px;max-width:100%;margin-top:auto;padding:12px 16px;border-radius:9px;background:#F9F6F1;color:#2B1D17;text-decoration:none;font-size:13px;font-weight:700;transition:background-color .2s ease,transform .2s ease}
+.zs-shf__contact-link:hover{background:#EBDDCB;transform:translateY(-2px)}
+.zs-shf__contact-link:focus-visible,.zs-shf__faq summary:focus-visible{outline:3px solid var(--zs-shf-accent,#D8B56A);outline-offset:3px}
+.zs-shf__faq{min-width:0;padding-top:9px}
+.zs-shf__faq-eyebrow{color:#977653;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin:0 0 10px}
+.zs-shf__faq-heading{font-family:inherit!important;font-size:clamp(27px,2.75vw,38px);font-weight:700;letter-spacing:-.038em;margin:0 0 17px;line-height:1.25}
+.zs-shf__faq-item{border-bottom:1px solid #E4DCD2}
+.zs-shf__faq-item:first-child{border-top:1px solid #E4DCD2}
+.zs-shf__question{display:flex;justify-content:space-between;align-items:center;gap:15px;cursor:pointer;padding:19px 0;min-height:59px;list-style:none;font-weight:650;line-height:1.45;font-size:14px}
+.zs-shf__question::-webkit-details-marker{display:none}
+.zs-shf__question::marker{content:''}
+.zs-shf__faq-toggle{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid #DED2C6;flex:0 0 32px;color:var(--zs-shf-ink,#2B1D17);background:#FFFFFF;transition:background .2s,border-color .2s}
+.zs-shf__vertical{transform-origin:50% 50%;transition:transform .2s ease}
+.zs-shf__faq-item[open] .zs-shf__vertical{transform:rotate(90deg)}
+.zs-shf__faq-item[open] .zs-shf__faq-toggle{background:#F3E9DC;border-color:#D8B56A}
+.zs-shf__answer{padding:0 42px 22px 0;color:var(--zs-shf-muted,#80736A);font-size:13px;line-height:1.85}
+.zs-shf__answer p{margin:0}
+.zs-shf__answer a{display:inline-block;margin-top:11px;color:#664632;font-weight:650;text-decoration:underline;text-underline-offset:3px}
+@media(hover:hover) and (pointer:fine){.zs-shf__country:hover{border-color:#CBB59C;box-shadow:0 4px 15px rgba(72,45,28,.045)}}
+@media(max-width:1100px){.zs-shf__countries{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-shf__support{grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);gap:28px}.zs-shf__contact{min-height:0}}
+@media(max-width:749px){
+ .zs-shf{padding:54px 0 64px}
+ .zs-shf__container{padding-inline:16px}
+ .zs-shf__header{margin-bottom:27px}
+ .zs-shf__eyebrow{font-size:9px;gap:9px;margin-bottom:13px}
+ .zs-shf__eyebrow-line{width:23px}
+ .zs-shf__heading{font-size:clamp(32px,8.5vw,44px)}
+ .zs-shf__intro{font-size:12px;line-height:1.75;margin-top:12px}
+ .zs-shf__delivery{margin-bottom:43px}
+ .zs-shf__subhead{display:block;margin-bottom:14px}
+ .zs-shf__subhead h3{font-size:18px}
+ .zs-shf__subhead p{font-size:11px;margin-top:4px}
+ .zs-shf__countries{gap:9px}
+ .zs-shf__country{padding:15px 12px 12px;min-height:115px;border-radius:11px}
+ .zs-shf__country-name{gap:7px;align-items:flex-start}
+ .zs-shf__flag{font-size:20px}
+ .zs-shf__country-title{font-size:12px;line-height:1.32}
+ .zs-shf__country-bottom{gap:5px;margin-top:14px}
+ .zs-shf__time{font-size:11px;gap:4px}
+ .zs-shf__time svg{width:13px;height:13px}
+ .zs-shf__free{font-size:9px;padding:5px 6px}
+ .zs-shf__delivery-note{font-size:11px;margin-top:13px}
+ .zs-shf__support{display:flex;flex-direction:column;gap:31px}
+ .zs-shf__faq{order:1;padding-top:0}
+ .zs-shf__contact{order:2;min-height:285px;padding:27px;border-radius:15px}
+ .zs-shf__contact-icon{width:49px;height:49px}
+ .zs-shf__contact-copy{margin-top:24px;margin-bottom:24px}
+ .zs-shf__contact h3{font-size:30px}
+ .zs-shf__contact-copy>p:last-child{font-size:12px;margin-top:11px}
+ .zs-shf__contact-link{min-height:48px}
+ .zs-shf__faq-heading{font-size:28px;margin-bottom:15px}
+ .zs-shf__faq-eyebrow{font-size:10px}
+ .zs-shf__question{font-size:12.5px;padding:16px 0;min-height:56px}
+ .zs-shf__answer{padding:0 30px 18px 0;font-size:12px;line-height:1.75}
+}
+@media(max-width:355px){
+ .zs-shf__country{padding-inline:9px}
+ .zs-shf__country-bottom{gap:3px}
+ .zs-shf__time{font-size:10px}
+ .zs-shf__free{padding:4px 5px;font-size:8px}
+ .zs-shf__flag{font-size:17px}
+ .zs-shf__country-title{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ .zs-shf__country,.zs-shf__contact-link,.zs-shf__faq-toggle,.zs-shf__vertical{transition:none}
+ .zs-shf__contact-link:hover{transform:none}
+}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "ZAISEN Shipping & FAQs",
+  "tag": "section",
+  "class": "section-zs-shipping-faq",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section headings"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small heading",
+      "default": "ZAISEN CUSTOMER CARE"
+    },
+    {
+      "type": "text",
+      "id": "heading_light",
+      "label": "Heading - first part",
+      "default": "Shipping & Delivery,"
+    },
+    {
+      "type": "text",
+      "id": "heading_bold",
+      "label": "Heading - bold part",
+      "default": "Made Simple."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home."
+    },
+    {
+      "type": "header",
+      "content": "Country delivery cards"
+    },
+    {
+      "type": "text",
+      "id": "country_heading",
+      "label": "Country heading",
+      "default": "Estimated delivery by country"
+    },
+    {
+      "type": "text",
+      "id": "country_intro",
+      "label": "Country subheading",
+      "default": "Delivery estimates after dispatch"
+    },
+    {
+      "type": "text",
+      "id": "free_label",
+      "label": "Green shipping badge",
+      "default": "FREE"
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_note",
+      "label": "Shipping disclaimer",
+      "default": "Free shipping on eligible orders to supported countries. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery."
+    },
+    {
+      "type": "text",
+      "id": "shipping_policy_label",
+      "label": "Shipping policy link text",
+      "default": "Shipping Policy"
+    },
+    {
+      "type": "header",
+      "content": "Contact card"
+    },
+    {
+      "type": "text",
+      "id": "contact_eyebrow",
+      "label": "Contact card eyebrow",
+      "default": "PERSONAL SUPPORT"
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact card heading",
+      "default": "Need a hand?"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_description",
+      "label": "Contact card description",
+      "default": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help."
+    },
+    {
+      "type": "text",
+      "id": "contact_button",
+      "label": "Contact button text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact page override"
+    },
+    {
+      "type": "header",
+      "content": "Questions and answers"
+    },
+    {
+      "type": "text",
+      "id": "faq_eyebrow",
+      "label": "FAQ small heading",
+      "default": "GOOD TO KNOW"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_faq_open",
+      "label": "Open first FAQ by default",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "refund_policy_label",
+      "label": "Refund policy link text",
+      "default": "Read our Refund Policy"
+    },
+    {
+      "type": "header",
+      "content": "Colors and spacing"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "#FCFAF7"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Country cards background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading and dark text",
+      "default": "#2B1D17"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text",
+      "default": "#80736A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Gold accent",
+      "default": "#D8B56A"
+    },
+    {
+      "type": "color",
+      "id": "contact_background",
+      "label": "Contact card background",
+      "default": "#2B1D17"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop top padding",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop bottom padding",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "country",
+      "name": "Delivery country",
+      "settings": [
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Flag emoji",
+          "default": "🌍"
+        },
+        {
+          "type": "text",
+          "id": "country_name",
+          "label": "Country name",
+          "default": "United Kingdom"
+        },
+        {
+          "type": "text",
+          "id": "delivery_time",
+          "label": "Estimated delivery time",
+          "default": "4–5 days"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Are ZAISEN products handcrafted?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Yes. ZAISEN specializes in handcrafted wooden home decor and gifts."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_refund_link",
+          "label": "Show refund policy link",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZAISEN Shipping & FAQs",
+      "blocks": [
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇬🇧",
+            "country_name": "United Kingdom",
+            "delivery_time": "4–5 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇺🇸",
+            "country_name": "United States",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇩🇪",
+            "country_name": "Germany",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇨🇦",
+            "country_name": "Canada",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇦🇺",
+            "country_name": "Australia",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇦🇪",
+            "country_name": "United Arab Emirates",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇫🇷",
+            "country_name": "France",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "country",
+          "settings": {
+            "flag": "🇸🇦",
+            "country_name": "Saudi Arabia",
+            "delivery_time": "7–9 days"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer free worldwide shipping?",
+            "answer": "ZAISEN offers free shipping on eligible orders to the United Kingdom, United States, Germany, Canada, Australia, the United Arab Emirates, France and Saudi Arabia. Estimated delivery is 4–5 days for the UK and 7–9 days for the other listed countries. Delivery times are estimates, not guarantees.",
+            "show_refund_link": false
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Are ZAISEN products handcrafted?",
+            "answer": "Yes. ZAISEN focuses on handcrafted wooden home decor, lighting, kitchen and dining accessories, and gifts. Careful shaping, finishing and attention to detail give each piece its own character.",
+            "show_refund_link": false
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Are ZAISEN products made from pure wood?",
+            "answer": "Natural wood is the primary material in our wooden collections. Each piece may have unique grain, color and texture. Some designs also include necessary functional parts such as lamp fittings or other hardware; check each product description for its specific materials.",
+            "show_refund_link": false
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Why choose ZAISEN?",
+            "answer": "We are a growing small business passionate about natural materials and thoughtful wooden craftsmanship. We focus on useful, distinctive designs, careful finishing, and pieces that add warmth and character to your home.",
+            "show_refund_link": false
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What if my handcrafted wooden product arrives damaged?",
+            "answer": "Please contact ZAISEN within 14 days of delivery with your order number and clear photos of the item and packaging. We review genuine damage, defects and incorrect items and may offer a repair solution, replacement, partial refund or full refund depending on the circumstances, in line with our Refund Policy.",
+            "show_refund_link": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
