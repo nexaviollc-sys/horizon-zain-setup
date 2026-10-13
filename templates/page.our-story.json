@@ -54,7 +54,8 @@
       "settings": {
         "editorial_font": "poppins_n4",
         "hero_text": "We’re a growing small business with a love for pure wood and the care that goes into making something by hand. Discover the people-first values and handcrafted wooden home décor behind ZAISEN.",
-        "origin_image": "shopify://shop_images/Artisan_Wooden_Tissue_Box_Gift-Wrapping_Scene.png",
+        "hero_image": "shopify://shop_images/Woodworker_Sanding_a_Handcrafted_Bowl.jpg",
+        "origin_image": "shopify://shop_images/Handcrafted_Bowl_Packaging_in_a_Cozy_Workshop.jpg",
         "care_image": "shopify://shop_images/Artisan_Wooden_Tissue_Box_Gift-Wrapping_Scene.png",
         "background_color": "#ffffff",
         "ink_color": "#2b1d17",
