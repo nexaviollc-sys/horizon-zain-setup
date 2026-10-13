@@ -483,9 +483,9 @@
         "heading_bold": "Made Simple.",
         "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
         "country_heading": "Estimated delivery by country",
-        "country_intro": "Delivery estimates after dispatch",
+        "country_intro": "FREE shipping on all orders to these countries",
         "free_label": "FREE",
-        "shipping_note": "Free shipping on eligible orders to supported countries. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
+        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
         "shipping_policy_label": "Shipping Policy",
         "contact_eyebrow": "PERSONAL SUPPORT",
         "contact_heading": "Need a hand?",
@@ -574,7 +574,7 @@
           "type": "faq",
           "settings": {
             "question": "Do you offer free worldwide shipping?",
-            "answer": "ZAISEN offers free shipping on eligible orders to the United Kingdom, United States, Germany, Canada, Australia, the United Arab Emirates, France and Saudi Arabia. Estimated delivery is 4–5 days for the UK and 7–9 days for the other listed countries. Delivery times are estimates, not guarantees.",
+            "answer": "Yes! Every ZAISEN order ships FREE to the United Kingdom, United States, Germany, Canada, Australia, the United Arab Emirates, France and Saudi Arabia. There are no shipping charges on any order to these eight countries. Estimated delivery is 4–5 days for the UK and 7–9 days for the other listed destinations. Delivery times are estimates, not guarantees.",
             "show_refund_link": false
           }
         },
