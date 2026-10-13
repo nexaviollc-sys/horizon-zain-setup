@@ -26,6 +26,16 @@
     --zs-shf-top:{{ s.padding_top }}px;
     --zs-shf-bottom:{{ s.padding_bottom }}px;
   }
+  {% if s.contact_background_image != blank %}
+    #zs-shf-{{ section.id }} .zs-shf__contact {
+      background-image:
+        linear-gradient(110deg, rgba(27,18,14,.74), rgba(27,18,14,.40)),
+        url({{ s.contact_background_image | image_url: width: 1400 | json }});
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  {% endif %}
 {% endstyle %}
 <section class="zs-shf" id="zs-shf-{{ section.id }}" aria-labelledby="zs-shf-title-{{ section.id }}">
   <div class="zs-shf__container">
@@ -144,10 +154,10 @@
 .zs-shf__delivery-note{display:flex;align-items:flex-start;gap:9px;margin:15px 2px 0;color:var(--zs-shf-muted,#80736A);font-size:12px;line-height:1.65}
 .zs-shf__delivery-note svg{flex-shrink:0;margin-top:1px;color:#997C5B}
 .zs-shf__delivery-note a{color:var(--zs-shf-ink,#2B1D17);font-weight:650;text-decoration:underline;text-underline-offset:3px;margin-left:5px}
-.zs-shf__support{display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);gap:clamp(28px,4vw,62px);align-items:stretch}
-.zs-shf__contact{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;min-height:455px;padding:clamp(29px,3.2vw,46px);border-radius:18px;background:linear-gradient(135deg,var(--zs-shf-contact,#2B1D17),#543727);color:#F9F6F1}
+.zs-shf__support{display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);gap:clamp(28px,4vw,62px);align-items:start}
+.zs-shf__contact{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;align-self:start;height:clamp(455px,35vw,650px);min-height:455px;padding:clamp(29px,3.2vw,46px);border-radius:18px;background:linear-gradient(135deg,var(--zs-shf-contact,#2B1D17),#543727);color:#F9F6F1}
 .zs-shf__contact-glow{pointer-events:none;position:absolute;z-index:-1;width:285px;height:285px;right:-118px;top:-104px;border:1px solid rgba(216,181,106,.16);border-radius:50%;box-shadow:0 0 0 40px rgba(216,181,106,.035),0 0 0 85px rgba(216,181,106,.025)}
-.zs-shf__contact-icon{display:grid;place-items:center;width:57px;height:57px;border:1px solid rgba(216,181,106,.4);border-radius:14px;color:#D8B56A;background:rgba(255,255,255,.045)}
+.zs-shf__contact-icon{display:grid;place-items:center;width:57px;height:57px;border:1px solid rgba(255,255,255,.9);border-radius:14px;color:#FFFFFF;background:rgba(255,255,255,.12);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
 .zs-shf__contact-copy{margin-top:33px;margin-bottom:32px}
 .zs-shf__contact-eyebrow{color:#D8B56A;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin:0 0 12px}
 .zs-shf__contact h3{font-family:inherit!important;color:#F9F6F1;margin:0;font-size:clamp(29px,2.7vw,39px);letter-spacing:-.04em;line-height:1.22;font-weight:700}
@@ -171,7 +181,7 @@
 .zs-shf__answer p{margin:0}
 .zs-shf__answer a{display:inline-block;margin-top:11px;color:#664632;font-weight:650;text-decoration:underline;text-underline-offset:3px}
 @media(hover:hover) and (pointer:fine){.zs-shf__country:hover{border-color:#CBB59C;box-shadow:0 4px 15px rgba(72,45,28,.045)}}
-@media(max-width:1100px){.zs-shf__countries{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-shf__support{grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);gap:28px}.zs-shf__contact{min-height:0}}
+@media(max-width:1100px){.zs-shf__countries{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-shf__support{grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);gap:28px}.zs-shf__contact{height:auto;min-height:455px}}
 @media(max-width:749px){
  .zs-shf{padding:54px 0 64px}
  .zs-shf__container{padding-inline:16px}
@@ -196,7 +206,7 @@
  .zs-shf__delivery-note{font-size:11px;margin-top:13px}
  .zs-shf__support{display:flex;flex-direction:column;gap:31px}
  .zs-shf__faq{order:1;padding-top:0}
- .zs-shf__contact{order:2;min-height:285px;padding:27px;border-radius:15px}
+ .zs-shf__contact{order:2;height:auto;min-height:285px;padding:27px;border-radius:15px}
  .zs-shf__contact-icon{width:49px;height:49px}
  .zs-shf__contact-copy{margin-top:24px;margin-bottom:24px}
  .zs-shf__contact h3{font-size:30px}
@@ -321,6 +331,12 @@
       "type": "url",
       "id": "contact_link",
       "label": "Contact page override"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_background_image",
+      "label": "Contact card background image",
+      "info": "Optional. Upload a photo to replace the dark gradient; a soft dark overlay keeps the text readable."
     },
     {
       "type": "header",
