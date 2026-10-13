@@ -307,6 +307,67 @@
         "zs_why_care"
       ]
     },
+    "zs_real_homes_2026": {
+      "type": "zs-loved-in-real-homes",
+      "blocks": {
+        "home_horse": {
+          "type": "home",
+          "settings": {
+            "product": "handcrafted-wooden-horse-statue",
+            "image_alt": "Handcrafted rearing wooden horse statue, sculptural wooden home decor",
+            "title": "Sculptural Wooden Horse",
+            "caption": "A handcrafted rearing horse sculpture that brings natural character to living rooms, shelves and consoles.",
+            "show_review": false,
+            "rating": 0
+          }
+        },
+        "home_ship": {
+          "type": "home",
+          "settings": {
+            "product": "handcrafted-wooden-ship-decor",
+            "image_alt": "Handcrafted wooden ship display model, nautical maritime home and shelf decor",
+            "title": "Nautical Ship Display",
+            "caption": "A handcrafted wooden ship display model for timeless nautical styling on shelves, desks and consoles.",
+            "show_review": false,
+            "rating": 0
+          }
+        },
+        "home_dolphin": {
+          "type": "home",
+          "settings": {
+            "product": "wooden-dolphin-lamp-coastal-table-light",
+            "image_alt": "Handcrafted wooden dolphin table lamp, coastal home lighting and ocean-inspired decor",
+            "title": "Coastal Dolphin Lighting",
+            "caption": "An ocean-inspired handcrafted wooden dolphin table lamp for soft ambient light and coastal home decor.",
+            "show_review": false,
+            "rating": 0
+          }
+        }
+      },
+      "block_order": [
+        "home_horse",
+        "home_ship",
+        "home_dolphin"
+      ],
+      "name": "Loved in Real Homes",
+      "settings": {
+        "eyebrow": "THE ZAISEN AT-HOME EDIT",
+        "heading_light": "Loved in",
+        "heading_bold": "Real Homes.",
+        "intro_text": "Explore handcrafted wooden sculpture, nautical display decor and coastal lighting to bring warmth and character into your home.",
+        "collection": "home-decor",
+        "button_label": "Shop Home Decor",
+        "product_label": "Explore this piece",
+        "editorial_font": "poppins_n4",
+        "background": "#FFFFFF",
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "card_color": "#F8F5F0",
+        "padding_top": 64,
+        "padding_bottom": 72
+      }
+    },
     "zs_shop_the_look_2026": {
       "type": "zs-shop-the-look",
       "name": "ZAISEN Kitchen Edit",
@@ -389,6 +450,7 @@
     "zs_shop_by_collection_test_8x",
     "zs_why_zaisen_2026",
     "zs_best_sellers_alt_4x",
+    "zs_real_homes_2026",
     "zs_shop_the_look_2026",
     "zs_story_journal_2026"
   ]
