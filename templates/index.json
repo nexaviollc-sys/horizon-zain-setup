@@ -320,6 +320,10 @@
         "feature_label": "FEATURED KITCHEN PIECE",
         "picks_label": "Featured handcrafted wooden kitchen accessories",
         "sold_out_text": "Sold out",
+        "show_carousel": true,
+        "carousel_eyebrow": "COMPLETE THE TABLE",
+        "carousel_title": "More for Your Table",
+        "carousel_description": "Explore more handcrafted wooden kitchen and dining pieces, from serving sets to everyday essentials.",
         "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
         "editorial_font": "poppins_n4",
         "background": "#FFFFFF",
@@ -333,8 +337,8 @@
         "k_trays": {
           "type": "product",
           "settings": {
-            "product": "handcrafted-carved-wooden-serving-tray-set-of-3",
-            "label": "WOODEN SERVING TRAYS"
+            "product": "hand-carved-wooden-foldable-serving-tray",
+            "label": "FOLDABLE WOODEN SERVING TRAY"
           }
         },
         "k_bowls": {
@@ -347,8 +351,8 @@
         "k_drinks": {
           "type": "product",
           "settings": {
-            "product": "handcrafted-wooden-jug-5-cups-set",
-            "label": "WOODEN DRINKWARE"
+            "product": "handcrafted-carved-wooden-serving-tray-set-of-3",
+            "label": "CARVED WOODEN TRAY SETS"
           }
         },
         "k_storage": {
