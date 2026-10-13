@@ -343,13 +343,17 @@
       border-color: #FFFFFF;
     }
 
+    /* Keep the homepage's ivory-on-hero controls ONLY while flyouts are closed.
+       Opening Category or Best Sellers reveals the white header; excluding
+       open flyouts here prevents ivory search/account/cart icons from disappearing.
+       These selectors do not affect their normal colors, size or click behavior. */
     /* Existing liquid navbar changes state on scroll; keep nontransparent
        and sticky header icons their original dark color. */
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right {
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right {
       --color-account-icon: #FFF8F0;
     }
 
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(
       .dropdown-localization__button,
       .search-action .header-actions__action,
       header-actions .header-actions__action,
@@ -359,7 +363,7 @@
       --color-account-icon: #FFF8F0;
     }
 
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(
       .dropdown-localization__button,
       .search-action .header-actions__action,
       header-actions .header-actions__action
@@ -367,19 +371,19 @@
       color: currentColor;
     }
 
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right .dropdown-localization__button {
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right .dropdown-localization__button {
       border-color: rgba(255, 248, 240, .58);
       background-color: rgba(43, 29, 23, .28);
       box-shadow: none;
     }
 
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right .dropdown-localization__button:is(:hover, :focus-visible) {
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right .dropdown-localization__button:is(:hover, :focus-visible) {
       color: #FFFFFF !important;
       border-color: #FFFFFF;
       background: rgba(255, 255, 255, .16);
     }
 
-    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']) .header__column--right :is(
+    #header-component.header--zaisen[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(
       .search-action .header-actions__action,
       header-actions .header-actions__action,
       .account-button
