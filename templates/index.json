@@ -182,6 +182,7 @@
         "zs_why_wood": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/Rustic_Woodgrain_Still_Life.png",
             "title": "Pure Wood",
             "description": "Made from natural wood."
           }
@@ -189,6 +190,7 @@
         "zs_why_hand": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/Craftsman_Refining_a_Wooden_Horse.png",
             "title": "Handcrafted",
             "description": "Carefully made by skilled hands."
           }
@@ -196,6 +198,7 @@
         "zs_why_care": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/Artisan_Bowl_Finishing_in_a_Sunlit_Workshop.png",
             "title": "Made with Care",
             "description": "Attention to the little details."
           }
@@ -292,10 +295,9 @@
         "message_2": "24/7 SUPPORT",
         "message_3": "14-DAY REFUNDS",
         "message_4": "SECURE PAYMENT",
-
-        "background": "#2B1D17",
-        "text_color": "#F7F3EE",
-        "accent_color": "#D8B56A",
+        "background": "#2b1d17",
+        "text_color": "#f7f3ee",
+        "accent_color": "#d8b56a",
         "height": 54,
         "duration": 45
       }
