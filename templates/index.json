@@ -239,6 +239,64 @@
         "fourth_product": "handcrafted-wooden-ship-decor"
       }
     },
+    "zs_real_homes_2026": {
+      "type": "zs-loved-in-real-homes",
+      "blocks": {
+        "home_lighting": {
+          "type": "home",
+          "settings": {
+            "product": "wooden-horse-lamp-equestrian-table-light",
+            "title": "Warm living room light",
+            "caption": "A wooden horse lamp for softly layered light beside a chair or console.",
+            "show_review": false,
+            "rating": 0
+          }
+        },
+        "home_decor": {
+          "type": "home",
+          "settings": {
+            "product": "handcrafted-wooden-horse-statue",
+            "title": "Sculptural living room detail",
+            "caption": "A handcrafted wooden horse statue for shelves, consoles, and considered corners.",
+            "show_review": false,
+            "rating": 0
+          }
+        },
+        "home_dining": {
+          "type": "home",
+          "settings": {
+            "product": "hand-carved-wooden-foldable-serving-tray",
+            "title": "Dining room serving",
+            "caption": "A hand-carved wooden tray for relaxed dining, sharing, and everyday hosting.",
+            "show_review": false,
+            "rating": 0
+          }
+        }
+      },
+      "block_order": [
+        "home_lighting",
+        "home_decor",
+        "home_dining"
+      ],
+      "name": "Loved in Real Homes",
+      "settings": {
+        "eyebrow": "THE ZAISEN AT-HOME EDIT",
+        "heading_light": "Loved in",
+        "heading_bold": "Real Homes.",
+        "intro_text": "Bring warmth and quiet character to living and dining spaces with thoughtfully handcrafted wooden pieces.",
+        "collection": "best-sellers",
+        "button_label": "Shop the Collection",
+        "product_label": "Explore this piece",
+        "editorial_font": "poppins_n4",
+        "background": "#FFFFFF",
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "card_color": "#F8F5F0",
+        "padding_top": 64,
+        "padding_bottom": 72
+      }
+    },
     "zs_story_journal_2026": {
       "type": "zs-story-journal",
       "name": "ZAISEN Story & Journal",
@@ -373,6 +431,7 @@
     "zs_shop_by_collection_test_8x",
     "zs_why_zaisen_2026",
     "zs_best_sellers_alt_4x",
+    "zs_real_homes_2026",
     "zs_shop_the_look_2026",
     "zs_story_journal_2026"
   ]

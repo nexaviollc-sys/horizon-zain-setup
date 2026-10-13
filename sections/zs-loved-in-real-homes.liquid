@@ -1,0 +1,798 @@
+{%- comment -%}
+  ZAISEN editorial home styling cards.
+  Review content is intentionally opt-in: a card becomes a review only when
+  the merchant publishes it and supplies both a quote and a customer name.
+  Product imagery is always treated as a styling reference, never as a
+  customer photograph.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign typeface = s.editorial_font
+  assign font_light = typeface | font_modify: 'weight', '300'
+  assign font_medium = typeface | font_modify: 'weight', '500'
+  assign font_semibold = typeface | font_modify: 'weight', '600'
+  assign font_bold = typeface | font_modify: 'weight', '700'
+
+  assign cta_link = ''
+  if s.collection != blank
+    assign cta_link = s.collection.url
+  endif
+  if cta_link == blank
+    assign cta_link = routes.all_products_collection_url
+  endif
+-%}
+
+{%- if typeface != blank -%}
+  {% style %}
+    {{ typeface | font_face: font_display: 'swap' }}
+    {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_medium != blank %}{{ font_medium | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_semibold != blank %}{{ font_semibold | font_face: font_display: 'swap' }}{% endif %}
+    {% if font_bold != blank %}{{ font_bold | font_face: font_display: 'swap' }}{% endif %}
+    #zsh-{{ section.id }} {
+      font-family: {{ typeface.family | json }}, {{ typeface.fallback_families }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
+{% style %}
+  {% if section.blocks.size == 0 and request.design_mode == false %}
+    #shopify-section-{{ section.id }} { display: none; }
+  {% endif %}
+  #zsh-{{ section.id }} {
+    --zsh-bg: {{ s.background }};
+    --zsh-ink: {{ s.heading_color }};
+    --zsh-muted: {{ s.text_color }};
+    --zsh-accent: {{ s.accent_color }};
+    --zsh-card: {{ s.card_color }};
+    --zsh-top: {{ s.padding_top }}px;
+    --zsh-bottom: {{ s.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{% if section.blocks.size > 0 %}
+  <section
+    id="zsh-{{ section.id }}"
+    class="zsh"
+    {% if s.heading_light != blank or s.heading_bold != blank %}
+      aria-labelledby="zsh-heading-{{ section.id }}"
+    {% else %}
+      aria-label="Home styling inspiration"
+    {% endif %}
+  >
+    <div class="zsh__inner">
+      <header class="zsh__header">
+        <div class="zsh__heading-wrap">
+          {% if s.eyebrow != blank %}
+            <p class="zsh__eyebrow"><span aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
+          {% endif %}
+          {% if s.heading_light != blank or s.heading_bold != blank %}
+            <h2 id="zsh-heading-{{ section.id }}" class="zsh__heading">
+              {% if s.heading_light != blank %}<span>{{ s.heading_light | escape }}</span>{% endif %}
+              {% if s.heading_bold != blank %}<strong>{{ s.heading_bold | escape }}</strong>{% endif %}
+            </h2>
+          {% endif %}
+        </div>
+        <div class="zsh__header-side">
+          {% if s.intro_text != blank %}
+            <p class="zsh__intro">{{ s.intro_text | escape }}</p>
+          {% endif %}
+          {% if s.button_label != blank and cta_link != blank %}
+            <a class="zsh__header-link" href="{{ cta_link | escape }}">
+              <span>{{ s.button_label | escape }}</span>
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
+            </a>
+          {% endif %}
+        </div>
+      </header>
+
+      <div class="zsh__grid">
+        {% for block in section.blocks %}
+          {%- liquid
+            assign product = block.settings.product
+            assign product_href = ''
+            assign product_link_label = 'this piece'
+            if product != blank
+              assign product_href = product.url
+              if product.title != blank
+                assign product_link_label = product.title
+              endif
+            endif
+
+            assign show_review = false
+            if block.settings.show_review == true and block.settings.quote != blank and block.settings.customer != blank
+              assign show_review = true
+            endif
+            assign rating = block.settings.rating | default: 0 | plus: 0 | at_least: 0 | at_most: 5
+
+            assign review_image = block.settings.image
+            assign using_product_image = false
+            if review_image == blank and product != blank and product.featured_image != blank
+              assign review_image = product.featured_image
+              assign using_product_image = true
+            endif
+
+            assign image_class = 'zsh__image zsh__image--custom'
+            if using_product_image
+              assign image_class = 'zsh__image zsh__image--product'
+            endif
+            if review_image != blank
+              assign image_width = review_image.width | at_most: 1400
+              assign image_height = image_width | divided_by: review_image.aspect_ratio | round
+            endif
+            assign image_alt = block.settings.image_alt | strip
+            if image_alt == blank
+              if using_product_image and product != blank and product.title != blank
+                assign image_alt = 'Styling inspiration: ' | append: product.title
+              elsif review_image.alt != blank
+                assign image_alt = review_image.alt
+              elsif block.settings.title != blank
+                assign image_alt = block.settings.title
+              else
+                assign image_alt = 'Home styling inspiration'
+              endif
+            endif
+          -%}
+          <article class="zsh__card" {{ block.shopify_attributes }}>
+            <div class="zsh__media">
+              {% if product_href != blank %}
+                <a href="{{ product_href | escape }}" class="zsh__media-link" aria-label="Explore {{ product_link_label | escape }}">
+              {% endif %}
+                {% if review_image != blank %}
+                  {{ review_image | image_url: width: 1400 | image_tag: class: image_class, loading: 'lazy', width: image_width, height: image_height, widths: '240,360,540,720,960,1200,1400', sizes: '(min-width: 1440px) 424px, (min-width: 750px) 30vw, (min-width: 500px) 92vw, calc(100vw - 40px)', alt: image_alt }}
+                  {% if using_product_image %}
+                    <span class="zsh__image-note">Styling inspiration</span>
+                  {% endif %}
+                {% else %}
+                  <div class="zsh__placeholder" aria-hidden="true">
+                    <span class="zsh__placeholder-word">ZAISEN</span>
+                    <span class="zsh__placeholder-label">HOME EDIT</span>
+                  </div>
+                {% endif %}
+                <span class="zsh__photo-mark" aria-hidden="true">ZAISEN / {{ forloop.index | prepend: '0' }}</span>
+              {% if product_href != blank %}
+                </a>
+              {% endif %}
+            </div>
+
+            <div class="zsh__body">
+              {% if show_review %}
+                <div class="zsh__review">
+                  {% if rating > 0 %}
+                    <div class="zsh__rating" role="img" aria-label="{{ rating | escape }} out of 5 stars">
+                      <span class="zsh__stars" aria-hidden="true">
+                        {% for star in (1..5) %}
+                          {% if star <= rating %}★{% else %}☆{% endif %}
+                        {% endfor %}
+                      </span>
+                    </div>
+                  {% endif %}
+                  <blockquote class="zsh__quote">“{{ block.settings.quote | escape }}”</blockquote>
+                  <div class="zsh__customer">
+                    <div class="zsh__customer-name">{{ block.settings.customer | escape }}</div>
+                    {% if block.settings.location != blank %}
+                      <div class="zsh__customer-location">{{ block.settings.location | escape }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% else %}
+                <div class="zsh__editorial">
+                  <p class="zsh__mode-label">Styling inspiration</p>
+                  {% if block.settings.title != blank %}
+                    <h3 class="zsh__card-title">{{ block.settings.title | escape }}</h3>
+                  {% endif %}
+                  {% if block.settings.caption != blank %}
+                    <p class="zsh__caption">{{ block.settings.caption | escape }}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if product_href != blank %}
+                <a class="zsh__product" href="{{ product_href | escape }}">
+                  <span class="zsh__product-copy">
+                  {% if s.product_label != blank %}
+                    <span class="zsh__product-label">{{ s.product_label | escape }}</span>
+                  {% endif %}
+                    <strong>{{ product.title | default: 'View this piece' | escape }}</strong>
+                  </span>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% elsif request.design_mode %}
+  <div id="zsh-{{ section.id }}" class="zsh zsh--empty" role="status">
+    <div class="zsh__empty-inner">
+      <p class="zsh__empty-label">Loved in Real Homes</p>
+      <p class="zsh__empty-copy">Add up to three home cards in the theme editor. Publish a review only when you have genuine customer content and permission to share it.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+.zsh {
+  display: block;
+  width: 100%;
+  padding: var(--zsh-top, 64px) 0 var(--zsh-bottom, 72px);
+  background: var(--zsh-bg, #FFFFFF);
+  color: var(--zsh-ink, #2B1D17);
+}
+.zsh * { box-sizing: border-box; }
+.zsh__inner {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 58px);
+}
+.zsh__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(250px, .85fr);
+  align-items: end;
+  gap: clamp(28px, 6vw, 108px);
+  margin-bottom: clamp(28px, 3.2vw, 44px);
+}
+.zsh__heading-wrap { min-width: 0; }
+.zsh__eyebrow,
+.zsh__mode-label,
+.zsh__empty-label {
+  color: #916B4B;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .17em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.zsh__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 16px;
+}
+.zsh__eyebrow > span {
+  display: block;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 2px;
+  background: var(--zsh-accent, #D8B56A);
+}
+.zsh__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .22em;
+  margin: 0;
+  color: var(--zsh-ink, #2B1D17);
+  font-family: inherit !important;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 400;
+  letter-spacing: -.058em;
+  line-height: 1.13;
+  overflow-wrap: anywhere;
+}
+.zsh__heading > span { font-weight: 300; }
+.zsh__heading > strong { font-weight: 700; }
+.zsh__header-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  min-width: 0;
+  padding-bottom: 4px;
+}
+.zsh__intro {
+  max-width: 47ch;
+  margin: 0;
+  color: var(--zsh-muted, #80736A);
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 400;
+  line-height: 1.8;
+}
+.zsh__header-link,
+.zsh__product {
+  display: inline-flex;
+  align-items: center;
+  color: var(--zsh-ink, #2B1D17);
+  text-decoration: none;
+}
+.zsh__header-link {
+  gap: 10px;
+  min-height: 44px;
+  padding-block: 7px;
+  border-bottom: 1px solid var(--zsh-accent, #D8B56A);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.zsh__header-link svg,
+.zsh__product svg { flex: 0 0 auto; }
+.zsh__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(17px, 2.1vw, 31px);
+}
+.zsh__card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(43, 29, 23, .08);
+  border-radius: 20px;
+  background: var(--zsh-card, #F8F5F0);
+  box-shadow: 0 12px 30px rgba(43, 29, 23, .045);
+}
+.zsh__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  isolation: isolate;
+  background: #EEE7DE;
+}
+.zsh__media-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.zsh__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+}
+.zsh__image--custom {
+  object-fit: cover;
+  background: #EEE7DE;
+}
+.zsh__image--product {
+  padding: 0;
+  object-fit: contain;
+  background: #F4EFE8;
+}
+.zsh__image-note,
+.zsh__photo-mark {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.zsh__image-note {
+  right: 14px;
+  bottom: 14px;
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  background: rgba(43, 29, 23, .72);
+  color: #FFFCF9;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.zsh__photo-mark {
+  top: 15px;
+  left: 15px;
+  color: rgba(43, 29, 23, .6);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  line-height: 1.4;
+}
+.zsh__placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(145deg, #F2EBE2, #E0D0C0);
+  color: #8F7359;
+  text-align: center;
+}
+.zsh__placeholder-word {
+  font-size: clamp(20px, 2.4vw, 31px);
+  font-weight: 300;
+  letter-spacing: .22em;
+}
+.zsh__placeholder-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .19em;
+  opacity: .78;
+}
+.zsh__body {
+  display: flex;
+  min-height: 225px;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 20px clamp(18px, 2vw, 25px) 22px;
+}
+.zsh__review,
+.zsh__editorial {
+  flex: 1 1 auto;
+}
+.zsh__rating {
+  margin: 0 0 13px;
+  color: #A2743F;
+  font-size: 15px;
+  letter-spacing: .16em;
+  line-height: 1;
+}
+.zsh__stars { white-space: nowrap; }
+.zsh__quote {
+  max-width: 32ch;
+  margin: 0;
+  color: var(--zsh-ink, #2B1D17);
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 300;
+  letter-spacing: -.025em;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.zsh__customer {
+  margin-top: 18px;
+  color: var(--zsh-ink, #2B1D17);
+}
+.zsh__customer-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.zsh__customer-location {
+  margin-top: 2px;
+  color: var(--zsh-muted, #80736A);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.zsh__mode-label {
+  margin: 0 0 14px;
+  color: #916B4B;
+  font-size: 9px;
+}
+.zsh__card-title {
+  margin: 0;
+  color: var(--zsh-ink, #2B1D17);
+  font-family: inherit !important;
+  font-size: clamp(20px, 1.75vw, 27px);
+  font-weight: 700;
+  letter-spacing: -.045em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.zsh__caption {
+  max-width: 42ch;
+  margin: 9px 0 0;
+  color: var(--zsh-muted, #80736A);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.zsh__product {
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 23px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(128, 96, 68, .18);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.zsh__product-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  overflow-wrap: anywhere;
+}
+.zsh__product-label {
+  color: var(--zsh-muted, #80736A);
+  font-weight: 400;
+}
+.zsh__product strong {
+  color: var(--zsh-ink, #2B1D17);
+  font-weight: 600;
+}
+.zsh a:focus-visible {
+  outline: 2px solid var(--zsh-ink, #2B1D17);
+  outline-offset: 4px;
+}
+.zsh .zsh__media-link:focus-visible {
+  outline: 3px solid var(--zsh-ink, #2B1D17);
+  outline-offset: -3px;
+}
+.zsh__media-link:focus-visible::after {
+  position: absolute;
+  z-index: 2;
+  inset: 3px;
+  border: 2px solid #FFFFFF;
+  content: '';
+  pointer-events: none;
+}
+.zsh--empty {
+  min-height: 180px;
+}
+.zsh__empty-inner {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 58px);
+}
+.zsh__empty-label { margin: 0 0 12px; }
+.zsh__empty-copy {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--zsh-muted, #80736A);
+  font-size: 13px;
+  line-height: 1.75;
+}
+@media (hover: hover) and (pointer: fine) {
+  .zsh__header-link,
+  .zsh__product { transition: color .22s ease, border-color .22s ease; }
+  .zsh__header-link:hover,
+  .zsh__product:hover { color: #8C6545; }
+  .zsh__header-link:hover { border-color: #8C6545; }
+  .zsh__product:hover { border-color: rgba(140, 101, 69, .42); }
+  .zsh__product svg,
+  .zsh__header-link svg { transition: transform .22s ease; }
+  .zsh__product:hover svg,
+  .zsh__header-link:hover svg { transform: translate(2px, -2px); }
+}
+@media (max-width: 1040px) and (min-width: 750px) {
+  .zsh__header { gap: 34px; }
+  .zsh__heading { font-size: clamp(35px, 4.2vw, 48px); }
+  .zsh__body { padding-inline: 17px; }
+  .zsh__card-title { font-size: 21px; }
+}
+@media (max-width: 749px) {
+  .zsh__header {
+    display: block;
+    margin-bottom: 29px;
+  }
+  .zsh__eyebrow { margin-bottom: 14px; }
+  .zsh__heading { font-size: clamp(36px, 9vw, 49px); }
+  .zsh__header-side { gap: 15px; margin-top: 12px; padding-bottom: 0; }
+  .zsh__intro { max-width: 52ch; font-size: 12px; line-height: 1.7; }
+  .zsh__grid { grid-template-columns: 1fr; gap: 24px; }
+  .zsh__card { border-radius: 17px; }
+  .zsh__media { aspect-ratio: 1 / 1; }
+  .zsh__body { min-height: 0; padding: 18px 19px 20px; }
+  .zsh__quote { max-width: 42ch; font-size: 16px; }
+  .zsh__card-title { font-size: 24px; }
+  .zsh__product { margin-top: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zsh__header-link,
+  .zsh__product,
+  .zsh__product svg,
+  .zsh__header-link svg { transition: none; }
+  .zsh__product:hover svg,
+  .zsh__header-link:hover svg { transform: none; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Loved in Real Homes",
+  "tag": "section",
+  "class": "section-zs-loved-in-real-homes",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Editorial heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HOME NOTES"
+    },
+    {
+      "type": "text",
+      "id": "heading_light",
+      "label": "Light heading",
+      "default": "Loved in"
+    },
+    {
+      "type": "text",
+      "id": "heading_bold",
+      "label": "Bold heading",
+      "default": "Real Homes."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introduction",
+      "default": "A considered edit of pieces and spaces to inspire your own home."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection destination"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Collection link text",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "text",
+      "id": "product_label",
+      "label": "Product link label",
+      "default": "Explore this piece"
+    },
+    {
+      "type": "header",
+      "content": "Visual style"
+    },
+    {
+      "type": "font_picker",
+      "id": "editorial_font",
+      "label": "Editorial font",
+      "default": "poppins_n4"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#2B1D17"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#80736A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#D8B56A"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card color",
+      "default": "#F8F5F0"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "home",
+      "name": "Home styling card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product reference",
+          "info": "When no custom image is selected, this product's featured image is shown as styling inspiration."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Use a customer image only with permission to publish it. Leave blank to use the product image as a styling reference."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Editorial title"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Editorial caption"
+        },
+        {
+          "type": "header",
+          "content": "Genuine review (optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_review",
+          "label": "Publish genuine review (with permission)",
+          "default": false,
+          "info": "Enable only when the quote and customer attribution are genuine and you have permission to publish them."
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Customer quote",
+          "info": "Leave blank unless you have a genuine customer quote approved for publication."
+        },
+        {
+          "type": "text",
+          "id": "customer",
+          "label": "Customer name",
+          "info": "Leave blank unless you have permission to publish this attribution."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Customer location"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Review rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 0,
+          "info": "0 = hidden. Stars appear only for a published genuine review."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Loved in Real Homes",
+      "blocks": [
+        {
+          "type": "home",
+          "settings": {
+            "title": "A softer place to land",
+            "caption": "Layer natural texture and warm wood for a calm, considered corner."
+          }
+        },
+        {
+          "type": "home",
+          "settings": {
+            "title": "Warmth in the details",
+            "caption": "Small, useful pieces can bring an easy rhythm to everyday rooms."
+          }
+        },
+        {
+          "type": "home",
+          "settings": {
+            "title": "Make room for quiet",
+            "caption": "Choose natural forms that let the room feel settled and lived in."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
