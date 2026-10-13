@@ -1,7 +1,3 @@
-{% liquid
-  assign zs_posts = blog.articles
-  assign featured = zs_posts.first
-%}
 <section class="zsj" id="zaisen-journal-{{ section.id }}" aria-labelledby="zsj-h1-{{ section.id }}">
   <div class="zsj__shell">
     <nav class="zsj__breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span><span>The ZAISEN Journal</span></nav>
@@ -11,23 +7,6 @@
       <p>Discover wooden home decor ideas, natural interior styling, thoughtful craftsmanship, and the small details that make everyday spaces feel like home.</p>
     </header>
     {% paginate blog.articles by 9 %}
-      {% if featured != blank and paginate.current_page == 1 %}
-        <div class="zsj__label"><span class="zsj__rule"></span> FEATURED STORY</div>
-        <article class="zsj__feature">
-          <a class="zsj__feature-image" href="{{ featured.url }}" aria-label="{{ featured.title | escape }}">
-            {% if featured.image != blank %}
-              {{ featured.image | image_url: width: 1500 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '450,700,900,1200,1500', sizes: '(min-width: 900px) 53vw, 100vw', alt: featured.image.alt | default: featured.title }}
-            {% else %}<div class="zsj__fallback" aria-hidden="true">ZAISEN</div>{% endif %}
-          </a>
-          <div class="zsj__feature-copy">
-            <p class="zsj__eyebrow">HOME STYLING &amp; NATURAL WOOD</p>
-            <h2><a href="{{ featured.url }}">{{ featured.title | escape }}</a></h2>
-            {% if featured.excerpt != blank %}<div class="zsj__excerpt">{{ featured.excerpt | strip_html | truncatewords: 33 }}</div>{% else %}<p>Find thoughtful ideas for bringing handcrafted wooden pieces into the places you love.</p>{% endif %}
-            <p class="zsj__meta">By {{ featured.author | escape }} · {{ featured.published_at | date: '%B %d, %Y' }}</p>
-            <a class="zsj__read" href="{{ featured.url }}">Read the story <span aria-hidden="true">↗</span></a>
-          </div>
-        </article>
-      {% endif %}
       <div class="zsj__browse" id="zsj-stories"><div><p class="zsj__eyebrow">EXPLORE THE JOURNAL</p><h2>Stories for natural living.</h2></div></div>
       <nav class="zsj__topics" aria-label="Browse journal topics">
         <a class="{% unless current_tags %}is-active{% endunless %}" href="{{ blog.url }}">All stories</a>
@@ -39,14 +18,12 @@
       {% if blog.articles_count > 0 %}
         <div class="zsj__grid">
           {% for post in blog.articles %}
-            {% unless paginate.current_page == 1 and forloop.first %}
               <article class="zsj__card">
                 <a class="zsj__card-image" href="{{ post.url }}" aria-label="{{ post.title | escape }}">
                   {% if post.image != blank %}{{ post.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '320,480,680,850,1000', sizes: '(min-width: 900px) 30vw, (min-width: 600px) 46vw, 90vw', alt: post.image.alt | default: post.title }}{% else %}<div class="zsj__fallback">ZAISEN</div>{% endif %}
                 </a>
                 <div class="zsj__card-copy"><p class="zsj__eyebrow">By {{ post.author | escape }} · {{ post.published_at | date: '%B %Y' }}</p><h3><a href="{{ post.url }}">{{ post.title | escape }}</a></h3><p>{{ post.excerpt_or_content | strip_html | truncatewords: 24 }}</p><a class="zsj__card-more" href="{{ post.url }}">Read article <span aria-hidden="true">↗</span></a></div>
               </article>
-            {% endunless %}
           {% endfor %}
         </div>
         {% if paginate.pages > 1 %}
@@ -74,31 +51,22 @@
 .zsj__intro h1{font-size:clamp(46px,6vw,87px);font-weight:350;line-height:1.1;letter-spacing:-.06em;margin:20px 0 24px;font-family:var(--font-heading--family,Georgia,serif)}
 .zsj__intro h1 strong{font-weight:700}
 .zsj__intro>p:last-child{font-size:clamp(14px,1.4vw,17px);line-height:1.9;color:#74665b;max-width:730px}
-.zsj__label{display:flex;align-items:center;gap:14px;color:#91704c;font-size:11px;letter-spacing:.18em;font-weight:700;margin-bottom:18px}
-.zsj__rule{width:29px;height:2px;background:#d8b56a}
-.zsj__feature{display:grid;grid-template-columns:1.07fr .93fr;border:1px solid #e8ddd1;background:#fff;overflow:hidden;border-radius:18px}
-.zsj__feature-image{display:block;min-width:0;min-height:400px;overflow:hidden;background:#f1e9df}
-.zsj__feature-image img{display:block;width:100%;height:100%;object-fit:cover}
-.zsj__feature-copy{padding:clamp(25px,4.8vw,74px);align-self:center}
-.zsj__feature h2{font-size:clamp(27px,3.4vw,47px);letter-spacing:-.04em;line-height:1.2;margin:12px 0 22px;font-family:var(--font-heading--family,Georgia,serif)}
 .zsj a{text-decoration:none;color:inherit}
-.zsj__feature-copy>.zsj__excerpt,.zsj__feature-copy>p:not(.zsj__eyebrow):not(.zsj__meta){color:#74665b;line-height:1.8;font-size:14px}
-.zsj__meta{font-size:12px;color:#806f60;margin:20px 0}
-.zsj__read,.zsj__card-more{display:inline-flex;align-items:center;gap:14px;color:#70472d!important;font-weight:700;font-size:13px;padding-bottom:5px;border-bottom:1px solid #b8916b}
-.zsj__browse{margin:77px 0 23px}
+.zsj__card-more{display:inline-flex;align-items:center;gap:14px;color:#70472d!important;font-weight:700;font-size:13px;padding-bottom:5px;border-bottom:1px solid #b8916b}
+.zsj__browse{margin:8px 0 23px}
 .zsj__browse h2{font-size:clamp(28px,3.6vw,46px);font-family:var(--font-heading--family,Georgia,serif);letter-spacing:-.035em;margin:5px 0}
 .zsj__topics{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 30px}
 .zsj__topics a{font-size:12px;border:1px solid #e3d7ca;background:#fff;padding:10px 16px;border-radius:50px;transition:background .2s ease}
 .zsj__topics a:hover,.zsj__topics a.is-active{background:#2b1d17;color:#fff}
-.zsj__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
-.zsj__card{background:#fff;border:1px solid #e9ded2;border-radius:15px;overflow:hidden}
-.zsj__card-image{display:block;aspect-ratio:4/5;background:#f4ede5;overflow:hidden}
-.zsj__card-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
-.zsj__card:hover img{transform:scale(1.035)}
-.zsj__card-copy{padding:21px 20px 25px}
+.zsj__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;gap:25px}
+.zsj__card{display:flex;flex-direction:column;min-width:0;height:100%;background:#fff;border:1px solid #e9ded2;border-radius:15px;overflow:hidden;transition:box-shadow .2s ease}
+.zsj__card-image{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:16/9;background:#f4ede5;overflow:hidden}
+.zsj__card-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.zsj__card:hover{box-shadow:0 10px 30px rgba(43,29,23,.09)}
+.zsj__card-copy{display:flex;flex-direction:column;flex:1;padding:21px 20px 25px}
 .zsj__card h3{font-size:22px;line-height:1.3;letter-spacing:-.025em;margin:9px 0;font-family:var(--font-heading--family,Georgia,serif)}
-.zsj__card-copy>p:not(.zsj__eyebrow){color:#76675d;font-size:13px;line-height:1.75}
-.zsj__card-more{margin-top:8px}
+.zsj__card-copy>p:not(.zsj__eyebrow){color:#76675d;font-size:13px;line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.zsj__card-more{margin-top:auto;align-self:flex-start;padding-top:12px}
 .zsj__empty{font-size:15px;color:#806f60;padding:25px 0}
 .zsj__pages{display:flex;justify-content:center;gap:24px;margin-top:30px;font-size:13px}
 .zsj__discover{margin-top:85px;background:#2b1d17;color:#fff8f0;border-radius:17px;padding:45px clamp(23px,4vw,58px);display:flex;align-items:center;justify-content:space-between;gap:30px}
@@ -106,9 +74,9 @@
 .zsj__discover p:not(.zsj__eyebrow){max-width:560px;font-size:13px;line-height:1.7;color:#d9c8b9}
 .zsj__discover a{display:inline-flex;align-items:center;justify-content:center;gap:13px;background:#fff8f0;color:#2b1d17;padding:15px 21px;border-radius:50px;white-space:nowrap;font-weight:700;font-size:12px}
 .zsj a:focus-visible{outline:2px solid #d8b56a;outline-offset:4px}
-@media(max-width:899px){.zsj__feature{grid-template-columns:1fr}.zsj__feature-image{min-height:0;aspect-ratio:16/10}.zsj__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:599px){.zsj{padding:24px 0 56px}.zsj__breadcrumb{margin-bottom:43px}.zsj__intro{margin-bottom:46px}.zsj__intro h1{font-size:46px}.zsj__feature-image{aspect-ratio:4/3}.zsj__feature-copy{padding:24px}.zsj__browse{margin-top:52px}.zsj__topics{overflow-x:auto;flex-wrap:nowrap;padding-bottom:7px}.zsj__topics a{flex-shrink:0}.zsj__grid{grid-template-columns:1fr}.zsj__discover{margin-top:54px;display:block;padding:30px 24px}.zsj__discover a{margin-top:20px}}
-@media(prefers-reduced-motion:reduce){.zsj__card-image img{transition:none}}
+@media(max-width:899px){.zsj__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:599px){.zsj{padding:24px 0 56px}.zsj__breadcrumb{margin-bottom:43px}.zsj__intro{margin-bottom:46px}.zsj__intro h1{font-size:46px}.zsj__browse{margin-top:10px}.zsj__topics{overflow-x:auto;flex-wrap:nowrap;padding-bottom:7px}.zsj__topics a{flex-shrink:0}.zsj__grid{grid-template-columns:1fr}.zsj__discover{margin-top:54px;display:block;padding:30px 24px}.zsj__discover a{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){.zsj__card{transition:none}}
 {% endstylesheet %}
 {% schema %}
 {"name":"ZAISEN Journal","tag":"section","settings":[],"presets":[{"name":"ZAISEN Journal"}]}
