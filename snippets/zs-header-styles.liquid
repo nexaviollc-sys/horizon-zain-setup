@@ -536,32 +536,4 @@
     #header-component.header--zaisen dropdown-localization-component .localization-form__list-item:not([hidden]){transition:none}
   }
 
-  /* Dropdown-open contrast correction only.
-     Homepage utility icons and Contact button normally use light text over
-     the dark hero. When a Category/Best Sellers flyout opens the header
-     background is ivory, so temporarily restore the existing walnut tones.
-     Outside these two open flyouts no header colors or hover styles change. */
-  @media screen and (min-width: 750px) {
-    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header__column--right {
-      --color-account-icon: #2B1D17;
-    }
-    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header__column--right :is(
-      .dropdown-localization__button,
-      .search-action .header-actions__action,
-      header-actions .header-actions__action,
-      .account-button
-    ) {
-      color: #2B1D17 !important;
-      --color-account-icon: #2B1D17;
-      opacity: 1 !important;
-    }
-    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header__column--right .dropdown-localization__button {
-      border-color: rgba(89,62,45,.35);
-      background: rgba(255,255,255,.93);
-    }
-    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title {
-      color: #2B1D17 !important;
-      border-color: rgba(89,62,45,.46);
-    }
-  }
 {% endstylesheet %}
