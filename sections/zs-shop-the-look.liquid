@@ -163,9 +163,16 @@
           {% unless already_featured %}
             {% assign candidate_price = candidate.price %}
             {% assign candidate_compare = candidate.compare_at_price %}
-            {% if candidate.selected_or_first_available_variant != blank %}
-              {% assign candidate_price = candidate.selected_or_first_available_variant.price %}
-              {% assign candidate_compare = candidate.selected_or_first_available_variant.compare_at_price %}
+            {% assign candidate_variant = candidate.selected_or_first_available_variant %}
+            {% if candidate_variant != blank %}
+              {% assign candidate_price = candidate_variant.price %}
+              {% assign candidate_compare = candidate_variant.compare_at_price %}
+            {% endif %}
+            {% assign show_urgency_for_candidate = false %}
+            {% if s.show_urgency and s.urgency_product != blank and candidate.id == s.urgency_product.id and candidate_variant != blank %}
+              {% if candidate.available and candidate_variant.inventory_management == 'shopify' and candidate_variant.inventory_policy != 'continue' and candidate_variant.inventory_quantity > 0 and candidate_variant.inventory_quantity <= s.urgency_threshold %}
+                {% assign show_urgency_for_candidate = true %}
+              {% endif %}
             {% endif %}
             {% assign candidate_discount = 0 %}
             {% if candidate_compare != blank and candidate_compare > candidate_price and candidate_compare > 0 %}
@@ -180,6 +187,9 @@
                     <span class="zs-kitchen__no-image">ZAISEN</span>
                   {% endif %}
                   {% if candidate_discount > 0 %}<span class="zs-kitchen__discount" aria-label="{{ candidate_discount }} percent off">-{{ candidate_discount }}%</span>{% endif %}
+                  {% if show_urgency_for_candidate %}
+                    <span class="zs-kitchen__urgency-badge" aria-label="Only {{ candidate_variant.inventory_quantity }} remaining in stock"><span class="zs-kitchen__urgency-dot" aria-hidden="true"></span>Only {{ candidate_variant.inventory_quantity }} left</span>
+                  {% endif %}
                 </div>
                 <div class="zs-kitchen__carousel-copy">
                   <h4>{{ candidate.title | escape }}</h4>
@@ -189,6 +199,10 @@
                   </div>
                   {% unless candidate.available %}<span class="zs-kitchen__sold-out">{{ s.sold_out_text | escape }}</span>{% endunless %}
                 </div>
+              </a>
+              <a href="{{ candidate.url }}" class="zs-kitchen__carousel-cta" aria-label="View product: {{ candidate.title | escape }}">
+                {{ s.carousel_product_button | escape }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
               </a>
             </article>
           {% endunless %}
@@ -223,11 +237,11 @@
 .zs-kitchen__body{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,1fr);gap:17px}
 .zs-kitchen__body--single{grid-template-columns:1fr}
 .zs-kitchen__featured{min-width:0;display:flex;flex-direction:column;justify-content:space-between;background:#f7f3ed;border:1px solid #efe7dc;border-radius:18px;overflow:hidden}
-.zs-kitchen__featured-photo{position:relative;flex:1;min-height:310px;overflow:hidden}
+.zs-kitchen__featured-photo{position:relative;flex:0 0 auto;width:100%;aspect-ratio:1 / 1;height:auto;min-height:0;overflow:hidden;background:#f7f3ed}
 .zs-kitchen__number{position:absolute;top:23px;left:24px;z-index:1;font-size:10px;font-weight:600;letter-spacing:.16em;color:#8e7966}
 .zs-kitchen__featured-image-link{position:absolute;inset:0;display:block;width:100%;height:100%;min-height:0;padding:0;overflow:hidden}
-.zs-kitchen__featured-img{display:block;max-height:none;height:100%;width:100%;object-fit:cover;object-position:center;transition:transform .3s}
-.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img{transform:scale(1.026)}
+.zs-kitchen__featured-img{display:block;max-height:none;height:100%;width:100%;object-fit:contain;object-position:center;transition:opacity .25s}
+.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img{opacity:.97}
 .zs-kitchen__photo-label{position:absolute;left:23px;bottom:19px;background:rgba(255,255,255,.86);padding:8px 12px;border-radius:5px;font-size:9px;font-weight:600;letter-spacing:.12em;color:#785a42}
 .zs-kitchen__featured-details{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fffdfb;border-top:1px solid #ede6dc;padding:25px 28px}
 .zs-kitchen__featured-copy{min-width:0}
@@ -272,14 +286,19 @@
 .zs-kitchen__carousel-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 54px)/4);gap:18px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:1px;scrollbar-width:none;-ms-overflow-style:none;padding:2px 1px 12px}
 .zs-kitchen__carousel-track::-webkit-scrollbar{display:none}
 .zs-kitchen__carousel-track:focus-visible{outline:2px solid var(--zk-gold,#d8b56a);outline-offset:3px}
-.zs-kitchen__carousel-product{min-width:0;scroll-snap-align:start}
-.zs-kitchen__carousel-link{display:block;color:inherit;text-decoration:none}
+.zs-kitchen__carousel-product{min-width:0;scroll-snap-align:start;display:flex;flex-direction:column}
+.zs-kitchen__carousel-link{display:block;flex:1 1 auto;color:inherit;text-decoration:none}
 .zs-kitchen__carousel-photo{position:relative;display:grid;place-items:center;aspect-ratio:1;background:#fff;border:1px solid #f0ebe5;border-radius:13px;overflow:hidden}
 .zs-kitchen__carousel-img{width:100%;height:100%;display:block;object-fit:contain;object-position:center}
 .zs-kitchen__carousel-copy{padding:12px 1px 0}
 .zs-kitchen__carousel-copy h4{font-family:inherit!important;color:var(--zk-ink,#2b1d17);font-size:clamp(12px,1vw,14px);font-weight:600;line-height:1.45;margin:0;letter-spacing:-.015em}
 .zs-kitchen__carousel-link:hover h4{text-decoration:underline;text-underline-offset:3px}
 .zs-kitchen__carousel-copy .zs-kitchen__price{margin-top:8px;font-size:13px}
+.zs-kitchen__carousel-cta{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:42px;margin-top:16px;padding:10px 15px;border:1px solid #3a2920;border-radius:9px;background:#35241b;color:#fff;text-decoration:none;font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.02em;transition:background .2s,border-color .2s,transform .2s}
+.zs-kitchen__carousel-cta svg{flex:0 0 auto}
+.zs-kitchen__carousel-cta:hover{background:#62432e;border-color:#62432e;color:#fff;transform:translateY(-1px)}
+.zs-kitchen__urgency-badge{position:absolute;top:12px;right:12px;z-index:2;display:inline-flex;align-items:center;gap:6px;min-height:27px;padding:5px 9px;border-radius:7px;background:#257247;color:#fff;font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap;box-shadow:0 2px 7px rgba(19,76,44,.15);pointer-events:none}
+.zs-kitchen__urgency-dot{width:6px;height:6px;border-radius:50%;background:#c6f2d5;flex:0 0 auto}
 @media(max-width:1100px){.zs-kitchen__carousel-track{grid-auto-columns:calc((100% - 30px)/3);gap:15px}}
 @media(max-width:749px){
 .zs-kitchen__number{left:auto;right:17px}
@@ -293,6 +312,8 @@
 .zs-kitchen__carousel-track{grid-auto-columns:calc((100% - 12px)/2.1);gap:12px}
 .zs-kitchen__carousel-copy h4{font-size:12px}
 .zs-kitchen__carousel-copy .zs-kitchen__price{font-size:12px;gap:6px}
+.zs-kitchen__urgency-badge{top:9px;right:9px;min-height:24px;padding:4px 7px;font-size:10px;gap:4px}
+.zs-kitchen__carousel-cta{min-height:39px;margin-top:12px;padding:9px 11px;font-size:11px}
 }
 @media(max-width:1100px){
 .zs-kitchen__body{grid-template-columns:1fr 1fr}
@@ -316,10 +337,10 @@
 .zs-kitchen__collection-cta{display:none}
 .zs-kitchen__body{gap:11px}
 .zs-kitchen__featured{border-radius:14px}
-.zs-kitchen__featured-photo{min-height:270px;height:270px}
+.zs-kitchen__featured-photo{width:100%;aspect-ratio:1 / 1;min-height:0;height:auto;flex:0 0 auto}
 .zs-kitchen__featured-image-link{min-height:0;padding:0}
 .zs-kitchen__featured-img{max-height:none}
-.zs-kitchen__number{left:17px;top:17px}
+.zs-kitchen__number{left:auto;right:17px;top:17px}
 .zs-kitchen__photo-label{left:15px;bottom:13px;padding:6px 9px;font-size:8px}
 .zs-kitchen__featured-details{padding:17px}
 .zs-kitchen__featured h3{font-size:15px}
@@ -341,7 +362,8 @@
 }
 @media(prefers-reduced-motion:reduce){
 .zs-kitchen__featured-img,.zs-kitchen__product{transition:none}
-.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img,.zs-kitchen__product:hover{transform:none}
+.zs-kitchen__featured-image-link:hover .zs-kitchen__featured-img{opacity:1}
+.zs-kitchen__product:hover,.zs-kitchen__carousel-cta:hover{transform:none}
 }
 {% endstylesheet %}
 {% javascript %}
@@ -401,6 +423,11 @@
     {"type":"text","id":"carousel_eyebrow","label":"Carousel small heading","default":"COMPLETE THE TABLE"},
     {"type":"text","id":"carousel_title","label":"Carousel heading","default":"More for Your Table"},
     {"type":"textarea","id":"carousel_description","label":"Carousel supporting text","default":"Explore more handcrafted wooden kitchen and dining pieces, from serving sets to everyday essentials."},
+    {"type":"text","id":"carousel_product_button","label":"Carousel product button text","default":"View Product"},
+    {"type":"header","content":"Stock urgency badge"},
+    {"type":"checkbox","id":"show_urgency","label":"Show verified low-stock badge","default":true},
+    {"type":"product","id":"urgency_product","label":"Carousel product for the green stock badge"},
+    {"type":"range","id":"urgency_threshold","label":"Only show if stock is at or below","min":1,"max":30,"step":1,"default":15},
     {"type":"text","id":"bottom_text","label":"Supporting caption","default":"Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table."},
     {"type":"header","content":"Style"},
     {"type":"font_picker","id":"editorial_font","label":"Font","default":"poppins_n4"},
