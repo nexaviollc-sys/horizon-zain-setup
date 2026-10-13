@@ -4,6 +4,7 @@
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
+  assign footer_logo = s.logo | default: settings.logo
   assign contact_page = pages['contact']
   assign story_page = pages['our-story']
   assign contact_href = contact_page.url | default: '/pages/contact'
@@ -51,8 +52,8 @@
     <div class="zs-pf__top">
       <div class="zs-pf__brand">
         <a href="{{ routes.root_url }}" class="zs-pf__brand-link" aria-label="ZAISEN homepage">
-          {%- if s.logo != blank -%}
-            {{ s.logo | image_url: width: 480 | image_tag: class: 'zs-pf__logo', widths: '160,240,320,480', sizes: '(max-width: 749px) 180px, 210px', loading: 'lazy', alt: 'ZAISEN' }}
+          {%- if footer_logo != blank -%}
+            {{ footer_logo | image_url: width: 480 | image_tag: class: 'zs-pf__logo', widths: '160,240,320,480', sizes: '(max-width: 749px) 180px, 210px', loading: 'lazy', alt: 'ZAISEN logo' }}
           {%- else -%}
             <span class="zs-pf__wordmark">ZAISEN</span>
           {%- endif -%}
