@@ -3,7 +3,7 @@
   Four identical groups create a seamless CSS marquee without JavaScript.
 {%- endcomment -%}
 {%- assign s = section.settings -%}
-<section id="zsm-{{ section.id }}" class="zsm" aria-label="ZAISEN shipping and support information"
+<section id="zsm-{{ section.id }}" class="zsm" aria-label="ZAISEN shopping benefits and support"
   style="--zsm-bg:{{ s.background }};--zsm-text:{{ s.text_color }};--zsm-accent:{{ s.accent_color }};--zsm-h:{{ s.height }}px;--zsm-speed:{{ s.duration }}s">
   <div class="zsm__viewport">
     <div class="zsm__track">
@@ -13,21 +13,19 @@
           {% if s.message_2 != blank %}<span class="zsm__message">{{ s.message_2 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_3 != blank %}<span class="zsm__message">{{ s.message_3 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_4 != blank %}<span class="zsm__message">{{ s.message_4 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
-          {% if s.message_5 != blank %}<span class="zsm__message">{{ s.message_5 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
-          {% if s.message_6 != blank %}<span class="zsm__message">{{ s.message_6 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
         </div>
       {% endfor %}
     </div>
   </div>
 </section>
 {% stylesheet %}
-.zsm{display:block;width:100%;margin:0;padding:0;background:var(--zsm-bg,#F5EFE6);color:var(--zsm-text,#654733);overflow:hidden}
+.zsm{display:block;width:100%;margin:0;padding:0;background:var(--zsm-bg,#2B1D17);background-image:linear-gradient(100deg,color-mix(in srgb,var(--zsm-bg,#2B1D17) 87%,#7A5942),var(--zsm-bg,#2B1D17) 31%);color:var(--zsm-text,#F7F3EE);overflow:hidden}
 .zsm *{box-sizing:border-box}
 .zsm__viewport{display:flex;align-items:center;width:100%;height:var(--zsm-h,54px);overflow:hidden}
 .zsm__track{display:flex;flex:0 0 auto;align-items:center;min-width:max-content;width:max-content;white-space:nowrap;animation:zsm-shipping-flow var(--zsm-speed,45s) linear infinite;will-change:transform}
 .zsm__group{display:flex;flex:0 0 auto;align-items:center;gap:clamp(20px,2.7vw,36px);padding-inline:clamp(12px,1.8vw,22px);white-space:nowrap}
 .zsm__message{display:inline-block;flex:0 0 auto;font-size:clamp(10px,.86vw,12px);font-weight:600;line-height:1.35;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap}
-.zsm__separator{flex:0 0 auto;color:var(--zsm-accent,#B9945C);font-size:10px;line-height:1}
+.zsm__separator{flex:0 0 auto;color:var(--zsm-accent,#D8B56A);font-size:10px;line-height:1}
 .zsm:hover .zsm__track,.zsm:focus-within .zsm__track{animation-play-state:paused}
 @keyframes zsm-shipping-flow{from{transform:translateX(0)}to{transform:translateX(-25%)}}
 @media(max-width:749px){
@@ -46,15 +44,13 @@
   "settings":[
     {"type":"header","content":"Shipping and service messages"},
     {"type":"text","id":"message_1","label":"Message 1","default":"FREE WORLDWIDE SHIPPING"},
-    {"type":"text","id":"message_2","label":"Message 2","default":"SECURE SHIPPING"},
-    {"type":"text","id":"message_3","label":"Message 3","default":"FAST SHIPPING"},
-    {"type":"text","id":"message_4","label":"Message 4","default":"UK DELIVERY: APPROX. 6 DAYS"},
-    {"type":"text","id":"message_5","label":"Message 5","default":"OTHER COUNTRIES: APPROX. 9 DAYS"},
-    {"type":"text","id":"message_6","label":"Message 6","default":"24/7 CUSTOMER SUPPORT"},
+    {"type":"text","id":"message_2","label":"Message 2","default":"24/7 SUPPORT"},
+    {"type":"text","id":"message_3","label":"Message 3","default":"14-DAY REFUNDS"},
+    {"type":"text","id":"message_4","label":"Message 4","default":"SECURE PAYMENT"},
     {"type":"header","content":"Design"},
-    {"type":"color","id":"background","label":"Background","default":"#F5EFE6"},
-    {"type":"color","id":"text_color","label":"Text","default":"#654733"},
-    {"type":"color","id":"accent_color","label":"Separators","default":"#B9945C"},
+    {"type":"color","id":"background","label":"Background","default":"#2B1D17"},
+    {"type":"color","id":"text_color","label":"Text","default":"#F7F3EE"},
+    {"type":"color","id":"accent_color","label":"Separators","default":"#D8B56A"},
     {"type":"range","id":"height","label":"Desktop height","min":40,"max":76,"step":2,"unit":"px","default":54},
     {"type":"range","id":"duration","label":"Scroll duration","min":20,"max":80,"step":1,"unit":"s","default":45}
   ],
