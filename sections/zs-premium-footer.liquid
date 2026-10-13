@@ -151,6 +151,8 @@
 </section>
 
 {% stylesheet %}
+/* Ensure the whole footer stays walnut, even with the theme's legacy white footer styles. */
+footer:has(.zs-pf){background-color:#2B1D17}
 footer .zs-pf{background:var(--zs-pf-bg,#2B1D17);color:var(--zs-pf-ink,#F7F3EE);padding:62px 0 0}
 footer .zs-pf *{box-sizing:border-box}
 footer .zs-pf :is(h2,h3,p){color:inherit}
