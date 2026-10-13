@@ -11,18 +11,11 @@
   "sections": {
     "zs_our_story_page": {
       "type": "zs-our-story",
-      "settings": {
-        "editorial_font": "poppins_n4",
-        "hero_text": "We’re a growing small business with a love for pure wood and the care that goes into making something by hand. Discover the people-first values and handcrafted wooden home décor behind ZAISEN.",
-        "background_color": "#FFFFFF",
-        "ink_color": "#2B1D17",
-        "muted_color": "#80736A",
-        "gold_color": "#D8B56A"
-      },
       "blocks": {
         "story_step_wood": {
           "type": "process",
           "settings": {
+            "photo": "shopify://shop_images/Hands_Examining_a_Walnut_Wood_Slab.jpg",
             "title": "Selecting the wood",
             "description": "It starts with natural wood, chosen for each piece's intended design."
           }
@@ -30,6 +23,7 @@
         "story_step_hand": {
           "type": "process",
           "settings": {
+            "photo": "shopify://shop_images/Master_Carving_a_Wooden_Horse.jpg",
             "title": "Shaping by hand",
             "description": "Craftsmanship transforms the material into its intended form."
           }
@@ -37,6 +31,7 @@
         "story_step_finish": {
           "type": "process",
           "settings": {
+            "photo": "shopify://shop_images/Polishing_a_Carved_Wooden_Horse.jpg",
             "title": "Finishing touches",
             "description": "Surfaces, contours, and small details receive attention."
           }
@@ -44,6 +39,7 @@
         "story_step_pack": {
           "type": "process",
           "settings": {
+            "photo": "shopify://shop_images/Handcrafted_Wooden_Horse_Ready_to_Ship.jpg",
             "title": "Ready for your home",
             "description": "Each finished piece is prepared for the journey to its new home."
           }
@@ -54,39 +50,20 @@
         "story_step_hand",
         "story_step_finish",
         "story_step_pack"
-      ]
+      ],
+      "settings": {
+        "editorial_font": "poppins_n4",
+        "hero_text": "We’re a growing small business with a love for pure wood and the care that goes into making something by hand. Discover the people-first values and handcrafted wooden home décor behind ZAISEN.",
+        "origin_image": "shopify://shop_images/Artisan_Wooden_Tissue_Box_Gift-Wrapping_Scene.png",
+        "care_image": "shopify://shop_images/Artisan_Wooden_Tissue_Box_Gift-Wrapping_Scene.png",
+        "background_color": "#ffffff",
+        "ink_color": "#2b1d17",
+        "muted_color": "#80736a",
+        "gold_color": "#d8b56a"
+      }
     },
     "zs_shipping_faq_story_2026": {
       "type": "zs-shipping-faq",
-      "name": "ZAISEN Shipping & FAQs",
-      "settings": {
-        "eyebrow": "ZAISEN CUSTOMER CARE",
-        "heading_light": "Shipping & Delivery,",
-        "heading_bold": "Made Simple.",
-        "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
-        "country_heading": "Estimated delivery by country",
-        "country_intro": "FREE shipping on all orders to these countries",
-        "free_label": "FREE",
-        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
-        "shipping_policy_label": "Shipping Policy",
-        "contact_eyebrow": "PERSONAL SUPPORT",
-        "contact_heading": "Need a hand?",
-        "contact_description": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help.",
-        "contact_button": "Contact Us",
-        "contact_link": "",
-        "faq_eyebrow": "GOOD TO KNOW",
-        "faq_heading": "Frequently Asked Questions",
-        "first_faq_open": false,
-        "refund_policy_label": "Read our Refund Policy",
-        "background": "#fcfaf7",
-        "card_background": "#ffffff",
-        "heading_color": "#2b1d17",
-        "text_color": "#80736a",
-        "accent_color": "#d8b56a",
-        "contact_background": "#2b1d17",
-        "padding_top": 72,
-        "padding_bottom": 88
-      },
       "blocks": {
         "shf_country_uk": {
           "type": "country",
@@ -207,7 +184,36 @@
         "shf_faq_wood",
         "shf_faq_choose",
         "shf_faq_damaged"
-      ]
+      ],
+      "name": "ZAISEN Shipping & FAQs",
+      "settings": {
+        "eyebrow": "ZAISEN CUSTOMER CARE",
+        "heading_light": "Shipping & Delivery,",
+        "heading_bold": "Made Simple.",
+        "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
+        "country_heading": "Estimated delivery by country",
+        "country_intro": "FREE shipping on all orders to these countries",
+        "free_label": "FREE",
+        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
+        "shipping_policy_label": "Shipping Policy",
+        "contact_eyebrow": "PERSONAL SUPPORT",
+        "contact_heading": "Need a hand?",
+        "contact_description": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help.",
+        "contact_button": "Contact Us",
+        "contact_link": "",
+        "faq_eyebrow": "GOOD TO KNOW",
+        "faq_heading": "Frequently Asked Questions",
+        "first_faq_open": false,
+        "refund_policy_label": "Read our Refund Policy",
+        "background": "#fcfaf7",
+        "card_background": "#ffffff",
+        "heading_color": "#2b1d17",
+        "text_color": "#80736a",
+        "accent_color": "#d8b56a",
+        "contact_background": "#2b1d17",
+        "padding_top": 72,
+        "padding_bottom": 88
+      }
     }
   },
   "order": [
@@ -215,4 +221,3 @@
     "zs_shipping_faq_story_2026"
   ]
 }
-
