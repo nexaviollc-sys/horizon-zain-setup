@@ -14,6 +14,7 @@
           {% if s.message_3 != blank %}<span class="zsm__message">{{ s.message_3 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_4 != blank %}<span class="zsm__message">{{ s.message_4 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_5 != blank %}<span class="zsm__message">{{ s.message_5 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
+          {% if s.message_6 != blank %}<span class="zsm__message">{{ s.message_6 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
         </div>
       {% endfor %}
     </div>
@@ -45,10 +46,11 @@
   "settings":[
     {"type":"header","content":"Shipping and service messages"},
     {"type":"text","id":"message_1","label":"Message 1","default":"FREE WORLDWIDE SHIPPING"},
-    {"type":"text","id":"message_2","label":"Message 2","default":"FAST & SECURE SHIPPING"},
-    {"type":"text","id":"message_3","label":"Message 3","default":"UK DELIVERY: APPROX. 6 DAYS"},
-    {"type":"text","id":"message_4","label":"Message 4","default":"OTHER COUNTRIES: APPROX. 9 DAYS"},
-    {"type":"text","id":"message_5","label":"Message 5","default":"24/7 CUSTOMER SUPPORT"},
+    {"type":"text","id":"message_2","label":"Message 2","default":"SECURE SHIPPING"},
+    {"type":"text","id":"message_3","label":"Message 3","default":"FAST SHIPPING"},
+    {"type":"text","id":"message_4","label":"Message 4","default":"UK DELIVERY: APPROX. 6 DAYS"},
+    {"type":"text","id":"message_5","label":"Message 5","default":"OTHER COUNTRIES: APPROX. 9 DAYS"},
+    {"type":"text","id":"message_6","label":"Message 6","default":"24/7 CUSTOMER SUPPORT"},
     {"type":"header","content":"Design"},
     {"type":"color","id":"background","label":"Background","default":"#F5EFE6"},
     {"type":"color","id":"text_color","label":"Text","default":"#654733"},
