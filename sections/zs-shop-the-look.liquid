@@ -346,9 +346,9 @@
 .zs-kitchen__featured h3{font-size:15px}
 .zs-kitchen__featured-arrow{flex-basis:38px;width:38px;height:38px}
 .zs-kitchen__products{gap:10px}
-.zs-kitchen__product{grid-template-columns:110px minmax(0,1fr) 17px;min-height:125px;gap:10px;padding:0 9px 0 0;border-radius:11px}
-.zs-kitchen__product-image-link{min-height:111px;padding:0;border-radius:0}
-.zs-kitchen__product-img{inset:auto 0;top:50%;width:100%;height:auto;aspect-ratio:1 / 1;max-height:none;object-fit:contain;object-position:center;transform:translateY(-50%)}
+.zs-kitchen__product{grid-template-columns:minmax(0,38%) minmax(0,1fr) 17px;min-height:0;gap:10px;padding:0 9px 0 0;border-radius:11px}
+.zs-kitchen__product-image-link{align-self:center;width:100%;height:auto;aspect-ratio:1 / 1;min-height:0;padding:0;border-radius:0;background:#fcfaf7}
+.zs-kitchen__product-img{inset:0;top:0;width:100%;height:100%;aspect-ratio:auto;max-height:none;object-fit:contain;object-position:center;transform:none}
 .zs-kitchen__product h3{font-size:12px}
 .zs-kitchen__product .zs-kitchen__type-label{font-size:8px;margin-bottom:5px}
 .zs-kitchen__product .zs-kitchen__price{font-size:12px;gap:5px;margin-top:6px}
@@ -358,7 +358,7 @@
 .zs-kitchen__mobile-cta{display:flex;align-items:center;justify-content:space-between;margin-top:19px;background:#2b1d17;color:#fff;padding:14px 17px;text-decoration:none;font-weight:600;font-size:12px;border-radius:9px}
 }
 @media(max-width:390px){
-.zs-kitchen__product{grid-template-columns:92px minmax(0,1fr) 16px;gap:8px}
+.zs-kitchen__product{grid-template-columns:minmax(0,43%) minmax(0,1fr) 16px;gap:8px}
 }
 @media(prefers-reduced-motion:reduce){
 .zs-kitchen__featured-img,.zs-kitchen__product{transition:none}
