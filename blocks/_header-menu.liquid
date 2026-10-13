@@ -813,6 +813,94 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+  /*
+    ZAISEN compact desktop Category flyout.
+    The original Horizon mega menu is edge-to-edge with featured product imagery.
+    Keep the existing menu data and hover/keyboard JS, but present just the
+    category links in a centered 560px panel beneath the navigation.
+    Scope to the ZAISEN header so mobile drawer and other menu modes are untouched.
+  */
+  @media screen and (min-width: 750px) {
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu {
+      width: min(560px, calc(100vw - 32px));
+      max-width: calc(100vw - 32px);
+      inset-inline-start: calc(50% - 70px);
+      transform: translateX(-50%);
+      top: calc(100% - 1px);
+      padding-inline: 0;
+      background: #ffffff;
+      border: 1px solid #e8ded4;
+      border-top: 2px solid #a8794a;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 18px 38px rgba(40, 27, 19, .14);
+      clip-path: none;
+      --submenu-padding-block-start: 14px;
+      --submenu-padding-block-end: 14px;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .menu-list__submenu-inner {
+      padding: 12px;
+      max-height: min(62vh, 460px);
+      display: block;
+      transform: none;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu {
+      width: 100%;
+      max-width: none;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__grid,
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px 9px;
+      width: 100%;
+      grid-column: 1 / -1;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__column {
+      grid-column: auto;
+      white-space: normal;
+      min-width: 0;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link {
+      display: flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 10px 12px;
+      line-height: 1.4;
+      font-size: 13px;
+      color: #2b1d17;
+      background: transparent;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color .18s ease, color .18s ease;
+    }
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link:is(:hover, :focus-visible) {
+      background: #f8f3eb;
+      color: #76502e;
+    }
+    /* The full-width animated underlay must not paint over the page. */
+    #header-component.header--zaisen .header__underlay-open {
+      height: var(--header-height);
+      background: var(--color-background-top-row);
+      box-shadow: none;
+      pointer-events: none;
+    }
+    #header-component.header--zaisen .header__underlay-open::after {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu {
+      inset-inline-start: 50%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link {
+      transition: none;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
