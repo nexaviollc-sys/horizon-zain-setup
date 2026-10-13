@@ -93,9 +93,10 @@
         <p class="zs-shf__faq-eyebrow">{{ s.faq_eyebrow | escape }}</p>
         <h3 id="zs-shf-faq-title-{{ section.id }}" class="zs-shf__faq-heading">{{ s.faq_heading | escape }}</h3>
         <div class="zs-shf__faq-list">
+          {%- assign first_faq_item = true -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'faq' -%}
-              <details class="zs-shf__faq-item" {{ block.shopify_attributes }}{% if forloop.first and s.first_faq_open %} open{% endif %}>
+              <details class="zs-shf__faq-item" {{ block.shopify_attributes }}{% if first_faq_item and s.first_faq_open %} open{% endif %}>
                 <summary class="zs-shf__question">
                   <span>{{ block.settings.question | escape }}</span>
                   <span class="zs-shf__faq-toggle" aria-hidden="true">
@@ -109,6 +110,7 @@
                   {%- endif -%}
                 </div>
               </details>
+              {%- assign first_faq_item = false -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
