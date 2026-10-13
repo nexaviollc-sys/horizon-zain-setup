@@ -187,7 +187,7 @@
               {% endif %}
 
               {% if product_href != blank %}
-                <a class="zsh__product" href="{{ product_href | escape }}">
+                <a class="zsh__product" href="{{ product_href | escape }}" aria-label="Explore {{ product_link_label | escape }}">
                   <span class="zsh__product-copy">
                   {% if s.product_label != blank %}
                     <span class="zsh__product-label">{{ s.product_label | escape }}</span>
@@ -402,6 +402,8 @@
   flex: 1 1 auto;
   flex-direction: column;
   padding: 20px clamp(18px, 2vw, 25px) 22px;
+  background: #F3EBE1;
+  border-top: 1px solid rgba(43, 29, 23, .07);
 }
 .zsh__review,
 .zsh__editorial {
@@ -468,14 +470,19 @@
 }
 .zsh__product {
   justify-content: space-between;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
-  min-height: 44px;
+  min-height: 72px;
   margin-top: 23px;
-  padding-top: 13px;
-  border-top: 1px solid rgba(128, 96, 68, .18);
-  font-size: 11px;
+  padding: 13px 15px;
+  border: 1px solid #2B1D17;
+  border-radius: 12px;
+  background: #2B1D17;
+  color: #FFFFFF;
+  font-size: 12px;
   line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(43, 29, 23, .10);
+  transition: background .22s ease, box-shadow .22s ease, transform .22s ease;
 }
 .zsh__product-copy {
   display: flex;
@@ -485,12 +492,24 @@
   overflow-wrap: anywhere;
 }
 .zsh__product-label {
-  color: var(--zsh-muted, #80736A);
-  font-weight: 400;
+  color: #D9C2AA;
+  font-size: 11px;
+  font-weight: 500;
 }
 .zsh__product strong {
-  color: var(--zsh-ink, #2B1D17);
+  color: #FFFFFF;
+  font-size: 12px;
   font-weight: 600;
+  line-height: 1.4;
+}
+.zsh__product svg {
+  width: 19px;
+  height: 19px;
+  color: #FFFFFF;
+}
+.zsh__product:focus-visible {
+  outline: 2px solid #8F6E4D;
+  outline-offset: 3px;
 }
 .zsh a:focus-visible {
   outline: 2px solid var(--zsh-ink, #2B1D17);
@@ -525,12 +544,15 @@
   line-height: 1.75;
 }
 @media (hover: hover) and (pointer: fine) {
-  .zsh__header-link,
-  .zsh__product { transition: color .22s ease, border-color .22s ease; }
-  .zsh__header-link:hover,
-  .zsh__product:hover { color: #8C6545; }
-  .zsh__header-link:hover { border-color: #8C6545; }
-  .zsh__product:hover { border-color: rgba(140, 101, 69, .42); }
+  .zsh__header-link { transition: color .22s ease, border-color .22s ease; }
+  .zsh__header-link:hover { color: #8C6545; border-color: #8C6545; }
+  .zsh__product:hover {
+    background: #513A2C;
+    border-color: #513A2C;
+    color: #FFFFFF;
+    box-shadow: 0 8px 22px rgba(43, 29, 23, .16);
+    transform: translateY(-2px);
+  }
   .zsh__product svg,
   .zsh__header-link svg { transition: transform .22s ease; }
   .zsh__product:hover svg,
@@ -576,13 +598,14 @@
   .zsh__body { min-height: 0; padding: 18px 19px 20px; }
   .zsh__quote { max-width: 42ch; font-size: 16px; }
   .zsh__card-title { font-size: 24px; }
-  .zsh__product { margin-top: 22px; }
+  .zsh__product { margin-top: 22px; min-height: 74px; padding: 13px 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .zsh__header-link,
   .zsh__product,
   .zsh__product svg,
   .zsh__header-link svg { transition: none; }
+  .zsh__product:hover { transform: none; }
   .zsh__product:hover svg,
   .zsh__header-link:hover svg { transform: none; }
 }
