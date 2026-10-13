@@ -110,3 +110,7 @@ body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement) {display
 body:has(.zf-hero) #header-group .zs-announcement{display:none!important}
 body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__underlay-closed{background:transparent!important;box-shadow:none!important}
 body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__underlay-closed{background:#FFFFFF!important}
+
+/* The premium ZAISEN footer replaces the old white footer group.
+   Restrict the dark background to pages displaying this footer only. */
+footer:has(.zs-pf){background-color:#2B1D17}
