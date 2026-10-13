@@ -96,18 +96,21 @@
       {% for link in block_settings.menu.links %}
         {%- liquid
           assign zs_category_menu = false
+          assign zs_best_sellers_menu = false
           assign zs_link_label = link.title | strip | downcase
           if zs_link_label == 'category'
             assign zs_category_menu = true
+          elsif zs_link_label == 'best sellers' or zs_link_label == 'bestsellers'
+            assign zs_best_sellers_menu = true
           endif
         -%}
         <li
-          class="menu-list__list-item{% if zs_category_menu %} zs-category-item{% endif %}"
+          class="menu-list__list-item{% if zs_category_menu %} zs-category-item{% elsif zs_best_sellers_menu %} zs-bestsellers-item{% endif %}"
           on:blur="/deactivate"
           on:pointerenter="/activate"
           on:pointerleave="/deactivate"
         >
-          {%- if link.links != blank -%}
+          {%- if link.links != blank or zs_best_sellers_menu -%}
             <span class="menu-list__trigger">
           {%- endif -%}
           <a
@@ -121,7 +124,7 @@
           >
             <span class="menu-list__link-title">{{- link.title -}}</span>
           </a>
-          {%- if link.links != blank -%}
+          {%- if link.links != blank or zs_best_sellers_menu -%}
             <button
               type="button"
               class="menu-list__disclosure button-unstyled"
@@ -146,22 +149,64 @@
               Collapsed by default via `inert`: keeps the submenu out of the tab order
               and the accessibility tree until it is opened. Toggled in header-menu.js.
             {%- endcomment -%}
-            <div class="menu-list__submenu{{ background_color_classes }}{% if zs_category_menu %} zs-category-flyout{% endif %}" ref="submenu[]" data-skip-node-update inert>
+            <div class="menu-list__submenu{{ background_color_classes }}{% if zs_category_menu %} zs-category-flyout zs-nav-flyout{% elsif zs_best_sellers_menu %} zs-bestsellers-flyout zs-nav-flyout{% endif %}" ref="submenu[]" data-skip-node-update inert>
               <div
                 id="submenu-{{ forloop.index }}"
                 class="menu-list__submenu-inner"
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {%- if zs_category_menu -%}
+                  <div class="zs-nav-panel__heading">
+                    <div>
+                      <p class="zs-nav-panel__eyebrow">NATURAL WOOD · TIMELESS DESIGN</p>
+                      <p class="zs-nav-panel__title">Explore Our Collections</p>
+                    </div>
+                    <span class="zs-nav-panel__count">{{ link.links.size }} collections</span>
+                  </div>
                   <ul class="zs-category-buttons" aria-label="Wooden product categories">
                     {%- for category_link in link.links -%}
                       <li class="zs-category-buttons__item">
                         <a class="zs-category-buttons__link" href="{{ category_link.url }}"{% if category_link.current %} aria-current="page"{% endif %}>
-                          {{- category_link.title | escape -}}
+                          <span class="zs-category-buttons__number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                          <span class="zs-category-buttons__text">{{ category_link.title | escape }}</span>
+                          <svg class="zs-category-buttons__arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
                         </a>
                       </li>
                     {%- endfor -%}
                   </ul>
+                  <a class="zs-nav-panel__view-all" href="{{ routes.collections_url }}">Explore all collections <span aria-hidden="true">↗</span></a>
+                {%- elsif zs_best_sellers_menu -%}
+                  {%- assign zs_best_collection = collections['best-sellers'] -%}
+                  <div class="zs-nav-panel__heading">
+                    <div>
+                      <p class="zs-nav-panel__eyebrow">CUSTOMER FAVORITES</p>
+                      <p class="zs-nav-panel__title">Best-Selling Wooden Pieces</p>
+                    </div>
+                    <span class="zs-nav-panel__count">HANDCRAFTED</span>
+                  </div>
+                  {%- if zs_best_collection != blank and zs_best_collection.products_count > 0 -%}
+                    <ul class="zs-bestseller-grid" aria-label="ZAISEN best sellers">
+                      {%- for zs_product in zs_best_collection.products limit: 4 -%}
+                        <li class="zs-bestseller-grid__item">
+                          <a class="zs-bestseller-grid__card" href="{{ zs_product.url }}">
+                            <span class="zs-bestseller-grid__media">
+                              {%- if zs_product.featured_image != blank -%}
+                                {{ zs_product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,120,180', sizes: '72px', alt: zs_product.title }}
+                              {%- endif -%}
+                            </span>
+                            <span class="zs-bestseller-grid__detail">
+                              <span class="zs-bestseller-grid__name">{{ zs_product.title | escape }}</span>
+                              <span class="zs-bestseller-grid__price">{{ zs_product.price | money }}</span>
+                            </span>
+                            <svg class="zs-bestseller-grid__arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- else -%}
+                    <p class="zs-nav-panel__empty">Discover our customer-loved handcrafted wooden collections.</p>
+                  {%- endif -%}
+                  <a class="zs-nav-panel__view-all" href="{{ zs_best_collection.url | default: '/collections/best-sellers' }}">View all best sellers <span aria-hidden="true">↗</span></a>
                 {%- else -%}
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
                 <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
@@ -832,92 +877,112 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
-  /* ZAISEN Category menu ONLY — normal nav, controls, products, mobile drawer untouched. */
-  @media screen and (min-width: 750px) {
-    #header-component.header--zaisen .zs-category-item > .zs-category-flyout {
-      width: min(610px, calc(100vw - 32px));
-      max-width: calc(100vw - 32px);
-      inset-inline-start: 50%;
-      transform: translateX(-50%);
-      padding-inline: 0;
-      pointer-events: none;
-      clip-path: none;
-      --submenu-padding-block-start: 0px;
-      --submenu-padding-block-end: 0px;
+  /* ZAISEN premium Category and Best Sellers dropdowns — desktop only. */
+  @media screen and (min-width:750px) {
+    #header-component.header--zaisen .menu-list__list-item > .zs-nav-flyout {
+      width:min(714px,calc(100vw - 32px));max-width:calc(100vw - 32px);
+      inset-inline-start:50%;transform:translateX(-50%);
+      padding-inline:0;pointer-events:none;clip-path:none;
+      --submenu-padding-block-start:0px;--submenu-padding-block-end:0px;
     }
-    #header-component.header--zaisen .zs-category-flyout > .menu-list__submenu-inner {
-      display: block;
-      width: 100%;
-      height: auto;
-      box-sizing: border-box;
-      max-height: none;
-      overflow: visible;
-      pointer-events: auto;
-      padding: 18px;
-      background-color: #ffffff;
-      border: 1px solid #e4d8c9;
-      border-top: 2px solid #a8794a;
-      border-radius: 0 0 14px 14px;
-      box-shadow: 0 18px 38px rgba(43, 29, 23, .13);
+    #header-component.header--zaisen .zs-nav-flyout > .menu-list__submenu-inner {
+      display:block;width:100%;height:auto;max-height:none;overflow:visible;
+      box-sizing:border-box;pointer-events:auto;
+      padding:22px 23px 16px;background:#fffdfa;
+      border:1px solid #e6dacd;border-top:3px solid #a8794a;
+      border-radius:0 0 16px 16px;
+      box-shadow:0 19px 43px rgba(43,29,23,.15),0 4px 11px rgba(43,29,23,.04);
     }
-    #header-component.header--zaisen .zs-category-buttons {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-      padding: 0;
-      margin: 0;
+    #header-component.header--zaisen .zs-nav-panel__heading {
+      display:flex;justify-content:space-between;align-items:center;gap:15px;
+      padding:0 3px 18px;
     }
-    #header-component.header--zaisen .zs-category-buttons__item {
-      min-width: 0;
-      white-space: normal;
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    #header-component.header--zaisen .zs-nav-panel__eyebrow {
+      margin:0 0 5px;color:#98704d;font-size:10px;font-weight:750;letter-spacing:.15em;
+    }
+    #header-component.header--zaisen .zs-nav-panel__title {
+      margin:0;font-family:var(--font-heading--family,Georgia,serif);
+      font-size:23px;font-weight:550;letter-spacing:-.03em;line-height:1.25;color:#2b1d17;
+    }
+    #header-component.header--zaisen .zs-nav-panel__count {
+      flex:0 0 auto;padding:7px 10px;border-radius:30px;border:1px solid #e4d8cc;
+      font-size:10px;font-weight:700;color:#87694d;white-space:nowrap;letter-spacing:.04em;
+    }
+    #header-component.header--zaisen :is(.zs-category-buttons,.zs-bestseller-grid) {
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;padding:0;margin:0;list-style:none;
+    }
+    #header-component.header--zaisen :is(.zs-category-buttons__item,.zs-bestseller-grid__item) {
+      min-width:0;white-space:normal;list-style:none;margin:0;padding:0;
     }
     #header-component.header--zaisen .zs-category-buttons__link {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      min-height: 48px;
-      box-sizing: border-box;
-      padding: 11px 14px;
-      border: 1px solid #e4d8c9;
-      border-radius: 9px;
-      background-color: #fff;
-      color: #2b1d17;
-      text-decoration: none;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.45;
-      transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease;
+      display:flex;align-items:center;gap:11px;width:100%;min-height:59px;
+      box-sizing:border-box;padding:10px 12px;border:1px solid #e6dacd;
+      border-radius:11px;background:#fff;color:#2b1d17;text-decoration:none;line-height:1.35;
+      transition:background-color .18s,border-color .18s,box-shadow .18s;
     }
-    #header-component.header--zaisen .zs-category-buttons__link:is(:hover, :focus-visible) {
-      background-color: #fbf7f1;
-      border-color: #b18a60;
-      box-shadow: 0 2px 7px rgba(43, 29, 23, .05);
+    #header-component.header--zaisen .zs-category-buttons__number {
+      display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;
+      border-radius:8px;background:#f5ede3;color:#966d47;font-size:11px;font-weight:800;
     }
-    #header-component.header--zaisen .zs-category-buttons__link:focus-visible {
-      outline: 2px solid #a8794a;
-      outline-offset: 2px;
+    #header-component.header--zaisen .zs-category-buttons__text {
+      flex:1;min-width:0;font-size:12.5px;font-weight:650;color:inherit;
     }
-    /* Clip the mega-menu's backdrop just for Category; keep the original
-       header row and every icon's color and behavior unchanged. */
-    #header-component.header--zaisen:has(.zs-category-flyout:not([inert])) .header__underlay-open {
-      clip-path: inset(0 0 var(--submenu-height) 0);
+    #header-component.header--zaisen .zs-category-buttons__arrow {
+      flex:0 0 16px;color:#a28361;transition:transform .18s;
     }
-    #header-component.header--zaisen:has(.zs-category-flyout:not([inert])) .header__underlay-open::after {
-      display: none;
+    #header-component.header--zaisen .zs-bestseller-grid__card {
+      display:flex;align-items:center;gap:11px;width:100%;min-height:87px;
+      box-sizing:border-box;padding:9px;border:1px solid #e6dacd;border-radius:11px;
+      background:#fff;text-decoration:none;color:#2b1d17;
+      transition:background-color .18s,border-color .18s,box-shadow .18s;
     }
+    #header-component.header--zaisen .zs-bestseller-grid__media {
+      display:grid;place-items:center;flex:0 0 67px;width:67px;height:68px;
+      overflow:hidden;border-radius:8px;background:#f7f1e9;
+    }
+    #header-component.header--zaisen .zs-bestseller-grid__media img {
+      display:block;width:100%;height:100%;object-fit:contain;
+    }
+    #header-component.header--zaisen .zs-bestseller-grid__detail {
+      display:flex;flex-direction:column;flex:1;gap:5px;min-width:0;
+    }
+    #header-component.header--zaisen .zs-bestseller-grid__name {
+      display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+      color:#2b1d17;font-size:12px;font-weight:650;line-height:1.42;
+    }
+    #header-component.header--zaisen .zs-bestseller-grid__price {
+      color:#88613e;font-size:11.5px;font-weight:700;
+    }
+    #header-component.header--zaisen .zs-bestseller-grid__arrow {flex:0 0 16px;color:#aa8765}
+    #header-component.header--zaisen :is(.zs-category-buttons__link,.zs-bestseller-grid__card):is(:hover,:focus-visible) {
+      background:#faf4eb;border-color:#b58f65;box-shadow:0 4px 12px rgba(43,29,23,.065);
+    }
+    #header-component.header--zaisen .zs-category-buttons__link:is(:hover,:focus-visible) .zs-category-buttons__arrow {
+      transform:translateX(3px);
+    }
+    #header-component.header--zaisen .zs-nav-panel__view-all {
+      display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;
+      margin:13px auto 0;padding:9px 14px;border-radius:8px;text-decoration:none;
+      color:#765037;font-size:12px;font-weight:700;
+    }
+    #header-component.header--zaisen .zs-nav-panel__view-all:is(:hover,:focus-visible) {background:#f5ece0}
+    #header-component.header--zaisen .zs-nav-panel__empty {font-size:12px;color:#87694d;margin:12px 2px}
+    #header-component.header--zaisen .zs-nav-flyout a:focus-visible {
+      outline:2px solid #a8794a;outline-offset:2px;
+    }
+    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header__underlay-open {
+      clip-path:inset(0 0 var(--submenu-height) 0);
+    }
+    #header-component.header--zaisen:has(.zs-nav-flyout:not([inert])) .header__underlay-open::after {display:none}
   }
-  @media screen and (min-width: 750px) and (max-width: 799px) {
-    #header-component.header--zaisen .zs-category-flyout > .menu-list__submenu-inner { padding: 12px; }
-    #header-component.header--zaisen .zs-category-buttons { gap: 6px; }
-    #header-component.header--zaisen .zs-category-buttons__link { padding: 9px 10px; font-size: 12px; }
+  @media screen and (min-width:750px) and (max-width:899px) {
+    #header-component.header--zaisen .zs-nav-flyout > .menu-list__submenu-inner {padding:15px}
+    #header-component.header--zaisen :is(.zs-category-buttons,.zs-bestseller-grid) {gap:7px}
+    #header-component.header--zaisen .zs-category-buttons__link {gap:7px;padding:8px 9px}
   }
-  @media (prefers-reduced-motion: reduce) {
-    #header-component.header--zaisen .zs-category-buttons__link { transition: none; }
+  @media (prefers-reduced-motion:reduce) {
+    #header-component.header--zaisen :is(.zs-category-buttons__link,.zs-category-buttons__arrow,.zs-bestseller-grid__card) {transition:none}
   }
 {% endstylesheet %}
 
