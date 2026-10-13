@@ -30,77 +30,19 @@
 %}
 
 {% render 'collection-wrapper-styles' %}
-{{ 'zs-collection.css' | asset_url | stylesheet_tag }}
-
-{%- liquid
-  assign zs_hero_image = collection.image
-  if zs_hero_image == blank
-    assign zs_hero_image = collection.products.first.featured_image
-  endif
-  assign zs_plain_description = collection.description | strip_html | strip_newlines | strip
--%}
-
-<div class="zs-collection-page">
-  <div class="zs-collection-top">
-    <nav class="zs-collection-breadcrumbs" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="{{ routes.collections_url }}">Collections</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">{{ collection.title | escape }}</span>
-    </nav>
-    <header class="zs-collection-hero">
-      {%- if zs_hero_image != blank -%}
-        <div class="zs-collection-hero__visual">
-          {{ zs_hero_image | image_url: width: 760 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '180,240,320,480,640,760', sizes: '(min-width: 750px) 238px, 180px', alt: collection.title }}
-        </div>
-      {%- endif -%}
-      <div class="zs-collection-hero__copy">
-        <p class="zs-collection-hero__eyebrow">ZAISEN · Handcrafted Collections</p>
-        <h1>{{ collection.title | escape }}</h1>
-        {%- if zs_plain_description != blank -%}
-          {%- if zs_plain_description.size > 280 -%}
-            <p class="zs-collection-hero__excerpt">{{ zs_plain_description | truncate: 235 }}</p>
-            <details class="zs-collection-hero__more">
-              <summary>Read full description</summary>
-              <div class="zs-collection-hero__full rte">{{ collection.description }}</div>
-            </details>
-          {%- else -%}
-            <div class="zs-collection-hero__excerpt rte">{{ collection.description }}</div>
-          {%- endif -%}
-        {%- endif -%}
-      </div>
-    </header>
-  </div>
 
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
   <results-list
-    class="section product-grid-container zs-collection-products{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
     section-id="{{ section.id }}"
     infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
   >
     {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-    <div class="zs-collection-layout">
-      <aside class="zs-collection-sidebar" aria-label="Other ZAISEN collections">
-        <div class="zs-collection-sidebar__inner">
-          <h2 class="zs-collection-sidebar__title">Browse Collections</h2>
-          <nav class="zs-collection-nav" aria-label="Other collections">
-            {% render 'zs-collection-navigation' %}
-          </nav>
-        </div>
-      </aside>
-      <div class="zs-collection-catalog">
-        <details class="zs-collection-mobile-categories">
-          <summary>Browse other collections</summary>
-          <nav class="zs-collection-nav" aria-label="Other collections on mobile">
-            {% render 'zs-collection-navigation' %}
-          </nav>
-        </details>
     <div
       class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
     >
@@ -146,11 +88,8 @@
         %}
       {% endpaginate %}
     </div>
-      </div>
-    </div>
   </results-list>
 </collection-component>
-</div>
 
 {% schema %}
 {
@@ -220,7 +159,7 @@
       "type": "checkbox",
       "id": "enable_infinite_scroll",
       "label": "t:settings.auto_load_products",
-      "default": false
+      "default": true
     },
     {
       "type": "range",
@@ -229,7 +168,7 @@
       "min": 8,
       "max": 36,
       "step": 4,
-      "default": 20,
+      "default": 24,
       "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
     },
     {
