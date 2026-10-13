@@ -23,7 +23,7 @@
         "primary_text": "Explore Collection",
         "primary_link": "shopify://collections/all",
         "secondary_text": "Discover Our Craft",
-        "secondary_link": "shopify://collections/all",
+        "secondary_link": "/pages/our-story",
         "button_bg": "#2b1d17",
         "button_text_color": "#ffffff",
         "show_assurances": false,
