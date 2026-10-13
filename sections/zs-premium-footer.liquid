@@ -1,0 +1,276 @@
+{%- comment -%}
+  ZAISEN premium footer. Shopify-native newsletter signup, real Shopify policy URLs,
+  enabled-payment-type icons only, and native mobile disclosure navigation (no JS).
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign contact_page = pages['contact']
+  assign story_page = pages['our-story']
+  assign contact_href = contact_page.url | default: '/pages/contact'
+  assign story_href = story_page.url | default: '/pages/our-story'
+  assign signup_id = 'ZsFooterSignup-' | append: section.id
+-%}
+{%- capture shop_items -%}
+  {%- if s.shop_menu != blank and s.shop_menu.links.size > 0 -%}
+    {%- for link in s.shop_menu.links -%}
+      <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+    {%- endfor -%}
+  {%- else -%}
+    <li><a href="{{ routes.all_products_collection_url }}">All Products</a></li>
+    <li><a href="{{ collections['best-sellers'].url | default: '/collections/best-sellers' }}">Best Sellers</a></li>
+    <li><a href="{{ collections['home-decor'].url | default: '/collections/home-decor' }}">Wooden Home Decor</a></li>
+    <li><a href="{{ collections['kitchen-dining'].url | default: '/collections/kitchen-dining' }}">Kitchen &amp; Dining</a></li>
+    <li><a href="{{ collections['lighting'].url | default: '/collections/lighting' }}">Lamps &amp; Lighting</a></li>
+    <li><a href="{{ routes.collections_url }}">All Collections</a></li>
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture care_items -%}
+  {%- if s.care_menu != blank and s.care_menu.links.size > 0 -%}
+    {%- for link in s.care_menu.links -%}
+      <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+    {%- endfor -%}
+  {%- else -%}
+    <li><a href="{{ contact_href }}">Contact Us</a></li>
+    <li><a href="{{ story_href }}">Our Story</a></li>
+    {%- if shop.shipping_policy != blank -%}<li><a href="{{ shop.shipping_policy.url }}">Shipping Policy</a></li>{%- endif -%}
+    {%- if shop.refund_policy != blank -%}<li><a href="{{ shop.refund_policy.url }}">Refund Policy</a></li>{%- endif -%}
+    {%- if shop.privacy_policy != blank -%}<li><a href="{{ shop.privacy_policy.url }}">Privacy Policy</a></li>{%- endif -%}
+    {%- if shop.terms_of_service != blank -%}<li><a href="{{ shop.terms_of_service.url }}">Terms of Service</a></li>{%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+{% style %}
+  #zs-premium-footer-{{ section.id }} {
+    --zs-pf-bg: {{ s.background }};
+    --zs-pf-ink: {{ s.text_color }};
+    --zs-pf-muted: {{ s.muted_color }};
+    --zs-pf-accent: {{ s.accent_color }};
+  }
+{% endstyle %}
+<section id="zs-premium-footer-{{ section.id }}" class="zs-pf" aria-label="ZAISEN site footer">
+  <div class="zs-pf__inner">
+    <div class="zs-pf__top">
+      <div class="zs-pf__brand">
+        <a href="{{ routes.root_url }}" class="zs-pf__brand-link" aria-label="ZAISEN homepage">
+          {%- if s.logo != blank -%}
+            {{ s.logo | image_url: width: 480 | image_tag: class: 'zs-pf__logo', widths: '160,240,320,480', sizes: '(max-width: 749px) 180px, 210px', loading: 'lazy', alt: 'ZAISEN' }}
+          {%- else -%}
+            <span class="zs-pf__wordmark">ZAISEN</span>
+          {%- endif -%}
+        </a>
+        {%- if s.tagline != blank -%}
+          <p class="zs-pf__tagline">{{ s.tagline | escape }}</p>
+        {%- endif -%}
+        {%- if s.description != blank -%}
+          <p class="zs-pf__brand-description">{{ s.description | escape }}</p>
+        {%- endif -%}
+      </div>
+      <nav class="zs-pf__desktop-nav" aria-label="Shop">
+        <h2 class="zs-pf__nav-title">{{ s.shop_heading | escape }}</h2>
+        <ul class="zs-pf__link-list">{{ shop_items }}</ul>
+      </nav>
+      <nav class="zs-pf__desktop-nav" aria-label="Customer Care">
+        <h2 class="zs-pf__nav-title">{{ s.care_heading | escape }}</h2>
+        <ul class="zs-pf__link-list">{{ care_items }}</ul>
+      </nav>
+    </div>
+
+    <nav class="zs-pf__mobile-nav" aria-label="Footer navigation">
+      <details class="zs-pf__mobile-menu">
+        <summary><span>{{ s.shop_heading | escape }}</span><span class="zs-pf__expand" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/><path class="zs-pf__plus-vertical" d="M12 5v14"/></svg></span></summary>
+        <ul class="zs-pf__link-list">{{ shop_items }}</ul>
+      </details>
+      <details class="zs-pf__mobile-menu">
+        <summary><span>{{ s.care_heading | escape }}</span><span class="zs-pf__expand" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/><path class="zs-pf__plus-vertical" d="M12 5v14"/></svg></span></summary>
+        <ul class="zs-pf__link-list">{{ care_items }}</ul>
+      </details>
+    </nav>
+
+    <div class="zs-pf__middle">
+      <div class="zs-pf__newsletter">
+        <h2>{{ s.newsletter_heading | escape }}</h2>
+        <p>{{ s.newsletter_text | escape }}</p>
+        {%- form 'customer', id: signup_id, class: 'zs-pf__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="zs-pf__form-field">
+            <label class="zs-pf__sr-only" for="ZsFooterEmail-{{ section.id }}">Email address</label>
+            <input id="ZsFooterEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" autocorrect="off" autocapitalize="off" placeholder="{{ s.newsletter_placeholder | escape }}" required {% if form.errors %}aria-invalid="true" aria-describedby="ZsFooterError-{{ section.id }}"{% endif %}>
+            <button type="submit" aria-label="Subscribe to ZAISEN newsletter">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg>
+            </button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="zs-pf__form-status" role="status">{{ s.newsletter_success | escape }}</p>
+          {%- elsif form.errors -%}
+            <div id="ZsFooterError-{{ section.id }}" class="zs-pf__form-status zs-pf__form-status--error" role="alert">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+      <div class="zs-pf__payment">
+        <h2>{{ s.payment_heading | escape }}</h2>
+        <p>{{ s.payment_text | escape }}</p>
+        {%- if shop.enabled_payment_types.size > 0 -%}
+          <ul class="zs-pf__payment-list" aria-label="Accepted payment methods">
+            {%- for payment_type in shop.enabled_payment_types limit: 6 -%}
+              <li class="zs-pf__payment-item" aria-label="{{ payment_type | replace: '_', ' ' | escape }}">
+                {{ payment_type | payment_type_svg_tag: class: 'zs-pf__payment-svg' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          <p class="zs-pf__payment-note">Available payment methods are displayed at checkout.</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="zs-pf__bottom">
+      <p class="zs-pf__copyright">&copy; {{ 'now' | date: '%Y' }} <a href="{{ routes.root_url }}">{{ shop.name | escape }}</a>. All rights reserved.</p>
+      <div class="zs-pf__bottom-right">
+        {%- if shop.policies.size > 0 -%}
+          <div class="zs-pf__legal">
+            {%- if shop.privacy_policy != blank -%}<a href="{{ shop.privacy_policy.url }}">Privacy</a>{%- endif -%}
+            {%- if shop.terms_of_service != blank -%}<a href="{{ shop.terms_of_service.url }}">Terms</a>{%- endif -%}
+            {%- if shop.refund_policy != blank -%}<a href="{{ shop.refund_policy.url }}">Refunds</a>{%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if s.instagram_url != blank or s.facebook_url != blank or s.youtube_url != blank -%}
+          <div class="zs-pf__social" aria-label="ZAISEN social profiles">
+            {%- if s.instagram_url != blank -%}
+              <a href="{{ s.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor" stroke="none"/></svg></a>
+            {%- endif -%}
+            {%- if s.facebook_url != blank -%}
+              <a href="{{ s.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8.1h2.7l.4-3.2h-3.1v-2c0-.9.3-1.6 1.6-1.6H17V3.3c-.3-.1-1.2-.3-2.5-.3-2.5 0-4.2 1.5-4.2 4.3v2.4H7.5v3.2h2.8V21z"/></svg></a>
+            {%- endif -%}
+            {%- if s.youtube_url != blank -%}
+              <a href="{{ s.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+footer .zs-pf{background:var(--zs-pf-bg,#2B1D17);color:var(--zs-pf-ink,#F7F3EE);padding:62px 0 0}
+footer .zs-pf *{box-sizing:border-box}
+footer .zs-pf :is(h2,h3,p){color:inherit}
+footer .zs-pf__inner{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,58px)}
+footer .zs-pf__top{display:grid;grid-template-columns:minmax(0,1.56fr) minmax(0,.75fr) minmax(0,1fr);gap:clamp(36px,6vw,100px);padding-bottom:46px}
+footer .zs-pf__brand{max-width:370px}
+footer .zs-pf__brand-link{display:inline-flex;align-items:center;max-width:100%;text-decoration:none;color:var(--zs-pf-ink,#F7F3EE)}
+footer .zs-pf__logo{display:block;width:auto;height:auto;max-width:min(235px,100%);max-height:83px;object-fit:contain}
+footer .zs-pf__wordmark{font-family:Georgia,'Times New Roman',serif;font-size:clamp(36px,3.1vw,49px);letter-spacing:.115em;font-weight:500;line-height:1;color:var(--zs-pf-ink,#F7F3EE)}
+footer .zs-pf__tagline{margin:13px 0 0;color:var(--zs-pf-accent,#D8B56A)!important;font-size:10px;letter-spacing:.185em;font-weight:700;text-transform:uppercase}
+footer .zs-pf__brand-description{margin:17px 0 0;max-width:39ch;font-size:13px;line-height:1.85;color:var(--zs-pf-muted,#D3C6B8)!important}
+footer .zs-pf__nav-title{font-family:inherit!important;color:var(--zs-pf-accent,#D8B56A)!important;margin:5px 0 21px;font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}
+footer .zs-pf__link-list{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+footer .zs-pf__link-list li{margin:0;padding:0;line-height:1.4}
+footer .zs-pf .zs-pf__link-list a{color:var(--zs-pf-ink,#F7F3EE);text-decoration:none;font-size:13px;transition:color .18s ease}
+footer .zs-pf .zs-pf__link-list a:hover{color:var(--zs-pf-accent,#D8B56A)}
+footer .zs-pf__mobile-nav{display:none}
+footer .zs-pf__middle{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr);column-gap:clamp(60px,10vw,145px);padding:35px 0 43px;border-top:1px solid rgba(216,181,106,.24);border-bottom:1px solid rgba(216,181,106,.24)}
+footer .zs-pf__middle h2{font-family:inherit!important;font-size:22px;line-height:1.3;font-weight:650;letter-spacing:-.025em;margin:0 0 10px;color:var(--zs-pf-ink,#F7F3EE)!important}
+footer .zs-pf__middle p{font-size:12px;line-height:1.65;margin:0 0 20px;color:var(--zs-pf-muted,#D3C6B8)!important}
+footer .zs-pf__form{max-width:520px}
+footer .zs-pf__form-field{display:flex;align-items:center;min-height:53px;max-width:100%;background:#F7F3EE;border:1px solid #E0D6CB;border-radius:8px;overflow:hidden}
+footer .zs-pf__form-field:focus-within{outline:2px solid var(--zs-pf-accent,#D8B56A);outline-offset:2px}
+footer .zs-pf__form-field input[type='email']{flex:1;min-width:0;width:100%;min-height:51px;border:0!important;border-radius:0!important;background:#F7F3EE!important;color:#2B1D17!important;padding:14px 17px;font:inherit;font-size:13px;outline:none;box-shadow:none}
+footer .zs-pf__form-field input::placeholder{color:#806F62!important;opacity:1}
+footer .zs-pf__form-field button{display:grid;place-items:center;flex:0 0 53px;height:51px;border:0;cursor:pointer;color:#2B1D17!important;background:transparent;transition:background .2s}
+footer .zs-pf__form-field button:hover{background:#E9DACA}
+footer .zs-pf__form-status{padding-top:9px;font-size:12px;line-height:1.6;color:var(--zs-pf-ink,#F7F3EE)!important}
+footer .zs-pf__form-status--error{color:#FFCFB2!important}
+footer .zs-pf__sr-only{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+footer .zs-pf__payment{min-width:0}
+footer .zs-pf__payment-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+footer .zs-pf__payment-item{width:62px;height:39px;border-radius:6px;border:1px solid #E2D9CD;background:#FFF;display:grid;place-items:center;padding:5px;overflow:hidden}
+footer .zs-pf__payment-svg{display:block;width:100%;height:28px;max-width:51px}
+footer .zs-pf__payment-note{font-size:12px}
+footer .zs-pf__bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0 25px}
+footer .zs-pf__copyright{margin:0;color:var(--zs-pf-muted,#D3C6B8)!important;font-size:11.5px;line-height:1.6}
+footer .zs-pf__bottom-right{display:flex;gap:25px;align-items:center;flex-wrap:wrap}
+footer .zs-pf__legal{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+footer .zs-pf__social{display:flex;align-items:center;gap:12px}
+footer .zs-pf .zs-pf__bottom a{font-size:11.5px;text-decoration:none;color:var(--zs-pf-muted,#D3C6B8)}
+footer .zs-pf .zs-pf__bottom a:hover{color:var(--zs-pf-accent,#D8B56A)}
+footer .zs-pf__social a{display:grid;place-items:center;min-width:30px;min-height:30px}
+footer .zs-pf a:focus-visible,footer .zs-pf button:focus-visible,footer .zs-pf summary:focus-visible{outline:2px solid var(--zs-pf-accent,#D8B56A);outline-offset:3px}
+@media(max-width:989px) and (min-width:750px){
+ footer .zs-pf__top{grid-template-columns:1.2fr .8fr 1fr;gap:24px}
+ footer .zs-pf__middle{column-gap:28px}
+ footer .zs-pf__payment-item{width:55px;height:36px}
+}
+@media(max-width:749px){
+ footer .zs-pf{padding:42px 0 0}
+ footer .zs-pf__inner{padding-inline:17px}
+ footer .zs-pf__top{display:block;padding-bottom:22px}
+ footer .zs-pf__brand{max-width:none}
+ footer .zs-pf__wordmark{font-size:39px}
+ footer .zs-pf__logo{max-width:185px;max-height:70px}
+ footer .zs-pf__tagline{margin-top:10px;font-size:9px}
+ footer .zs-pf__brand-description{font-size:12px;line-height:1.75;margin-top:12px;max-width:43ch}
+ footer .zs-pf__desktop-nav{display:none}
+ footer .zs-pf__mobile-nav{display:block;border-top:1px solid rgba(216,181,106,.24)}
+ footer .zs-pf__mobile-menu{border-bottom:1px solid rgba(216,181,106,.24)}
+ footer .zs-pf__mobile-menu summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:56px;padding:14px 1px;font-size:13px;font-weight:700;color:var(--zs-pf-ink,#F7F3EE)}
+ footer .zs-pf__mobile-menu summary::-webkit-details-marker{display:none}
+ footer .zs-pf__mobile-menu summary::marker{content:''}
+ footer .zs-pf__expand{display:grid;place-items:center;width:32px;height:32px;border:1px solid rgba(216,181,106,.25);border-radius:50%;color:var(--zs-pf-accent,#D8B56A)}
+ footer .zs-pf__plus-vertical{transition:transform .2s ease;transform-origin:center}
+ footer .zs-pf__mobile-menu[open] .zs-pf__plus-vertical{transform:rotate(90deg)}
+ footer .zs-pf__mobile-menu .zs-pf__link-list{padding:1px 0 19px 10px;gap:13px}
+ footer .zs-pf .zs-pf__mobile-menu a{font-size:13px}
+ footer .zs-pf__middle{display:flex;flex-direction:column;gap:28px;padding:27px 0 29px;border-top:0}
+ footer .zs-pf__middle h2{font-size:19px;margin-bottom:8px}
+ footer .zs-pf__middle p{font-size:11.5px;margin-bottom:15px}
+ footer .zs-pf__form-field{min-height:50px}
+ footer .zs-pf__form-field input[type='email']{min-height:49px;padding:12px 13px}
+ footer .zs-pf__form-field button{height:49px;flex-basis:51px}
+ footer .zs-pf__payment-item{width:57px;height:36px}
+ footer .zs-pf__payment-svg{height:25px}
+ footer .zs-pf__bottom{flex-direction:column;align-items:flex-start;gap:14px;padding:20px 0 24px}
+ footer .zs-pf__bottom-right{gap:14px;flex-direction:column;align-items:flex-start}
+ footer .zs-pf__legal{gap:14px}
+}
+@media(max-width:355px){footer .zs-pf__payment-item{width:51px;height:34px}footer .zs-pf__payment-list{gap:7px}}
+@media(prefers-reduced-motion:reduce){
+ footer .zs-pf__link-list a,footer .zs-pf__form-field button,footer .zs-pf__plus-vertical{transition:none}
+}
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "ZAISEN Premium Footer",
+  "tag": "section",
+  "class": "section-zs-premium-footer",
+  "enabled_on": {"groups": ["footer"]},
+  "settings": [
+    {"type":"header","content":"Brand"},
+    {"type":"image_picker","id":"logo","label":"Optional light logo image"},
+    {"type":"text","id":"tagline","label":"Logo tagline","default":"NATURE, SHAPED BY HAND"},
+    {"type":"textarea","id":"description","label":"Short SEO-friendly brand description","default":"Handcrafted wooden home decor, kitchen essentials, lighting, and thoughtful gifts. Natural materials and timeless beauty for everyday living."},
+    {"type":"header","content":"Navigation"},
+    {"type":"text","id":"shop_heading","label":"Shop menu heading","default":"Shop"},
+    {"type":"link_list","id":"shop_menu","label":"Optional custom Shop navigation"},
+    {"type":"text","id":"care_heading","label":"Customer care heading","default":"Customer Care"},
+    {"type":"link_list","id":"care_menu","label":"Optional custom Customer Care menu"},
+    {"type":"header","content":"Newsletter"},
+    {"type":"text","id":"newsletter_heading","label":"Newsletter heading","default":"Letters from ZAISEN"},
+    {"type":"textarea","id":"newsletter_text","label":"Newsletter description","default":"New arrivals, wooden living inspiration, and occasional exclusive offers."},
+    {"type":"text","id":"newsletter_placeholder","label":"Newsletter placeholder","default":"Your email address"},
+    {"type":"text","id":"newsletter_success","label":"Signup success message","default":"Thank you for subscribing to ZAISEN."},
+    {"type":"header","content":"Payment methods"},
+    {"type":"text","id":"payment_heading","label":"Payment heading","default":"Secure Payments"},
+    {"type":"text","id":"payment_text","label":"Payment description","default":"Checkout securely with the available payment options."},
+    {"type":"header","content":"Social profiles - only valid profile URLs"},
+    {"type":"url","id":"instagram_url","label":"Instagram profile"},
+    {"type":"url","id":"facebook_url","label":"Facebook page"},
+    {"type":"url","id":"youtube_url","label":"YouTube channel"},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background","label":"Background","default":"#2B1D17"},
+    {"type":"color","id":"text_color","label":"Main text","default":"#F7F3EE"},
+    {"type":"color","id":"muted_color","label":"Secondary text","default":"#D3C6B8"},
+    {"type":"color","id":"accent_color","label":"Gold accent","default":"#D8B56A"}
+  ],
+  "presets": [{"name":"ZAISEN Premium Footer"}]
+}
+{% endschema %}
