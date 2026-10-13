@@ -115,9 +115,15 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
+{%- liquid
+  assign seo_description = page_description
+  if seo_description == blank and request.page_type == 'index'
+    assign seo_description = 'Shop handcrafted wooden home decor, wooden wall clocks, lighting, serving trays, drinkware and thoughtful gifts at ZAISEN. Discover pure wood craftsmanship and free shipping to supported destinations.'
+  endif
+-%}
+{% if seo_description != blank %}
   <meta
     name="description"
-    content="{{ page_description | escape }}"
+    content="{{ seo_description | strip_html | escape }}"
   >
 {% endif %}
