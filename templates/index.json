@@ -281,7 +281,23 @@
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
         "padding_top": 60,
-        "padding_bottom": 84
+        "padding_bottom": 20
+      }
+    },
+    "zs_delivery_marquee_2026": {
+      "type": "zs-delivery-marquee",
+      "name": "ZAISEN Delivery Marquee",
+      "settings": {
+        "message_1": "FREE WORLDWIDE SHIPPING",
+        "message_2": "FAST & SECURE SHIPPING",
+        "message_3": "UK DELIVERY: APPROX. 6 DAYS",
+        "message_4": "OTHER COUNTRIES: APPROX. 9 DAYS",
+        "message_5": "24/7 CUSTOMER SUPPORT",
+        "background": "#F5EFE6",
+        "text_color": "#654733",
+        "accent_color": "#B9945C",
+        "height": 54,
+        "duration": 45
       }
     },
     "zs_real_homes_2026": {
@@ -350,7 +366,7 @@
         "text_color": "#80736a",
         "accent_color": "#d8b56a",
         "card_color": "#f8f5f0",
-        "padding_top": 64,
+        "padding_top": 20,
         "padding_bottom": 72
       }
     },
@@ -463,6 +479,7 @@
     "zs_shop_by_collection_test_8x",
     "zs_why_zaisen_2026",
     "zs_best_sellers_alt_4x",
+    "zs_delivery_marquee_2026",
     "zs_real_homes_2026",
     "zs_shop_the_look_2026",
     "zs_story_journal_2026"
