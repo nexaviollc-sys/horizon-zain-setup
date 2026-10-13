@@ -32,6 +32,9 @@
     endif
   endif
 
+  assign story_image_alt = story_img.alt | default: 'ZAISEN Our Story - the craft behind our handcrafted wooden home decor'
+  assign journal_image_alt = journal_img.alt | default: 'ZAISEN Our Blog - wooden home styling and craftsmanship inspiration'
+
   assign story_href = s.story_link
   if story_href == blank
     assign story_page = pages['our-story']
@@ -118,7 +121,7 @@
         {% endif %}
           <div class="zs-sj__photo">
             {% if story_img != blank %}
-              {{ story_img | image_url: width: 1400 | image_tag: class: 'zs-sj__image', loading: 'lazy', widths: '400,600,800,1000,1200,1400', sizes: '(min-width: 960px) calc((100vw - 150px) / 2), calc(100vw - 40px)', alt: s.story_title }}
+              {{ story_img | image_url: width: 1400 | image_tag: class: 'zs-sj__image', loading: 'lazy', widths: '400,600,800,1000,1200,1400', sizes: '(min-width: 960px) calc((100vw - 150px) / 2), calc(100vw - 40px)', alt: story_image_alt }}
             {% else %}
               <div class="zs-sj__image-placeholder" aria-hidden="true"><span>ZAISEN</span></div>
             {% endif %}
@@ -151,7 +154,7 @@
         {% endif %}
           <div class="zs-sj__photo">
             {% if journal_img != blank %}
-              {{ journal_img | image_url: width: 1400 | image_tag: class: 'zs-sj__image', loading: 'lazy', widths: '400,600,800,1000,1200,1400', sizes: '(min-width: 960px) calc((100vw - 150px) / 2), calc(100vw - 40px)', alt: s.journal_title }}
+              {{ journal_img | image_url: width: 1400 | image_tag: class: 'zs-sj__image', loading: 'lazy', widths: '400,600,800,1000,1200,1400', sizes: '(min-width: 960px) calc((100vw - 150px) / 2), calc(100vw - 40px)', alt: journal_image_alt }}
             {% else %}
               <div class="zs-sj__image-placeholder" aria-hidden="true"><span>ZAISEN</span></div>
             {% endif %}
