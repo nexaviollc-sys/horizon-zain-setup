@@ -309,59 +309,61 @@
     },
     "zs_shop_the_look_2026": {
       "type": "zs-shop-the-look",
-      "name": "ZAISEN Shop the Look",
+      "name": "ZAISEN Kitchen Edit",
       "settings": {
-        "eyebrow": "THE ZAISEN EDIT",
-        "title_light": "Beautiful Spaces.",
-        "title_bold": "Natural Details.",
-        "description": "See how handcrafted wooden home decor brings warmth, character, and natural detail into your space. Explore the ZAISEN pieces behind the look.",
-        "selected_eyebrow": "THE FEATURED PIECES",
-        "image_alt": "ZAISEN handcrafted wooden home decor styled together in a warm interior",
+        "eyebrow": "THE ZAISEN KITCHEN EDIT",
+        "title_light": "Handcrafted Wooden",
+        "title_bold": "Kitchen & Dining Essentials",
+        "description": "Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood.",
+        "collection": "kitchen-dining",
+        "button_label": "Shop Kitchen & Dining",
+        "feature_label": "FEATURED KITCHEN PIECE",
+        "picks_label": "Featured handcrafted wooden kitchen accessories",
+        "sold_out_text": "Sold out",
+        "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
         "editorial_font": "poppins_n4",
         "background": "#FFFFFF",
         "ink": "#2B1D17",
         "muted": "#80736A",
-        "accent": "#D8B56A"
+        "accent": "#D8B56A",
+        "padding_top": 76,
+        "padding_bottom": 80
       },
       "blocks": {
-        "zs_look_clock": {
+        "k_trays": {
           "type": "product",
           "settings": {
-            "product": "wooden-ship-wheel-wall-clock",
-            "label": "WALL DÉCOR",
-            "hotspot_x": 25,
-            "hotspot_y": 25,
-            "mobile_hotspot_x": 29,
-            "mobile_hotspot_y": 20
+            "product": "handcrafted-carved-wooden-serving-tray-set-of-3",
+            "label": "WOODEN SERVING TRAYS"
           }
         },
-        "zs_look_horse": {
+        "k_bowls": {
           "type": "product",
           "settings": {
-            "product": "handcrafted-wooden-horse-statue",
-            "label": "SCULPTURAL DÉCOR",
-            "hotspot_x": 54,
-            "hotspot_y": 68,
-            "mobile_hotspot_x": 55,
-            "mobile_hotspot_y": 66
+            "product": "handcrafted-wooden-nesting-bowl-set",
+            "label": "WOODEN BOWL SETS"
           }
         },
-        "zs_look_lamp": {
+        "k_drinks": {
           "type": "product",
           "settings": {
-            "product": "handcrafted-carved-wooden-table-lamp",
-            "label": "AMBIENT LIGHTING",
-            "hotspot_x": 82,
-            "hotspot_y": 43,
-            "mobile_hotspot_x": 84,
-            "mobile_hotspot_y": 40
+            "product": "handcrafted-wooden-jug-5-cups-set",
+            "label": "WOODEN DRINKWARE"
+          }
+        },
+        "k_storage": {
+          "type": "product",
+          "settings": {
+            "product": "tea-coffee-sugar-canisters-wooden-set",
+            "label": "KITCHEN STORAGE"
           }
         }
       },
       "block_order": [
-        "zs_look_clock",
-        "zs_look_horse",
-        "zs_look_lamp"
+        "k_trays",
+        "k_bowls",
+        "k_drinks",
+        "k_storage"
       ]
     }
   },
