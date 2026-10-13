@@ -358,12 +358,28 @@
             "product": "handcrafted-carved-wooden-serving-tray-set-of-3",
             "label": "CARVED WOODEN TRAY SETS"
           }
+        },
+        "k_storage": {
+          "type": "product",
+          "settings": {
+            "product": "tea-coffee-sugar-canisters-wooden-set",
+            "label": "KITCHEN STORAGE"
+          }
+        },
+        "k_cutlery": {
+          "type": "product",
+          "settings": {
+            "product": "handcrafted-wooden-cutlery-set",
+            "label": "HANDCRAFTED WOODEN CUTLERY"
+          }
         }
       },
       "block_order": [
         "k_trays",
         "k_bowls",
-        "k_drinks"
+        "k_drinks",
+        "k_storage",
+        "k_cutlery"
       ]
     }
   },
