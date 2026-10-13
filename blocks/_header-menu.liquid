@@ -94,8 +94,15 @@
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
+        {%- liquid
+          assign zs_category_menu = false
+          assign zs_link_label = link.title | strip | downcase
+          if zs_link_label == 'category'
+            assign zs_category_menu = true
+          endif
+        -%}
         <li
-          class="menu-list__list-item"
+          class="menu-list__list-item{% if zs_category_menu %} zs-category-item{% endif %}"
           on:blur="/deactivate"
           on:pointerenter="/activate"
           on:pointerleave="/deactivate"
@@ -139,12 +146,23 @@
               Collapsed by default via `inert`: keeps the submenu out of the tab order
               and the accessibility tree until it is opened. Toggled in header-menu.js.
             {%- endcomment -%}
-            <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]" data-skip-node-update inert>
+            <div class="menu-list__submenu{{ background_color_classes }}{% if zs_category_menu %} zs-category-flyout{% endif %}" ref="submenu[]" data-skip-node-update inert>
               <div
                 id="submenu-{{ forloop.index }}"
                 class="menu-list__submenu-inner"
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
+                {%- if zs_category_menu -%}
+                  <ul class="zs-category-buttons" aria-label="Wooden product categories">
+                    {%- for category_link in link.links -%}
+                      <li class="zs-category-buttons__item">
+                        <a class="zs-category-buttons__link" href="{{ category_link.url }}"{% if category_link.current %} aria-current="page"{% endif %}>
+                          {{- category_link.title | escape -}}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- else -%}
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
                 <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
                   <div
@@ -164,6 +182,7 @@
                     %}
                   </div>
                 </div>
+                {%- endif -%}
               </div>
             </div>
           {%- endif -%}
@@ -813,93 +832,90 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
-  /*
-    ZAISEN compact desktop Category flyout.
-    The original Horizon mega menu is edge-to-edge with featured product imagery.
-    Keep the existing menu data and hover/keyboard JS, but present just the
-    category links in a centered 560px panel beneath the navigation.
-    Scope to the ZAISEN header so mobile drawer and other menu modes are untouched.
-  */
+  /* ZAISEN Category menu ONLY — normal nav, controls, products, mobile drawer untouched. */
   @media screen and (min-width: 750px) {
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu {
-      width: min(560px, calc(100vw - 32px));
+    #header-component.header--zaisen .zs-category-item > .zs-category-flyout {
+      width: min(610px, calc(100vw - 32px));
       max-width: calc(100vw - 32px);
-      inset-inline-start: calc(50% - 70px);
+      inset-inline-start: 50%;
       transform: translateX(-50%);
-      top: calc(100% - 1px);
       padding-inline: 0;
-      background: #ffffff;
-      border: 1px solid #e8ded4;
+      clip-path: none;
+      --submenu-padding-block-start: 0px;
+      --submenu-padding-block-end: 0px;
+    }
+    #header-component.header--zaisen .zs-category-flyout > .menu-list__submenu-inner {
+      display: block;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      max-height: none;
+      overflow: visible;
+      padding: 18px;
+      background-color: #ffffff;
+      border: 1px solid #e4d8c9;
       border-top: 2px solid #a8794a;
       border-radius: 0 0 14px 14px;
-      box-shadow: 0 18px 38px rgba(40, 27, 19, .14);
-      clip-path: none;
-      --submenu-padding-block-start: 14px;
-      --submenu-padding-block-end: 14px;
+      box-shadow: 0 18px 38px rgba(43, 29, 23, .13);
     }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .menu-list__submenu-inner {
-      padding: 12px;
-      max-height: min(62vh, 460px);
-      display: block;
-      transform: none;
+    #header-component.header--zaisen .zs-category-buttons {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      padding: 0;
+      margin: 0;
     }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu {
-      width: 100%;
-      max-width: none;
-      display: block;
+    #header-component.header--zaisen .zs-category-buttons__item {
+      min-width: 0;
+      white-space: normal;
+      list-style: none;
       margin: 0;
       padding: 0;
     }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__grid,
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 4px 9px;
-      width: 100%;
-      grid-column: 1 / -1;
-    }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__column {
-      grid-column: auto;
-      white-space: normal;
-      min-width: 0;
-    }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link {
+    #header-component.header--zaisen .zs-category-buttons__link {
       display: flex;
       align-items: center;
-      min-height: 46px;
-      padding: 10px 12px;
-      line-height: 1.4;
-      font-size: 13px;
+      width: 100%;
+      min-height: 48px;
+      box-sizing: border-box;
+      padding: 11px 14px;
+      border: 1px solid #e4d8c9;
+      border-radius: 9px;
+      background-color: #fff;
       color: #2b1d17;
-      background: transparent;
-      border-radius: 8px;
       text-decoration: none;
-      transition: background-color .18s ease, color .18s ease;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.45;
+      transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease;
     }
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link:is(:hover, :focus-visible) {
-      background: #f8f3eb;
-      color: #76502e;
+    #header-component.header--zaisen .zs-category-buttons__link:is(:hover, :focus-visible) {
+      background-color: #fbf7f1;
+      border-color: #b18a60;
+      box-shadow: 0 2px 7px rgba(43, 29, 23, .05);
     }
-    /* The full-width animated underlay must not paint over the page. */
-    #header-component.header--zaisen .header__underlay-open {
-      height: var(--header-height);
-      background: var(--color-background-top-row);
-      box-shadow: none;
-      pointer-events: none;
+    #header-component.header--zaisen .zs-category-buttons__link:focus-visible {
+      outline: 2px solid #a8794a;
+      outline-offset: 2px;
     }
-    #header-component.header--zaisen .header__underlay-open::after {
+    /* Clip the mega-menu's backdrop just for Category; keep the original
+       header row and every icon's color and behavior unchanged. */
+    #header-component.header--zaisen:has(.zs-category-flyout:not([inert])) .header__underlay-open {
+      clip-path: inset(0 0 var(--submenu-height) 0);
+    }
+    #header-component.header--zaisen:has(.zs-category-flyout:not([inert])) .header__underlay-open::after {
       display: none;
     }
   }
-  @media screen and (max-width: 989px) and (min-width: 750px) {
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu {
-      inset-inline-start: 50%;
-    }
+  @media screen and (min-width: 750px) and (max-width: 799px) {
+    #header-component.header--zaisen .zs-category-flyout > .menu-list__submenu-inner { padding: 12px; }
+    #header-component.header--zaisen .zs-category-buttons { gap: 6px; }
+    #header-component.header--zaisen .zs-category-buttons__link { padding: 9px 10px; font-size: 12px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    #header-component.header--zaisen .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu .mega-menu__link {
-      transition: none;
-    }
+    #header-component.header--zaisen .zs-category-buttons__link { transition: none; }
   }
 {% endstylesheet %}
 
