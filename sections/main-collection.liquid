@@ -107,7 +107,9 @@
 .zs-catalog-section .zs-collection-main .main-collection-grid{grid-column:1/-1!important;grid-template-columns:minmax(0,1fr);width:100%;min-width:0;padding:0!important}
 .zs-catalog-section .zs-collection-main .main-collection-grid>div{grid-column:1/-1!important;min-width:0}
 .zs-catalog-section .zs-collection-main .product-grid{width:100%;max-width:100%;min-width:0}
-.zs-catalog-section .zs-collection-main .product-grid__item{min-width:0}
+.zs-catalog-section .zs-collection-main .product-grid__item{min-width:0;border-radius:10px;transition:box-shadow .18s ease}
+@media(hover:hover){.zs-catalog-section .zs-collection-main .product-grid__item:hover{box-shadow:0 8px 22px rgba(43,29,23,.065)}}
+.zs-catalog-section .zs-collection-main .product-grid__item:focus-within{outline:2px solid #c9a46c;outline-offset:2px}
 .zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(4,minmax(0,1fr))}
 .zs-catalog-section .zs-collection-main .facets-block-wrapper--horizontal{margin-block:0 18px;min-width:0}
 .zs-catalog-section .zs-collection-main .facets{border-color:#eae0d5}
@@ -123,19 +125,19 @@
 .zs-collection-sidebar__entry{min-width:0}
 .zs-collection-sidebar__link{display:flex;align-items:center;gap:11px;min-width:0;padding:7px;border:1px solid transparent;border-radius:11px;color:#433226;text-decoration:none;transition:background .2s ease,border-color .2s ease}
 .zs-collection-sidebar__link:hover{background:#f8f2eb;border-color:#ede0d0}
-.zs-collection-sidebar__link.is-active{background:#f5eee4;border-color:#d5b77d;color:#2b1d17}
+.zs-collection-sidebar__link.is-active{background:#f5eee4;border-color:#d5b77d;color:#2b1d17;box-shadow:inset 3px 0 0 #c29b61}
 .zs-collection-sidebar__thumb{width:53px;height:65px;flex:0 0 53px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f7f2eb;overflow:hidden;color:#b3946d;font-size:12px;font-weight:600}
 .zs-collection-sidebar__thumb img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
-.zs-collection-sidebar__name{display:block;min-width:0;flex:1;font-size:12px;line-height:1.45;font-weight:560;overflow-wrap:break-word}
+.zs-collection-sidebar__name{display:block;min-width:0;flex:1;font-size:12.5px;line-height:1.45;font-weight:560;overflow-wrap:break-word}
 .zs-collection-sidebar__current{color:#a37b44;font-size:9px;flex-shrink:0}
 .zs-collection-sidebar__arrow{color:#a89179;font-size:13px;flex-shrink:0}
 .zs-collection-sidebar__all{margin:12px 9px 0;padding-top:14px;border-top:1px solid #ede6de;display:flex;align-items:center;justify-content:space-between;color:#704c30;text-decoration:none;font-size:12px;font-weight:650;flex-shrink:0}
 .zs-collection-sidebar__link:focus-visible,.zs-collection-sidebar__all:focus-visible{outline:2px solid #d8b56a;outline-offset:2px}
 @media(max-width:1199px) and (min-width:1000px){.zs-catalog-section .zs-collection-layout{grid-template-columns:220px minmax(0,1fr);gap:20px}.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(3,minmax(0,1fr))}}
-@media(max-width:999px){.zs-catalog-section .zs-collection-layout{display:flex;flex-direction:column;gap:17px;width:min(100% - 38px,1540px)}.zs-catalog-section .zs-collection-main{width:100%}.zs-collection-sidebar{width:100%;max-height:none;position:static;padding:14px;display:block;border-radius:13px}.zs-collection-sidebar__heading{padding:0 2px 10px;border-bottom:0}.zs-collection-sidebar__heading h2{font-size:21px;margin:4px 0}.zs-collection-sidebar__heading p{display:none}.zs-collection-sidebar__nav{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}.zs-collection-sidebar__list{flex-direction:row;gap:9px;padding:5px 0 9px}.zs-collection-sidebar__entry{flex:0 0 186px}.zs-collection-sidebar__link{height:66px;padding:6px;gap:8px}.zs-collection-sidebar__thumb{width:43px;height:52px;flex-basis:43px}.zs-collection-sidebar__name{font-size:11px}.zs-collection-sidebar__arrow,.zs-collection-sidebar__current{display:none}.zs-collection-sidebar__all{display:none}.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(3,minmax(0,1fr))}}
+@media(max-width:999px){.zs-catalog-section .zs-collection-layout{display:flex;flex-direction:column;gap:17px;width:min(100% - 38px,1540px)}.zs-catalog-section .zs-collection-main{width:100%}.zs-collection-sidebar{width:100%;max-height:none;position:static;padding:14px;display:block;border-radius:13px}.zs-collection-sidebar__heading{padding:0 2px 10px;border-bottom:0}.zs-collection-sidebar__heading h2{font-size:21px;margin:4px 0}.zs-collection-sidebar__heading p{display:none}.zs-collection-sidebar__nav{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scroll-snap-type:x proximity}.zs-collection-sidebar__list{flex-direction:row;gap:9px;padding:5px 0 9px}.zs-collection-sidebar__entry{flex:0 0 186px;scroll-snap-align:start}.zs-collection-sidebar__link{height:66px;padding:6px;gap:8px}.zs-collection-sidebar__thumb{width:43px;height:52px;flex-basis:43px}.zs-collection-sidebar__name{font-size:11px}.zs-collection-sidebar__arrow,.zs-collection-sidebar__current{display:none}.zs-collection-sidebar__all{display:none}.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(3,minmax(0,1fr))}}
 @media(max-width:749px){.zs-catalog-section .zs-collection-layout{width:min(100% - 28px,1540px)}.zs-collection-sidebar{padding:12px}.zs-collection-sidebar__heading h2{font-size:19px}.zs-catalog-section .zs-collection-main .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-catalog-section .zs-collection-main .product-grid[product-grid-view='mobile-single'],.zs-catalog-section .zs-collection-main .product-grid-mobile--large{grid-template-columns:1fr}}
 @media(max-width:430px){.zs-collection-sidebar__entry{flex-basis:170px}.zs-catalog-section .zs-collection-main .product-grid{column-gap:10px}}
-@media(prefers-reduced-motion:reduce){.zs-collection-sidebar__link{transition:none}}
+@media(prefers-reduced-motion:reduce){.zs-collection-sidebar__link,.zs-catalog-section .zs-collection-main .product-grid__item{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
