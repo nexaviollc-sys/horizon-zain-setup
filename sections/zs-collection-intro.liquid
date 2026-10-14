@@ -8,7 +8,7 @@
   if zs_collection_image == blank
     assign zs_collection_image = collection.products.first.featured_image
   endif
-  assign zs_description_plain = collection.description | strip_html | strip
+  assign zs_description_plain = collection.descriptionHtml | replace: '</p>', ' ' | replace: '</h2>', ' ' | replace: '</h3>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | strip_html | strip
   assign zs_description_words = zs_description_plain | split: ' ' | size
 -%}
 <section class="zs-collection-intro" aria-labelledby="zs-collection-title-{{ section.id }}">
