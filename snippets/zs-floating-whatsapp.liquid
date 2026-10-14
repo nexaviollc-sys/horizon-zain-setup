@@ -16,11 +16,10 @@
     <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.938C.16 5.335 5.495 0 12.058 0c3.21 0 6.226 1.25 8.495 3.521a11.854 11.854 0 0 1 3.515 8.5c-.003 6.563-5.337 11.896-11.9 11.896a11.89 11.89 0 0 1-5.688-1.448L.057 24zm6.597-3.807a9.93 9.93 0 0 0 5.114 1.4h.004c5.474 0 9.933-4.456 9.936-9.93a9.863 9.863 0 0 0-2.91-7.025 9.865 9.865 0 0 0-7.025-2.91c-5.474 0-9.93 4.46-9.933 9.935a9.9 9.9 0 0 0 1.518 5.291l-.994 3.633 3.72-.977.57.338zm10.827-7.505c-.274-.137-1.62-.8-1.87-.892-.25-.091-.432-.137-.615.137-.182.274-.706.892-.865 1.074-.159.183-.319.205-.592.068-.274-.137-1.156-.426-2.201-1.36-.813-.725-1.362-1.62-1.521-1.893-.16-.273-.017-.421.12-.558.123-.123.274-.319.41-.479.137-.16.183-.274.274-.456.091-.183.046-.342-.023-.479-.068-.137-.615-1.483-.842-2.03-.221-.533-.446-.46-.615-.468l-.524-.009c-.183 0-.479.068-.729.342-.25.274-.957.934-.957 2.28s.98 2.645 1.117 2.828c.137.182 1.929 2.946 4.675 4.131.653.282 1.163.45 1.56.576.655.209 1.25.18 1.721.11.525-.078 1.62-.663 1.848-1.302.228-.638.228-1.185.16-1.302-.068-.114-.25-.182-.524-.319z"/>
   </svg>
   <span class="zs-whatsapp-float__bubble" aria-hidden="true">
-    <span class="zs-whatsapp-float__message">Need a little help?</span>
-    <span class="zs-whatsapp-float__message">Looking for recommendations?</span>
-    <span class="zs-whatsapp-float__message">Questions about a product?</span>
-    <span class="zs-whatsapp-float__message">Choosing a special gift?</span>
-    <span class="zs-whatsapp-float__message">We're happy to help!</span>
+    <span class="zs-whatsapp-float__cloud-lobe"></span>
+    <span class="zs-whatsapp-float__message">Need help choosing a piece?</span>
+    <span class="zs-whatsapp-float__message">Looking for a gift recommendation?</span>
+    <span class="zs-whatsapp-float__message">Need our help? We're here for you!</span>
   </span>
 </a>
 
@@ -54,64 +53,91 @@
     outline-offset: 4px;
   }
   .zs-whatsapp-float__icon { display: block; width: 30px; height: 30px; flex: 0 0 auto; }
-  /* Small chat cloud on the button's left; each message appears for 3 seconds. */
+  /* A friendly, soft-edged cloud. The cloud first appears 8 seconds after load. */
   .zs-whatsapp-float__bubble {
     position: absolute;
     top: 50%;
-    right: calc(100% + 13px);
-    width: 219px;
-    height: 56px;
-    border-radius: 13px;
-    border: 1px solid #e9d8bf;
-    background: #fffaf4;
+    right: calc(100% + 14px);
+    width: 244px;
+    height: 76px;
+    border-radius: 47% 52% 45% 49% / 57% 53% 48% 48%;
+    border: 1px solid #e8d8c6;
+    background: #fff9f0;
     color: #493022;
-    box-shadow: 0 7px 22px rgba(43, 29, 23, .14);
+    box-shadow: 0 7px 24px rgba(43, 29, 23, .14);
     pointer-events: auto;
     text-align: left;
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 650;
     line-height: 1.35;
-    animation: zs-wa-bubble-appear 3s ease-in-out infinite;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(9px, -45%) scale(.96);
+    animation: zs-wa-cloud-reveal .65s ease-out 8s both;
+  }
+  .zs-whatsapp-float__bubble::before,
+  .zs-whatsapp-float__cloud-lobe {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    background: #fff9f0;
+    border-top: 1px solid #e8d8c6;
+    border-radius: 60% 60% 0 0;
+    pointer-events: none;
+  }
+  .zs-whatsapp-float__bubble::before {
+    top: -11px;
+    left: 47px;
+    width: 66px;
+    height: 28px;
+    transform: rotate(-5deg);
+  }
+  .zs-whatsapp-float__cloud-lobe {
+    top: -15px;
+    left: 105px;
+    width: 79px;
+    height: 33px;
+    transform: rotate(7deg);
   }
   .zs-whatsapp-float__bubble::after {
     content: '';
     position: absolute;
-    top: 50%;
+    z-index: 0;
     right: -6px;
-    width: 10px;
-    height: 10px;
-    transform: translateY(-50%) rotate(45deg);
-    border-top: 1px solid #e9d8bf;
-    border-right: 1px solid #e9d8bf;
-    background: #fffaf4;
+    bottom: 15px;
+    width: 17px;
+    height: 17px;
+    background: #fff9f0;
+    border-right: 1px solid #e8d8c6;
+    border-bottom: 1px solid #e8d8c6;
+    border-radius: 0 0 5px 0;
+    transform: rotate(-36deg);
+    pointer-events: none;
   }
   .zs-whatsapp-float__message {
     position: absolute;
+    z-index: 1;
     inset: 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 9px 14px;
+    justify-content: center;
+    padding: 11px 26px;
+    text-align: center;
     opacity: 0;
-    animation: zs-wa-message-rotate 15s steps(1, end) infinite;
+    visibility: hidden;
+    animation: zs-wa-message-cycle 15s steps(1, end) infinite both;
   }
-  .zs-whatsapp-float__message:nth-child(1) { animation-delay: 0s; }
-  .zs-whatsapp-float__message:nth-child(2) { animation-delay: -12s; }
-  .zs-whatsapp-float__message:nth-child(3) { animation-delay: -9s; }
-  .zs-whatsapp-float__message:nth-child(4) { animation-delay: -6s; }
-  .zs-whatsapp-float__message:nth-child(5) { animation-delay: -3s; }
-  @keyframes zs-wa-message-rotate {
-    0%, 19.99% { opacity: 1; }
-    20%, 100% { opacity: 0; }
+  /* One friendly message every 5 seconds; all three repeat in 15 seconds. */
+  .zs-whatsapp-float__message:nth-of-type(2) { animation-delay: 8s; }
+  .zs-whatsapp-float__message:nth-of-type(3) { animation-delay: -2s; }
+  .zs-whatsapp-float__message:nth-of-type(4) { animation-delay: 3s; }
+  @keyframes zs-wa-message-cycle {
+    0%, 32.99% { opacity: 1; visibility: visible; }
+    33%, 100% { opacity: 0; visibility: hidden; }
   }
-  @keyframes zs-wa-bubble-appear {
-    0% { opacity: 0; transform: translate(6px, -45%); }
-    10%, 78% { opacity: 1; transform: translate(0, -50%); }
-    94%, 100% { opacity: 0; transform: translate(5px, -50%); }
-  }
-  .zs-whatsapp-float:hover .zs-whatsapp-float__bubble,
-  .zs-whatsapp-float:focus-visible .zs-whatsapp-float__bubble {
-    animation-play-state: paused;
+  @keyframes zs-wa-cloud-reveal {
+    from { opacity: 0; visibility: hidden; transform: translate(9px, -45%) scale(.96); }
+    to { opacity: 1; visibility: visible; transform: translate(0, -50%) scale(1); }
   }
   .zs-whatsapp-float:hover .zs-whatsapp-float__message,
   .zs-whatsapp-float:focus-visible .zs-whatsapp-float__message {
@@ -125,15 +151,23 @@
       height: 54px;
     }
     .zs-whatsapp-float__icon { width: 28px; height: 28px; }
-    .zs-whatsapp-float__bubble { width: min(196px, calc(100vw - 118px)); height: 58px; right: calc(100% + 11px); font-size: 11.5px; }
-    .zs-whatsapp-float__message { padding: 8px 12px; }
+    .zs-whatsapp-float__bubble {
+      width: min(219px, calc(100vw - 110px));
+      height: 76px;
+      right: calc(100% + 11px);
+      font-size: 11.5px;
+    }
+    .zs-whatsapp-float__bubble::before { left: 26px; width: 57px; }
+    .zs-whatsapp-float__cloud-lobe { left: 82px; width: 63px; }
+    .zs-whatsapp-float__message { padding: 10px 22px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .zs-whatsapp-float { transition: none; }
-    .zs-whatsapp-float__bubble, .zs-whatsapp-float__message { animation: none; }
-    .zs-whatsapp-float__bubble { opacity: 1; transform: translate(0, -50%); }
-    .zs-whatsapp-float__message { opacity: 0; }
-    .zs-whatsapp-float__message:first-child { opacity: 1; }
     .zs-whatsapp-float:hover { transform: none; }
+    .zs-whatsapp-float__bubble {
+      animation: zs-wa-cloud-reveal 1ms linear 8s both;
+    }
+    .zs-whatsapp-float__message { animation: none; opacity: 0; visibility: hidden; }
+    .zs-whatsapp-float__message:nth-of-type(2) { opacity: 1; visibility: visible; }
   }
 {% endstyle %}
