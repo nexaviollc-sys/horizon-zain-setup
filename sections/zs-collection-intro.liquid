@@ -1,0 +1,92 @@
+{%- comment -%}
+  ZAISEN dynamic collection introduction.
+  Collection title, image and full description are managed in Shopify.
+  Portrait images always use contain to avoid cropping product/category art.
+{%- endcomment -%}
+{%- liquid
+  assign zs_collection_image = collection.image
+  if zs_collection_image == blank
+    assign zs_collection_image = collection.products.first.featured_image
+  endif
+  assign zs_description_plain = collection.description | strip_html | strip
+  assign zs_description_words = zs_description_plain | split: ' ' | size
+-%}
+<section class="zs-collection-intro" aria-labelledby="zs-collection-title-{{ section.id }}">
+  <div class="zs-collection-intro__shell">
+    <nav class="zs-collection-intro__breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span>
+      <a href="{{ routes.collections_url }}">Collections</a><span aria-hidden="true">/</span>
+      <span aria-current="page">{{ collection.title | escape }}</span>
+    </nav>
+    <div class="zs-collection-intro__card">
+      <div class="zs-collection-intro__image" aria-hidden="true">
+        {% if zs_collection_image != blank %}
+          {{
+            zs_collection_image
+            | image_url: width: 720
+            | image_tag: loading: 'eager', widths: '160,240,360,480,640,720', sizes: '(min-width: 1100px) 196px, (min-width: 650px) 150px, 98px', alt: ''
+          }}
+        {% else %}
+          <span class="zs-collection-intro__placeholder">ZAISEN</span>
+        {% endif %}
+      </div>
+      <div class="zs-collection-intro__text">
+        <p class="zs-collection-intro__eyebrow">THE ZAISEN COLLECTION <span aria-hidden="true">✦</span> HANDCRAFTED WOOD</p>
+        <h1 id="zs-collection-title-{{ section.id }}">{{ collection.title | escape }}</h1>
+        {% if zs_description_plain != blank %}
+          {% if zs_description_words > 46 %}
+            <details class="zs-collection-intro__more">
+              <summary>
+                <span class="zs-collection-intro__summary">{{ zs_description_plain | truncatewords: 46 }}</span>
+                <span class="zs-collection-intro__read-more">Read full description <span aria-hidden="true">↗</span></span>
+              </summary>
+              <div class="zs-collection-intro__full-description rte">{{ collection.description }}</div>
+            </details>
+          {% else %}
+            <div class="zs-collection-intro__description rte">{{ collection.description }}</div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.zs-collection-intro{background:#fcfaf7;color:#2b1d17;padding:22px 0 20px}
+.zs-collection-intro *{box-sizing:border-box}
+.zs-collection-intro__shell{width:min(100% - 48px,1540px);margin:0 auto}
+.zs-collection-intro__breadcrumbs{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 21px;color:#87796e;font-size:12px;line-height:1.5}
+.zs-collection-intro__breadcrumbs a{color:inherit;text-decoration:none}
+.zs-collection-intro__breadcrumbs a:hover{text-decoration:underline;text-underline-offset:3px}
+.zs-collection-intro__card{display:grid;grid-template-columns:minmax(150px,196px) minmax(0,1fr);gap:clamp(24px,3vw,46px);align-items:center;background:#fff;border:1px solid #eae1d8;border-radius:18px;padding:clamp(18px,2.5vw,33px);box-shadow:0 10px 34px rgba(43,29,23,.035);overflow:hidden}
+.zs-collection-intro__image{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#f7f2ec;overflow:hidden;min-width:0}
+.zs-collection-intro__image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.zs-collection-intro__placeholder{font-family:Georgia,serif;font-size:17px;letter-spacing:.14em;color:#987e64}
+.zs-collection-intro__text{min-width:0}
+.zs-collection-intro__eyebrow{color:#927148;font-size:10px;font-weight:700;letter-spacing:.16em;line-height:1.7;margin:0 0 13px}
+.zs-collection-intro__eyebrow span{padding-left:6px;color:#b39865}
+.zs-collection-intro h1{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(31px,3.6vw,53px);font-weight:550;letter-spacing:-.038em;line-height:1.13;margin:0 0 14px;color:#2b1d17;overflow-wrap:break-word}
+.zs-collection-intro__description,.zs-collection-intro__summary,.zs-collection-intro__full-description{color:#736459;font-size:14px;line-height:1.8;max-width:900px}
+.zs-collection-intro__description p{margin:0 0 10px}
+.zs-collection-intro__description p:last-child{margin-bottom:0}
+.zs-collection-intro__more>summary{display:block;list-style:none;cursor:pointer}
+.zs-collection-intro__more>summary::-webkit-details-marker{display:none}
+.zs-collection-intro__summary{display:block}
+.zs-collection-intro__read-more{display:inline-flex;gap:9px;color:#6f482a;font-size:12px;font-weight:700;margin-top:9px;border-bottom:1px solid #c5a883;padding-bottom:4px}
+.zs-collection-intro__full-description{margin-top:17px;padding-top:16px;border-top:1px solid #ece3d9}
+.zs-collection-intro__full-description p{margin:0 0 12px}
+.zs-collection-intro__more[open] .zs-collection-intro__read-more{display:none}
+.zs-collection-intro a:focus-visible,.zs-collection-intro summary:focus-visible{outline:2px solid #b99b68;outline-offset:4px}
+@media(max-width:749px){.zs-collection-intro{padding:15px 0}.zs-collection-intro__shell{width:min(100% - 28px,1540px)}.zs-collection-intro__breadcrumbs{margin-bottom:13px}.zs-collection-intro__card{grid-template-columns:104px minmax(0,1fr);gap:16px;padding:14px;border-radius:13px;align-items:start}.zs-collection-intro__image{border-radius:9px}.zs-collection-intro__eyebrow{font-size:9px;letter-spacing:.09em;margin:5px 0 7px}.zs-collection-intro h1{font-size:clamp(23px,5vw,34px);margin-bottom:9px}.zs-collection-intro__description,.zs-collection-intro__summary,.zs-collection-intro__full-description{font-size:12px;line-height:1.65}.zs-collection-intro__read-more{font-size:11px;margin-top:7px}}
+@media(max-width:420px){.zs-collection-intro__card{grid-template-columns:92px minmax(0,1fr);gap:12px}.zs-collection-intro__eyebrow{font-size:8px}.zs-collection-intro h1{font-size:23px}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name":"ZAISEN Collection Intro",
+  "tag":"section",
+  "enabled_on":{"templates":["collection"]},
+  "settings":[],
+  "presets":[{"name":"ZAISEN Collection Intro"}]
+}
+{% endschema %}
