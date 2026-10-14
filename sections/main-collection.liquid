@@ -36,13 +36,16 @@
 ></div>
 <collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
   <results-list
-    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    class="section product-grid-container zs-catalog-section{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
     section-id="{{ section.id }}"
     infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
   >
     {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
+    <div class="zs-collection-layout">
+      {% render 'zs-collection-sidebar', collection: collection, section: section %}
+      <div class="zs-collection-main">
     <div
       class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
     >
@@ -53,7 +56,7 @@
         results_size: collection.products_count
       %}
 
-      {% assign products_per_page = 24 %}
+      {% assign products_per_page = 20 %}
 
       {% if section.settings.enable_infinite_scroll == false %}
         {% assign products_per_page = section.settings.products_per_page %}
@@ -88,8 +91,52 @@
         %}
       {% endpaginate %}
     </div>
+      </div>
+    </div>
   </results-list>
 </collection-component>
+
+{% stylesheet %}
+/* ZAISEN collection layout: native Horizon filtering, sorting, cards and pagination remain untouched. */
+.zs-catalog-section{background:#fcfaf7;padding-top:6px!important}
+.zs-catalog-section *{box-sizing:border-box}
+.zs-catalog-section .zs-collection-layout{display:grid;grid-template-columns:minmax(216px,257px) minmax(0,1fr);gap:clamp(20px,2.25vw,38px);align-items:start;grid-column:1/-1;width:min(100% - 48px,1540px);margin:0 auto}
+.zs-catalog-section .zs-collection-main{min-width:0;width:100%}
+.zs-catalog-section .zs-collection-main .collection-wrapper{display:grid;grid-template-columns:minmax(0,1fr);gap:0;min-width:0}
+.zs-catalog-section .zs-collection-main .collection-wrapper>*{grid-column:1/-1!important;min-width:0}
+.zs-catalog-section .zs-collection-main .main-collection-grid{grid-column:1/-1!important;grid-template-columns:minmax(0,1fr);width:100%;min-width:0;padding:0!important}
+.zs-catalog-section .zs-collection-main .main-collection-grid>div{grid-column:1/-1!important;min-width:0}
+.zs-catalog-section .zs-collection-main .product-grid{width:100%;max-width:100%;min-width:0}
+.zs-catalog-section .zs-collection-main .product-grid__item{min-width:0}
+.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(4,minmax(0,1fr))}
+.zs-catalog-section .zs-collection-main .facets-block-wrapper--horizontal{margin-block:0 18px;min-width:0}
+.zs-catalog-section .zs-collection-main .facets{border-color:#eae0d5}
+.zs-catalog-section .zs-collection-main .pagination{margin-top:20px;border-top:1px solid #ebe0d5}
+.zs-catalog-section .zs-collection-main .pagination__link[aria-current='page']{color:#fff;background:#2b1d17;border-radius:7px}
+.zs-collection-sidebar{position:sticky;top:26px;min-width:0;background:#fff;border:1px solid #e9e0d5;border-radius:17px;padding:22px 12px 16px;box-shadow:0 7px 28px rgba(43,29,23,.03);max-height:calc(100vh - 54px);display:flex;flex-direction:column;overflow:hidden}
+.zs-collection-sidebar__heading{padding:0 9px 16px;border-bottom:1px solid #ede6de;flex-shrink:0}
+.zs-collection-sidebar__eyebrow{font-size:10px;font-weight:700;letter-spacing:.13em;color:#a17b4b}
+.zs-collection-sidebar__heading h2{font-size:clamp(20px,2vw,26px);font-family:var(--font-heading--family,Georgia,serif);font-weight:600;letter-spacing:-.025em;color:#2b1d17;line-height:1.25;margin:7px 0}
+.zs-collection-sidebar__heading p{font-size:11px;line-height:1.6;color:#887669;margin:0}
+.zs-collection-sidebar__nav{overflow-y:auto;overflow-x:hidden;min-height:0;scrollbar-width:thin;scrollbar-color:#d4bfa8 transparent}
+.zs-collection-sidebar__list{list-style:none;padding:12px 0 8px;margin:0;display:flex;flex-direction:column;gap:5px}
+.zs-collection-sidebar__entry{min-width:0}
+.zs-collection-sidebar__link{display:flex;align-items:center;gap:11px;min-width:0;padding:7px;border:1px solid transparent;border-radius:11px;color:#433226;text-decoration:none;transition:background .2s ease,border-color .2s ease}
+.zs-collection-sidebar__link:hover{background:#f8f2eb;border-color:#ede0d0}
+.zs-collection-sidebar__link.is-active{background:#f5eee4;border-color:#d5b77d;color:#2b1d17}
+.zs-collection-sidebar__thumb{width:53px;height:65px;flex:0 0 53px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f7f2eb;overflow:hidden;color:#b3946d;font-size:12px;font-weight:600}
+.zs-collection-sidebar__thumb img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.zs-collection-sidebar__name{display:block;min-width:0;flex:1;font-size:12px;line-height:1.45;font-weight:560;overflow-wrap:break-word}
+.zs-collection-sidebar__current{color:#a37b44;font-size:9px;flex-shrink:0}
+.zs-collection-sidebar__arrow{color:#a89179;font-size:13px;flex-shrink:0}
+.zs-collection-sidebar__all{margin:12px 9px 0;padding-top:14px;border-top:1px solid #ede6de;display:flex;align-items:center;justify-content:space-between;color:#704c30;text-decoration:none;font-size:12px;font-weight:650;flex-shrink:0}
+.zs-collection-sidebar__link:focus-visible,.zs-collection-sidebar__all:focus-visible{outline:2px solid #d8b56a;outline-offset:2px}
+@media(max-width:1199px) and (min-width:1000px){.zs-catalog-section .zs-collection-layout{grid-template-columns:220px minmax(0,1fr);gap:20px}.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(3,minmax(0,1fr))}}
+@media(max-width:999px){.zs-catalog-section .zs-collection-layout{display:flex;flex-direction:column;gap:17px;width:min(100% - 38px,1540px)}.zs-catalog-section .zs-collection-main{width:100%}.zs-collection-sidebar{width:100%;max-height:none;position:static;padding:14px;display:block;border-radius:13px}.zs-collection-sidebar__heading{padding:0 2px 10px;border-bottom:0}.zs-collection-sidebar__heading h2{font-size:21px;margin:4px 0}.zs-collection-sidebar__heading p{display:none}.zs-collection-sidebar__nav{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}.zs-collection-sidebar__list{flex-direction:row;gap:9px;padding:5px 0 9px}.zs-collection-sidebar__entry{flex:0 0 186px}.zs-collection-sidebar__link{height:66px;padding:6px;gap:8px}.zs-collection-sidebar__thumb{width:43px;height:52px;flex-basis:43px}.zs-collection-sidebar__name{font-size:11px}.zs-collection-sidebar__arrow,.zs-collection-sidebar__current{display:none}.zs-collection-sidebar__all{display:none}.zs-catalog-section .zs-collection-main .product-grid--grid:not([product-grid-view='zoom-out']){--product-grid-columns-desktop:repeat(3,minmax(0,1fr))}}
+@media(max-width:749px){.zs-catalog-section .zs-collection-layout{width:min(100% - 28px,1540px)}.zs-collection-sidebar{padding:12px}.zs-collection-sidebar__heading h2{font-size:19px}.zs-catalog-section .zs-collection-main .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-catalog-section .zs-collection-main .product-grid[product-grid-view='mobile-single'],.zs-catalog-section .zs-collection-main .product-grid-mobile--large{grid-template-columns:1fr}}
+@media(max-width:430px){.zs-collection-sidebar__entry{flex-basis:170px}.zs-catalog-section .zs-collection-main .product-grid{column-gap:10px}}
+@media(prefers-reduced-motion:reduce){.zs-collection-sidebar__link{transition:none}}
+{% endstylesheet %}
 
 {% schema %}
 {
