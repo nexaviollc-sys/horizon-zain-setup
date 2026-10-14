@@ -1,0 +1,56 @@
+{%- comment -%}
+  ZAISEN dynamic collection sidebar. Actual collection images and titles from Shopify.
+  No hard-coded names; newly published collections flow into this navigation.
+{%- endcomment -%}
+{%- assign zs_sidebar_collections = collections | sort: 'title' -%}
+<aside class="zs-collection-sidebar" aria-labelledby="zs-collection-sidebar-heading-{{ section.id }}">
+  <div class="zs-collection-sidebar__heading">
+    <span class="zs-collection-sidebar__eyebrow">EXPLORE ZAISEN</span>
+    <h2 id="zs-collection-sidebar-heading-{{ section.id }}">Shop Collections</h2>
+    <p>Discover more handcrafted wooden pieces.</p>
+  </div>
+  <nav class="zs-collection-sidebar__nav" aria-label="ZAISEN collections">
+    <ul class="zs-collection-sidebar__list" role="list">
+      {%- for zs_sidebar_collection in zs_sidebar_collections -%}
+        {%- if zs_sidebar_collection.handle != 'frontpage' and zs_sidebar_collection.handle != 'all' -%}
+          {%- liquid
+            assign zs_sidebar_image = zs_sidebar_collection.image
+            if zs_sidebar_image == blank
+              assign zs_sidebar_image = zs_sidebar_collection.products.first.featured_image
+            endif
+            assign zs_sidebar_active = false
+            if zs_sidebar_collection.id == collection.id
+              assign zs_sidebar_active = true
+            endif
+          -%}
+          <li class="zs-collection-sidebar__entry">
+            <a
+              class="zs-collection-sidebar__link{% if zs_sidebar_active %} is-active{% endif %}"
+              href="{{ zs_sidebar_collection.url }}"
+              {% if zs_sidebar_active %}aria-current="page"{% endif %}
+            >
+              <span class="zs-collection-sidebar__thumb">
+                {% if zs_sidebar_image != blank %}
+                  {{
+                    zs_sidebar_image
+                    | image_url: width: 200
+                    | image_tag: loading: 'lazy', widths: '80,120,160,200', sizes: '(min-width: 1100px) 54px, 45px', alt: ''
+                  }}
+                {% else %}
+                  <span aria-hidden="true">ZS</span>
+                {% endif %}
+              </span>
+              <span class="zs-collection-sidebar__name">{{ zs_sidebar_collection.title | escape }}</span>
+              {% if zs_sidebar_active %}
+                <span class="zs-collection-sidebar__current" aria-label="Current collection">●</span>
+              {% else %}
+                <span class="zs-collection-sidebar__arrow" aria-hidden="true">↗</span>
+              {% endif %}
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
+  <a class="zs-collection-sidebar__all" href="{{ routes.all_products_collection_url }}">View all products <span aria-hidden="true">↗</span></a>
+</aside>
