@@ -613,6 +613,7 @@
         "contact_description": "Questions about a wooden piece, shipping or your order? Get in touch with our team and we'll be happy to help.",
         "contact_button": "Contact Us",
         "contact_link": "",
+        "contact_background_image": "shopify://shop_images/Warm_Minimalist_Customer_Support_Workspace.jpg",
         "faq_eyebrow": "GOOD TO KNOW",
         "faq_heading": "Frequently Asked Questions",
         "first_faq_open": false,
