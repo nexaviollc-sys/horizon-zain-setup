@@ -1,0 +1,268 @@
+{%- comment -%}
+  ZAISEN All Collections directory.
+  A dynamic 4:5 portrait grid for every Shopify storefront collection.
+  Always use a collection's image first, its first real product as a fallback,
+  and never crop source artwork. The homepage section is left untouched.
+{%- endcomment -%}
+{%- liquid
+  assign zs_directory_collections = collections | sort: 'title'
+-%}
+<section
+  class="zs-dir"
+  id="zs-collections-{{ section.id }}"
+  aria-labelledby="zs-dir-heading-{{ section.id }}"
+  style="
+    --zs-dir-bg: {{ section.settings.background }};
+    --zs-dir-title: {{ section.settings.title_color }};
+    --zs-dir-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="zs-dir__shell">
+    <header class="zs-dir__header">
+      <div class="zs-dir__heading-group">
+        {% if section.settings.eyebrow != blank %}
+          <p class="zs-dir__eyebrow"><span aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h1 class="zs-dir__title" id="zs-dir-heading-{{ section.id }}">{{ section.settings.heading | default: 'Collections' | escape }}</h1>
+      </div>
+      {% if section.settings.description != blank %}
+        <p class="zs-dir__intro">{{ section.settings.description | escape }}</p>
+      {% endif %}
+    </header>
+
+    <div class="zs-dir__divider" aria-hidden="true"><span></span></div>
+
+    <ul class="zs-dir__grid" role="list">
+      {%- for zs_item in zs_directory_collections -%}
+        {%- unless zs_item.handle == 'frontpage' or zs_item.handle == 'all' -%}
+          {%- liquid
+            assign zs_image = zs_item.image
+            if zs_image == blank
+              assign zs_image = zs_item.products.first.featured_image
+            endif
+            assign zs_loading = 'lazy'
+            if forloop.index <= 4
+              assign zs_loading = 'eager'
+            endif
+          -%}
+          <li class="zs-dir__item">
+            <a class="zs-dir__link" href="{{ zs_item.url }}" aria-label="Explore {{ zs_item.title | escape }}">
+              <div class="zs-dir__media">
+                {% if zs_image != blank %}
+                  {{
+                    zs_image
+                    | image_url: width: 1100
+                    | image_tag:
+                      class: 'zs-dir__photo',
+                      loading: zs_loading,
+                      widths: '240,340,450,560,720,900,1100',
+                      sizes: '(min-width: 1580px) 330px, (min-width: 1100px) calc((100vw - 170px) / 4), (min-width: 750px) calc((100vw - 110px) / 3), calc((100vw - 48px) / 2)',
+                      alt: zs_item.title
+                  }}
+                {% else %}
+                  <div class="zs-dir__missing" aria-hidden="true">
+                    <span class="zs-dir__missing-symbol">Z</span>
+                    <span class="zs-dir__missing-name">ZAISEN</span>
+                  </div>
+                {% endif %}
+                <span class="zs-dir__image-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M8 5h11v11"/></svg>
+                </span>
+              </div>
+              <div class="zs-dir__copy">
+                <h2 class="zs-dir__name">{{ zs_item.title | escape }}</h2>
+                <span class="zs-dir__explore">Explore collection <span aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+          </li>
+        {%- endunless -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .zs-dir {
+    background: var(--zs-dir-bg, #fcfaf7);
+    color: var(--zs-dir-title, #2b1d17);
+    padding: clamp(42px, 5vw, 76px) 0 clamp(64px, 7vw, 106px);
+  }
+  .zs-dir, .zs-dir * { box-sizing: border-box; }
+  .zs-dir__shell { width: min(100% - 48px, 1480px); margin: 0 auto; }
+  .zs-dir__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: clamp(20px, 4vw, 56px);
+  }
+  .zs-dir__heading-group { flex: 0 1 auto; min-width: 0; }
+  .zs-dir__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0 0 17px;
+    color: #947354;
+    font-size: 11px;
+    line-height: 1.6;
+    font-weight: 650;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .zs-dir__eyebrow>span { display: block; width: 30px; height: 2px; background: var(--zs-dir-accent, #d8b56a); }
+  .zs-dir__title {
+    margin: 0;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(44px, 5vw, 72px);
+    font-weight: 480;
+    line-height: 1.11;
+    letter-spacing: -.049em;
+    color: var(--zs-dir-title, #2b1d17);
+  }
+  .zs-dir__intro {
+    flex: 0 1 460px;
+    max-width: 460px;
+    margin: 0 0 7px;
+    color: #807169;
+    font-size: 14px;
+    line-height: 1.86;
+    letter-spacing: -.005em;
+  }
+  .zs-dir__divider { height: 1px; background: #e7ded5; margin: clamp(24px, 3.5vw, 46px) 0 clamp(26px, 3vw, 39px); }
+  .zs-dir__divider>span { display: block; width: 78px; height: 1px; background: #c5a678; }
+  .zs-dir__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(29px, 3vw, 43px) clamp(15px, 1.8vw, 26px);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: start;
+  }
+  .zs-dir__item { min-width: 0; list-style: none; }
+  .zs-dir__link { display: block; text-decoration: none; color: inherit; border-radius: 15px; outline-offset: 5px; }
+  .zs-dir__link:hover { color: inherit; }
+  .zs-dir__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+    background: #f1ece5;
+    border: 1px solid #e8dfd5;
+    border-radius: 17px;
+    box-shadow: 0 3px 12px rgba(43, 29, 23, .035);
+  }
+  .zs-dir__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+  }
+  .zs-dir__image-arrow {
+    position: absolute;
+    z-index: 1;
+    bottom: 14px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    border: 1px solid rgba(43,29,23,.10);
+    background: #fffaf3;
+    color: #3c2a21;
+    box-shadow: 0 4px 15px rgba(43,29,23,.1);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity .25s ease, transform .25s ease, background .25s ease, color .25s ease;
+  }
+  .zs-dir__copy { display: flex; flex-direction: column; gap: 9px; padding: 17px 2px 0; }
+  .zs-dir__name {
+    margin: 0;
+    color: #2b1d17;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(18px, 1.55vw, 23px);
+    font-weight: 550;
+    letter-spacing: -.025em;
+    line-height: 1.36;
+    overflow-wrap: break-word;
+  }
+  .zs-dir__explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    align-self: flex-start;
+    font-size: 11px;
+    letter-spacing: .04em;
+    line-height: 1.5;
+    font-weight: 650;
+    color: #9b7550;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .zs-dir__missing {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #a68a70;
+    background: radial-gradient(ellipse at center, #fcf8f3, #f0e8df);
+  }
+  .zs-dir__missing-symbol { font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(66px, 10vw, 120px); line-height: 1; font-weight: 350; }
+  .zs-dir__missing-name { letter-spacing: .2em; font-size: 10px; font-weight: 650; }
+  .zs-dir__link:focus-visible { outline: 2px solid var(--zs-dir-accent, #d8b56a); }
+  .zs-dir__link:focus-visible .zs-dir__image-arrow { opacity: 1; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .zs-dir__link:hover .zs-dir__photo { transform: scale(1.025); }
+    .zs-dir__link:hover .zs-dir__media { border-color: #d5bb95; box-shadow: 0 12px 28px rgba(43, 29, 23, .08); }
+    .zs-dir__link:hover .zs-dir__image-arrow { opacity: 1; transform: translateY(0); background: #2b1d17; color: #f4e8d2; }
+    .zs-dir__link:hover .zs-dir__explore { border-bottom-color: #b58d5c; }
+  }
+  @media (min-width: 750px) and (max-width: 1099px) {
+    .zs-dir__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .zs-dir__intro { max-width: 350px; }
+  }
+  @media (max-width: 749px) {
+    .zs-dir { padding: 38px 0 58px; }
+    .zs-dir__shell { width: min(100% - 30px, 1480px); }
+    .zs-dir__header { display: block; }
+    .zs-dir__eyebrow { font-size: 9px; margin-bottom: 12px; }
+    .zs-dir__title { font-size: clamp(38px, 8vw, 54px); }
+    .zs-dir__intro { max-width: 56ch; margin: 13px 0 0; font-size: 12px; line-height: 1.7; }
+    .zs-dir__divider { margin: 24px 0 24px; }
+    .zs-dir__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px 13px; }
+    .zs-dir__media { border-radius: 12px; }
+    .zs-dir__copy { gap: 5px; padding: 10px 1px 0; }
+    .zs-dir__name { font-size: clamp(15px, 3.7vw, 20px); }
+    .zs-dir__explore { font-size: 10px; gap: 5px; }
+    .zs-dir__image-arrow { width: 31px; height: 31px; opacity: 1; transform: none; bottom: 9px; right: 9px; }
+    .zs-dir__image-arrow svg { width: 15px; height: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .zs-dir__photo, .zs-dir__image-arrow { transition: none; }
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "ZAISEN Collections",
+  "tag": "section",
+  "enabled_on": {"templates": ["list-collections"]},
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Small heading","default":"EXPLORE ZAISEN"},
+    {"type":"text","id":"heading","label":"Page heading","default":"Collections"},
+    {"type":"textarea","id":"description","label":"Introduction","default":"Explore handcrafted wooden decor, kitchen and dining essentials, lighting, clocks, sculptures and thoughtful gifts made to bring natural warmth into your home."},
+    {"type":"color","id":"background","label":"Background color","default":"#FCFAF7"},
+    {"type":"color","id":"title_color","label":"Title color","default":"#2B1D17"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#D8B56A"}
+  ],
+  "presets": [{"name":"ZAISEN Collections"}]
+}
+{% endschema %}
