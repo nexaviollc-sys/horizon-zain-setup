@@ -539,4 +539,51 @@
   @media(prefers-reduced-motion:reduce) {
     #header-component.header--zaisen dropdown-localization-component .localization-form__list-item:not([hidden]){transition:none}
   }
+
+  /*
+   * ZAISEN product-page transparent header.
+   * The homepage overlaps dark hero imagery and deliberately has ivory utility
+   * icons / a white fourth navigation link. Product galleries are light, so
+   * keep those controls walnut while the native transparent header is idle.
+   * Scroll-sticky and open-flyout states use the existing theme behavior.
+   */
+  #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right {
+    --color-account-icon: #2B1D17;
+  }
+  #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(
+    .dropdown-localization__button,
+    .search-action .header-actions__action,
+    header-actions .header-actions__action,
+    .account-button
+  ) {
+    color: #2B1D17 !important;
+    --color-account-icon: #2B1D17;
+  }
+  #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right .dropdown-localization__button {
+    background: rgba(247,243,238,.78);
+    border-color: rgba(91,67,50,.35);
+  }
+  #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right .dropdown-localization__button:is(:hover,:focus-visible) {
+    color: #2B1D17 !important;
+    border-color: #9A6A44;
+    background: rgba(238,226,211,.94);
+  }
+  #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(
+    .search-action .header-actions__action,
+    header-actions .header-actions__action,
+    .account-button
+  ):is(:hover,:focus-visible) {
+    color: #2B1D17 !important;
+    --color-account-icon: #2B1D17;
+    background: rgba(228,214,196,.42);
+    box-shadow: inset 0 0 0 1px rgba(112,81,58,.25);
+  }
+  @media screen and (min-width: 750px) {
+    #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title,
+    #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4):hover .menu-list__link-title,
+    #header-component.header--zaisen.header--zaisen-product[transparent='not-sticky']:not([data-sticky-state='active']) .header-menu .menu-list__list-item:nth-child(4):focus-within .menu-list__link-title {
+      color: #2B1D17;
+      border-color: rgba(89,62,45,.46);
+    }
+  }
 {% endstylesheet %}
