@@ -34,7 +34,7 @@
 
 <section
   id="zaisen-banner-hero-{{ section.id }}"
-  class="zf-hero"
+  class="zf-hero{% if mobile_banner_image != blank %} zf-hero--mobile-image-ready{% endif %}"
   style="--zf-text:{{ s.text_color }};--zf-dark:{{ s.dark_color }};--zf-gold:{{ s.champagne_color }};"
   aria-label="ZAISEN handcrafted wooden home decor"
 >
@@ -511,6 +511,213 @@
   @media(max-width:749px) {
     .zf-hero__cta { padding:0 17px 0 19px; gap:11px; }
   }
+
+
+/*
+ * ZAISEN mobile portrait hero.
+ * Only phones (749px and below): desktop layout and banner remain untouched.
+ * In Shopify's hero settings upload a separate 1080x1920 mobile image with
+ * an ivory text-safe top and the actual wooden horse in the lower area.
+ */
+@media (max-width: 749px) {
+  .zf-hero {
+    background: #F7F1EA;
+  }
+  .zf-hero__canvas {
+    min-height: max(810px, 100svh);
+    background: #F7F1EA;
+  }
+  .zf-hero__banner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .zf-hero__banner-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+  /* Fade the top of a new portrait photo gently into a readable ivory title area. */
+  .zf-hero--mobile-image-ready .zf-hero__canvas::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 auto;
+    height: 53%;
+    background: linear-gradient(180deg, rgba(250,245,239,.70), rgba(250,245,239,.48) 65%, rgba(250,245,239,0));
+    pointer-events: none;
+  }
+  /* Until a portrait banner is uploaded, show the desktop horse photo in a
+     dedicated lower photo area instead of cropping it behind the headline. */
+  .zf-hero:not(.zf-hero--mobile-image-ready) .zf-hero__banner {
+    inset: auto 0 0;
+    height: 49%;
+  }
+  .zf-hero:not(.zf-hero--mobile-image-ready) .zf-hero__banner-photo {
+    object-position: 73% center;
+  }
+  .zf-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: clamp(130px, 18svh, 210px);
+    width: 100%;
+    min-height: max(810px, 100svh);
+    margin: 0 auto;
+    padding: clamp(98px, 13svh, 130px) clamp(18px, 5.1vw, 25px) 22px;
+  }
+  .zf-hero__copy {
+    width: 100%;
+    max-width: 350px;
+    min-width: 0;
+  }
+  .zf-hero__eyebrow {
+    margin-bottom: 15px;
+    gap: 10px;
+    font-size: 9px;
+    line-height: 1.5;
+    letter-spacing: .14em;
+  }
+  .zf-hero__eyebrow-stroke {
+    width: 25px;
+  }
+  .zf-hero__headline {
+    max-width: 11ch;
+    font-size: clamp(38px, 10.5vw, 49px);
+    line-height: 1.04;
+    letter-spacing: -.052em;
+  }
+  .zf-hero__headline strong,
+  .zf-hero__headline b,
+  .zf-hero__headline em {
+    line-height: 1.06;
+  }
+  .zf-hero__subline {
+    margin: 17px 0 7px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .zf-hero__description {
+    max-width: 34ch;
+    font-size: 12px;
+    line-height: 1.65;
+    color: #776A60;
+  }
+  .zf-hero__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 22px;
+  }
+  .zf-hero__cta {
+    min-height: 52px;
+    padding: 0 19px 0 21px;
+    gap: 12px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+  .zf-hero__cta-arrow {
+    width: 16px;
+    height: 16px;
+  }
+  .zf-hero__secondary {
+    min-height: 33px;
+    padding-bottom: 2px;
+    font-size: 11.5px;
+  }
+  .zf-hero__bottom-note {
+    max-width: 320px;
+    margin-top: 18px;
+    gap: 9px;
+  }
+  .zf-hero__note-mark {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+  }
+  .zf-hero__note-logo {
+    max-width: 43px;
+    max-height: 43px;
+  }
+  .zf-hero__bottom-note > div {
+    padding-inline-start: 10px;
+  }
+  .zf-hero__bottom-note > div > span:first-child {
+    font-size: 8.5px;
+  }
+  .zf-hero__note-text {
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+  .zf-hero__product-teaser {
+    align-self: stretch;
+    width: 100%;
+    max-width: none;
+    margin-top: auto;
+    padding: 13px 14px 14px;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 17px;
+    background: rgba(43,29,23,.86);
+    box-shadow: 0 12px 28px rgba(43,29,23,.18);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+  }
+  .zf-hero__teaser-eyebrow {
+    font-size: 9px;
+    padding-bottom: 10px;
+  }
+  .zf-hero__teaser-row {
+    grid-template-columns: 51px minmax(0,1fr) 37px;
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .zf-hero__teaser-photo {
+    width: 51px;
+    height: 51px;
+  }
+  .zf-hero__teaser-description {
+    gap: 5px;
+  }
+  .zf-hero__teaser-description strong {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .zf-hero__price-row {
+    gap: 3px 8px;
+  }
+  .zf-hero__teaser-description .zf-hero__compare-price {
+    font-size: 10px;
+  }
+  .zf-hero__teaser-description .zf-hero__current-price {
+    font-size: 17px;
+  }
+  .zf-hero__teaser-arrow {
+    width: 37px;
+    height: 37px;
+  }
+}
+@media (max-width: 360px) {
+  .zf-hero__content {
+    padding-inline: 15px;
+    gap: 105px;
+  }
+  .zf-hero__headline {
+    font-size: clamp(35px, 10.7vw, 39px);
+  }
+  .zf-hero__description {
+    font-size: 11.5px;
+  }
+  .zf-hero__product-teaser {
+    padding-inline: 11px;
+  }
+}
 
 {% endstylesheet %}
 
