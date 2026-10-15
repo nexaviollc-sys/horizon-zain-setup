@@ -81,8 +81,8 @@
 
       {% if s.note_title != blank or s.note_text != blank %}
         <div class="zs-contact__craft-note">
-          {% if settings.logo != blank %}
-            {{ settings.logo | image_url: width: 100 | image_tag: class: 'zs-contact__brand-mark', loading: 'lazy', widths: '50, 100', sizes: '46px', alt: 'ZAISEN' }}
+          {% if settings.favicon != blank %}
+            {{ settings.favicon | image_url: width: 100 | image_tag: class: 'zs-contact__brand-mark', loading: 'lazy', widths: '50, 100', sizes: '46px', alt: 'ZAISEN' }}
           {% else %}
             <span class="zs-contact__brand-fallback">ZS</span>
           {% endif %}
