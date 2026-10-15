@@ -589,4 +589,26 @@
       border-color: rgba(89,62,45,.46);
     }
   }
+
+  /*
+   * Product pages: reserve a clean breathing zone for the transparent header.
+   * Horizon otherwise pulls the first section up by the whole header group,
+   * then pulls .sticky-content up by the header height again. That leaves
+   * the gallery and product details beneath the logo/navigation.
+   *
+   * Keep the header transparent, sticky behavior native, and all unrelated
+   * pages untouched. Both the square media and product details start below it.
+   */
+  body:has(#header-component.header--zaisen-product[transparent])
+    .content-for-layout > .shopify-section:first-child {
+    margin-top: 0;
+  }
+  body:has(#header-component.header--zaisen-product[transparent])
+    .content-for-layout > .shopify-section:first-child .product-information.section.spacing-style {
+    --section-top-offset: calc(var(--header-height, 90px) + clamp(14px, 1.6vw, 24px));
+  }
+  body:has(#header-component.header--zaisen-product[transparent])
+    .content-for-layout > .shopify-section:first-child .product-information media-gallery.sticky-content {
+    margin-top: 0;
+  }
 {% endstylesheet %}
