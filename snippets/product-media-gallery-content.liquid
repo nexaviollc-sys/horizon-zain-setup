@@ -61,6 +61,12 @@
     endif
   endif
 
+  # Dedicated desktop vertical and mobile horizontal thumbnail controls.
+  if block_settings.slideshow_controls_style == 'thumbnails' and block_settings.slideshow_mobile_controls_style == 'thumbnails'
+    assign slideshow_controls_class = 'mobile:hidden'
+    assign render_mobile_slideshow_controls = true
+  endif
+
   assign slideshow_controls_style = block_settings.slideshow_controls_style
   # Use a counter instead of dots when there are many images to avoid cropping/overflow.
   if slideshow_controls_style == 'dots' and selected_product.media.size > 15
@@ -354,6 +360,7 @@
         {% if block_settings.media_columns == "two" and block_settings.large_first_image%}media-gallery--large-first-image{% endif %}
       {% endif %}
       media-gallery--{{ media_presentation }}
+      {% if template.name == 'product' %}zs-atelier-gallery{% endif %}
       {% if block_settings.slideshow_mobile_controls_style == 'hint' %}
         media-gallery--hint
       {% endif %}
@@ -365,6 +372,12 @@
     data-presentation="{{ media_presentation }}"
     {{ block_shopify_attributes }}
   >
+    {% if template.name == 'product' %}
+      <div class="zs-atg__heading" aria-hidden="true">
+        <span>ZAISEN <span class="zs-atg__separator">/</span> THE ATELIER</span>
+        {% if block_settings.zoom %}<span class="zs-atg__view-label">EXPLORE THE DETAILS</span>{% endif %}
+      </div>
+    {% endif %}
     {% capture slides %}
       {% for media in sorted_media %}
         {% capture children %}
@@ -456,6 +469,12 @@
       controls: controls
     %}
 
+    {% if template.name == 'product' %}
+      <div class="zs-atg__caption" aria-hidden="true">
+        <span>HANDCRAFTED WITH CHARACTER</span>
+        <span>{{ sorted_media.size }} {% if sorted_media.size == 1 %}VIEW{% else %}VIEWS{% endif %}</span>
+      </div>
+    {% endif %}
     {% if media_presentation == 'grid' %}
       <ul
         class="media-gallery__grid list-unstyled"
@@ -1085,5 +1104,188 @@
 
   slideshow-slide.product-media-container--tallest {
     content-visibility: visible;
+  }
+
+  /* ZAISEN Atelier — only product pages; Shopify gallery behaviour stays native. */
+  media-gallery.zs-atelier-gallery {
+    --gallery-aspect-ratio: 1;
+    --media-radius: 10px;
+    --thumbnail-width: 72px;
+    --slideshow-thumbnails-padding-inline: 3px;
+    --slideshow-thumbnails-padding-block: 3px;
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+  media-gallery.zs-atelier-gallery :is(.zs-atg__heading,.zs-atg__caption) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-inline: 3px;
+    color: #776554;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: .13em;
+  }
+  media-gallery.zs-atelier-gallery .zs-atg__heading { margin-bottom: 13px; }
+  media-gallery.zs-atelier-gallery .zs-atg__caption {
+    margin-top: 13px;
+    color: #857668;
+    font-size: 9px;
+    letter-spacing: .1em;
+  }
+  media-gallery.zs-atelier-gallery .zs-atg__separator { padding-inline: 5px; color: #C3A274; }
+  media-gallery.zs-atelier-gallery .zs-atg__view-label { color: #A18667; font-size: 9px; white-space: nowrap; }
+  media-gallery.zs-atelier-gallery slideshow-component { min-width: 0; }
+  media-gallery.zs-atelier-gallery slideshow-container {
+    min-width: 0;
+    padding: 9px;
+    background: #F7F3EE;
+    border: 1px solid #E8DDD0;
+    border-radius: 15px;
+    box-shadow: 0 14px 34px rgba(43,29,23,.07);
+  }
+  media-gallery.zs-atelier-gallery slideshow-slides { border-radius: 9px; }
+  media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
+    --gallery-aspect-ratio: 1;
+    --media-preview-ratio: 1;
+    width: 100%;
+    max-height: none;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 9px;
+    background: #FFF;
+  }
+  media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide .product-media {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+  }
+  media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide .product-media :is(
+    img, video, iframe, .deferred-media__poster-image
+  ) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: center;
+  }
+  media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide :is(deferred-media,product-model,model-viewer) {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  media-gallery.zs-atelier-gallery slideshow-controls[thumbnails] {
+    --thumbnail-radius: 7px;
+    min-width: 0;
+  }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnails-container {
+    min-width: 0;
+    scrollbar-width: thin;
+    scrollbar-color: #CCB9A4 transparent;
+  }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnails { gap: 9px; margin-inline: 0; }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail {
+    box-sizing: border-box;
+    flex: 0 0 72px;
+    width: 72px;
+    height: 72px;
+    aspect-ratio: 1 / 1 !important;
+    overflow: hidden;
+    border: 1px solid #E5DACE;
+    border-radius: 7px;
+    background: #FFF;
+    transition: border-color .18s ease, box-shadow .18s ease;
+  }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
+    object-position: center;
+    border-radius: 5px;
+  }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail[aria-selected='true'] {
+    outline: none;
+    border: 2px solid #2B1D17;
+    box-shadow: 0 0 0 2px rgba(216,181,106,.25);
+  }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail:hover { border-color: #80604A; }
+  media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail:focus-visible {
+    outline: 2px solid #AC8654;
+    outline-offset: 3px;
+  }
+  media-gallery.zs-atelier-gallery slideshow-arrows .slideshow-control {
+    color: #2B1D17;
+    background: rgba(247,243,238,.95);
+    border: 1px solid #E4D7C7;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(43,29,23,.10);
+  }
+  media-gallery.zs-atelier-gallery zoom-dialog .dialog-thumbnails-list__thumbnail { aspect-ratio: 1 / 1; }
+  media-gallery.zs-atelier-gallery zoom-dialog .dialog-thumbnails-list__thumbnail img {
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+  }
+  @media screen and (min-width: 750px) {
+    media-gallery.zs-atelier-gallery slideshow-component:has(> slideshow-controls[thumbnails][pagination-position='left']) {
+      column-gap: clamp(12px,1.5vw,21px);
+    }
+    media-gallery.zs-atelier-gallery slideshow-controls[thumbnails][pagination-position='left'] {
+      width: 80px;
+      align-self: start;
+    }
+    media-gallery.zs-atelier-gallery slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails-container {
+      max-height: min(640px,75vh);
+    }
+    media-gallery.zs-atelier-gallery slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails {
+      padding: 3px;
+      gap: 12px;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    media-gallery.zs-atelier-gallery { --thumbnail-width: 58px; }
+    media-gallery.zs-atelier-gallery :is(.zs-atg__heading,.zs-atg__caption) {
+      padding-inline: 14px;
+      font-size: 9px;
+      letter-spacing: .1em;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__heading { margin-bottom: 10px; }
+    media-gallery.zs-atelier-gallery .zs-atg__caption { margin-top: 9px; }
+    media-gallery.zs-atelier-gallery .zs-atg__view-label { font-size: 8px; }
+    media-gallery.zs-atelier-gallery slideshow-container {
+      margin-inline: 8px;
+      padding: 6px;
+      border-radius: 12px;
+      box-shadow: 0 9px 25px rgba(43,29,23,.055);
+    }
+    media-gallery.zs-atelier-gallery :is(slideshow-slides,slideshow-slides > slideshow-slide.product-media-container) {
+      border-radius: 7px;
+    }
+    media-gallery.zs-atelier-gallery slideshow-controls.media-gallery__mobile-controls[thumbnails] {
+      width: 100%;
+      margin-top: 9px;
+      min-height: 64px;
+      --thumbnail-width: 58px;
+    }
+    media-gallery.zs-atelier-gallery .media-gallery__mobile-controls .slideshow-controls__thumbnails-container {
+      width: 100%;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+    }
+    media-gallery.zs-atelier-gallery .media-gallery__mobile-controls .slideshow-controls__thumbnails {
+      gap: 8px;
+      padding: 4px 14px;
+      margin-inline: 0;
+    }
+    media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail {
+      flex-basis: 58px;
+      width: 58px;
+      height: 58px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail { transition: none; }
   }
 {% endstylesheet %}
