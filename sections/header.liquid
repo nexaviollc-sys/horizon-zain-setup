@@ -201,6 +201,12 @@
     assign class = class | append: ' header--zaisen'
   endif
 
+  # Header-only presentation hook: product pages keep the homepage's
+  # transparent mechanics, but need dark utility/navigation colors.
+  if template.name == 'product' and section.settings.enable_transparent_header_product
+    assign class = class | append: ' header--zaisen-product'
+  endif
+
   if header_height_class
     assign class = class | append: ' ' | append: header_height_class
   endif
