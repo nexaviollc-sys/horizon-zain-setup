@@ -8,7 +8,7 @@
   assign s = section.settings
   assign marquee_font = s.marquee_font
   assign marquee_bold = marquee_font | font_modify: 'weight', '700'
-  assign brand_logo = s.logo_image | default: settings.logo
+  assign brand_logo = settings.favicon
 -%}
 {%- if marquee_font != blank -%}
   {% style %}
@@ -247,7 +247,7 @@
     {
       "type": "image_picker",
       "id": "logo_image",
-      "label": "Left logo (defaults to store logo)"
+      "label": "Legacy logo override (favicon from Theme settings is used)"
     },
     {
       "type": "font_picker",
