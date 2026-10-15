@@ -68,8 +68,8 @@
         </div>
         <div class="zf-hero__bottom-note">
           <span class="zf-hero__note-mark" aria-hidden="true">
-            {%- if settings.logo != blank -%}
-              {{ settings.logo | image_url: width: 144 | image_tag: class: 'zf-hero__note-logo', loading: 'lazy', widths: '72,108,144', sizes: '52px', alt: '' }}
+            {%- if settings.favicon != blank -%}
+              {{ settings.favicon | image_url: width: 144 | image_tag: class: 'zf-hero__note-logo', loading: 'lazy', widths: '72,108,144', sizes: '52px', alt: '' }}
             {%- else -%}
               Z.
             {%- endif -%}
@@ -664,8 +664,8 @@
   }
   .zf-hero__note-logo {
     mix-blend-mode: normal;
-    filter: brightness(0) invert(1);
-    opacity: .95;
+    filter: none;
+    opacity: 1;
   }
   .zf-hero__bottom-note > div {
     border-inline-start-color: rgba(255, 255, 255, .45);
