@@ -94,7 +94,7 @@ if (!customElements.get('zs-quick-pairs')) {
     start() {
       if (this.timer || this.interacting || document.hidden || this.reduceMotion.matches) return;
       if ((this.track?.children.length || 0) < 2) return;
-      this.timer = window.setInterval(() => this.move(1), Math.max(3000, Number(this.dataset.delay) || 5000));
+      this.timer = window.setInterval(() => this.move(1), Math.max(2000, Number(this.dataset.delay) || 2000));
     }
     stop() {
       if (this.timer) window.clearInterval(this.timer);
