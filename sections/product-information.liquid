@@ -185,8 +185,7 @@
   additional_blocks: additional_blocks
 %}
 
-{% comment %} Product-specific rich text is edited via Shopify Product metafields. {% endcomment %}
-{% render 'zs-product-detail-accordions', product: product, section_id: section.id %}
+{% comment %} Product metafield accordions are rendered by product-information-content directly below the product area. {% endcomment %}
 
 
 {% stylesheet %}
