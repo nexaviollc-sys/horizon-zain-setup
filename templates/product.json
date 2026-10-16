@@ -303,13 +303,6 @@
               },
               "blocks": {}
             },
-            "zs_intro": {
-              "type": "zs-product-summary",
-              "settings": {
-                "excerpt_words": 30,
-                "more_label": "Read full description"
-              }
-            },
             "zs_pairs": {
               "type": "zs-quick-pairs",
               "settings": {
@@ -322,7 +315,6 @@
           },
           "block_order": [
             "group_icgrde",
-            "zs_intro",
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
@@ -487,10 +479,18 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "zs_product_description": {
+      "type": "zs-product-description",
+      "settings": {
+        "heading": "Product Description",
+        "open_by_default": false
+      }
     }
   },
   "order": [
     "main",
+    "zs_product_description",
     "product_recommendations_qggXJq"
   ]
 }
