@@ -201,3 +201,6 @@
 
 /* Hide the superseded long-description accordion on older Shopify template revisions. */
 .zs-product-full-description { display: none !important; }
+
+/* Safety during partial Shopify GitHub sync: only the first metafield accordion group is visible. */
+.zs-detail-accordions ~ .zs-detail-accordions { display: none !important; }
