@@ -3,7 +3,7 @@
   available on demand without pushing purchase controls below the fold.
 {% endcomment %}
 {% assign zs_summary_product = closest.product | default: product %}
-{% if zs_summary_product != blank and zs_summary_product.description != blank %}
+{% if template.name != 'product' and zs_summary_product != blank and zs_summary_product.description != blank %}
   <div class="zs-product-summary" {{ block.shopify_attributes }}>
     <p class="zs-product-summary__intro">{{ zs_summary_product.description | strip_html | strip | truncatewords: block.settings.excerpt_words }}</p>
     {% assign zs_description_word_count = zs_summary_product.description | strip_html | split: ' ' | size %}
