@@ -27,6 +27,10 @@
       </a>
     </div>
     {% content_for 'blocks' %}
+    {% comment %} Keep product details directly below HANDPICKED FOR YOU in the purchase column. {% endcomment %}
+    {% if request.page_type == 'product' and closest.product != blank %}
+      {% render 'zs-product-detail-accordions', product: closest.product, section_id: section.id %}
+    {% endif %}
   {% endcapture %}
 
   {% render 'group',
