@@ -231,12 +231,19 @@
             add_to_cart_text: add_to_cart_text
           %}
 
-          {% content_for 'block',
-            type: 'accelerated-checkout',
-            id: 'accelerated-checkout',
-            can_add_to_cart: can_add_to_cart,
-            form_obj: form
-          %}
+          {% if template.name == 'product' %}
+            <button type="button" class="zs-buy-now" data-zs-buy-now {% unless can_add_to_cart %}disabled{% endunless %}>
+              Buy Now
+            </button>
+            <span class="zs-buy-now__error" role="alert" hidden></span>
+          {% else %}
+            {% content_for 'block',
+              type: 'accelerated-checkout',
+              id: 'accelerated-checkout',
+              can_add_to_cart: can_add_to_cart,
+              form_obj: form
+            %}
+          {% endif %}
         </div>
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           </span>
