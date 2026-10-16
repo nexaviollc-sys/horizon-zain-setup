@@ -479,18 +479,10 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "zs_product_description": {
-      "type": "zs-product-description",
-      "settings": {
-        "heading": "Product Description",
-        "open_by_default": false
-      }
     }
   },
   "order": [
     "main",
-    "zs_product_description",
     "product_recommendations_qggXJq"
   ]
 }
