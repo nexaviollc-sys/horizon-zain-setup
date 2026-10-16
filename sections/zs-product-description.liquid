@@ -1,0 +1,107 @@
+{% comment %}
+  ZAISEN product details. Keeps the full product description accessible below
+  the gallery + purchase panel, rather than crowding the buy buttons.
+{% endcomment %}
+{% if product != blank and product.description != blank %}
+  <section class="zs-product-description section" id="zs-product-description-{{ section.id }}">
+    <div class="zs-product-description__wrap page-width">
+      <details class="zs-product-description__accordion" {% if section.settings.open_by_default %}open{% endif %}>
+        <summary class="zs-product-description__heading">
+          <span>{{ section.settings.heading | escape }}</span>
+          <span class="zs-product-description__toggle" aria-hidden="true"></span>
+        </summary>
+        <div class="zs-product-description__content rte">
+          {{ product.description }}
+        </div>
+      </details>
+    </div>
+  </section>
+  <style>
+    #zs-product-description-{{ section.id }} {
+      padding: 18px 0 36px;
+      background: transparent;
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__wrap {
+      max-width: 1260px;
+      margin-inline: auto;
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__accordion {
+      border-top: 1px solid rgba(68,49,38,.20);
+      border-bottom: 1px solid rgba(68,49,38,.20);
+      color: #443126;
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-block: 22px;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-heading--family, Georgia, serif);
+      font-size: clamp(1.3rem, 2vw, 1.65rem);
+      line-height: 1.25;
+    }
+    #zs-product-description-{{ section.id }} summary::-webkit-details-marker { display: none; }
+    #zs-product-description-{{ section.id }} .zs-product-description__heading:focus-visible {
+      outline: 2px solid #443126;
+      outline-offset: 4px;
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__toggle {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      flex: none;
+      border-radius: 50%;
+      border: 1px solid rgba(68,49,38,.24);
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__toggle::before,
+    #zs-product-description-{{ section.id }} .zs-product-description__toggle::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 1px;
+      background: #443126;
+      transform: translate(-50%, -50%);
+    }
+    #zs-product-description-{{ section.id }} .zs-product-description__toggle::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+    #zs-product-description-{{ section.id }} details[open] .zs-product-description__toggle::after { display: none; }
+    #zs-product-description-{{ section.id }} .zs-product-description__content {
+      padding: 0 0 24px;
+      max-width: 860px;
+      font-size: .94rem;
+      line-height: 1.75;
+      color: #554c45;
+      overflow-wrap: break-word;
+    }
+    @media screen and (max-width: 749px) {
+      #zs-product-description-{{ section.id }} { padding: 6px 0 25px; }
+      #zs-product-description-{{ section.id }} .zs-product-description__heading { padding-block: 18px; }
+      #zs-product-description-{{ section.id }} .zs-product-description__content { font-size: .88rem; }
+    }
+  </style>
+{% endif %}
+{% schema %}
+{
+  "name": "ZAISEN Product details",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Product Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default",
+      "label": "Expand by default",
+      "default": false
+    }
+  ],
+  "presets": [{"name": "ZAISEN Product details"}]
+}
+{% endschema %}
