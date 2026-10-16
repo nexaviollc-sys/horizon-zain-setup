@@ -185,18 +185,8 @@
   additional_blocks: additional_blocks
 %}
 
-{% comment %} Full description belongs below gallery and purchase controls, not beside Buy Now. {% endcomment %}
-{% if product != blank and product.description != blank %}
-  <section class="zs-product-full-description page-width" aria-label="Product Description">
-    <details class="zs-product-full-description__details">
-      <summary class="zs-product-full-description__summary">
-        <span>Product Description</span>
-        <span class="zs-product-full-description__icon" aria-hidden="true"></span>
-      </summary>
-      <div class="zs-product-full-description__body rte">{{ product.description }}</div>
-    </details>
-  </section>
-{% endif %}
+{% comment %} Product-specific rich text is edited via Shopify Product metafields. {% endcomment %}
+{% render 'zs-product-detail-accordions', product: product, section_id: section.id %}
 
 
 {% stylesheet %}
