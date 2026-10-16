@@ -1,0 +1,92 @@
+{% comment %}
+  ZAISEN complementary product slider. Shopify's native recommendations endpoint is
+  requested by assets/zs-quick-pairs.js. The section-rendering response renders
+  recommendations.products so recommended variants/prices always come from Shopify.
+{% endcomment %}
+{% assign zs_current_product = closest.product | default: product %}
+{% if zs_current_product != blank %}
+  <zs-quick-pairs
+    class="zs-pairs"
+    data-endpoint="{{ routes.product_recommendations_url }}"
+    data-section="{{ section.id }}"
+    data-product="{{ zs_current_product.id }}"
+    data-block="{{ block.id }}"
+    data-limit="{{ block.settings.product_limit }}"
+    data-delay="{{ block.settings.slide_delay | times: 1000 }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="zs-pairs__heading">
+      <div>
+        <p class="zs-pairs__eyebrow">{{ block.settings.eyebrow | escape }}</p>
+        <h2 class="zs-pairs__title">{{ block.settings.heading | escape }}</h2>
+      </div>
+      <div class="zs-pairs__arrows">
+        <button class="zs-pairs__arrow" type="button" data-zs-prev aria-label="Previous suggested product" disabled>‹</button>
+        <button class="zs-pairs__arrow" type="button" data-zs-next aria-label="Next suggested product" disabled>›</button>
+      </div>
+    </div>
+    <div class="zs-pairs__track" data-zs-pairs-track="{{ block.id }}" role="region" aria-label="Suggested products" tabindex="0">
+      {% if recommendations.performed %}
+        {% for suggestion in recommendations.products limit: block.settings.product_limit %}
+          {% if suggestion.id != zs_current_product.id and suggestion.available %}
+            {% assign zs_variant = suggestion.selected_or_first_available_variant %}
+            <div class="zs-pairs__card">
+              <a class="zs-pairs__photo" href="{{ suggestion.url }}" aria-label="{{ suggestion.title | escape }}">
+                {% if suggestion.featured_image %}
+                  {{ suggestion.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,140,180', sizes: '76px', alt: suggestion.title }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {% endif %}
+              </a>
+              <div class="zs-pairs__content">
+                <a class="zs-pairs__name" href="{{ suggestion.url }}">{{ suggestion.title | escape }}</a>
+                <div class="zs-pairs__price">
+                  {{ zs_variant.price | money }}
+                  {% if zs_variant.compare_at_price > zs_variant.price %}
+                    <s>{{ zs_variant.compare_at_price | money }}</s>
+                  {% endif %}
+                </div>
+              </div>
+              {% if suggestion.variants.size == 1 and suggestion.requires_selling_plan == false and suggestion.selling_plan_groups.size == 0 %}
+                <product-form-component
+                  data-section-id="{{ section.id }}"
+                  data-product-id="{{ suggestion.id }}"
+                  data-product-url="{{ suggestion.url }}"
+                  data-quantity-default="1"
+                  on:submit="/handleSubmit"
+                  class="zs-pairs__form"
+                >
+                  <span class="visually-hidden" role="status" aria-live="assertive" ref="liveRegion"></span>
+                  {% form 'product', suggestion, id: 'ZsPairForm-' | append: section.id | append: '-' | append: suggestion.id, data-type: 'add-to-cart-form' %}
+                    <input type="hidden" name="id" value="{{ zs_variant.id }}" ref="variantId">
+                    <input type="hidden" name="quantity" value="{{ zs_variant.quantity_rule.min | default: 1 }}">
+                    <add-to-cart-component ref="addToCartButtonContainer" data-add-to-cart-animation="false">
+                      <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="zs-pairs__plus" aria-label="Add {{ suggestion.title | escape }} to cart">+</button>
+                    </add-to-cart-component>
+                  {% endform %}
+                </product-form-component>
+              {% else %}
+                <a href="{{ suggestion.url }}" class="zs-pairs__plus zs-pairs__plus--link" aria-label="Choose options for {{ suggestion.title | escape }}">+</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <p class="zs-pairs__notice" aria-live="polite"></p>
+  </zs-quick-pairs>
+  <script src="{{ 'zs-quick-pairs.js' | asset_url }}" defer></script>
+{% endif %}
+{% schema %}
+{
+  "name":"ZAISEN · Quick-add pairs",
+  "tag":null,
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"HANDPICKED FOR YOU"},
+    {"type":"text","id":"heading","label":"Section heading","default":"Pairs Beautifully With"},
+    {"type":"range","id":"product_limit","label":"Maximum suggested products","min":3,"max":10,"step":1,"default":8},
+    {"type":"range","id":"slide_delay","label":"Seconds per product","min":3,"max":8,"step":1,"default":5}
+  ],
+  "presets":[{"name":"ZAISEN · Quick-add pairs","category":"Product"}]
+}
+{% endschema %}
