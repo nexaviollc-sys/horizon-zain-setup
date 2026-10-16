@@ -5,6 +5,13 @@
   Usage: {% render 'zs-product-detail-accordions', product: product, section_id: section.id %}
 {% endcomment %}
 {% if product != blank %}
+  {% comment %} Defensive legacy cleanup while the connected Shopify theme applies template edits. {% endcomment %}
+  <style>
+    .zs-product-full-description, .zs-product-description { display: none !important; }
+    .zs-detail-accordions ~ .zs-detail-accordions { display: none !important; }
+    body:has(.zs-metafield-intro--price) .product-information .zs-metafield-intro:not(.zs-metafield-intro--price) { display: none !important; }
+  </style>
+
   {% assign zs_features = product.metafields.custom.product_features %}
   {% assign zs_specs = product.metafields.custom.product_specifications %}
   {% assign zs_materials = product.metafields.custom.materials_care %}
