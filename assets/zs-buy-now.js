@@ -36,7 +36,7 @@ document.addEventListener('click', async (event) => {
     });
     const payload = await response.json();
     if (!response.ok || payload.status) throw new Error(payload.description || payload.message || 'Unable to start checkout.');
-    window.location.assign(path + 'checkout');
+    window.location.assign('/checkout');
   } catch (error) {
     button.disabled = false;
     button.removeAttribute('aria-busy');
@@ -46,3 +46,26 @@ document.addEventListener('click', async (event) => {
     }
   }
 });
+
+
+// Keep Buy Now availability in sync when the theme changes variants or morphs controls.
+const zsAttachBuyNowSync = () => {
+  document.querySelectorAll('.product-information product-form-component form').forEach((form) => {
+    if (!form.querySelector('[data-zs-buy-now]') || form.dataset.zsBuyNowBound) return;
+    form.dataset.zsBuyNowBound = 'true';
+    const sync = () => {
+      const buy = form.querySelector('[data-zs-buy-now]');
+      const add = form.querySelector('add-to-cart-component button[name="add"]');
+      if (buy && add && buy.disabled !== add.disabled && !buy.matches('[aria-busy="true"]')) {
+        buy.disabled = add.disabled;
+      }
+    };
+    new MutationObserver(sync).observe(form, { childList: true, subtree: true, attributes: true, attributeFilter: ['disabled'] });
+    sync();
+  });
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', zsAttachBuyNowSync, { once: true });
+} else {
+  zsAttachBuyNowSync();
+}
