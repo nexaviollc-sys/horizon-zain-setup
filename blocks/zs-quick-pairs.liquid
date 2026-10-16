@@ -57,7 +57,8 @@
                   class="zs-pairs__form"
                 >
                   <span class="visually-hidden" role="status" aria-live="assertive" ref="liveRegion"></span>
-                  {% form 'product', suggestion, id: 'ZsPairForm-' | append: section.id | append: '-' | append: suggestion.id, data-type: 'add-to-cart-form' %}
+                  {% assign zs_form_id = 'ZsPairForm-' | append: section.id | append: '-' | append: suggestion.id %}
+                  {% form 'product', suggestion, id: zs_form_id, data-type: 'add-to-cart-form' %}
                     <input type="hidden" name="id" value="{{ zs_variant.id }}" ref="variantId">
                     <input type="hidden" name="quantity" value="{{ zs_variant.quantity_rule.min | default: 1 }}">
                     <add-to-cart-component ref="addToCartButtonContainer" data-add-to-cart-animation="false">
