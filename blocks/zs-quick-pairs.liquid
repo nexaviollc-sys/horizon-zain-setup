@@ -12,7 +12,7 @@
     data-product="{{ zs_current_product.id }}"
     data-block="{{ block.id }}"
     data-limit="{{ block.settings.product_limit }}"
-    data-delay="{{ block.settings.slide_delay | times: 1000 }}"
+    data-delay="2000"
     {{ block.shopify_attributes }}
   >
     <div class="zs-pairs__heading">
@@ -85,8 +85,7 @@
   "settings":[
     {"type":"text","id":"eyebrow","label":"Eyebrow","default":"HANDPICKED FOR YOU"},
     {"type":"text","id":"heading","label":"Section heading","default":"Pairs Beautifully With"},
-    {"type":"range","id":"product_limit","label":"Maximum suggested products","min":3,"max":10,"step":1,"default":8},
-    {"type":"range","id":"slide_delay","label":"Seconds per product","min":3,"max":8,"step":1,"default":5}
+    {"type":"range","id":"product_limit","label":"Maximum suggested products","min":3,"max":10,"step":1,"default":8}
   ],
   "presets":[{"name":"ZAISEN · Quick-add pairs","category":"Product"}]
 }
