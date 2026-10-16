@@ -123,11 +123,6 @@
   {{ additional_blocks }}
 </div>
 
-{% comment %} On product pages only, show individual metafield-powered details below the product area. {% endcomment %}
-{% if request.page_type == 'product' and product != blank %}
-  {% render 'zs-product-detail-accordions', product: product, section_id: section_id %}
-{% endif %}
-
 {% stylesheet %}
   .product-information {
     gap: var(--gap) 0;
