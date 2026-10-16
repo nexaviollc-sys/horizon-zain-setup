@@ -310,10 +310,15 @@
                 "heading": "Pairs Beautifully With",
                 "product_limit": 8
               }
+            },
+            "zs_short_description": {
+              "type": "zs-short-description",
+              "settings": {}
             }
           },
           "block_order": [
             "group_icgrde",
+            "zs_short_description",
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
