@@ -1,0 +1,21 @@
+{% comment %}
+  ZAISEN per-product selling statement, shown between price and variants.
+  Every product can set custom.short_description in Shopify > Products.
+{% endcomment %}
+{% assign zs_intro_product = closest.product | default: product %}
+{% assign zs_intro = zs_intro_product.metafields.custom.short_description %}
+{% if zs_intro != blank and zs_intro.value != blank %}
+  <div class="zs-metafield-intro" {{ block.shopify_attributes }}>
+    <p>{{ zs_intro.value | escape | newline_to_br }}</p>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "ZAISEN · Short description",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    { "name": "ZAISEN · Short description", "category": "Product" }
+  ]
+}
+{% endschema %}
