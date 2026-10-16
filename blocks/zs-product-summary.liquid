@@ -1,0 +1,28 @@
+{% comment %}
+  ZAISEN short product introduction. Keeps the complete Shopify product description
+  available on demand without pushing purchase controls below the fold.
+{% endcomment %}
+{% assign zs_summary_product = closest.product | default: product %}
+{% if zs_summary_product != blank and zs_summary_product.description != blank %}
+  <div class="zs-product-summary" {{ block.shopify_attributes }}>
+    <p class="zs-product-summary__intro">{{ zs_summary_product.description | strip_html | strip | truncatewords: block.settings.excerpt_words }}</p>
+    {% assign zs_description_word_count = zs_summary_product.description | strip_html | split: ' ' | size %}
+    {% if zs_description_word_count > block.settings.excerpt_words %}
+      <details class="zs-product-summary__details">
+        <summary>{{ block.settings.more_label | escape }} <span aria-hidden="true">⌄</span></summary>
+        <div class="zs-product-summary__full rte">{{ zs_summary_product.description }}</div>
+      </details>
+    {% endif %}
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "ZAISEN · Product intro",
+  "tag": null,
+  "settings": [
+    {"type":"range","id":"excerpt_words","label":"Words before Read more","min":15,"max":60,"step":5,"default":30},
+    {"type":"text","id":"more_label","label":"Expanded description label","default":"Read full description"}
+  ],
+  "presets": [{"name":"ZAISEN · Product intro","category":"Product"}]
+}
+{% endschema %}
