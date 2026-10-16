@@ -88,3 +88,58 @@
   .product-information .zs-pairs__track { scroll-behavior:auto; }
   .product-information .zs-pairs__plus,.product-information .zs-buy-now { transition:none; }
 }
+
+
+/* Product description after the complete main product section. */
+.product-information + .zs-product-full-description,
+.zs-product-full-description {
+  width: 100%;
+  max-width: 1260px;
+  margin: 14px auto 34px;
+}
+.zs-product-full-description__details {
+  border-top: 1px solid rgba(68,49,38,.2);
+  border-bottom: 1px solid rgba(68,49,38,.2);
+}
+.zs-product-full-description__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-heading--family, Georgia, serif);
+  font-size: clamp(1.28rem, 2vw, 1.65rem);
+  line-height: 1.2;
+  color: #443126;
+}
+.zs-product-full-description__summary::-webkit-details-marker { display:none; }
+.zs-product-full-description__summary:focus-visible { outline: 2px solid #443126; outline-offset: 3px; }
+.zs-product-full-description__icon {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(68,49,38,.25);
+}
+.zs-product-full-description__icon::before,
+.zs-product-full-description__icon::after {
+  content:'';
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:10px;
+  height:1px;
+  background:#443126;
+  transform:translate(-50%,-50%);
+}
+.zs-product-full-description__icon::after { transform:translate(-50%,-50%) rotate(90deg); }
+.zs-product-full-description__details[open] .zs-product-full-description__icon::after { display:none; }
+.zs-product-full-description__body { max-width:860px; padding: 0 0 24px; font-size:.94rem; line-height:1.7; color:#554c45; overflow-wrap:anywhere; }
+@media(max-width:749px) {
+  .zs-product-full-description { margin-top:5px; margin-bottom:24px; }
+  .zs-product-full-description__summary { padding:18px 0; }
+  .zs-product-full-description__body { font-size:.88rem; }
+}
