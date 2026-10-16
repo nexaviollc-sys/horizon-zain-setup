@@ -1,0 +1,90 @@
+/* Scoped only to ZAISEN main product information. No global header, homepage or cart changes. */
+.product-information .product-details {
+  --zs-walnut: #443126;
+  --zs-border: rgba(68,49,38,.16);
+  --zs-text: #322b26;
+  color: var(--zs-text);
+}
+.product-information .product-details > .group-block { gap: 16px !important; }
+.product-information .product-details h1 {
+  font-family: var(--font-heading--family, Georgia, serif);
+  font-weight: 500;
+  font-size: clamp(1.65rem, 2.15vw, 2.45rem);
+  line-height: 1.18;
+  letter-spacing: -.025em;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.product-information .product-details product-price {
+  display:block;
+  font-size: clamp(1.25rem, 1.7vw, 1.7rem) !important;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.product-information .product-details product-price .compare-at-price {
+  font-size: .76em;
+  font-weight: 400;
+  margin-left: .65rem;
+}
+.product-information .product-details .variant-picker { margin-top: 2px; }
+.product-information .product-details .variant-option__button-label {
+  border-radius: 6px;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.product-information .product-details .variant-option__button-label:focus-within { outline-offset: 3px; }
+.product-information .zs-product-summary__intro { line-height: 1.65; font-size: .9rem; margin:0; color: #645b54; }
+.product-information .zs-product-summary__details { margin-top: .45rem; }
+.product-information .zs-product-summary__details summary { color: #443126; text-decoration: underline; text-underline-offset: 3px; font-size: .83rem; cursor:pointer; width:fit-content; }
+.product-information .zs-product-summary__details summary span { display:inline-block; margin-left:4px; }
+.product-information .zs-product-summary__full { font-size:.88rem; line-height:1.65; padding-top:.7rem; }
+.product-information .product-form-buttons .add-to-cart-button {
+  min-height:52px;
+  background:#443126 !important;
+  border:1px solid #443126 !important;
+  border-radius:7px !important;
+  color:#fff !important;
+  font-weight:650;
+  letter-spacing:.01em;
+}
+.product-information .product-form-buttons .add-to-cart-button:hover:not(:disabled) { background:#5c4232 !important; }
+.product-information .product-form-buttons .add-to-cart-button:disabled { opacity:.5; cursor:not-allowed; }
+.product-information .zs-buy-now {
+  min-height:50px; display:flex; align-items:center; justify-content:center;
+  width:100%; background:transparent; color:#443126;
+  border:1px solid #443126; border-radius:7px; cursor:pointer;
+  font:inherit; font-weight:650; transition:background .18s ease;
+}
+.product-information .zs-buy-now:hover:not(:disabled) { background:#f4f0eb; }
+.product-information .zs-buy-now:disabled { opacity:.5; cursor:not-allowed; }
+.product-information .zs-buy-now__error { display:block; font-size:.8rem; color:#9f3427; margin-top:5px; }
+.product-information .zs-pairs { display:block; border-top:1px solid var(--zs-border); margin-top:8px; padding-top:19px; }
+.product-information .zs-pairs[hidden] { display:none; }
+.product-information .zs-pairs__heading { display:flex; justify-content:space-between; gap:14px; align-items:center; margin-bottom:13px; }
+.product-information .zs-pairs__eyebrow { margin:0 0 4px; font-size:.63rem; letter-spacing:.13em; font-weight:700; color:#81746a; }
+.product-information .zs-pairs__title { margin:0; font-family:var(--font-heading--family,Georgia,serif); font-size:1.14rem; font-weight:500; line-height:1.25; }
+.product-information .zs-pairs__arrows { display:flex; gap:6px; flex-shrink:0; }
+.product-information .zs-pairs__arrow { width:29px; height:29px; border:1px solid var(--zs-border); border-radius:50%; background:white; color:#443126; display:grid; place-items:center; cursor:pointer; font-size:1.5rem; line-height:1; }
+.product-information .zs-pairs__arrow:disabled { opacity:.35; cursor:default; }
+.product-information .zs-pairs__track { display:grid; grid-auto-flow:column; grid-auto-columns:calc(100% - 26px); gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none; overscroll-behavior-inline:contain; }
+.product-information .zs-pairs__track::-webkit-scrollbar { display:none; }
+.product-information .zs-pairs__card { min-width:0; display:flex; align-items:center; gap:10px; background:#faf8f6; border:1px solid var(--zs-border); border-radius:9px; padding:8px; scroll-snap-align:start; }
+.product-information .zs-pairs__photo { width:68px; height:68px; flex:none; border-radius:6px; background:white; overflow:hidden; display:grid; place-items:center; }
+.product-information .zs-pairs__photo img,.product-information .zs-pairs__photo svg { width:100%; height:100%; object-fit:contain; }
+.product-information .zs-pairs__content { min-width:0; flex:1; }
+.product-information .zs-pairs__name { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:.8rem; font-weight:600; line-height:1.35; color:#332c27; text-decoration:none; }
+.product-information .zs-pairs__price { color:#453b34; font-size:.85rem; margin-top:5px; font-weight:650; }
+.product-information .zs-pairs__price s { color:#988a80; font-size:.75rem; margin-left:.25rem; font-weight:400; }
+.product-information .zs-pairs__form { display:block; flex:none; }
+.product-information .zs-pairs__plus { display:grid; place-items:center; width:35px; height:35px; border:1px solid #443126; border-radius:50%; background:#443126; color:white; font-size:1.45rem; font-weight:400; cursor:pointer; text-decoration:none; line-height:1; }
+.product-information .zs-pairs__plus:hover { background:#644b3c; }
+.product-information .zs-pairs__plus:focus-visible { outline:2px solid #443126; outline-offset:3px; }
+.product-information .zs-pairs__notice:empty { display:none; }
+@media (max-width:749px) {
+  .product-information .product-details h1 { font-size:1.72rem; }
+  .product-information .zs-pairs__track { grid-auto-columns:calc(100% - 34px); }
+  .product-information .zs-pairs__card { gap:8px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .product-information .zs-pairs__track { scroll-behavior:auto; }
+  .product-information .zs-pairs__plus,.product-information .zs-buy-now { transition:none; }
+}
