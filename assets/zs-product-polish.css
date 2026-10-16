@@ -107,100 +107,108 @@
   letter-spacing: .004em;
   overflow-wrap: anywhere;
 }
-/* ZAISEN — product-specific accordion content, below the main product area. */
-.zs-detail-accordions {
+/* ZAISEN — compact product details inside the right-hand purchase column. */
+.product-details .zs-detail-accordions {
+  display: block;
   width: 100%;
-  max-width: 1260px;
-  margin: 18px auto 44px;
+  max-width: 100%;
+  min-width: 0;
+  margin: 12px 0 0;
+  padding: 0;
 }
-.zs-detail-accordions__inner {
-  overflow: hidden;
+.product-details .zs-detail-accordions__inner {
+  width: 100%;
+  min-width: 0;
   background: #fff;
-  border: 1px solid rgba(68,49,38,.15);
-  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(68,49,38,.17);
+  border-radius: 8px;
 }
-.zs-detail-accordions__item:not(:last-child) {
+.product-details .zs-detail-accordions__item:not(:last-child) {
   border-bottom: 1px solid rgba(68,49,38,.12);
 }
-.zs-detail-accordions__heading {
+.product-details .zs-detail-accordions__heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding: 20px 22px;
+  gap: 14px;
+  padding: 16px 17px;
   cursor: pointer;
   list-style: none;
   font-family: var(--font-body--family, inherit);
-  font-size: clamp(.92rem, 1.06vw, 1rem);
   font-weight: 650;
+  font-size: clamp(.88rem, .98vw, .96rem);
   line-height: 1.35;
   letter-spacing: .005em;
   color: #443126;
   transition: background-color .18s ease;
 }
-.zs-detail-accordions__heading::-webkit-details-marker { display: none; }
-.zs-detail-accordions__heading:hover {
-  background-color: #faf8f6;
-}
-.zs-detail-accordions__heading:focus-visible {
+.product-details .zs-detail-accordions__heading::-webkit-details-marker { display:none; }
+.product-details .zs-detail-accordions__heading:hover { background:#faf8f6; }
+.product-details .zs-detail-accordions__heading:focus-visible {
   outline: 2px solid #443126;
   outline-offset: -3px;
 }
-.zs-detail-accordions__icon {
+.product-details .zs-detail-accordions__icon {
   position: relative;
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
+  width: 25px;
+  height: 25px;
   flex: 0 0 auto;
-  border: 1px solid rgba(68,49,38,.18);
+  border: 1px solid rgba(68,49,38,.19);
   border-radius: 50%;
-  background: #fff;
+  background: white;
 }
-.zs-detail-accordions__icon::before,
-.zs-detail-accordions__icon::after {
+.product-details .zs-detail-accordions__icon::before,
+.product-details .zs-detail-accordions__icon::after {
   content: '';
   position: absolute;
   width: 10px;
-  height: 1.6px;
+  height: 1.5px;
   border-radius: 2px;
   background: #443126;
 }
-.zs-detail-accordions__icon::after { transform: rotate(90deg); }
-.zs-detail-accordions__item[open] .zs-detail-accordions__icon::after { display: none; }
-.zs-detail-accordions__content {
-  max-width: 880px;
-  padding: 0 22px 23px;
+.product-details .zs-detail-accordions__icon::after { transform:rotate(90deg); }
+.product-details .zs-detail-accordions__item[open] .zs-detail-accordions__icon::after { display:none; }
+.product-details .zs-detail-accordions__content {
+  padding: 0 17px 19px;
+  min-width: 0;
   color: #62564c;
   font-family: var(--font-body--family, inherit);
-  font-size: .92rem;
+  font-size: .87rem;
   font-weight: 400;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
-.zs-detail-accordions__content .metafield-rich_text_field > :first-child,
-.zs-detail-accordions__content > :first-child { margin-top: 0; }
-.zs-detail-accordions__content .metafield-rich_text_field > :last-child,
-.zs-detail-accordions__content > :last-child { margin-bottom: 0; }
-.zs-detail-accordions__content p { margin: 0 0 12px; }
-.zs-detail-accordions__content ul,
-.zs-detail-accordions__content ol { margin: 10px 0 14px; padding-left: 20px; }
-.zs-detail-accordions__content li { margin-bottom: 5px; }
-.zs-detail-accordions__content a { color: #443126; text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 749px) {
-  .product-information .zs-metafield-intro p { font-size: .9rem; line-height: 1.6; }
-  .zs-detail-accordions { margin: 10px auto 31px; }
-  .zs-detail-accordions__heading { padding: 18px 16px; font-size: .93rem; }
-  .zs-detail-accordions__content { padding: 0 16px 18px; font-size: .88rem; line-height: 1.65; }
+.product-details .zs-detail-accordions__content > :first-child,
+.product-details .zs-detail-accordions__content .metafield-rich_text_field > :first-child { margin-top:0; }
+.product-details .zs-detail-accordions__content > :last-child,
+.product-details .zs-detail-accordions__content .metafield-rich_text_field > :last-child { margin-bottom:0; }
+.product-details .zs-detail-accordions__content h2,
+.product-details .zs-detail-accordions__content h3,
+.product-details .zs-detail-accordions__content h4 {
+  font-family: var(--font-body--family, inherit);
+  font-size: .96rem;
+  font-weight: 650;
+  line-height:1.35;
+  margin: 19px 0 8px;
+  color:#443126;
 }
-@media (prefers-reduced-motion: reduce) {
-  .zs-detail-accordions__heading { transition: none; }
+.product-details .zs-detail-accordions__content p { margin:0 0 12px; }
+.product-details .zs-detail-accordions__content ul,
+.product-details .zs-detail-accordions__content ol { margin:8px 0 13px; padding-left:19px; }
+.product-details .zs-detail-accordions__content li { margin-bottom:4px; }
+.product-details .zs-detail-accordions__content a { color:#443126; text-decoration:underline; text-underline-offset:3px; }
+@media (max-width:749px) {
+  .product-details .zs-detail-accordions { margin-top:10px; }
+  .product-details .zs-detail-accordions__heading { padding:15px 14px; font-size:.91rem; }
+  .product-details .zs-detail-accordions__content { padding:0 14px 16px; font-size:.86rem; }
 }
-/* The deprecated earlier description section should never duplicate product data. */
-.zs-product-description { display: none !important; }
-
-/* Hide the superseded long-description accordion on older Shopify template revisions. */
-.zs-product-full-description { display: none !important; }
-
-/* Safety during partial Shopify GitHub sync: only the first metafield accordion group is visible. */
-.zs-detail-accordions ~ .zs-detail-accordions { display: none !important; }
+@media (prefers-reduced-motion:reduce) {
+  .product-details .zs-detail-accordions__heading { transition:none; }
+}
+/* Never display legacy full-width or separate long-description sections. */
+.product-information ~ .zs-detail-accordions,
+.zs-product-description,
+.zs-product-full-description { display:none !important; }
