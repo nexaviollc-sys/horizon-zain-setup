@@ -1,29 +1,21 @@
 {% comment %}
-  ZAISEN reusable product-specific metafield accordions.
-  Every row is hidden when its metafield has no value. No invented facts and
-  no duplication of the primary Shopify product description.
-  Usage: {% render 'zs-product-detail-accordions', product: product, section_id: section.id %}
+  ZAISEN product details within the right-side purchase column, after
+  the recommended products block. The original Shopify product description
+  is the source for the first accordion; the remaining accordions use
+  independent, per-product rich-text metafields.
 {% endcomment %}
 {% if product != blank %}
-  {% comment %} Defensive legacy cleanup while the connected Shopify theme applies template edits. {% endcomment %}
-  <style>
-    .zs-product-full-description, .zs-product-description { display: none !important; }
-    .zs-detail-accordions ~ .zs-detail-accordions { display: none !important; }
-    body:has(.zs-metafield-intro--price) .product-information .zs-metafield-intro:not(.zs-metafield-intro--price) { display: none !important; }
-  </style>
-
-  {% assign zs_features = product.metafields.custom.product_features %}
   {% assign zs_specs = product.metafields.custom.product_specifications %}
   {% assign zs_materials = product.metafields.custom.materials_care %}
   {% assign zs_shipping = product.metafields.custom.shipping_returns %}
 
-  {% assign zs_has_features = false %}
+  {% assign zs_has_description = false %}
   {% assign zs_has_specs = false %}
   {% assign zs_has_materials = false %}
   {% assign zs_has_shipping = false %}
 
-  {% if zs_features != blank and zs_features.value != blank %}
-    {% assign zs_has_features = true %}
+  {% if product.description != blank %}
+    {% assign zs_has_description = true %}
   {% endif %}
   {% if zs_specs != blank and zs_specs.value != blank %}
     {% assign zs_has_specs = true %}
@@ -35,16 +27,16 @@
     {% assign zs_has_shipping = true %}
   {% endif %}
 
-  {% if zs_has_features or zs_has_specs or zs_has_materials or zs_has_shipping %}
-    <section class="zs-detail-accordions page-width" aria-label="Product details">
+  {% if zs_has_description or zs_has_specs or zs_has_materials or zs_has_shipping %}
+    <section class="zs-detail-accordions" aria-label="Product details">
       <div class="zs-detail-accordions__inner">
-        {% if zs_has_features %}
+        {% if zs_has_description %}
           <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
             <summary class="zs-detail-accordions__heading">
               <span>Description &amp; Features</span>
               <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
             </summary>
-            <div class="zs-detail-accordions__content rte">{{ zs_features | metafield_tag }}</div>
+            <div class="zs-detail-accordions__content rte">{{ product.description }}</div>
           </details>
         {% endif %}
         {% if zs_has_specs %}
