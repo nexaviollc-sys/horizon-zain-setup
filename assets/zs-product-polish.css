@@ -198,3 +198,6 @@
 }
 /* The deprecated earlier description section should never duplicate product data. */
 .zs-product-description { display: none !important; }
+
+/* Hide the superseded long-description accordion on older Shopify template revisions. */
+.zs-product-full-description { display: none !important; }
