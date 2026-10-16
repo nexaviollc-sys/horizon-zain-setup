@@ -143,3 +143,6 @@
   .zs-product-full-description__summary { padding:18px 0; }
   .zs-product-full-description__body { font-size:.88rem; }
 }
+
+/* Prevent duplicate details while Shopify applies the latest product template revision. */
+.zs-product-description { display: none !important; }
