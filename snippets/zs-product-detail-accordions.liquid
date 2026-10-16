@@ -1,0 +1,73 @@
+{% comment %}
+  ZAISEN reusable product-specific metafield accordions.
+  Every row is hidden when its metafield has no value. No invented facts and
+  no duplication of the primary Shopify product description.
+  Usage: {% render 'zs-product-detail-accordions', product: product, section_id: section.id %}
+{% endcomment %}
+{% if product != blank %}
+  {% assign zs_features = product.metafields.custom.product_features %}
+  {% assign zs_specs = product.metafields.custom.product_specifications %}
+  {% assign zs_materials = product.metafields.custom.materials_care %}
+  {% assign zs_shipping = product.metafields.custom.shipping_returns %}
+
+  {% assign zs_has_features = false %}
+  {% assign zs_has_specs = false %}
+  {% assign zs_has_materials = false %}
+  {% assign zs_has_shipping = false %}
+
+  {% if zs_features != blank and zs_features.value != blank %}
+    {% assign zs_has_features = true %}
+  {% endif %}
+  {% if zs_specs != blank and zs_specs.value != blank %}
+    {% assign zs_has_specs = true %}
+  {% endif %}
+  {% if zs_materials != blank and zs_materials.value != blank %}
+    {% assign zs_has_materials = true %}
+  {% endif %}
+  {% if zs_shipping != blank and zs_shipping.value != blank %}
+    {% assign zs_has_shipping = true %}
+  {% endif %}
+
+  {% if zs_has_features or zs_has_specs or zs_has_materials or zs_has_shipping %}
+    <section class="zs-detail-accordions page-width" aria-label="Product details">
+      <div class="zs-detail-accordions__inner">
+        {% if zs_has_features %}
+          <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
+            <summary class="zs-detail-accordions__heading">
+              <span>Description &amp; Features</span>
+              <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="zs-detail-accordions__content rte">{{ zs_features | metafield_tag }}</div>
+          </details>
+        {% endif %}
+        {% if zs_has_specs %}
+          <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
+            <summary class="zs-detail-accordions__heading">
+              <span>Dimensions &amp; Specifications</span>
+              <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="zs-detail-accordions__content rte">{{ zs_specs | metafield_tag }}</div>
+          </details>
+        {% endif %}
+        {% if zs_has_materials %}
+          <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
+            <summary class="zs-detail-accordions__heading">
+              <span>Materials &amp; Care</span>
+              <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="zs-detail-accordions__content rte">{{ zs_materials | metafield_tag }}</div>
+          </details>
+        {% endif %}
+        {% if zs_has_shipping %}
+          <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
+            <summary class="zs-detail-accordions__heading">
+              <span>Shipping &amp; Returns</span>
+              <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="zs-detail-accordions__content rte">{{ zs_shipping | metafield_tag }}</div>
+          </details>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
