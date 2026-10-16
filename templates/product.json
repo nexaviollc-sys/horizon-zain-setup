@@ -308,8 +308,7 @@
               "settings": {
                 "eyebrow": "HANDPICKED FOR YOU",
                 "heading": "Pairs Beautifully With",
-                "product_limit": 8,
-                "slide_delay": 5
+                "product_limit": 8
               }
             }
           },
