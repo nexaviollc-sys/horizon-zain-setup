@@ -94,7 +94,7 @@
 {% if request.page_type == 'product' and block.id == 'price_tVjtKg' %}
   {% assign zs_price_intro = product_resource.metafields.custom.short_description %}
   {% if zs_price_intro != blank and zs_price_intro.value != blank %}
-    <div class="zs-metafield-intro">
+    <div class="zs-metafield-intro zs-metafield-intro--price">
       <p>{{ zs_price_intro.value | escape | newline_to_br }}</p>
     </div>
   {% endif %}
