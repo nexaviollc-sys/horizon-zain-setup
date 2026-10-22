@@ -22,28 +22,60 @@
   assign zs_language = request.locale.iso_code | slice: 0, 2
 %}
 {% if zs_supported %}
-  {% capture zs_heading %}
+  {% capture zs_delivery %}
     {% case zs_language %}
-      {% when 'de' %}Heute bestellen · Voraussichtliche Lieferung
-      {% when 'fr' %}Commandez aujourd’hui · Livraison estimée
-      {% when 'ar' %}اطلب اليوم · التسليم المتوقع
-      {% else %}Order today · Estimated delivery
+      {% when 'de' %}Heute bestellen, erhalten
+      {% when 'fr' %}Commandez aujourd'hui, recevez
+      {% when 'ar' %}اطلب اليوم، واستلم
+      {% else %}Order today, receive
     {% endcase %}
   {% endcapture %}
-  {% capture zs_subline %}
+  {% capture zs_refunds %}
     {% case zs_language %}
-      {% when 'de' %}1 Tag Bearbeitungszeit · Kostenloser Versand
-      {% when 'fr' %}1 jour de préparation · Livraison gratuite
-      {% when 'ar' %}يوم واحد لتجهيز الطلب · شحن مجاني
-      {% else %}1 day order processing · Free shipping
+      {% when 'de' %}14 Tage Rückgabe & Erstattung
+      {% when 'fr' %}Retours et remboursements sous 14 jours
+      {% when 'ar' %}إرجاع واسترداد خلال 14 يومًا
+      {% else %}14-Day Returns & Refunds
     {% endcase %}
   {% endcapture %}
-  {% capture zs_tracking %}
+  {% capture zs_refunds_detail %}
     {% case zs_language %}
-      {% when 'de' %}Sendungsnummer wird nach dem Versand bereitgestellt
-      {% when 'fr' %}Numéro de suivi fourni après l’expédition
-      {% when 'ar' %}سيتم توفير رقم التتبع بعد الشحن
-      {% else %}Tracking number provided after dispatch
+      {% when 'de' %}Ab dem Tag der Zustellung
+      {% when 'fr' %}À compter de la livraison
+      {% when 'ar' %}تبدأ المدة عند استلام طلبك
+      {% else %}Starting the day your order arrives
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_craft %}
+    {% case zs_language %}
+      {% when 'de' %}Von Hand aus echtem Holz gefertigt
+      {% when 'fr' %}Fabriqué à la main en bois véritable
+      {% when 'ar' %}مصنوع يدويًا من الخشب الطبيعي
+      {% else %}Handcrafted From Real Wood
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_craft_detail %}
+    {% case zs_language %}
+      {% when 'de' %}Mit Liebe von unseren Händen gefertigt
+      {% when 'fr' %}Créé à la main avec soin
+      {% when 'ar' %}صنعناه بأيدينا وبكل عناية
+      {% else %}Made by our hands, with care
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_shipping %}
+    {% case zs_language %}
+      {% when 'de' %}Kostenloser Versand
+      {% when 'fr' %}Livraison gratuite
+      {% when 'ar' %}شحن مجاني
+      {% else %}Free Shipping
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_shipping_detail %}
+    {% case zs_language %}
+      {% when 'de' %}Sendungsnummer nach Versand
+      {% when 'fr' %}Suivi fourni après l'expédition
+      {% when 'ar' %}نقدم رقم التتبع بعد الشحن
+      {% else %}Tracking provided after dispatch
     {% endcase %}
   {% endcapture %}
   {% capture zs_days %}
@@ -55,73 +87,134 @@
     {% endcase %}
   {% endcapture %}
 
-  <div class="zs-delivery-estimate"
+  <div class="zs-delivery-estimate zs-product-benefits"
     data-zs-delivery-estimate
     data-min-days="{{ zs_arrival_min }}"
     data-max-days="{{ zs_arrival_max }}"
     data-locale="{{ request.locale.iso_code | escape }}"
-    dir="{% if zs_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-    <div class="zs-delivery-estimate__primary">
-      <svg class="zs-delivery-estimate__truck" aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+    dir="{% if zs_language == 'ar' %}rtl{% else %}ltr{% endif %}"
+    aria-label="{% if zs_language == 'de' %}Produktvorteile{% elsif zs_language == 'fr' %}Avantages du produit{% elsif zs_language == 'ar' %}مزايا المنتج{% else %}Product benefits{% endif %}">
+
+    <div class="zs-product-benefits__item">
+      <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/>
       </svg>
-      <div class="zs-delivery-estimate__body">
-        <span class="zs-delivery-estimate__label">{{ zs_heading | strip }}</span>
-        <strong class="zs-delivery-estimate__dates" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</strong>
+      <div class="zs-product-benefits__copy">
+        <span class="zs-product-benefits__title">{{ zs_delivery | strip }}</span>
+        <strong class="zs-product-benefits__detail zs-product-benefits__date" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</strong>
       </div>
     </div>
-    <div class="zs-delivery-estimate__details">
-      <span class="zs-delivery-estimate__processing">{{ zs_subline | strip }}</span>
-      <span class="zs-delivery-estimate__tracking">
-        <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
-        <span>{{ zs_tracking | strip }}</span>
-      </span>
+
+    <div class="zs-product-benefits__item">
+      <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3.5 9a8.5 8.5 0 1 1 1.1 6.9"/><path d="M3.5 3.5V9H9"/><path d="M12 7.5v5l3 2"/>
+      </svg>
+      <div class="zs-product-benefits__copy">
+        <span class="zs-product-benefits__title">{{ zs_refunds | strip }}</span>
+        <span class="zs-product-benefits__detail">{{ zs_refunds_detail | strip }}</span>
+      </div>
+    </div>
+
+    <div class="zs-product-benefits__item">
+      <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m4 20 7-7M9 7l8 8M11 5l8 8M17 3l4 4-4 4-4-4z"/><path d="m3 17 4 4"/>
+      </svg>
+      <div class="zs-product-benefits__copy">
+        <span class="zs-product-benefits__title">{{ zs_craft | strip }}</span>
+        <span class="zs-product-benefits__detail">{{ zs_craft_detail | strip }}</span>
+      </div>
+    </div>
+
+    <div class="zs-product-benefits__item">
+      <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 8.5 12 4l8 4.5v9L12 22l-8-4.5z"/><path d="m4 8.5 8 4.5 8-4.5M12 13v9"/><path d="m8 6.5 8 4.5"/>
+      </svg>
+      <div class="zs-product-benefits__copy">
+        <span class="zs-product-benefits__title">{{ zs_shipping | strip }}</span>
+        <span class="zs-product-benefits__detail">{{ zs_shipping_detail | strip }}</span>
+      </div>
     </div>
   </div>
+
   <style>
-    /* Slim editorial delivery strip, scoped to the product purchase area. */
-    .product-form-buttons > .zs-delivery-estimate,
-    .product-form-buttons--stacked > .zs-delivery-estimate {
-      display:block;
-      flex:0 0 100% !important;
-      width:100% !important;
-      min-width:0 !important;
-      max-width:100%;
-      box-sizing:border-box;
-      margin:4px 0 1px;
-      padding:12px 0 4px;
-      border:0;
-      border-top:1px solid var(--zs-border, rgba(68,49,38,.17));
-      border-radius:0;
-      background:transparent;
-      color:inherit;
-      font-family:var(--font-body--family,inherit);
-      text-align:start;
+    /* ZAISEN product trust grid: no outer card, badges, or background fills. */
+    .product-form-buttons > .zs-product-benefits,
+    .product-form-buttons--stacked > .zs-product-benefits {
+      flex: 0 0 100% !important;
+      display: grid !important;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 4px 0 2px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--zs-text,inherit);
+      text-align: start;
+      font-family: var(--font-body--family,inherit);
     }
-    .zs-delivery-estimate__primary{
-      display:flex;align-items:center;gap:10px;min-width:0;
-      color:var(--zs-text,inherit);
-      font-size:13px;line-height:1.45;
+    .zs-product-benefits__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px 10px 12px 0;
     }
-    .zs-delivery-estimate__truck{flex:0 0 19px;opacity:.85}
-    .zs-delivery-estimate__body{
-      display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;min-width:0;
+    .zs-product-benefits__item:nth-child(even) {
+      padding-inline-start: 14px;
+      padding-inline-end: 0;
     }
-    .zs-delivery-estimate__label{font-size:13px;font-weight:450;color:inherit}
-    .zs-delivery-estimate__dates{font-size:14px;font-weight:700;white-space:normal;color:inherit;letter-spacing:0}
-    .zs-delivery-estimate__details{
-      display:flex;align-items:center;flex-wrap:wrap;column-gap:13px;row-gap:3px;
-      margin-block-start:5px;padding-inline-start:29px;
-      font-size:11.5px;line-height:1.5;color:inherit;opacity:.75;
+    .zs-product-benefits__item:nth-child(odd) {
+      border-inline-end: 1px solid var(--zs-border,rgba(68,49,38,.14));
     }
-    .zs-delivery-estimate__tracking{display:inline-flex;align-items:center;gap:5px;min-width:0}
-    .zs-delivery-estimate__tracking svg{flex:0 0 13px}
-    @media(max-width:749px){
-      .product-form-buttons > .zs-delivery-estimate,
-      .product-form-buttons--stacked > .zs-delivery-estimate{padding-block:10px 3px;margin-block:3px 0}
-      .zs-delivery-estimate__label{font-size:12px}
-      .zs-delivery-estimate__dates{font-size:13px}
-      .zs-delivery-estimate__details{font-size:11px;column-gap:10px}
+    .zs-product-benefits__item:nth-child(-n+2) {
+      border-block-end: 1px solid var(--zs-border,rgba(68,49,38,.14));
+    }
+    .zs-product-benefits__icon {
+      flex: 0 0 19px;
+      margin-block-start: 2px;
+      color: var(--zs-walnut,#443126);
+    }
+    .zs-product-benefits__copy {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      overflow-wrap: break-word;
+      line-height: 1.35;
+    }
+    .zs-product-benefits__title {
+      display: block;
+      font-weight: 650;
+      font-size: 12.5px;
+      color: var(--zs-text,inherit);
+    }
+    .zs-product-benefits__detail {
+      display: block;
+      font-size: 11.5px;
+      line-height: 1.35;
+      font-weight: 400;
+      color: var(--zs-text,inherit);
+      opacity: .75;
+    }
+    .zs-product-benefits__date {
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      opacity: 1;
+      color: var(--zs-walnut,#443126);
+    }
+    @media (max-width: 749px) {
+      .product-form-buttons > .zs-product-benefits,
+      .product-form-buttons--stacked > .zs-product-benefits { margin-block: 0 2px; }
+      .zs-product-benefits__item { gap: 8px; padding-block: 11px; padding-inline-end: 8px; }
+      .zs-product-benefits__item:nth-child(even) { padding-inline-start: 10px; }
+      .zs-product-benefits__icon { width: 17px; height: 17px; flex-basis: 17px; }
+      .zs-product-benefits__title { font-size: 11.5px; }
+      .zs-product-benefits__detail { font-size: 10.5px; }
+      .zs-product-benefits__date { font-size: 12px; }
     }
   </style>
   <script>
@@ -137,10 +230,10 @@
           var late = new Date(today.getFullYear(), today.getMonth(), today.getDate() + high, 12);
           var locale = root.dataset.locale || 'en';
           try {
-            var formatter = new Intl.DateTimeFormat(locale, { day:'numeric', month:'short' });
+            var formatter = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
             target.textContent = formatter.format(early) + ' – ' + formatter.format(late);
           } catch (error) {
-            // Keep the server-rendered day range if Intl is unavailable.
+            // Keep the server-rendered estimate when Intl is unavailable.
           }
         });
       }
