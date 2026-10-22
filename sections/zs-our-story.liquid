@@ -45,8 +45,15 @@
         <p class="zs-about__eyebrow">01 / OUR BEGINNINGS</p>
         <h2>Where our<br><em>story begins.</em></h2>
         <div class="zs-about__location-card">
-          <span class="zs-about__location-symbol" aria-hidden="true">⌖</span>
-          <div><b>Our working workshop</b><span>Saddar area, near Islamabad<br>Pakistan</span></div>
+          <span class="zs-about__location-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/><path d="M2 21h20"/></svg></span>
+          <div class="zs-about__location-details">
+            <span class="zs-about__location-eyebrow">WHERE YOUR PIECES BEGIN</span>
+            <h3>Our Own Woodworking Workshop</h3>
+            <p>Saddar area, near Islamabad, Pakistan</p>
+            <div class="zs-about__location-divider" aria-hidden="true"></div>
+            <p>This is where our wooden designs are shaped, refined and finished by our team — not sourced as finished products from wholesale warehouses.</p>
+            <a href="{{ routes.root_url }}pages/contact" class="zs-about__location-contact">Questions about our workshop? Contact us <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </div>
       <div class="zs-about__prose">
@@ -58,11 +65,20 @@
     </div>
 
     <div class="zs-about__principle" aria-label="Our production commitment">
-      <div class="zs-about__principle-mark" aria-hidden="true">Z.</div>
-      <div>
-        <p class="zs-about__eyebrow">OUR COMMITMENT</p>
-        <h2>Craftsmanship, not a reseller's label.</h2>
-        <p>Our wooden collections come from our own hands and workshop process. We do not rely on anonymous fulfillment warehouses to choose, package and send unknown finished products on our behalf.</p>
+      <div class="zs-about__brand-panel">
+        <a class="zs-about__brand-signature" href="{{ routes.root_url }}" aria-label="ZAISEN home">
+          {% if settings.logo != blank %}
+            {{ settings.logo | image_url: width: 480 | image_tag: class: 'zs-about__brand-logo', loading: 'lazy', alt: 'ZAISEN handmade wooden products logo', widths: '240,360,480' }}
+          {% else %}
+            <span class="zs-about__brand-fallback">ZAISEN</span>
+          {% endif %}
+        </a>
+      </div>
+      <div class="zs-about__principle-copy">
+        <p class="zs-about__eyebrow">OUR COMMITMENT TO CRAFTSMANSHIP</p>
+        <h2>Crafted by us.<br><em>Never simply resold.</em></h2>
+        <p>We believe the story behind a wooden piece matters as much as the piece itself. Our team works in our own workshop, shaping and finishing the wooden products we offer. We do not buy finished wooden décor from local wholesale warehouses and present it as our own handiwork.</p>
+        <p>From careful carving and sanding to final finishing and packaging, we take responsibility for the details. Our promise is simple: genuine craftsmanship, honest product information and a team you can contact whenever you need help.</p>
       </div>
     </div>
 
@@ -153,28 +169,42 @@
 
     <section class="zs-about__faq" aria-labelledby="zs-about-faq-title-{{ section.id }}">
       <div class="zs-about__section-heading">
-        <div><p class="zs-about__eyebrow">07 / GOOD TO KNOW</p><h2 id="zs-about-faq-title-{{ section.id }}">Questions we'd ask<br><em>if we were you.</em></h2></div>
-        <p>We don't expect you to trust a store just because it says “trust us.” Here are direct answers to the questions we think matter.</p>
+        <div><p class="zs-about__eyebrow">07 / GOOD TO KNOW</p><h2 id="zs-about-faq-title-{{ section.id }}">Your questions,<br><em>answered honestly.</em></h2></div>
+        <p>A little clarity goes a long way. We want you to know who makes your order, where it comes from and how we'll help if something goes wrong.</p>
       </div>
       <div class="zs-about__faq-list">
-        <details><summary>Are ZAISEN products handmade by your own team?</summary><div>Yes. ZAISEN describes its wooden collection as work produced through our own workshop and hands-on processes. We do not source finished wooden décor from unknown local reseller warehouses and present it as our own craft.</div></details>
-        <details><summary>Where is the workshop, and why do your legal details mention the US?</summary><div>Our working workshop is in the Saddar area near Islamabad, Pakistan. Our administrative and legal business address is separate and appears in our store's legal notices. Our production location and business registration details serve different purposes; we want both to be clear.</div></details>
-        <details><summary>Are the product images real or AI-generated?</summary><div>Our listings are based on the wooden products and designs we sell. Some imagery is digitally polished or styled, including with AI-assisted editing, to achieve consistent backgrounds and presentation. Please read each listing for dimensions, materials and included items. Natural handmade variations can still occur.</div></details>
-        <details><summary>Where can I order, and is shipping free?</summary><div>We currently deliver to the US, UK, Germany, France, Canada, Australia, UAE and Saudi Arabia. Shipping is free to those eight supported markets. Delivery timing can change with carriers, customs and local conditions; see our <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a>.</div></details>
-        <details><summary>Will I receive a tracking number?</summary><div>We arrange deliveries with Star Cargo International and relevant shipping partners and provide tracking details when they become available after dispatch. If you need help finding an update, <a href="{{ routes.root_url }}pages/contact">contact our team</a>.</div></details>
-        <details><summary>What if my item looks different from the listing?</summary><div>Small differences in real wood grain or handcrafted details are normal. If an item is incorrect, damaged, defective or materially unlike its description, contact us within 14 days of delivery with your order details and photographs. We will review the issue under our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>.</div></details>
-        <details><summary>How can I speak to someone before ordering?</summary><div>We welcome questions about product dimensions, finishes, shipping and policies. Send us a message via our <a href="{{ routes.root_url }}pages/contact">contact page</a> or email <a href="mailto:zaisenstore@gmail.com">zaisenstore@gmail.com</a>. You can write to us whenever you need help; response times may vary.</div></details>
+        <details><summary>Are ZAISEN products really handmade?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Yes. Our wooden products are created through hands-on craftsmanship at our workshop in Pakistan. Our team shapes, details, finishes and prepares the pieces we offer. We do not purchase finished wooden décor from local wholesale warehouses and simply resell it under the ZAISEN name.</div></details>
+        <details><summary>Where are ZAISEN wooden products made?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our working workshop is in the Saddar area near Islamabad, Pakistan. This is where our wooden products are crafted. Our administrative and legal business address is separate from our production location and is listed in our <a href="{{ routes.root_url }}policies/legal-notice">Legal Notice</a>.</div></details>
+        <details><summary>Are your product photographs real or AI-generated?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our listings represent the actual wooden product designs we sell. Some images may be digitally polished or styled using AI-assisted editing to create consistent backgrounds and presentation. We aim to represent each design accurately, but natural wood grain, color and small handmade details can vary from piece to piece. Check each listing for dimensions and materials.</div></details>
+        <details><summary>Does ZAISEN offer free international shipping?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Yes. We currently offer free shipping to the United States, United Kingdom, Germany, France, Canada, Australia, the United Arab Emirates and Saudi Arabia. Delivery estimates depend on the destination and may be affected by customs, holidays or carrier delays. Our <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a> has the current details.</div></details>
+        <details><summary>Which shipping company delivers ZAISEN orders?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We arrange international shipments through Star Cargo International and relevant delivery partners. Once tracking information becomes available after dispatch, we provide it so you can follow your order's journey.</div></details>
+        <details><summary>What if my product arrives damaged or doesn't match its description?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Contact us within 14 days of delivery if your product arrives damaged, defective, incorrect or materially different from its description. Send your order number, a description of the problem and clear photographs or video. We review eligible cases under our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. A suitable outcome may include a repair, replacement, partial refund or full refund, depending on the circumstances. Natural wood variations are not automatically defects.</div></details>
+        <details><summary>Can I return an order simply because I changed my mind?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We do not offer discretionary change-of-mind returns unless applicable law requires otherwise. The 14-day period for reporting genuine product issues begins when your order arrives. You can read the eligibility details in our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. Your mandatory consumer rights remain unaffected.</div></details>
+        <details><summary>How can I contact ZAISEN before placing an order?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We welcome questions about materials, dimensions, finishes, shipping or existing orders. Email us at <a href="mailto:zaisenstore@gmail.com">zaisenstore@gmail.com</a> or use our <a href="{{ routes.root_url }}pages/contact">Contact page</a>. You can message us at any time; response times may vary.</div></details>
+      </div>
+      <div class="zs-about__faq-help">
+        <div><span class="zs-about__faq-help-kicker">STILL WONDERING?</span><h3>Talk to the people behind your piece.</h3><p>We're happy to help you choose, ask about shipping or understand a product before ordering.</p></div>
+        <a href="{{ routes.root_url }}pages/contact" class="zs-about__button zs-about__button--primary">Contact ZAISEN <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
     <footer class="zs-about__closing">
-      <p class="zs-about__eyebrow">A NOTE FROM OUR WORKSHOP</p>
-      <h2>From our hands<br><em>to your home.</em></h2>
-      <p>We are still growing, still learning, and still making things with care. Thank you for considering a small woodworking business instead of something mass-produced. Whether you order today or simply came here to learn who we are, we're glad you stopped by.</p>
-      <p class="zs-about__signature">With care, <strong>The ZAISEN Team</strong></p>
-      <div class="zs-about__closing-actions">
-        <a class="zs-about__button zs-about__button--light" href="{{ routes.root_url }}collections/all">Explore the collection <span aria-hidden="true">↗</span></a>
-        <a class="zs-about__closing-textlink" href="{{ routes.root_url }}pages/contact">Questions? Talk to us ↗</a>
+      <span class="zs-about__closing-art zs-about__closing-art--left" aria-hidden="true"></span>
+      <span class="zs-about__closing-art zs-about__closing-art--right" aria-hidden="true"></span>
+      <div class="zs-about__closing-inner">
+        <div class="zs-about__closing-kicker"><span></span>A NOTE FROM OUR WORKSHOP<span></span></div>
+        <h2>From our hands<br><em>to your home.</em></h2>
+        <p class="zs-about__closing-lead">Every wooden piece carries the time, attention and care of the people who made it.</p>
+        <div class="zs-about__closing-note">
+          <p>When you choose ZAISEN, you're supporting a growing handcrafted wooden-products business and the people working behind every design. We're grateful for every customer who gives our work a place in their home.</p>
+          <p>We know trust is earned, not simply requested. That's why we're open about how our pieces are made, how we ship them and how we help if something isn't right.</p>
+          <span class="zs-about__closing-signature">With care, <strong>The ZAISEN Team</strong></span>
+        </div>
+        <div class="zs-about__closing-actions">
+          <a class="zs-about__button zs-about__button--light" href="{{ routes.root_url }}collections/all">Explore Our Collection <span aria-hidden="true">↗</span></a>
+          <a class="zs-about__button zs-about__button--ghost" href="{{ routes.root_url }}pages/contact">Questions? Contact ZAISEN <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="zs-about__closing-bottom"><span>HANDCRAFTED WOODEN HOME DÉCOR</span><span aria-hidden="true">✦</span><span>MADE WITH CARE IN PAKISTAN</span></div>
       </div>
     </footer>
   </div>
