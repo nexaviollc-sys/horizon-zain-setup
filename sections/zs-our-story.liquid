@@ -363,6 +363,193 @@
     #zs-about-{{ section.id }} .zs-about__process{grid-template-columns:1fr;}
   }
   @media(prefers-reduced-motion:reduce){#zs-about-{{ section.id }} .zs-about__button{transition:none;}}
+
+  /* ZAISEN story refinements: brand-rich, accessible, fully scoped. */
+  #zs-about-{{ section.id }} .zs-about__location-card{
+    display:flex;align-items:flex-start;gap:17px;max-width:480px;
+    border:1px solid #d8bba0;background:linear-gradient(135deg,#fdf6ed,#ecdbc9);
+    border-radius:14px;padding:23px;box-shadow:0 9px 24px rgba(77,44,26,.075);
+  }
+  #zs-about-{{ section.id }} .zs-about__location-icon{
+    display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;
+    background:#e6cbb0;color:#68452e;border-radius:11px;
+  }
+  #zs-about-{{ section.id }} .zs-about__location-icon svg{width:25px;height:25px;}
+  #zs-about-{{ section.id }} .zs-about__location-details{display:block;min-width:0;}
+  #zs-about-{{ section.id }} .zs-about__location-eyebrow{
+    display:block;color:#986e4f;font-size:10px;letter-spacing:.13em;font-weight:750;
+  }
+  #zs-about-{{ section.id }} .zs-about__location-details h3{
+    font-family:var(--font-heading--family,Georgia,serif);font-weight:650;
+    color:#35241a;font-size:clamp(19px,2vw,23px);line-height:1.25;margin:6px 0;
+  }
+  #zs-about-{{ section.id }} .zs-about__location-details p{
+    color:#655144;font-size:13px;line-height:1.65;margin:0;
+  }
+  #zs-about-{{ section.id }} .zs-about__location-divider{
+    height:1px;background:#d8bda4;margin:14px 0 10px;
+  }
+  #zs-about-{{ section.id }} .zs-about__location-contact{
+    display:inline-block;margin-top:13px;font-size:12px;font-weight:750;
+    color:#65422d;text-underline-offset:3px;
+  }
+  #zs-about-{{ section.id }} .zs-about__principle{
+    display:grid;grid-template-columns:minmax(170px,.6fr) minmax(0,1.4fr);
+    align-items:center;gap:clamp(20px,5vw,60px);
+    background:radial-gradient(ellipse at 85% 0%,#755039,#3e291f 64%,#2c211d) !important;
+    border:1px solid #604534;border-radius:16px;
+    padding:clamp(26px,4vw,53px);
+    box-shadow:0 14px 36px rgba(62,38,22,.15);
+  }
+  #zs-about-{{ section.id }} .zs-about__brand-panel{
+    display:flex;justify-content:center;align-items:center;
+    padding:25px 16px;border:1px solid #f0dbc2;
+    background:linear-gradient(145deg,#fdf4e9,#eddbc6);
+    border-radius:12px;min-width:0;
+  }
+  #zs-about-{{ section.id }} .zs-about__brand-signature{
+    display:grid;place-items:center;width:100%;max-width:270px;min-height:68px;
+    text-decoration:none;
+  }
+  #zs-about-{{ section.id }} .zs-about__brand-logo{
+    display:block;width:100%;max-width:250px;height:auto;max-height:115px;
+    object-fit:contain;
+  }
+  #zs-about-{{ section.id }} .zs-about__brand-fallback{
+    font-family:var(--font-heading--family,Georgia,serif);
+    font-size:32px;letter-spacing:.09em;font-weight:650;color:#70452d;
+  }
+  #zs-about-{{ section.id }} .zs-about__principle-copy{min-width:0;}
+  #zs-about-{{ section.id }} .zs-about__principle-copy .zs-about__eyebrow{color:#e5b984;}
+  #zs-about-{{ section.id }} .zs-about__principle-copy h2{
+    color:#fff0da;font-size:clamp(30px,3.6vw,50px);margin-bottom:19px;
+  }
+  #zs-about-{{ section.id }} .zs-about__principle-copy h2 em{color:#e9c096;}
+  #zs-about-{{ section.id }} .zs-about__principle-copy p:not(.zs-about__eyebrow){
+    color:#e9d7c5;font-size:14px;line-height:1.78;margin:0 0 13px;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-list{
+    display:grid;gap:11px;border:0;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-list details{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#fdfaf6,#f5e9db);
+    border:1px solid #e2ccb8;border-radius:11px;
+    box-shadow:0 3px 13px rgba(60,38,20,.038);
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-list details[open]{
+    background:linear-gradient(135deg,#fbf2e8,#efddc8);
+    border-color:#c6a384;box-shadow:0 6px 20px rgba(60,38,20,.06);
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-list summary{
+    display:flex;align-items:center;justify-content:space-between;gap:15px;
+    padding:19px 22px!important;list-style:none;cursor:pointer;
+    color:#412d20;font-size:15px;font-weight:700;line-height:1.45;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-list summary::-webkit-details-marker{display:none;}
+  #zs-about-{{ section.id }} .zs-about__faq-list summary:after{content:none!important;}
+  #zs-about-{{ section.id }} .zs-about__faq-icon{
+    flex:0 0 30px;width:30px;height:30px;position:relative;
+    border:1px solid #d6b89a;background:#e9d6c0;border-radius:9px;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-icon:before,
+  #zs-about-{{ section.id }} .zs-about__faq-icon:after{
+    content:"";position:absolute;top:50%;left:50%;background:#775036;
+    transform:translate(-50%,-50%);
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-icon:before{width:11px;height:2px;}
+  #zs-about-{{ section.id }} .zs-about__faq-icon:after{width:2px;height:11px;}
+  #zs-about-{{ section.id }} .zs-about__faq-list details[open] .zs-about__faq-icon:after{display:none;}
+  #zs-about-{{ section.id }} .zs-about__faq-list details>div{
+    max-width:none;font-size:14px;line-height:1.75;color:#655043;
+    padding:0 62px 22px 22px!important;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-help{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:20px;padding:24px 26px;margin-top:22px;
+    background:#f0dfcb;border:1px solid #dac0a4;border-radius:12px;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-help-kicker{
+    font-size:10px;font-weight:750;color:#996f4f;letter-spacing:.15em;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-help h3{
+    font-family:var(--font-heading--family,Georgia,serif);font-size:26px;
+    font-weight:600;margin:6px 0;color:#432c20;
+  }
+  #zs-about-{{ section.id }} .zs-about__faq-help p{font-size:13px;color:#725b48;}
+  #zs-about-{{ section.id }} .zs-about__faq-help .zs-about__button{flex-shrink:0;}
+  #zs-about-{{ section.id }} .zs-about__closing{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse at 90% 8%,#80543b,transparent 60%),
+      radial-gradient(ellipse at 0% 98%,#694832,transparent 54%),
+      linear-gradient(130deg,#4b3023,#2a1d17)!important;
+    border-radius:16px 16px 0 0;
+    padding:clamp(47px,7vw,92px) clamp(23px,6vw,95px) 27px;
+    box-shadow:0 -9px 28px rgba(72,42,25,.09);
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-art{
+    position:absolute;pointer-events:none;border:1px solid rgba(229,188,140,.16);
+    border-radius:50%;width:380px;height:380px;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-art--left{bottom:-230px;left:-185px;}
+  #zs-about-{{ section.id }} .zs-about__closing-art--right{top:-280px;right:-140px;width:480px;height:480px;}
+  #zs-about-{{ section.id }} .zs-about__closing-inner{position:relative;z-index:1;max-width:880px;margin:auto;}
+  #zs-about-{{ section.id }} .zs-about__closing-kicker{
+    display:flex;justify-content:center;align-items:center;gap:14px;
+    color:#e7be8e;font-size:10px;font-weight:750;letter-spacing:.18em;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-kicker span{width:27px;height:1px;background:#b68f68;}
+  #zs-about-{{ section.id }} .zs-about__closing h2{
+    color:#fff2de;font-size:clamp(46px,6.7vw,90px);margin:18px auto 23px;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing h2 em{color:#eac392;}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-lead{
+    max-width:750px;font-family:var(--font-heading--family,Georgia,serif);
+    font-size:clamp(18px,2vw,27px);line-height:1.45;
+    margin:0 auto 24px;color:#f4e0c9;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-note{
+    background:rgba(245,221,190,.095);border:1px solid rgba(231,189,142,.30);
+    border-radius:12px;max-width:790px;padding:clamp(20px,3vw,32px);margin:0 auto;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-note p{
+    max-width:none;color:#f0dfcd;font-size:14px;line-height:1.78;
+    margin:0 auto 15px;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-signature{
+    display:block;margin-top:18px;font-family:var(--font-heading--family,Georgia,serif);
+    font-size:18px;color:#e9c597;font-style:italic;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-actions{margin:29px auto 32px;}
+  #zs-about-{{ section.id }} .zs-about__button--ghost{
+    color:#f9e4ca!important;background:rgba(255,255,255,.04);
+    border:1px solid rgba(241,212,180,.58);
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-bottom{
+    display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:15px;
+    border-top:1px solid rgba(238,204,163,.28);padding-top:19px;
+    font-size:10px;letter-spacing:.13em;color:#e0c8ad;
+  }
+  @media(max-width:850px){
+    #zs-about-{{ section.id }} .zs-about__principle{grid-template-columns:1fr;gap:23px;}
+    #zs-about-{{ section.id }} .zs-about__brand-panel{width:100%;max-width:310px;margin:auto;}
+  }
+  @media(max-width:700px){
+    #zs-about-{{ section.id }} .zs-about__location-card{padding:19px;gap:12px;}
+    #zs-about-{{ section.id }} .zs-about__location-icon{flex-basis:41px;width:41px;height:41px;}
+    #zs-about-{{ section.id }} .zs-about__location-icon svg{width:22px;height:22px;}
+    #zs-about-{{ section.id }} .zs-about__location-details h3{font-size:20px;}
+    #zs-about-{{ section.id }} .zs-about__principle{padding:27px 21px;}
+    #zs-about-{{ section.id }} .zs-about__faq-list summary{padding:17px 15px!important;font-size:14px;}
+    #zs-about-{{ section.id }} .zs-about__faq-icon{flex-basis:27px;width:27px;height:27px;}
+    #zs-about-{{ section.id }} .zs-about__faq-list details>div{padding:0 17px 18px!important;font-size:13px;}
+    #zs-about-{{ section.id }} .zs-about__faq-help{flex-direction:column;align-items:flex-start;padding:21px;}
+    #zs-about-{{ section.id }} .zs-about__faq-help h3{font-size:23px;}
+    #zs-about-{{ section.id }} .zs-about__closing{padding:49px 22px 23px;}
+    #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-lead{font-size:19px;}
+    #zs-about-{{ section.id }} .zs-about__closing-bottom{font-size:9px;gap:8px;}
+  }
 </style>
 
 {% schema %}
