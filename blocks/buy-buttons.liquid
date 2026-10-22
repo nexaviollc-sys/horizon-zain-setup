@@ -224,6 +224,10 @@
               </div>
             </volume-pricing>
           {%- endif -%}
+          {% if template.name == 'product' %}
+            {% render 'zs-delivery-estimate' %}
+          {% endif %}
+
           {% content_for 'block',
             type: 'add-to-cart',
             id: 'add-to-cart',
