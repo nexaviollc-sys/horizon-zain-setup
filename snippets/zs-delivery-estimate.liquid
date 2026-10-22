@@ -61,33 +61,68 @@
     data-max-days="{{ zs_arrival_max }}"
     data-locale="{{ request.locale.iso_code | escape }}"
     dir="{% if zs_language == 'ar' %}rtl{% else %}ltr{% endif %}">
-    <div class="zs-delivery-estimate__main">
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7.5" cy="17" r="2"/><circle cx="17.5" cy="17" r="2"/>
+    <div class="zs-delivery-estimate__primary">
+      <svg class="zs-delivery-estimate__truck" aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/>
       </svg>
-      <div class="zs-delivery-estimate__copy">
-        <div class="zs-delivery-estimate__title">{{ zs_heading | strip }}</div>
+      <div class="zs-delivery-estimate__body">
+        <span class="zs-delivery-estimate__label">{{ zs_heading | strip }}</span>
         <strong class="zs-delivery-estimate__dates" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</strong>
       </div>
     </div>
-    <p class="zs-delivery-estimate__meta">{{ zs_subline | strip }}</p>
-    <p class="zs-delivery-estimate__meta zs-delivery-estimate__tracking">
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
-      <span>{{ zs_tracking | strip }}</span>
-    </p>
+    <div class="zs-delivery-estimate__details">
+      <span class="zs-delivery-estimate__processing">{{ zs_subline | strip }}</span>
+      <span class="zs-delivery-estimate__tracking">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+        <span>{{ zs_tracking | strip }}</span>
+      </span>
+    </div>
   </div>
   <style>
-    .zs-delivery-estimate{flex:1 0 100%;min-width:0;border:1px solid var(--color-border,#ddd);border-radius:8px;padding:12px 14px;background:rgb(var(--color-foreground-rgb,30 30 30)/.025);color:var(--color-foreground,inherit);box-sizing:border-box;font-family:var(--font-body--family,inherit);margin-block:8px 5px}
-    .zs-delivery-estimate__main{display:flex;align-items:flex-start;gap:10px;line-height:1.4}
-    .zs-delivery-estimate__main>svg{flex-shrink:0;margin-block-start:2px}
-    .zs-delivery-estimate__copy{min-width:0}
-    .zs-delivery-estimate__title{font-size:13px;font-weight:450;opacity:.8}
-    .zs-delivery-estimate__dates{font-size:15px;font-weight:650;display:block;margin-block-start:2px}
-    .zs-delivery-estimate__meta{margin:5px 0 0 30px;padding:0;font-size:12px;line-height:1.45;opacity:.78}
-    .zs-delivery-estimate[dir="rtl"] .zs-delivery-estimate__meta{margin-right:30px;margin-left:0}
-    .zs-delivery-estimate__tracking{display:flex;align-items:center;gap:6px}
-    .zs-delivery-estimate__tracking svg{flex-shrink:0}
-    @media(max-width:749px){.zs-delivery-estimate{padding:11px 12px;margin-block:6px 3px}}
+    /* Slim editorial delivery strip, scoped to the product purchase area. */
+    .product-form-buttons > .zs-delivery-estimate,
+    .product-form-buttons--stacked > .zs-delivery-estimate {
+      display:block;
+      flex:0 0 100% !important;
+      width:100% !important;
+      min-width:0 !important;
+      max-width:100%;
+      box-sizing:border-box;
+      margin:4px 0 1px;
+      padding:12px 0 4px;
+      border:0;
+      border-top:1px solid var(--zs-border, rgba(68,49,38,.17));
+      border-radius:0;
+      background:transparent;
+      color:inherit;
+      font-family:var(--font-body--family,inherit);
+      text-align:start;
+    }
+    .zs-delivery-estimate__primary{
+      display:flex;align-items:center;gap:10px;min-width:0;
+      color:var(--zs-text,inherit);
+      font-size:13px;line-height:1.45;
+    }
+    .zs-delivery-estimate__truck{flex:0 0 19px;opacity:.85}
+    .zs-delivery-estimate__body{
+      display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;min-width:0;
+    }
+    .zs-delivery-estimate__label{font-size:13px;font-weight:450;color:inherit}
+    .zs-delivery-estimate__dates{font-size:14px;font-weight:700;white-space:normal;color:inherit;letter-spacing:0}
+    .zs-delivery-estimate__details{
+      display:flex;align-items:center;flex-wrap:wrap;column-gap:13px;row-gap:3px;
+      margin-block-start:5px;padding-inline-start:29px;
+      font-size:11.5px;line-height:1.5;color:inherit;opacity:.75;
+    }
+    .zs-delivery-estimate__tracking{display:inline-flex;align-items:center;gap:5px;min-width:0}
+    .zs-delivery-estimate__tracking svg{flex:0 0 13px}
+    @media(max-width:749px){
+      .product-form-buttons > .zs-delivery-estimate,
+      .product-form-buttons--stacked > .zs-delivery-estimate{padding-block:10px 3px;margin-block:3px 0}
+      .zs-delivery-estimate__label{font-size:12px}
+      .zs-delivery-estimate__dates{font-size:13px}
+      .zs-delivery-estimate__details{font-size:11px;column-gap:10px}
+    }
   </style>
   <script>
     (function () {
