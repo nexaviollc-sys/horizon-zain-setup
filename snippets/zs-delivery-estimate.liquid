@@ -62,20 +62,36 @@
       {% else %}Made by our hands, with care
     {% endcase %}
   {% endcapture %}
-  {% capture zs_shipping %}
+  {% capture zs_shipping_country %}
     {% case zs_language %}
-      {% when 'de' %}Kostenloser Versand
-      {% when 'fr' %}Livraison gratuite
-      {% when 'ar' %}شحن مجاني
-      {% else %}Free Shipping
+      {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }}
+      {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }}
+      {% when 'ar' %}شحن مجاني إلى {{ localization.country.name | escape }}
+      {% else %}Free shipping to {{ localization.country.name | escape }}
     {% endcase %}
   {% endcapture %}
-  {% capture zs_shipping_detail %}
+  {% capture zs_support %}
     {% case zs_language %}
-      {% when 'de' %}Sendungsnummer nach Versand
-      {% when 'fr' %}Suivi fourni après l'expédition
-      {% when 'ar' %}نقدم رقم التتبع بعد الشحن
-      {% else %}Tracking provided after dispatch
+      {% when 'de' %}24/7 Kundenservice
+      {% when 'fr' %}Assistance 24h/24, 7j/7
+      {% when 'ar' %}دعم على مدار الساعة
+      {% else %}24/7 Support
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_support_prompt %}
+    {% case zs_language %}
+      {% when 'de' %}Noch Fragen?
+      {% when 'fr' %}Une question ?
+      {% when 'ar' %}هل لديك أي استفسار؟
+      {% else %}Have a question?
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_support_link %}
+    {% case zs_language %}
+      {% when 'de' %}ZAISEN kontaktieren
+      {% when 'fr' %}Contacter ZAISEN
+      {% when 'ar' %}تواصل مع ZAISEN
+      {% else %}Contact ZAISEN
     {% endcase %}
   {% endcapture %}
   {% capture zs_days %}
@@ -102,6 +118,7 @@
       <div class="zs-product-benefits__copy">
         <span class="zs-product-benefits__title">{{ zs_delivery | strip }}</span>
         <strong class="zs-product-benefits__detail zs-product-benefits__date" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</strong>
+        <span class="zs-product-benefits__detail zs-product-benefits__country">{{ zs_shipping_country | strip }}</span>
       </div>
     </div>
 
@@ -127,19 +144,21 @@
 
     <div class="zs-product-benefits__item">
       <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 8.5 12 4l8 4.5v9L12 22l-8-4.5z"/><path d="m4 8.5 8 4.5 8-4.5M12 13v9"/><path d="m8 6.5 8 4.5"/>
+        <path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13" width="4" height="7" rx="2"/><rect x="17.5" y="13" width="4" height="7" rx="2"/><path d="M19.5 20a4 4 0 0 1-4 2H13"/>
       </svg>
       <div class="zs-product-benefits__copy">
-        <span class="zs-product-benefits__title">{{ zs_shipping | strip }}</span>
-        <span class="zs-product-benefits__detail">{{ zs_shipping_detail | strip }}</span>
+        <span class="zs-product-benefits__title">{{ zs_support | strip }}</span>
+        <span class="zs-product-benefits__detail">
+          {{ zs_support_prompt | strip }}
+          <a class="zs-product-benefits__link" href="{{ routes.root_url }}pages/contact">{{ zs_support_link | strip }}</a>
+        </span>
       </div>
     </div>
   </div>
 
   <style>
     /* ZAISEN product trust grid: no outer card, badges, or background fills. */
-    .product-form-buttons > .zs-product-benefits,
-    .product-form-buttons--stacked > .zs-product-benefits {
+    .product-information .product-details .zs-product-benefits {
       flex: 0 0 100% !important;
       display: grid !important;
       grid-template-columns: minmax(0,1fr) minmax(0,1fr);
@@ -199,6 +218,14 @@
       color: var(--zs-text,inherit);
       opacity: .75;
     }
+    .zs-product-benefits__link {
+      color: var(--zs-walnut,#443126);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 650;
+    }
+    .zs-product-benefits__link:hover { text-decoration-thickness: 2px; }
+    .zs-product-benefits__link:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
     .zs-product-benefits__date {
       font-size: 13.5px;
       font-weight: 700;
@@ -207,8 +234,7 @@
       color: var(--zs-walnut,#443126);
     }
     @media (max-width: 749px) {
-      .product-form-buttons > .zs-product-benefits,
-      .product-form-buttons--stacked > .zs-product-benefits { margin-block: 0 2px; }
+      .product-information .product-details .zs-product-benefits { margin-block: 0 2px; }
       .zs-product-benefits__item { gap: 8px; padding-block: 11px; padding-inline-end: 8px; }
       .zs-product-benefits__item:nth-child(even) { padding-inline-start: 10px; }
       .zs-product-benefits__icon { width: 17px; height: 17px; flex-basis: 17px; }
