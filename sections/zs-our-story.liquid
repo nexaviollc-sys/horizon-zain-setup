@@ -1,372 +1,348 @@
-{%- comment -%}
-  ZAISEN Our Story: people-first editorial page.
-  Uses the real Shopify page body for the core origin story, with editable
-  photography and supporting craftsmanship/shipping information.
-{%- endcomment -%}
-{%- liquid
-  assign s = section.settings
-  assign selected_font = s.editorial_font
-  assign font_light = selected_font | font_modify: 'weight', '300'
-  assign font_semibold = selected_font | font_modify: 'weight', '600'
-  assign font_bold = selected_font | font_modify: 'weight', '700'
+{% comment %}
+  ZAISEN Our Story — editorial workshop story, October 2026.
+  Text-first by design: no stock photos, synthetic workshop imagery or unverifiable badges.
+  Brand and production statements are supplied by the store owner.
+  Returns text mirrors the published refund policy (eligible issues only).
+  Delivery estimates mirror the currently configured Shopify shipping zones.
+{% endcomment %}
 
-  assign hero_photo = s.hero_image
-  if hero_photo == blank
-    assign hero_photo = collections['handcrafted-wooden-statues'].products.first.featured_image
-  endif
-  assign origin_photo = s.origin_image
-  if origin_photo == blank
-    assign origin_photo = collections['home-decor'].products.first.featured_image
-  endif
-  assign wood_photo = s.wood_image
-  if wood_photo == blank
-    assign wood_photo = collections['kitchen-dining'].products.first.featured_image
-  endif
-  assign care_photo = s.care_image
-  if care_photo == blank
-    assign care_photo = collections['wooden-desk-shelf-decor'].products.first.featured_image
-  endif
--%}
-{% if selected_font != blank %}
-  {% style %}
-    {{ selected_font | font_face: font_display: 'swap' }}
-    {% if font_light != blank %}{{ font_light | font_face: font_display: 'swap' }}{% endif %}
-    {% if font_semibold != blank %}{{ font_semibold | font_face: font_display: 'swap' }}{% endif %}
-    {% if font_bold != blank %}{{ font_bold | font_face: font_display: 'swap' }}{% endif %}
-    #zs-story-{{ section.id }} { font-family: {{ selected_font.family | json }}, {{ selected_font.fallback_families }}; }
-  {% endstyle %}
-{% endif %}
-<section id="zs-story-{{ section.id }}" class="zs-story" aria-labelledby="zs-story-heading-{{ section.id }}"
-  style="--zs-story-bg:{{ s.background_color }};--zs-story-ink:{{ s.ink_color }};--zs-story-muted:{{ s.muted_color }};--zs-story-gold:{{ s.gold_color }};">
-  <div class="zs-story__inner">
-    <nav aria-label="Breadcrumb" class="zs-story__crumbs">
+<section class="zs-about" id="zs-about-{{ section.id }}" aria-labelledby="zs-about-heading-{{ section.id }}">
+  <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"AboutPage",
+      "name":"Our Story — ZAISEN Handmade Wooden Products",
+      "url":{{ canonical_url | json }},
+      "description":"Meet ZAISEN, the people behind our handcrafted wooden home decor. Learn about our workshop near Islamabad, our production process, worldwide shipping, and customer care.",
+      "publisher":{"@type":"Organization","name":"ZAISEN","url":{{ shop.url | json }}}
+    }
+  </script>
+
+  <div class="zs-about__shell">
+    <nav class="zs-about__breadcrumb" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Our Story</span>
     </nav>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | append: routes.root_url | json }}},
-          {"@type": "ListItem", "position": 2, "name": "Our Story", "item": {{ canonical_url | json }}}
-        ]
-      }
-    </script>
-    <div class="zs-story__hero">
-      <div class="zs-story__hero-copy">
-        <p class="zs-story__eyebrow"><span aria-hidden="true"></span> THE STORY BEHIND ZAISEN</p>
-        <h1 id="zs-story-heading-{{ section.id }}" class="zs-story__h1">Our Story.<br><strong>Made by Hand.</strong></h1>
-        <p class="zs-story__hero-description">{{ s.hero_text | escape }}</p>
-        <div class="zs-story__hero-points">
-          <span>Pure Wood</span><span aria-hidden="true" class="zs-story__separator"></span>
-          <span>Handcrafted</span><span aria-hidden="true" class="zs-story__separator"></span>
-          <span>Small Business</span>
-        </div>
-        <a class="zs-story__text-link" href="#zs-story-beginnings-{{ section.id }}">Discover our approach
-          <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m-6-6 6 6 6-6"/></svg>
-        </a>
-      </div>
-      <div class="zs-story__hero-media">
-        {% if hero_photo != blank %}
-          {{ hero_photo | image_url: width: 1600 | image_tag: class: 'zs-story__photo', loading: 'eager', fetchpriority: 'high', widths: '480,720,900,1200,1600', sizes: '(min-width: 900px) 49vw, 100vw', alt: 'Handcrafted wooden design from ZAISEN' }}
-        {% else %}
-          <div class="zs-story__image-placeholder">ZAISEN <span>Crafted from wood</span></div>
-        {% endif %}
-        <span class="zs-story__image-caption">WOODEN HOME DÉCOR · ZAISEN</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="zs-story__inner zs-story__chapter" id="zs-story-beginnings-{{ section.id }}">
-    <div class="zs-story__chapter-media">
-      {% if origin_photo != blank %}
-        {{ origin_photo | image_url: width: 1300 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1300', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Handcrafted wooden home decor created for ZAISEN' }}
-      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Our beginnings</span></div>{% endif %}
-    </div>
-    <div class="zs-story__chapter-copy">
-      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> A SMALL BEGINNING</p>
-      <h2>Starting small.<br><strong>Making it matter.</strong></h2>
-      <div class="zs-story__richtext rte">
-        {{ page.content }}
+    <header class="zs-about__hero">
+      <div class="zs-about__hero-crest"><span class="zs-about__crest-rule"></span> THE PEOPLE BEHIND ZAISEN <span class="zs-about__crest-rule"></span></div>
+      <p class="zs-about__overline">A SMALL WORKSHOP. A BIG LOVE FOR WOOD.</p>
+      <h1 id="zs-about-heading-{{ section.id }}">Not just sold.<br><em>Made by our hands.</em></h1>
+      <p class="zs-about__hero-lead">We are ZAISEN — a small team of makers creating handcrafted wooden pieces in our own workshop in the Saddar area near Islamabad, Pakistan. The pieces you see in our store are not finished goods we buy from local wholesale warehouses and relabel. We make the wooden products we offer, and we care about where each one comes from.</p>
+      <p class="zs-about__hero-secondary">From a wooden wall clock that becomes part of a family room to a thoughtfully carved gift, our work begins with real material, time, tools and human hands. We want you to know the people and process behind your purchase, not simply click “Add to Cart” and hope for the best.</p>
+      <div class="zs-about__hero-actions">
+        <a class="zs-about__button zs-about__button--primary" href="#zs-about-workshop-{{ section.id }}">Visit our story <span aria-hidden="true">↘</span></a>
+        <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">Ask us a question <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="zs-story__signature">From our hands to your home.</p>
-    </div>
-  </div>
-
-  <div class="zs-story__process-band">
-    <div class="zs-story__inner">
-      <header class="zs-story__section-heading">
-        <div>
-          <p class="zs-story__eyebrow"><span aria-hidden="true"></span> HOW OUR PIECES TAKE SHAPE</p>
-          <h2>From natural wood<br><strong>to everyday beauty.</strong></h2>
-        </div>
-        <p>Every piece begins with wood. Careful hands, time, and attention to the details turn that material into something to enjoy at home.</p>
-      </header>
-      <div class="zs-story__steps">
-        {% for block in section.blocks %}
-          <article class="zs-story__step" {{ block.shopify_attributes }}>
-            <div class="zs-story__step-media">
-              {% if block.settings.photo != blank %}
-                {{ block.settings.photo | image_url: width: 900 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '300,450,650,900', sizes: '(min-width: 900px) 22vw, (min-width: 600px) 44vw, 80vw', alt: block.settings.title }}
-              {% else %}
-                <div class="zs-story__process-placeholder">
-                  <span>0{{ forloop.index }}</span>
-                  <span>{{ block.settings.title | escape }}</span>
-                </div>
-              {% endif %}
-            </div>
-            <div class="zs-story__step-copy">
-              <span class="zs-story__step-number">0{{ forloop.index }}</span>
-              <h3>{{ block.settings.title | escape }}</h3>
-              <p>{{ block.settings.description | escape }}</p>
-            </div>
-          </article>
-        {% endfor %}
+      <div class="zs-about__hero-strip" aria-label="The ZAISEN approach">
+        <span><b>01</b> Our own workshop</span>
+        <span><b>02</b> Made by hand</span>
+        <span><b>03</b> Tracked international shipping</span>
       </div>
-      
-    </div>
-  </div>
-
-  <div class="zs-story__inner zs-story__feature">
-    <div class="zs-story__feature-copy">
-      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> NATURAL MATERIALS</p>
-      <h2>Pure wood.<br><strong>Natural character.</strong></h2>
-      <p>Wood has a warmth and character of its own. Its grain, texture, and tone give each piece personality, so two handcrafted creations are never quite the same.</p>
-      <p>At ZAISEN, pure wooden products are at the heart of what we offer: wooden home décor, carefully crafted gifts, serving pieces, lighting, and more.</p>
-      <a class="zs-story__text-link" href="/collections/home-decor">Explore wooden home décor
-        <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-      </a>
-    </div>
-    <div class="zs-story__feature-media">
-      {% if wood_photo != blank %}
-        {{ wood_photo | image_url: width: 1400 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1400', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Natural wood products and grain details in ZAISEN home decor' }}
-      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Natural wood</span></div>{% endif %}
-    </div>
-  </div>
-
-  <div class="zs-story__inner zs-story__feature zs-story__feature--reverse">
-    <div class="zs-story__feature-copy">
-      <p class="zs-story__eyebrow"><span aria-hidden="true"></span> CRAFTED WITH CARE</p>
-      <h2>Little details.<br><strong>Lasting impressions.</strong></h2>
-      <p>We believe the finishing touches matter as much as the design itself. From shaping a wooden form to checking its surfaces and details, our approach is built around thoughtful handcrafting.</p>
-      <p>As a growing small business, we care about every order and the trust that comes with it. When you choose ZAISEN, you're supporting a business that's at the beginning of its journey and committed to growing with care.</p>
-      <a class="zs-story__text-link" href="/collections/gifts">Discover handcrafted wooden gifts
-        <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-      </a>
-    </div>
-    <div class="zs-story__feature-media">
-      {% if care_photo != blank %}
-        {{ care_photo | image_url: width: 1400 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '480,720,900,1100,1400', sizes: '(min-width: 900px) 45vw, 100vw', alt: 'Detailing and finishing of handcrafted ZAISEN wooden decor' }}
-      {% else %}<div class="zs-story__image-placeholder">ZAISEN <span>Made with care</span></div>{% endif %}
-    </div>
-  </div>
-
-  <div class="zs-story__inner zs-story__collections">
-    <header class="zs-story__section-heading">
-      <div>
-        <p class="zs-story__eyebrow"><span aria-hidden="true"></span> WHAT WE LOVE TO MAKE</p>
-        <h2>Explore our<br><strong>wooden collections.</strong></h2>
-      </div>
-      <p>From small decorative details to statement pieces, find something natural to bring into your everyday space.</p>
     </header>
-    <div class="zs-story__collection-grid">
-      {% assign story_collection_handles = 'home-decor,lighting,kitchen-dining,handcrafted-wooden-statues' | split: ',' %}
-      {% for story_handle in story_collection_handles %}
-        {% assign story_collection = collections[story_handle] %}
-        {% if story_collection != blank %}
-          {% assign story_collection_image = story_collection.image %}
-          {% if story_collection_image == blank %}
-            {% assign story_collection_image = story_collection.products.first.featured_image %}
-          {% endif %}
-          <a href="{{ story_collection.url }}" class="zs-story__collection-link">
-            <div class="zs-story__collection-photo">
-              {% if story_collection_image != blank %}
-                {{ story_collection_image | image_url: width: 800 | image_tag: class: 'zs-story__photo', loading: 'lazy', widths: '240,400,600,800', sizes: '(min-width: 900px) 22vw, (min-width: 600px) 45vw, 90vw', alt: story_collection.title }}
-              {% else %}
-                <span class="zs-story__collection-fallback">{{ story_collection.title | escape }}</span>
-              {% endif %}
-            </div>
-            <span>{{ story_collection.title | escape }}
-              <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-            </span>
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
 
-  <div class="zs-story__closing">
-    <div class="zs-story__inner zs-story__closing-inner">
-      <div>
-        <p class="zs-story__closing-eyebrow">A NOTE FROM ZAISEN</p>
-        <h2>Wood brings the warmth.<br><strong>Our hands bring the details.</strong></h2>
-        <p>Thank you for discovering our small business. Every visit, message, and order is part of the story we’re building together.</p>
+    <div class="zs-about__intro-grid" id="zs-about-workshop-{{ section.id }}">
+      <div class="zs-about__intro-aside">
+        <p class="zs-about__eyebrow">01 / OUR BEGINNINGS</p>
+        <h2>Where our<br><em>story begins.</em></h2>
+        <div class="zs-about__location-card">
+          <span class="zs-about__location-symbol" aria-hidden="true">⌖</span>
+          <div><b>Our working workshop</b><span>Saddar area, near Islamabad<br>Pakistan</span></div>
+        </div>
       </div>
-      <div class="zs-story__closing-buttons">
-        <a href="/collections/all" class="zs-story__button">Explore collections
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-        </a>
-        <a href="/pages/contact" class="zs-story__contact-cta">Get in touch
-          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
-        </a>
+      <div class="zs-about__prose">
+        <p>ZAISEN grew from a simple belief: beautiful home objects should have a story you can understand. We love the warmth of natural wood, the care of traditional handwork and the tiny differences that make a handmade piece feel personal.</p>
+        <p>Our workshop is a real place where wooden products are shaped, assembled and finished by our team. This is the heart of the business. We are not a catalog storefront forwarding orders to an unknown supplier, and we do not purchase ready-made wooden décor from local warehouses to pass it off as our own craftsmanship.</p>
+        <p>We are a growing business, not a giant factory. That means we pay attention to the parts of a product that are easy to overlook: the edge of a bowl, the final sanding of a carved detail, how the wood feels in your hands and how safely the finished piece is packed.</p>
+        <p>Our business administration and our production workshop are not the same location. ZAISEN’s business and legal contact details are listed in our store policies; the hands-on workshop we describe here is based in Pakistan. We prefer being clear about that rather than leaving you guessing where a product is made.</p>
       </div>
     </div>
+
+    <div class="zs-about__principle" aria-label="Our production commitment">
+      <div class="zs-about__principle-mark" aria-hidden="true">Z.</div>
+      <div>
+        <p class="zs-about__eyebrow">OUR COMMITMENT</p>
+        <h2>Craftsmanship, not a reseller's label.</h2>
+        <p>Our wooden collections come from our own hands and workshop process. We do not rely on anonymous fulfillment warehouses to choose, package and send unknown finished products on our behalf.</p>
+      </div>
+    </div>
+
+    <div class="zs-about__chapter">
+      <div class="zs-about__section-heading">
+        <div><p class="zs-about__eyebrow">02 / THE PROCESS</p><h2>From wood to something<br><em>worth keeping.</em></h2></div>
+        <p>There is no magic button that makes a handcrafted piece. It takes a series of careful decisions — and we think you deserve to know what those are.</p>
+      </div>
+      <div class="zs-about__process">
+        <article class="zs-about__process-step"><span class="zs-about__step">01</span><h3>Choosing the wood</h3><p>We begin by considering the material and the shape we want to create. Natural grain and variations are part of the appeal; no two pieces of real wood have exactly the same character.</p></article>
+        <article class="zs-about__process-step"><span class="zs-about__step">02</span><h3>Shaping by hand</h3><p>Our team works the material into the intended design using workshop tools and hands-on craftsmanship. Whether a piece is decorative or practical, form and proportion matter.</p></article>
+        <article class="zs-about__process-step"><span class="zs-about__step">03</span><h3>Detailing and finishing</h3><p>Carving, refining edges, sanding, fitting components and finishing the surface help give each item its final feel. Some designs also need functional components such as clock movements or lamp hardware.</p></article>
+        <article class="zs-about__process-step"><span class="zs-about__step">04</span><h3>Checking and packing</h3><p>Before dispatch, we check the finished product against its order and prepare it for the journey. Handmade wood deserves careful protection, especially when traveling internationally.</p></article>
+      </div>
+    </div>
+
+    <div class="zs-about__two-col">
+      <div class="zs-about__copy-card">
+        <p class="zs-about__eyebrow">03 / HONEST PRODUCT PHOTOGRAPHY</p>
+        <h2>What you see<br><em>should make sense.</em></h2>
+        <p>Our product listings feature the actual wooden product designs we sell. Some photographs are digitally refined, including AI-assisted adjustments to backgrounds, lighting or presentation, to create a consistent ZAISEN look. We want our store to look beautiful, but that should never be a substitute for clear product information.</p>
+        <p>Because our items are handmade from natural wood, subtle differences in grain, tone, carving and finish can occur. Screens and lighting can also affect how colors appear. Those variations are normal; an incorrect item, genuine defect or a product materially different from its listing is another matter, and we want you to tell us about it.</p>
+        <a class="zs-about__inline-link" href="{{ routes.root_url }}pages/contact">Have a product question? Contact us <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="zs-about__copy-card zs-about__copy-card--alt">
+        <p class="zs-about__eyebrow">04 / WHAT WE MAKE</p>
+        <h2>Wooden pieces for<br><em>the spaces you love.</em></h2>
+        <p>Our collections bring natural warmth into everyday life: handcrafted wooden wall clocks, serving trays and bowls, tea and drinkware sets, home décor, sculptures, lighting and thoughtful gifts.</p>
+        <p>Some pieces are meant to be useful every day. Others simply make a shelf, wall or table feel more like home. We care about both. Our aim is to make objects you enjoy giving, using and living with — not disposable trends.</p>
+        <a class="zs-about__inline-link" href="{{ routes.root_url }}collections/all">Explore our wooden collections <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+
+    <section class="zs-about__shipping" aria-labelledby="zs-about-shipping-title-{{ section.id }}">
+      <div class="zs-about__section-heading">
+        <div><p class="zs-about__eyebrow">05 / FROM OUR HANDS TO YOUR HOME</p><h2 id="zs-about-shipping-title-{{ section.id }}">Made here.<br><em>Delivered worldwide.</em></h2></div>
+        <p>We may be a small workshop, but our customers live around the world. We work with <strong>Star Cargo International</strong> and delivery partners to arrange international shipping, with tracking details provided when available after dispatch.</p>
+      </div>
+      <div class="zs-about__shipping-steps">
+        <div><b>ONE</b><h3>Your order reaches us</h3><p>We review the items and delivery details, with a usual order-processing time of one day.</p></div>
+        <div><b>TWO</b><h3>We pack it with care</h3><p>The wooden piece is checked and packaged to help protect it in transit.</p></div>
+        <div><b>THREE</b><h3>We arrange dispatch</h3><p>International delivery is arranged through our shipping partners, including Star Cargo International.</p></div>
+        <div><b>FOUR</b><h3>You follow its journey</h3><p>We share a tracking number when available so you can follow the shipment until delivery.</p></div>
+      </div>
+      <div class="zs-about__shipping-summary">
+        <div><strong>FREE</strong><span>Shipping to all 8 countries we currently serve</span></div>
+        <div><strong>1 DAY</strong><span>Usual order processing before dispatch</span></div>
+        <div><strong>TRACKED</strong><span>Tracking details shared when available</span></div>
+      </div>
+      <div class="zs-about__country-wrap">
+        <h3>Where we deliver</h3>
+        <p>Our currently supported delivery markets and estimated shipping times are shown below. Transit times are estimates, not guaranteed arrival dates, and exclude the usual one-day processing time.</p>
+        <div class="zs-about__countries">
+          <span>🇬🇧 <b>United Kingdom</b> <small>4–5 shipping days</small></span>
+          <span>🇺🇸 <b>United States</b> <small>7–9 shipping days</small></span>
+          <span>🇩🇪 <b>Germany</b> <small>7–9 shipping days</small></span>
+          <span>🇫🇷 <b>France</b> <small>7–9 shipping days</small></span>
+          <span>🇦🇪 <b>United Arab Emirates</b> <small>7–9 shipping days</small></span>
+          <span>🇨🇦 <b>Canada</b> <small>7–9 shipping days</small></span>
+          <span>🇦🇺 <b>Australia</b> <small>7–9 shipping days</small></span>
+          <span>🇸🇦 <b>Saudi Arabia</b> <small>7–9 shipping days</small></span>
+        </div>
+        <p class="zs-about__fineprint">International customs, local duties or taxes, carrier conditions, weather and holidays can affect delivery. Any applicable charges not collected at checkout may be payable by the customer. See our <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a> for full details.</p>
+      </div>
+    </section>
+
+    <section class="zs-about__assurance" aria-labelledby="zs-about-assurance-title-{{ section.id }}">
+      <div>
+        <p class="zs-about__eyebrow">06 / YOUR PEACE OF MIND</p>
+        <h2 id="zs-about-assurance-title-{{ section.id }}">What if something<br><em>isn't right?</em></h2>
+        <p>We know buying handmade décor from an online store can feel personal — especially when the package is coming from another country. You should feel comfortable asking questions before ordering and confident that we will listen if a genuine problem occurs.</p>
+      </div>
+      <div class="zs-about__assurance-main">
+        <h3>14 days from delivery to report an eligible issue</h3>
+        <p>If your wooden piece arrives damaged, defective, incorrect or with another genuine product issue — including a material mismatch with its description — please contact us within <strong>14 days of receiving your order</strong>.</p>
+        <ol>
+          <li><strong>Tell us what happened.</strong> Email <a href="mailto:zaisenstore@gmail.com">zaisenstore@gmail.com</a> with your order number and a short explanation.</li>
+          <li><strong>Show us the issue.</strong> Include clear photographs or a short video of the product; if transit damage occurred, photographs of the packaging are helpful.</li>
+          <li><strong>We'll review it fairly.</strong> Depending on the circumstances and the published policy, a solution may include a replacement, repair, partial refund or full refund.</li>
+        </ol>
+        <p class="zs-about__small-note">Natural variations in wood grain, tone and handmade details aren't automatically defects. Change-of-mind returns are not offered unless required by law. We don't promise automatic refunds for every claim, and your mandatory consumer rights remain unaffected.</p>
+        <div class="zs-about__assurance-links">
+          <a class="zs-about__button zs-about__button--primary" href="{{ routes.root_url }}policies/refund-policy">Read our Refund Policy <span aria-hidden="true">↗</span></a>
+          <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">Contact ZAISEN <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="zs-about__faq" aria-labelledby="zs-about-faq-title-{{ section.id }}">
+      <div class="zs-about__section-heading">
+        <div><p class="zs-about__eyebrow">07 / GOOD TO KNOW</p><h2 id="zs-about-faq-title-{{ section.id }}">Questions we'd ask<br><em>if we were you.</em></h2></div>
+        <p>We don't expect you to trust a store just because it says “trust us.” Here are direct answers to the questions we think matter.</p>
+      </div>
+      <div class="zs-about__faq-list">
+        <details><summary>Are ZAISEN products handmade by your own team?</summary><div>Yes. ZAISEN describes its wooden collection as work produced through our own workshop and hands-on processes. We do not source finished wooden décor from unknown local reseller warehouses and present it as our own craft.</div></details>
+        <details><summary>Where is the workshop, and why do your legal details mention the US?</summary><div>Our working workshop is in the Saddar area near Islamabad, Pakistan. Our administrative and legal business address is separate and appears in our store's legal notices. Our production location and business registration details serve different purposes; we want both to be clear.</div></details>
+        <details><summary>Are the product images real or AI-generated?</summary><div>Our listings are based on the wooden products and designs we sell. Some imagery is digitally polished or styled, including with AI-assisted editing, to achieve consistent backgrounds and presentation. Please read each listing for dimensions, materials and included items. Natural handmade variations can still occur.</div></details>
+        <details><summary>Where can I order, and is shipping free?</summary><div>We currently deliver to the US, UK, Germany, France, Canada, Australia, UAE and Saudi Arabia. Shipping is free to those eight supported markets. Delivery timing can change with carriers, customs and local conditions; see our <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a>.</div></details>
+        <details><summary>Will I receive a tracking number?</summary><div>We arrange deliveries with Star Cargo International and relevant shipping partners and provide tracking details when they become available after dispatch. If you need help finding an update, <a href="{{ routes.root_url }}pages/contact">contact our team</a>.</div></details>
+        <details><summary>What if my item looks different from the listing?</summary><div>Small differences in real wood grain or handcrafted details are normal. If an item is incorrect, damaged, defective or materially unlike its description, contact us within 14 days of delivery with your order details and photographs. We will review the issue under our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>.</div></details>
+        <details><summary>How can I speak to someone before ordering?</summary><div>We welcome questions about product dimensions, finishes, shipping and policies. Send us a message via our <a href="{{ routes.root_url }}pages/contact">contact page</a> or email <a href="mailto:zaisenstore@gmail.com">zaisenstore@gmail.com</a>. You can write to us whenever you need help; response times may vary.</div></details>
+      </div>
+    </section>
+
+    <footer class="zs-about__closing">
+      <p class="zs-about__eyebrow">A NOTE FROM OUR WORKSHOP</p>
+      <h2>From our hands<br><em>to your home.</em></h2>
+      <p>We are still growing, still learning, and still making things with care. Thank you for considering a small woodworking business instead of something mass-produced. Whether you order today or simply came here to learn who we are, we're glad you stopped by.</p>
+      <p class="zs-about__signature">With care, <strong>The ZAISEN Team</strong></p>
+      <div class="zs-about__closing-actions">
+        <a class="zs-about__button zs-about__button--light" href="{{ routes.root_url }}collections/all">Explore the collection <span aria-hidden="true">↗</span></a>
+        <a class="zs-about__closing-textlink" href="{{ routes.root_url }}pages/contact">Questions? Talk to us ↗</a>
+      </div>
+    </footer>
   </div>
 </section>
 
-{% stylesheet %}
-.zs-story{display:block;background:var(--zs-story-bg,#FFFFFF);color:var(--zs-story-ink,#2B1D17)}
-.zs-story *{box-sizing:border-box}
-.zs-story__inner{width:100%;max-width:1440px;margin:0 auto;padding-inline:clamp(20px,4vw,58px)}
-.zs-story__crumbs{display:flex;align-items:center;gap:11px;padding:38px 0 25px;color:var(--zs-story-muted,#80736A);font-size:11px}
-.zs-story__crumbs a{color:inherit;text-decoration:none}
-.zs-story__crumbs a:hover{text-decoration:underline}
-.zs-story__hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(30px,5vw,75px);align-items:start;padding:5px 0 clamp(74px,8vw,110px)}
-.zs-story__hero-copy{min-width:0}
-.zs-story__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 25px;color:#967554;font-size:10px;line-height:1.5;font-weight:500;letter-spacing:.17em}
-.zs-story__eyebrow>span{display:block;width:29px;height:2px;flex:0 0 29px;background:var(--zs-story-gold,#D8B56A)}
-.zs-story__h1{margin:0;letter-spacing:-.065em;font-family:inherit!important;font-size:clamp(49px,5.2vw,81px);line-height:1.08;font-weight:300;text-wrap:balance}
-.zs-story__h1 strong,.zs-story h2 strong{font-weight:700}
-.zs-story__hero-description{margin:27px 0 0;max-width:48ch;color:var(--zs-story-muted,#80736A);font-size:clamp(13px,1.13vw,16px);line-height:1.8}
-.zs-story__hero-points{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-top:24px;color:#694D37;font-size:11px;font-weight:500}
-.zs-story__separator{width:3px;height:3px;border-radius:50%;background:var(--zs-story-gold,#D8B56A)}
-.zs-story__text-link{display:inline-flex;align-items:center;gap:10px;margin-top:27px;padding-bottom:6px;border-bottom:1px solid #D8B56A;color:#2B1D17;text-decoration:none;font-size:12px;font-weight:600;transition:color .2s ease,border-color .2s ease}
-.zs-story__text-link:hover{color:#86613F;border-color:#86613F}
-.zs-story__photo{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.zs-story__hero-media{position:relative;aspect-ratio:1.15/1;overflow:hidden;background:#F2E9DF;border-radius:22px}
-.zs-story__hero-media .zs-story__photo{object-fit:cover}
-.zs-story__image-caption{position:absolute;right:14px;bottom:13px;display:inline-block;padding:9px 13px;background:rgba(255,251,247,.91);color:#6C523C;font-size:9px;letter-spacing:.13em;border-radius:6px}
-.zs-story__image-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;width:100%;height:100%;min-height:230px;background:linear-gradient(145deg,#EEE5DB,#D8C6B4);font-size:clamp(24px,3vw,38px);letter-spacing:.25em;color:#80604B}
-.zs-story__image-placeholder span{font-size:11px;letter-spacing:.08em}
-.zs-story__chapter,.zs-story__feature{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:clamp(36px,7vw,105px);padding-block:clamp(48px,7.5vw,106px)}
-/* Keep the opening story photo level with its copy and fill the column. */
-.zs-story__chapter{align-items:stretch}
-.zs-story__chapter-media,.zs-story__feature-media{height:100%;min-height:425px;max-height:none;overflow:hidden;border-radius:18px;background:#F1E9E1}
-.zs-story__chapter-media .zs-story__photo{object-fit:cover}
-.zs-story__feature-media .zs-story__photo{object-fit:cover}
-.zs-story__chapter-copy h2,.zs-story__section-heading h2,.zs-story__feature h2{margin:0;font-family:inherit!important;font-size:clamp(37px,3.45vw,52px);line-height:1.15;letter-spacing:-.055em;font-weight:300}
-.zs-story__chapter-copy .zs-story__eyebrow,.zs-story__feature .zs-story__eyebrow{margin-bottom:18px}
-.zs-story__richtext{margin-top:25px;font-size:13.5px;line-height:1.85;color:var(--zs-story-muted,#80736A)}
-.zs-story__richtext p{margin:0 0 15px}
-.zs-story__richtext a{color:#654431;text-underline-offset:3px}
-.zs-story__signature{margin:20px 0 0;font-size:13px;letter-spacing:.015em;font-weight:600;color:#5D4637}
-.zs-story__process-band{padding:clamp(65px,7vw,100px) 0;background:#FAF7F3}
-.zs-story__section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin:0 0 33px}
-.zs-story__section-heading>p{margin:0 0 6px;max-width:42ch;color:var(--zs-story-muted,#80736A);font-size:12.5px;line-height:1.75}
-.zs-story__section-heading .zs-story__eyebrow{margin-bottom:17px}
-.zs-story__steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vw,26px)}
-.zs-story__step{min-width:0}
-.zs-story__step-media{height:auto;aspect-ratio:4/3;overflow:hidden;border-radius:13px;background:#E9DDCE}
-.zs-story__step-media .zs-story__photo{object-fit:contain}
-.zs-story__process-placeholder{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;width:100%;height:100%;padding:12px;background:linear-gradient(135deg,#ECE0D3,#DCC7B2);color:#785942;text-align:center}
-.zs-story__process-placeholder span:first-child{font-size:36px;font-weight:300;letter-spacing:-.06em;opacity:.6}
-.zs-story__process-placeholder span:last-child{font-size:12px;font-weight:600}
-.zs-story__step-copy{padding:16px 1px 0}
-.zs-story__step-number{font-size:10px;letter-spacing:.08em;color:#A1805E}
-.zs-story__step h3{margin:6px 0 6px;font-size:15px;line-height:1.35;font-weight:600}
-.zs-story__step p{margin:0;color:var(--zs-story-muted,#80736A);font-size:11.5px;line-height:1.65}
-.zs-story__process-note{margin:19px 0 0;color:#927D6B;font-size:10px}
-.zs-story__feature{min-height:520px;align-items:stretch}
-.zs-story__feature-copy{max-width:560px}
-.zs-story__feature-copy>p:not(.zs-story__eyebrow){margin:22px 0 0;color:var(--zs-story-muted,#80736A);font-size:13px;line-height:1.84}
-.zs-story__feature-copy>p+ p{margin-top:14px!important}
-.zs-story__feature--reverse .zs-story__feature-copy{order:2}
-.zs-story__feature--reverse .zs-story__feature-media{order:1}
-.zs-story__collections{padding-block:clamp(75px,8vw,115px)}
-.zs-story__collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(15px,1.85vw,28px)}
-.zs-story__collection-link{display:block;min-width:0;color:inherit;text-decoration:none}
-.zs-story__collection-photo{aspect-ratio:4/5;overflow:hidden;border-radius:24px;background:#F4EEE8}
-.zs-story__collection-photo .zs-story__photo{object-fit:contain;transition:transform .3s ease}
-.zs-story__collection-link>span{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;font-size:13px;font-weight:600}
-.zs-story__collection-link:hover .zs-story__photo{transform:scale(1.035)}
-.zs-story__collection-link:hover>span{text-decoration:underline;text-underline-offset:4px}
-.zs-story__collection-fallback{display:grid;place-items:center;width:100%;height:100%;padding:15px;text-align:center;color:#816046}
-.zs-story__closing{padding:clamp(65px,7vw,100px) 0;background:#2B1D17;color:#FFF8F0}
-.zs-story__closing-inner{display:flex;align-items:end;justify-content:space-between;gap:48px}
-.zs-story__closing-eyebrow{margin:0 0 18px;color:#D8B56A;font-size:10px;letter-spacing:.18em}
-.zs-story__closing h2{margin:0;font-size:clamp(32px,3.8vw,54px);line-height:1.16;letter-spacing:-.05em;font-weight:300}
-.zs-story__closing h2 strong{font-weight:700}
-.zs-story__closing-inner>div>p:last-child{max-width:57ch;margin:17px 0 0;color:#D5C7BC;font-size:12.5px;line-height:1.8}
-.zs-story__closing-buttons{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;gap:18px}
-.zs-story__button{display:inline-flex;align-items:center;justify-content:center;gap:19px;padding:16px 20px;background:#FFF8F0;border-radius:999px;color:#2B1D17;text-decoration:none;font-size:12px;font-weight:600}
-.zs-story__contact-cta{display:inline-flex;align-items:center;gap:10px;color:#FFF8F0;text-decoration:none;font-size:12px;border-bottom:1px solid #D8B56A;padding-bottom:6px}
-.zs-story a:focus-visible{outline:2px solid #D8B56A;outline-offset:5px}
-@media(max-width:900px){
-  .zs-story__hero{grid-template-columns:1fr;gap:28px}
-  .zs-story__hero-media{max-height:550px}
-  .zs-story__chapter,.zs-story__feature{gap:30px}
-  .zs-story__steps,.zs-story__collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .zs-story__closing-inner{align-items:start;flex-direction:column}
-}
-@media(max-width:649px){
-  .zs-story__crumbs{padding:24px 0 20px}
-  .zs-story__hero{padding-bottom:45px}
-  .zs-story__h1{font-size:clamp(43px,11vw,61px)}
-  .zs-story__eyebrow{font-size:9px;gap:9px;margin-bottom:17px}
-  .zs-story__eyebrow>span{width:22px;flex-basis:22px}
-  .zs-story__hero-description{margin-top:17px;font-size:12.5px}
-  .zs-story__hero-media{aspect-ratio:4/3;border-radius:15px}
-  .zs-story__chapter,.zs-story__feature{display:flex;flex-direction:column;gap:26px;padding-block:47px}
-  .zs-story__chapter-media,.zs-story__feature-media{width:100%;height:auto;aspect-ratio:4/3;min-height:0;border-radius:14px}
-  .zs-story__feature--reverse .zs-story__feature-copy,.zs-story__feature--reverse .zs-story__feature-media{order:initial}
-  .zs-story__chapter-copy h2,.zs-story__section-heading h2,.zs-story__feature h2{font-size:clamp(33px,8.5vw,45px)}
-  .zs-story__richtext{font-size:12.5px}
-  .zs-story__section-heading{display:block;margin-bottom:23px}
-  .zs-story__section-heading>p{margin-top:15px;font-size:12px}
-  .zs-story__process-band{padding:48px 0}
-  .zs-story__steps{gap:21px 13px}
-  .zs-story__step-media{border-radius:10px}
-  .zs-story__step h3{font-size:13px}
-  .zs-story__step p{font-size:10.5px}
-  .zs-story__process-note{font-size:9px}
-  .zs-story__feature{min-height:0}
-  .zs-story__collections{padding-block:55px}
-  .zs-story__collection-grid{gap:24px 12px}
-  .zs-story__collection-photo{border-radius:16px}
-  .zs-story__collection-link>span{font-size:11px;line-height:1.45}
-  .zs-story__closing{padding:58px 0}
-  .zs-story__closing h2{font-size:34px}
-  .zs-story__closing-buttons{gap:20px}
-}
-@media(prefers-reduced-motion:reduce){
-  .zs-story__collection-photo .zs-story__photo{transition:none}
-}
-{% endstylesheet %}
+<style>
+  #zs-about-{{ section.id }} { --walnut:#442e23; --ink:#2d211c; --muted:#695c52; --ivory:#faf7f2; --sand:#eee2d5; --stroke:#e4d8cd; --gold:#c9a87a; background:#fff; color:var(--ink); font-family:var(--font-body--family,Arial,sans-serif); }
+  #zs-about-{{ section.id }} * {box-sizing:border-box;}
+  #zs-about-{{ section.id }} .zs-about__shell {max-width:1320px; padding:0 clamp(20px,4vw,70px); margin:0 auto;}
+  #zs-about-{{ section.id }} h1,#zs-about-{{ section.id }} h2,#zs-about-{{ section.id }} h3,#zs-about-{{ section.id }} p {margin:0;}
+  #zs-about-{{ section.id }} h1,#zs-about-{{ section.id }} h2 {font-family:var(--font-heading--family,Georgia,serif);font-weight:500;letter-spacing:-.035em;}
+  #zs-about-{{ section.id }} h2{font-size:clamp(35px,4vw,62px);line-height:1.09;}
+  #zs-about-{{ section.id }} h2 em,#zs-about-{{ section.id }} h1 em{font-weight:400;color:#9c6d48;}
+  #zs-about-{{ section.id }} p{line-height:1.78;}
+  #zs-about-{{ section.id }} a{color:inherit;}
+  #zs-about-{{ section.id }} .zs-about__breadcrumb{display:flex;gap:12px;align-items:center;padding:27px 0 22px;font-size:12px;color:#84786e;}
+  #zs-about-{{ section.id }} .zs-about__breadcrumb a{text-decoration:none;}
+  #zs-about-{{ section.id }} .zs-about__hero {position:relative;overflow:hidden;padding:clamp(50px,7vw,105px) clamp(24px,5vw,76px) 0;background:radial-gradient(ellipse at 93% 12%,#70503c,#432d23 55%,#2f211d 100%);color:#fff5e9;border-radius:15px;}
+  #zs-about-{{ section.id }} .zs-about__hero:after{content:"";position:absolute;width:500px;height:500px;top:-240px;right:-190px;border:1px solid rgba(245,214,171,.16);border-radius:50%;pointer-events:none;}
+  #zs-about-{{ section.id }} .zs-about__hero-crest{font-size:10px;letter-spacing:.2em;text-align:center;display:flex;gap:16px;align-items:center;justify-content:center;color:#eed7b8;opacity:.8;margin-bottom:35px;}
+  #zs-about-{{ section.id }} .zs-about__crest-rule{width:36px;height:1px;background:#ceb08b;}
+  #zs-about-{{ section.id }} .zs-about__overline{font-size:11px;font-weight:700;letter-spacing:.16em;color:#e3c19a;text-align:center;}
+  #zs-about-{{ section.id }} .zs-about__hero h1{text-align:center;font-size:clamp(50px,7.3vw,109px);line-height:1.02;margin:15px auto 28px;max-width:950px;}
+  #zs-about-{{ section.id }} .zs-about__hero h1 em{color:#f0cfaa;}
+  #zs-about-{{ section.id }} .zs-about__hero-lead,#zs-about-{{ section.id }} .zs-about__hero-secondary{font-size:clamp(15px,1.25vw,18px);line-height:1.77;text-align:center;max-width:850px;margin:0 auto 18px;color:#f7ecdc;}
+  #zs-about-{{ section.id }} .zs-about__hero-secondary{font-size:15px;color:#dbc7b3;max-width:810px;}
+  #zs-about-{{ section.id }} .zs-about__hero-actions,#zs-about-{{ section.id }} .zs-about__assurance-links,#zs-about-{{ section.id }} .zs-about__closing-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:30px 0 56px;}
+  #zs-about-{{ section.id }} .zs-about__button{display:inline-flex;align-items:center;justify-content:center;gap:19px;padding:14px 22px;border-radius:7px;text-decoration:none;font-weight:700;font-size:13px;min-height:47px;transition:transform .2s,background .2s;}
+  #zs-about-{{ section.id }} .zs-about__button:hover{transform:translateY(-2px);}
+  #zs-about-{{ section.id }} .zs-about__button--primary{color:#fff!important;background:#483025;}
+  #zs-about-{{ section.id }} .zs-about__hero .zs-about__button--primary{background:#f0dbc1;color:#352218!important;}
+  #zs-about-{{ section.id }} .zs-about__button--outline{color:inherit;border:1px solid currentColor;}
+  #zs-about-{{ section.id }} .zs-about__hero .zs-about__button--outline{color:#f2dfc5;}
+  #zs-about-{{ section.id }} .zs-about__hero-strip{border-top:1px solid rgba(244,220,190,.28);display:flex;justify-content:space-around;gap:15px;padding:21px 0;color:#f2dfc5;font-size:12px;}
+  #zs-about-{{ section.id }} .zs-about__hero-strip span{display:inline-flex;align-items:center;gap:9px;}
+  #zs-about-{{ section.id }} .zs-about__hero-strip b{font-family:Georgia,serif;font-weight:400;color:#ddb58a;font-size:16px;}
+  #zs-about-{{ section.id }} .zs-about__eyebrow{font-size:10px;font-weight:750;letter-spacing:.19em;color:#a47755;text-transform:uppercase;line-height:1.5;margin-bottom:16px;}
+  #zs-about-{{ section.id }} .zs-about__intro-grid{display:grid;grid-template-columns:minmax(260px,.84fr) minmax(0,1.16fr);gap:clamp(36px,7vw,100px);padding:clamp(65px,8vw,115px) 0;}
+  #zs-about-{{ section.id }} .zs-about__intro-aside h2{margin-bottom:32px;}
+  #zs-about-{{ section.id }} .zs-about__location-card{border:1px solid var(--stroke);background:var(--ivory);border-radius:12px;padding:23px;display:flex;gap:17px;max-width:400px;}
+  #zs-about-{{ section.id }} .zs-about__location-symbol{font-size:32px;line-height:1;color:#9b7456;}
+  #zs-about-{{ section.id }} .zs-about__location-card div{display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--muted);line-height:1.5;}
+  #zs-about-{{ section.id }} .zs-about__location-card b{font-size:15px;color:var(--ink);}
+  #zs-about-{{ section.id }} .zs-about__prose p{font-size:16px;margin-bottom:18px;color:var(--muted);}
+  #zs-about-{{ section.id }} .zs-about__prose p:first-child{font-size:19px;color:var(--ink);}
+  #zs-about-{{ section.id }} .zs-about__principle{display:grid;grid-template-columns:100px 1fr;gap:36px;align-items:center;background:#f4ece2;border:1px solid #e6d7c5;border-radius:12px;padding:clamp(27px,4vw,53px);margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__principle-mark{font-family:Georgia,serif;color:#976d4d;font-size:73px;}
+  #zs-about-{{ section.id }} .zs-about__principle h2{font-size:clamp(27px,3vw,44px);margin-bottom:14px;}
+  #zs-about-{{ section.id }} .zs-about__principle p:last-child{font-size:15px;color:#63554a;}
+  #zs-about-{{ section.id }} .zs-about__chapter{margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__section-heading{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:end;margin-bottom:34px;}
+  #zs-about-{{ section.id }} .zs-about__section-heading >p{font-size:15px;color:var(--muted);max-width:420px;justify-self:end;}
+  #zs-about-{{ section.id }} .zs-about__process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+  #zs-about-{{ section.id }} .zs-about__process-step{background:#fcfaf7;border:1px solid var(--stroke);border-radius:10px;padding:27px 22px;}
+  #zs-about-{{ section.id }} .zs-about__step{display:block;font-family:Georgia,serif;font-size:32px;color:#c09b73;margin-bottom:31px;}
+  #zs-about-{{ section.id }} .zs-about__process-step h3{font-family:var(--font-heading--family,Georgia,serif);font-size:24px;font-weight:500;margin-bottom:12px;}
+  #zs-about-{{ section.id }} .zs-about__process-step p{font-size:13px;color:var(--muted);}
+  #zs-about-{{ section.id }} .zs-about__two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__copy-card{padding:clamp(28px,4vw,57px);background:#f6eee5;border-radius:12px;border:1px solid #e9dace;}
+  #zs-about-{{ section.id }} .zs-about__copy-card--alt{background:#faf7f2;}
+  #zs-about-{{ section.id }} .zs-about__copy-card h2{font-size:clamp(30px,3.2vw,48px);margin-bottom:25px;}
+  #zs-about-{{ section.id }} .zs-about__copy-card p:not(.zs-about__eyebrow){font-size:14px;color:#5b4d43;margin-bottom:16px;}
+  #zs-about-{{ section.id }} .zs-about__inline-link{display:inline-block;margin-top:15px;text-underline-offset:4px;font-size:13px;font-weight:700;}
+  #zs-about-{{ section.id }} .zs-about__shipping{margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__shipping-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid #d9c8b7;padding-top:24px;}
+  #zs-about-{{ section.id }} .zs-about__shipping-steps>div{padding:7px 22px 15px 0;}
+  #zs-about-{{ section.id }} .zs-about__shipping-steps b{display:block;font-size:10px;letter-spacing:.13em;color:#a98262;margin-bottom:16px;}
+  #zs-about-{{ section.id }} .zs-about__shipping-steps h3{font-size:16px;font-weight:700;margin-bottom:10px;}
+  #zs-about-{{ section.id }} .zs-about__shipping-steps p{font-size:13px;color:var(--muted);}
+  #zs-about-{{ section.id }} .zs-about__shipping-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:28px 0;padding:16px;background:#39271e;color:#f4e6d2;border-radius:10px;}
+  #zs-about-{{ section.id }} .zs-about__shipping-summary>div{display:flex;flex-direction:column;text-align:center;padding:12px;gap:9px;}
+  #zs-about-{{ section.id }} .zs-about__shipping-summary strong{font-family:Georgia,serif;font-size:28px;font-weight:500;color:#f2d4ae;}
+  #zs-about-{{ section.id }} .zs-about__shipping-summary span{font-size:12px;}
+  #zs-about-{{ section.id }} .zs-about__country-wrap{padding:28px;border:1px solid var(--stroke);border-radius:11px;}
+  #zs-about-{{ section.id }} .zs-about__country-wrap>h3{font-family:var(--font-heading--family,Georgia,serif);font-size:28px;margin-bottom:9px;}
+  #zs-about-{{ section.id }} .zs-about__country-wrap>p{font-size:13px;color:var(--muted);max-width:850px;margin-bottom:24px;}
+  #zs-about-{{ section.id }} .zs-about__countries{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:22px;}
+  #zs-about-{{ section.id }} .zs-about__countries>span{display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px;background:#f8f4ef;padding:14px;border-radius:8px;border:1px solid #eee4da;font-size:14px;}
+  #zs-about-{{ section.id }} .zs-about__countries b{font-weight:650;}
+  #zs-about-{{ section.id }} .zs-about__countries small{flex:1 0 100%;padding-left:26px;font-size:11px;color:#826c59;}
+  #zs-about-{{ section.id }} .zs-about__country-wrap .zs-about__fineprint{font-size:12px;margin-bottom:0;}
+  #zs-about-{{ section.id }} .zs-about__fineprint a{text-decoration:underline;font-weight:650;}
+  #zs-about-{{ section.id }} .zs-about__assurance{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(35px,6vw,90px);padding:clamp(35px,5vw,70px);background:#fcf8f3;border:1px solid #e7d7c8;border-radius:13px;margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__assurance>div>p:not(.zs-about__eyebrow){font-size:15px;color:var(--muted);margin-top:19px;}
+  #zs-about-{{ section.id }} .zs-about__assurance-main h3{font-family:var(--font-heading--family,Georgia,serif);font-size:27px;font-weight:500;margin-bottom:17px;}
+  #zs-about-{{ section.id }} .zs-about__assurance-main p{font-size:14px;color:#54483f;margin-bottom:18px;}
+  #zs-about-{{ section.id }} .zs-about__assurance-main ol{margin:5px 0 22px;padding-inline-start:20px;}
+  #zs-about-{{ section.id }} .zs-about__assurance-main li{padding:0 0 13px 7px;font-size:14px;line-height:1.7;}
+  #zs-about-{{ section.id }} .zs-about__assurance-main .zs-about__small-note{font-size:12px;background:#f3eadf;padding:15px;border-radius:7px;}
+  #zs-about-{{ section.id }} .zs-about__assurance-links{justify-content:flex-start;margin:24px 0 0;}
+  #zs-about-{{ section.id }} .zs-about__faq{margin-bottom:clamp(65px,8vw,115px);}
+  #zs-about-{{ section.id }} .zs-about__faq-list{border-top:1px solid #d7cabc;}
+  #zs-about-{{ section.id }} .zs-about__faq-list details{border-bottom:1px solid #e6dcd2;}
+  #zs-about-{{ section.id }} .zs-about__faq-list summary{list-style:none;cursor:pointer;position:relative;padding:22px 40px 22px 0;font-size:16px;font-weight:650;}
+  #zs-about-{{ section.id }} .zs-about__faq-list summary::-webkit-details-marker{display:none;}
+  #zs-about-{{ section.id }} .zs-about__faq-list summary:after{content:"+";position:absolute;right:10px;top:16px;color:#a47c58;font-size:24px;font-weight:400;}
+  #zs-about-{{ section.id }} .zs-about__faq-list details[open] summary:after{content:"−";}
+  #zs-about-{{ section.id }} .zs-about__faq-list details>div{padding:0 50px 23px 0;line-height:1.8;color:var(--muted);font-size:14px;max-width:870px;}
+  #zs-about-{{ section.id }} .zs-about__faq-list a{text-decoration:underline;}
+  #zs-about-{{ section.id }} .zs-about__closing{background:radial-gradient(ellipse at 90% 0%,#694a39,#3a271f 65%);border-radius:14px 14px 0 0;padding:clamp(40px,7vw,95px) clamp(26px,6vw,100px);text-align:center;color:#fff0dc;}
+  #zs-about-{{ section.id }} .zs-about__closing h2{font-size:clamp(44px,6.7vw,88px);line-height:1.02;margin:15px auto 27px;}
+  #zs-about-{{ section.id }} .zs-about__closing h2 em{color:#dfbb91;}
+  #zs-about-{{ section.id }} .zs-about__closing>p:not(.zs-about__eyebrow){max-width:770px;margin:0 auto 17px;font-size:15px;color:#edddcb;}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__signature{font-style:italic;font-family:Georgia,serif;font-size:17px!important;}
+  #zs-about-{{ section.id }} .zs-about__signature strong{font-style:normal;font-weight:700;}
+  #zs-about-{{ section.id }} .zs-about__closing-actions{margin:30px 0 0;align-items:center;}
+  #zs-about-{{ section.id }} .zs-about__button--light{background:#f4dfc3;color:#39261f!important;}
+  #zs-about-{{ section.id }} .zs-about__closing-textlink{font-size:13px;text-underline-offset:4px;}
+  #zs-about-{{ section.id }} a:focus-visible,#zs-about-{{ section.id }} summary:focus-visible{outline:3px solid #bc8b5d;outline-offset:3px;}
+  @media(max-width:1000px){
+    #zs-about-{{ section.id }} .zs-about__process{grid-template-columns:repeat(2,minmax(0,1fr));}
+    #zs-about-{{ section.id }} .zs-about__shipping-steps{grid-template-columns:repeat(2,minmax(0,1fr));}
+    #zs-about-{{ section.id }} .zs-about__countries{grid-template-columns:repeat(2,minmax(0,1fr));}
+    #zs-about-{{ section.id }} .zs-about__section-heading{gap:32px;}
+  }
+  @media(max-width:700px){
+    #zs-about-{{ section.id }} .zs-about__shell{padding:0 17px;}
+    #zs-about-{{ section.id }} .zs-about__breadcrumb{padding:19px 0;}
+    #zs-about-{{ section.id }} .zs-about__hero{padding:48px 20px 0;border-radius:11px;}
+    #zs-about-{{ section.id }} .zs-about__hero-crest{font-size:8px;gap:7px;margin-bottom:25px;}
+    #zs-about-{{ section.id }} .zs-about__crest-rule{width:15px;}
+    #zs-about-{{ section.id }} .zs-about__hero h1{font-size:clamp(44px,12vw,70px);}
+    #zs-about-{{ section.id }} .zs-about__hero-lead,#zs-about-{{ section.id }} .zs-about__hero-secondary{font-size:14px;line-height:1.7;}
+    #zs-about-{{ section.id }} .zs-about__hero-actions{margin:22px 0 35px;}
+    #zs-about-{{ section.id }} .zs-about__hero-strip{flex-direction:column;align-items:center;padding:16px 0;gap:10px;}
+    #zs-about-{{ section.id }} .zs-about__intro-grid,#zs-about-{{ section.id }} .zs-about__section-heading,#zs-about-{{ section.id }} .zs-about__assurance{grid-template-columns:1fr;gap:25px;}
+    #zs-about-{{ section.id }} .zs-about__intro-grid{padding:61px 0;}
+    #zs-about-{{ section.id }} .zs-about__section-heading>p{justify-self:start;}
+    #zs-about-{{ section.id }} .zs-about__prose p{font-size:14px;}
+    #zs-about-{{ section.id }} .zs-about__prose p:first-child{font-size:16px;}
+    #zs-about-{{ section.id }} .zs-about__principle{grid-template-columns:1fr;gap:4px;padding:24px;}
+    #zs-about-{{ section.id }} .zs-about__principle-mark{font-size:44px;}
+    #zs-about-{{ section.id }} .zs-about__process{grid-template-columns:1fr 1fr;gap:9px;}
+    #zs-about-{{ section.id }} .zs-about__process-step{padding:18px 14px;}
+    #zs-about-{{ section.id }} .zs-about__step{font-size:24px;margin-bottom:16px;}
+    #zs-about-{{ section.id }} .zs-about__process-step h3{font-size:19px;}
+    #zs-about-{{ section.id }} .zs-about__process-step p{font-size:12px;}
+    #zs-about-{{ section.id }} .zs-about__two-col{grid-template-columns:1fr;}
+    #zs-about-{{ section.id }} .zs-about__copy-card{padding:27px 22px;}
+    #zs-about-{{ section.id }} .zs-about__shipping-steps{grid-template-columns:1fr 1fr;}
+    #zs-about-{{ section.id }} .zs-about__shipping-steps>div{padding:10px 12px 19px 0;}
+    #zs-about-{{ section.id }} .zs-about__shipping-summary{grid-template-columns:1fr;gap:0;}
+    #zs-about-{{ section.id }} .zs-about__shipping-summary>div{padding:10px;}
+    #zs-about-{{ section.id }} .zs-about__shipping-summary strong{font-size:23px;}
+    #zs-about-{{ section.id }} .zs-about__country-wrap{padding:20px 16px;}
+    #zs-about-{{ section.id }} .zs-about__countries{grid-template-columns:1fr 1fr;gap:6px;}
+    #zs-about-{{ section.id }} .zs-about__countries>span{font-size:12px;padding:10px;}
+    #zs-about-{{ section.id }} .zs-about__countries small{padding-left:0;font-size:10px;}
+    #zs-about-{{ section.id }} .zs-about__assurance{padding:25px 20px;}
+    #zs-about-{{ section.id }} .zs-about__faq-list summary{font-size:14px;padding:20px 35px 20px 0;}
+    #zs-about-{{ section.id }} .zs-about__faq-list details>div{padding-right:10px;font-size:13px;}
+    #zs-about-{{ section.id }} .zs-about__closing{padding:50px 24px;border-radius:11px 11px 0 0;}
+  }
+  @media(max-width:380px){
+    #zs-about-{{ section.id }} .zs-about__countries{grid-template-columns:1fr;}
+    #zs-about-{{ section.id }} .zs-about__process{grid-template-columns:1fr;}
+  }
+  @media(prefers-reduced-motion:reduce){#zs-about-{{ section.id }} .zs-about__button{transition:none;}}
+</style>
 
 {% schema %}
 {
-  "name":"ZAISEN Our Story",
-  "tag":"section",
-  "class":"zs-story-section",
-  "max_blocks":4,
-  "settings":[
-    {"type":"font_picker","id":"editorial_font","label":"Typography","default":"poppins_n4"},
-    {"type":"textarea","id":"hero_text","label":"Hero introduction","default":"We’re a growing small business with a love for pure wood and the care that goes into making something by hand. Discover the people-first values and handcrafted wooden home décor behind ZAISEN."},
-    {"type":"image_picker","id":"hero_image","label":"Hero photo (ideally genuine workshop / product)"},
-    {"type":"image_picker","id":"origin_image","label":"Origins photo"},
-    {"type":"image_picker","id":"wood_image","label":"Wood textures photo"},
-    {"type":"image_picker","id":"care_image","label":"Craftsmanship photo"},
-    {"type":"color","id":"background_color","label":"Page background","default":"#FFFFFF"},
-    {"type":"color","id":"ink_color","label":"Walnut text","default":"#2B1D17"},
-    {"type":"color","id":"muted_color","label":"Supporting text","default":"#80736A"},
-    {"type":"color","id":"gold_color","label":"Champagne accent","default":"#D8B56A"}
-  ],
-  "blocks":[{
-    "type":"process","name":"Making process step",
-    "settings":[
-      {"type":"image_picker","id":"photo","label":"Real workshop / process photo"},
-      {"type":"text","id":"title","label":"Step heading","default":"Handcrafted with care"},
-      {"type":"textarea","id":"description","label":"Step description","default":"Every detail receives careful attention."}
-    ]
-  }],
-  "presets":[{
-    "name":"ZAISEN Our Story",
-    "blocks":[
-      {"type":"process","settings":{"title":"Selecting the wood","description":"It starts with natural wood, chosen for each piece's intended design."}},
-      {"type":"process","settings":{"title":"Shaping by hand","description":"Craftsmanship transforms the material into its intended form."}},
-      {"type":"process","settings":{"title":"Finishing touches","description":"Surfaces, contours, and small details receive attention."}},
-      {"type":"process","settings":{"title":"Ready for your home","description":"Each finished piece is prepared for the journey to its new home."}}
-    ]
-  }]
+  "name": "ZAISEN Our Story",
+  "tag": "section",
+  "class": "zs-story-page",
+  "settings": [],
+  "presets": [
+    {"name": "ZAISEN Our Story"}
+  ]
 }
 {% endschema %}
