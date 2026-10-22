@@ -6,6 +6,20 @@
   Delivery estimates mirror the currently configured Shopify shipping zones.
 {% endcomment %}
 
+{% comment %}
+  Existing ZAISEN product media, not workshop documentary photographs.
+  CDN derivatives are generated responsively through Shopify's image_url / image_tag filters.
+  Images are not resold stock photography; links lead to their source product pages.
+{% endcomment %}
+{% liquid
+  assign zs_story_horse = all_products['handcrafted-wooden-horse-statue']
+  assign zs_story_clock = all_products['wooden-ship-wheel-wall-clock']
+  assign zs_story_bowls = all_products['handcrafted-wooden-nesting-bowl-set']
+  assign zs_story_tray = all_products['hand-carved-wooden-foldable-serving-tray']
+  assign zs_story_lamp = all_products['handcrafted-carved-wooden-table-lamp']
+  assign zs_story_ship = all_products['handcrafted-wooden-ship-decor']
+%}
+
 <section class="zs-about" id="zs-about-{{ section.id }}" aria-labelledby="zs-about-heading-{{ section.id }}">
   <script type="application/ld+json">
     {
@@ -33,6 +47,28 @@
         <a class="zs-about__button zs-about__button--primary" href="#zs-about-workshop-{{ section.id }}">Visit our story <span aria-hidden="true">↘</span></a>
         <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">Ask us a question <span aria-hidden="true">↗</span></a>
       </div>
+      {% comment %}Authentic products from ZAISEN's catalog. Not portrayed as workshop documentation.{% endcomment %}
+      <div class="zs-about__product-gallery" aria-label="Handcrafted wooden pieces available at ZAISEN">
+        {% if zs_story_horse.featured_image != blank %}
+          <a href="{{ zs_story_horse.url }}" class="zs-about__product-gallery-tile zs-about__product-gallery-tile--featured" aria-label="View our handcrafted wooden horse statue">
+            {{ zs_story_horse.featured_image | image_url: width: 1050, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'eager', widths: '300,480,680,850,1050', sizes: '(min-width: 950px) 42vw, (min-width: 600px) 45vw, 80vw', alt: 'ZAISEN handcrafted wooden rearing horse sculpture from the product collection' }}
+            <span class="zs-about__product-image-label">WOODEN SCULPTURES <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
+        {% if zs_story_clock.featured_image != blank %}
+          <a href="{{ zs_story_clock.url }}" class="zs-about__product-gallery-tile" aria-label="View our wooden ship wheel wall clock">
+            {{ zs_story_clock.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: 'Handcrafted ZAISEN ship wheel wooden wall clock, an actual product in our collection' }}
+            <span class="zs-about__product-image-label">WOODEN WALL CLOCKS <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
+        {% if zs_story_bowls.featured_image != blank %}
+          <a href="{{ zs_story_bowls.url }}" class="zs-about__product-gallery-tile" aria-label="View our wooden serving bowl set">
+            {{ zs_story_bowls.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: 'ZAISEN handcrafted natural wooden nesting serving bowl set from our store' }}
+            <span class="zs-about__product-image-label">WOODEN DINING <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
+      </div>
+      <p class="zs-about__product-gallery-note">Featured pieces from the actual ZAISEN collection. Some product photography may have digitally styled backgrounds.</p>
       <div class="zs-about__hero-strip" aria-label="The ZAISEN approach">
         <span><b>01</b> Our own workshop</span>
         <span><b>02</b> Made by hand</span>
@@ -92,6 +128,28 @@
         <article class="zs-about__process-step"><span class="zs-about__step">02</span><h3>Shaping by hand</h3><p>Our team works the material into the intended design using workshop tools and hands-on craftsmanship. Whether a piece is decorative or practical, form and proportion matter.</p></article>
         <article class="zs-about__process-step"><span class="zs-about__step">03</span><h3>Detailing and finishing</h3><p>Carving, refining edges, sanding, fitting components and finishing the surface help give each item its final feel. Some designs also need functional components such as clock movements or lamp hardware.</p></article>
         <article class="zs-about__process-step"><span class="zs-about__step">04</span><h3>Checking and packing</h3><p>Before dispatch, we check the finished product against its order and prepare it for the journey. Handmade wood deserves careful protection, especially when traveling internationally.</p></article>
+      </div>
+    </div>
+
+    <div class="zs-about__craft-gallery" aria-label="Finished wooden designs from ZAISEN">
+      <div class="zs-about__craft-gallery-copy">
+        <p class="zs-about__eyebrow">A CLOSER LOOK AT THE WOOD</p>
+        <h3>The details make the difference.</h3>
+        <p>These are finished wooden items from our own product collection. Their grain, textures and sculpted forms show the kind of material character we value. They are product photographs, not images of our production workshop.</p>
+      </div>
+      <div class="zs-about__craft-gallery-images">
+        {% if zs_story_tray.featured_image != blank %}
+          <a href="{{ zs_story_tray.url }}" class="zs-about__craft-gallery-figure" aria-label="View the carved folding wooden serving tray">
+            {{ zs_story_tray.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: 'Detail of a ZAISEN carved wooden foldable serving tray' }}
+            <span>CARVED WOODEN TRAY <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
+        {% if zs_story_lamp.featured_image != blank %}
+          <a href="{{ zs_story_lamp.url }}" class="zs-about__craft-gallery-figure" aria-label="View our handcrafted wooden table lamp">
+            {{ zs_story_lamp.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: 'ZAISEN handcrafted wooden table lamp with carved wood detail' }}
+            <span>WOODEN LIGHTING <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
       </div>
     </div>
 
@@ -269,6 +327,12 @@
         <div class="zs-about__closing-kicker"><span></span>A NOTE FROM OUR WORKSHOP<span></span></div>
         <h2>From our hands<br><em>to your home.</em></h2>
         <p class="zs-about__closing-lead">Every wooden piece carries the time, attention and care of the people who made it.</p>
+        {% if zs_story_ship.featured_image != blank %}
+          <a href="{{ zs_story_ship.url }}" class="zs-about__closing-product" aria-label="View our handcrafted wooden ship display model">
+            {{ zs_story_ship.featured_image | image_url: width: 1000, format: 'webp' | image_tag: class: 'zs-about__closing-photo', loading: 'lazy', widths: '360,600,800,1000', sizes: '(min-width: 850px) 520px, 85vw', alt: 'ZAISEN handcrafted wooden nautical ship display model from our actual product collection' }}
+            <span>DISCOVER OUR HANDCRAFTED WOODEN COLLECTION <span aria-hidden="true">↗</span></span>
+          </a>
+        {% endif %}
         <div class="zs-about__closing-note">
           <p>When you choose ZAISEN, you're supporting a growing handcrafted wooden-products business and the people working behind every design. We're grateful for every customer who gives our work a place in their home.</p>
           <p>We know trust is earned, not simply requested. That's why we're open about how our pieces are made, how we ship them and how we help if something isn't right.</p>
@@ -623,6 +687,95 @@
     #zs-about-{{ section.id }} .zs-about__closing{padding:49px 22px 23px;}
     #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-lead{font-size:19px;}
     #zs-about-{{ section.id }} .zs-about__closing-bottom{font-size:9px;gap:8px;}
+  }
+  /* Product photography from ZAISEN's Shopify catalog, not synthetic workshop evidence. */
+  #zs-about-{{ section.id }} .zs-about__product-gallery {
+    display:grid;grid-template-columns:1.32fr 1fr 1fr;gap:12px;align-items:stretch;
+    max-width:1060px;margin:0 auto 0;min-width:0;
+  }
+  #zs-about-{{ section.id }} .zs-about__product-gallery-tile {
+    display:block;position:relative;min-height:0;aspect-ratio:4/4.4;
+    overflow:hidden;background:#eadcc9;border:1px solid rgba(245,218,184,.24);
+    border-radius:10px;text-decoration:none;isolation:isolate;
+  }
+  #zs-about-{{ section.id }} .zs-about__product-gallery-tile--featured{aspect-ratio:4/3.3;}
+  #zs-about-{{ section.id }} .zs-about__product-image {
+    display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+    transition:transform .4s ease;
+  }
+  #zs-about-{{ section.id }} .zs-about__product-gallery-tile:hover .zs-about__product-image{transform:scale(1.035);}
+  #zs-about-{{ section.id }} .zs-about__product-gallery-tile:after {
+    content:"";position:absolute;inset:42% 0 0;
+    background:linear-gradient(to top,rgba(34,21,15,.70),transparent);pointer-events:none;
+  }
+  #zs-about-{{ section.id }} .zs-about__product-image-label {
+    position:absolute;z-index:1;bottom:17px;left:15px;right:15px;
+    display:flex;gap:10px;align-items:center;justify-content:space-between;
+    font-size:10px;line-height:1.3;letter-spacing:.10em;font-weight:750;color:#fff0d9;
+  }
+  #zs-about-{{ section.id }} .zs-about__product-gallery-note {
+    text-align:center;color:#d7c5b0;max-width:850px;margin:11px auto 23px;
+    font-size:11px;letter-spacing:.01em;line-height:1.6;
+  }
+  #zs-about-{{ section.id }} .zs-about__craft-gallery {
+    display:grid;grid-template-columns:minmax(230px,.63fr) minmax(0,1.37fr);
+    align-items:center;gap:clamp(20px,4.3vw,57px);margin:29px 0 0;
+    padding:24px;border-radius:14px;border:1px solid #e3d3c0;
+    background:linear-gradient(145deg,#fcf7f0,#eee0d0);
+  }
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-copy h3{
+    font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(24px,3vw,37px);
+    font-weight:550;line-height:1.17;margin:0 0 16px;color:#422e22;
+  }
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-copy p:not(.zs-about__eyebrow){font-size:13px;line-height:1.75;color:#766152;}
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;}
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-figure{
+    display:block;position:relative;overflow:hidden;border-radius:10px;
+    aspect-ratio:4/3.1;text-decoration:none;background:#d5bfa9;
+  }
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-figure:after{
+    content:"";position:absolute;inset:50% 0 0;background:linear-gradient(to top,rgba(35,21,14,.65),transparent);
+  }
+  #zs-about-{{ section.id }} .zs-about__craft-photo{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-figure:hover .zs-about__craft-photo{transform:scale(1.04);}
+  #zs-about-{{ section.id }} .zs-about__craft-gallery-figure>span{
+    position:absolute;z-index:1;bottom:13px;left:13px;right:13px;
+    color:#fff4e7;font-size:10px;font-weight:800;letter-spacing:.07em;
+    display:flex;gap:9px;justify-content:space-between;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-product {
+    display:block;position:relative;overflow:hidden;max-width:540px;width:100%;
+    aspect-ratio:16/8.8;margin:0 auto 24px;border-radius:13px;
+    border:1px solid rgba(245,217,180,.35);background:#80654a;text-decoration:none;
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-photo {display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+  #zs-about-{{ section.id }} .zs-about__closing-product:hover .zs-about__closing-photo{transform:scale(1.035);}
+  #zs-about-{{ section.id }} .zs-about__closing-product:after{
+    content:"";position:absolute;inset:45% 0 0;background:linear-gradient(to top,rgba(32,20,13,.75),transparent);
+  }
+  #zs-about-{{ section.id }} .zs-about__closing-product>span{
+    position:absolute;bottom:15px;left:15px;right:15px;z-index:1;display:flex;
+    justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.09em;
+    font-weight:750;color:#f5e7d7;
+  }
+  @media(max-width:850px){
+    #zs-about-{{ section.id }} .zs-about__craft-gallery {grid-template-columns:1fr;}
+  }
+  @media(max-width:700px){
+    #zs-about-{{ section.id }} .zs-about__product-gallery{grid-template-columns:1.25fr 1fr;gap:8px;}
+    #zs-about-{{ section.id }} .zs-about__product-gallery-tile{aspect-ratio:4/4;}
+    #zs-about-{{ section.id }} .zs-about__product-gallery-tile:nth-child(3){display:none;}
+    #zs-about-{{ section.id }} .zs-about__product-gallery-note{margin:10px auto 16px;font-size:10px;}
+    #zs-about-{{ section.id }} .zs-about__product-image-label{font-size:9px;left:9px;right:9px;bottom:10px;}
+    #zs-about-{{ section.id }} .zs-about__craft-gallery {padding:16px;margin-top:21px;gap:14px;}
+    #zs-about-{{ section.id }} .zs-about__craft-gallery-figure{aspect-ratio:4/4;}
+    #zs-about-{{ section.id }} .zs-about__craft-gallery-figure>span{font-size:9px;left:8px;right:8px;bottom:9px;}
+    #zs-about-{{ section.id }} .zs-about__closing-product{aspect-ratio:4/3.1;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #zs-about-{{ section.id }} .zs-about__product-image,
+    #zs-about-{{ section.id }} .zs-about__craft-photo,
+    #zs-about-{{ section.id }} .zs-about__closing-photo{transition:none;}
   }
 </style>
 
