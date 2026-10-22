@@ -128,11 +128,10 @@
       <div class="zs-product-benefits__item zs-product-benefits__item--delivery">
         <div class="zs-product-benefits__top">
           <span class="zs-product-benefits__icon-frame">
-            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/>
+            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 6h11v11H3z"/><path d="M14 10h4l3 3v4h-7"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="18" cy="17.5" r="2"/>
             </svg>
           </span>
-          <span class="zs-product-benefits__number">01</span>
         </div>
         <div class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_delivery | strip }}</span>
@@ -144,11 +143,10 @@
       <div class="zs-product-benefits__item zs-product-benefits__item--refund">
         <div class="zs-product-benefits__top">
           <span class="zs-product-benefits__icon-frame">
-            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3.5 9a8.5 8.5 0 1 1 1.1 6.9"/><path d="M3.5 3.5V9H9"/><path d="M12 7.5v5l3 2"/>
+            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 10a9 9 0 1 1 2.5 6.3"/><path d="M3 4v6h6"/>
             </svg>
           </span>
-          <span class="zs-product-benefits__number">02</span>
         </div>
         <div class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_refunds | strip }}</span>
@@ -159,11 +157,10 @@
       <div class="zs-product-benefits__item zs-product-benefits__item--craft">
         <div class="zs-product-benefits__top">
           <span class="zs-product-benefits__icon-frame">
-            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="m4 20 7-7M9 7l8 8M11 5l8 8M17 3l4 4-4-4-4-4z"/><path d="m3 17 4 4"/>
+            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 4c-8 0-14 4-14 11a5 5 0 0 0 5 5c7 0 11-6 9-16Z"/><path d="M4 21c2-5 5-8 11-12"/>
             </svg>
           </span>
-          <span class="zs-product-benefits__number">03</span>
         </div>
         <div class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_craft | strip }}</span>
@@ -174,11 +171,10 @@
       <div class="zs-product-benefits__item zs-product-benefits__item--support">
         <div class="zs-product-benefits__top">
           <span class="zs-product-benefits__icon-frame">
-            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2.5" y="13" width="4" height="7" rx="2"/><rect x="17.5" y="13" width="4" height="7" rx="2"/><path d="M19.5 20a4 4 0 0 1-4 2H13"/>
+            <svg class="zs-product-benefits__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 14v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="13" width="4" height="7" rx="2"/><rect x="17" y="13" width="4" height="7" rx="2"/><path d="M19 20a5 5 0 0 1-5 2h-2"/>
             </svg>
           </span>
-          <span class="zs-product-benefits__number">04</span>
         </div>
         <div class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_support | strip }}</span>
@@ -192,7 +188,7 @@
   </div>
 
   <style>
-    /* ZAISEN premium benefit cards. Explicit intrinsic rows prevent stretched mobile tracks. */
+    /* ZAISEN promise cards — one coordinated cream finish and content-sized rows. */
     .product-information .product-details .zs-product-benefits {
       display: block !important;
       flex: none !important;
@@ -204,7 +200,7 @@
       min-width: 0 !important;
       max-width: 100%;
       box-sizing: border-box;
-      margin: 9px 0 15px !important;
+      margin: 6px 0 12px !important;
       padding: 0 !important;
       border: 0 !important;
       background: transparent !important;
@@ -214,15 +210,22 @@
       overflow: visible;
     }
     .zs-product-benefits__heading {
-      display: flex; align-items: center; gap: 13px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin: 0 0 9px;
       color: var(--zs-walnut,#443126);
-      font-size: 10px; font-weight: 750;
-      letter-spacing: .17em; text-transform: uppercase;
-      margin: 0 0 12px; line-height: 1.3;
+      font-size: 9.5px;
+      font-weight: 750;
+      letter-spacing: .15em;
+      line-height: 1.3;
+      text-transform: uppercase;
     }
     .zs-product-benefits__rule {
-      flex: 1; height: 1px; min-width: 8px;
-      background: linear-gradient(90deg,rgba(110,76,54,.4),rgba(110,76,54,.08));
+      flex: 1;
+      height: 1px;
+      min-width: 8px;
+      background: linear-gradient(to right,rgba(110,76,54,.35),rgba(110,76,54,.08));
     }
     .zs-product-benefits__grid {
       display: grid !important;
@@ -230,120 +233,134 @@
       grid-template-rows: repeat(2,max-content) !important;
       grid-auto-rows: max-content !important;
       align-content: start !important;
-      align-items: start !important;
-      gap: 10px !important;
-      width: 100%; min-width: 0;
+      align-items: stretch !important;
+      gap: 8px !important;
+      width: 100%;
+      min-width: 0;
       height: auto !important;
       min-height: 0 !important;
       max-height: none !important;
     }
-    .zs-product-benefits__item {
+    .zs-product-benefits__item,
+    .zs-product-benefits__item--delivery,
+    .zs-product-benefits__item--craft,
+    .zs-product-benefits__item--support {
       display: flex !important;
       flex-direction: column !important;
       justify-content: flex-start !important;
       align-items: stretch !important;
-      align-self: start !important;
+      align-self: stretch !important;
       gap: 0 !important;
       position: relative;
       overflow: hidden;
       box-sizing: border-box;
-      padding: 14px 15px 16px !important;
-      margin: 0 !important;
-      width: 100%; min-width: 0;
-      height: auto !important; min-height: 130px !important;
+      width: 100%;
+      min-width: 0;
+      height: auto !important;
+      min-height: 0 !important;
       max-height: none !important;
-      border: 1px solid #e2d6c8;
-      border-radius: 11px;
-      background: linear-gradient(140deg,#fcf9f4,#f2e9de);
-      box-shadow: 0 4px 15px rgba(57,37,24,.06);
-      color: #443126;
+      margin: 0 !important;
+      padding: 11px 12px 12px !important;
+      border: 1px solid #e3d5c6 !important;
+      border-radius: 9px !important;
+      background: linear-gradient(145deg,#fbf6ef,#f3e9dd) !important;
+      box-shadow: 0 2px 8px rgba(59,40,25,.045) !important;
+      color: #443126 !important;
       text-align: start;
     }
-    .zs-product-benefits__item--delivery {
-      color: #fff4e6;
-      border-color: #453023;
-      background: radial-gradient(circle at 98% -10%,rgba(222,183,128,.28),transparent 58%),linear-gradient(140deg,#5b4030,#33231c);
-      box-shadow: 0 6px 17px rgba(54,33,23,.15);
-    }
-    .zs-product-benefits__item--craft {
-      background: linear-gradient(145deg,#f2e5d5,#f9f4ec);
-    }
-    .zs-product-benefits__item--support {
-      background: linear-gradient(145deg,#fcf9f4,#eee4d9);
-    }
     .zs-product-benefits__top {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 8px; margin-block-end: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      margin-block-end: 6px;
     }
-    .zs-product-benefits__icon-frame {
-      display: inline-flex; align-items: center; justify-content: center;
-      flex: 0 0 34px; width: 34px; height: 34px;
-      border-radius: 9px;
-      background: rgba(91,64,48,.09);
-      color: #684833;
-    }
+    .zs-product-benefits__icon-frame,
     .zs-product-benefits__item--delivery .zs-product-benefits__icon-frame {
-      color: #fff3e2; background: rgba(255,239,213,.16);
-      border: 1px solid rgba(255,239,213,.14);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 29px;
+      width: 29px;
+      height: 29px;
+      border: 1px solid rgba(105,73,49,.09);
+      border-radius: 8px;
+      background: #ebdfd1 !important;
+      color: #684833 !important;
     }
-    .zs-product-benefits__icon { width: 20px; height: 20px; }
-    .zs-product-benefits__number {
-      font-family: var(--font-heading--family,Georgia,serif);
-      font-size: 12px; letter-spacing: .07em;
-      color: #9b7b60; opacity: .7;
-    }
-    .zs-product-benefits__item--delivery .zs-product-benefits__number { color:#f4d5b2;opacity:.95; }
+    .zs-product-benefits__icon { width: 18px; height: 18px; }
     .zs-product-benefits__copy {
-      display: flex !important; flex-direction: column !important;
-      align-items: flex-start !important; gap: 4px;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 2px;
       min-width: 0;
-      height: auto !important; min-height: 0 !important;
-      line-height: 1.37; overflow-wrap: anywhere;
+      height: auto !important;
+      min-height: 0 !important;
+      line-height: 1.33;
+      overflow-wrap: break-word;
     }
     .zs-product-benefits__title {
-      font-size: 13.5px; font-weight: 720;
-      line-height: 1.35; color: inherit;
+      color: #443126 !important;
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.35;
     }
     .zs-product-benefits__detail {
-      font-size: 12px; line-height: 1.42;
-      font-weight: 430; color: inherit; opacity: .77;
+      color: #65584e !important;
+      font-size: 11.5px;
+      font-weight: 400;
+      line-height: 1.4;
+      opacity: 1;
     }
     .zs-product-benefits__date {
+      color: #443126 !important;
       font-family: var(--font-heading--family,Georgia,serif);
-      font-size: 20px; font-weight: 650;
-      line-height: 1.12; letter-spacing: -.02em;
-      opacity: 1; color: #ffebd2;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.16;
+      letter-spacing: -.015em;
+      opacity: 1;
     }
-    .zs-product-benefits__country { opacity:.84; }
     .zs-product-benefits__link {
-      display: inline-block;
+      display: inline;
       color: #5d3e2c !important;
-      font-weight: 750; text-decoration: underline;
+      font-weight: 700;
+      text-decoration: underline;
       text-underline-offset: 3px;
       white-space: normal;
     }
     .zs-product-benefits__link:hover { text-decoration-thickness: 2px; }
     .zs-product-benefits__link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
     @media(max-width:749px) {
-      .product-information .product-details .zs-product-benefits { margin: 7px 0 11px !important; }
-      .zs-product-benefits__heading { margin-block-end: 10px; font-size: 9.5px; }
-      .zs-product-benefits__grid { gap: 8px !important; }
-      .zs-product-benefits__item {
-        padding: 11px 11px 13px !important; min-height: 124px !important;
+      .product-information .product-details .zs-product-benefits { margin: 5px 0 10px !important; }
+      .zs-product-benefits__heading { margin-block-end: 8px; font-size: 9px; }
+      .zs-product-benefits__grid { gap: 7px !important; }
+      .zs-product-benefits__item,
+      .zs-product-benefits__item--delivery,
+      .zs-product-benefits__item--craft,
+      .zs-product-benefits__item--support {
+        min-height: 0 !important;
+        padding: 10px !important;
       }
-      .zs-product-benefits__top { margin-block-end: 7px; }
-      .zs-product-benefits__icon-frame { flex-basis: 31px; width: 31px; height: 31px; border-radius: 8px; }
-      .zs-product-benefits__icon { width: 18px; height: 18px; }
-      .zs-product-benefits__title { font-size: 12px; }
+      .zs-product-benefits__top { margin-block-end: 5px; }
+      .zs-product-benefits__icon-frame,
+      .zs-product-benefits__item--delivery .zs-product-benefits__icon-frame {
+        flex-basis: 27px;
+        width: 27px;
+        height: 27px;
+        border-radius: 7px;
+      }
+      .zs-product-benefits__icon { width: 17px; height: 17px; }
+      .zs-product-benefits__title { font-size: 11.75px; }
       .zs-product-benefits__detail { font-size: 11px; }
-      .zs-product-benefits__date { font-size: 17px; }
+      .zs-product-benefits__date { font-size: 15.5px; }
     }
-    @media(max-width:380px) {
+    @media(max-width:340px) {
       .zs-product-benefits__grid {
         grid-template-columns: minmax(0,1fr) !important;
         grid-template-rows: auto !important;
       }
-      .zs-product-benefits__item { min-height:0 !important; padding: 12px 13px !important; }
     }
   </style>
   <script>
