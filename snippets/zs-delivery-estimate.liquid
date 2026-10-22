@@ -1,0 +1,116 @@
+{% comment %}
+  ZAISEN — estimated delivery above add-to-cart.
+  Mirrors shipping ranges configured Oct 22 2026: GB 4–5 days; US, DE, FR, CA, AU, AE, SA 7–9 days.
+  Plus one calendar day for order processing. Review if Shopify shipping rates change.
+  Delivery dates are estimates, not guaranteed arrival dates.
+{% endcomment %}
+{% liquid
+  assign zs_country = localization.country.iso_code | upcase
+  assign zs_shipping_min = 7
+  assign zs_shipping_max = 9
+  assign zs_supported = false
+  case zs_country
+    when 'GB'
+      assign zs_shipping_min = 4
+      assign zs_shipping_max = 5
+      assign zs_supported = true
+    when 'US', 'DE', 'FR', 'CA', 'AU', 'AE', 'SA'
+      assign zs_supported = true
+  endcase
+  assign zs_arrival_min = zs_shipping_min | plus: 1
+  assign zs_arrival_max = zs_shipping_max | plus: 1
+  assign zs_language = request.locale.iso_code | slice: 0, 2
+%}
+{% if zs_supported %}
+  {% capture zs_heading %}
+    {% case zs_language %}
+      {% when 'de' %}Heute bestellen · Voraussichtliche Lieferung
+      {% when 'fr' %}Commandez aujourd’hui · Livraison estimée
+      {% when 'ar' %}اطلب اليوم · التسليم المتوقع
+      {% else %}Order today · Estimated delivery
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_subline %}
+    {% case zs_language %}
+      {% when 'de' %}1 Tag Bearbeitungszeit · Kostenloser Versand
+      {% when 'fr' %}1 jour de préparation · Livraison gratuite
+      {% when 'ar' %}يوم واحد لتجهيز الطلب · شحن مجاني
+      {% else %}1 day order processing · Free shipping
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_tracking %}
+    {% case zs_language %}
+      {% when 'de' %}Sendungsnummer wird nach dem Versand bereitgestellt
+      {% when 'fr' %}Numéro de suivi fourni après l’expédition
+      {% when 'ar' %}سيتم توفير رقم التتبع بعد الشحن
+      {% else %}Tracking number provided after dispatch
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_days %}
+    {% case zs_language %}
+      {% when 'de' %}Tage
+      {% when 'fr' %}jours
+      {% when 'ar' %}أيام
+      {% else %}days
+    {% endcase %}
+  {% endcapture %}
+
+  <div class="zs-delivery-estimate"
+    data-zs-delivery-estimate
+    data-min-days="{{ zs_arrival_min }}"
+    data-max-days="{{ zs_arrival_max }}"
+    data-locale="{{ request.locale.iso_code | escape }}"
+    dir="{% if zs_language == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <div class="zs-delivery-estimate__main">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7.5" cy="17" r="2"/><circle cx="17.5" cy="17" r="2"/>
+      </svg>
+      <div class="zs-delivery-estimate__copy">
+        <div class="zs-delivery-estimate__title">{{ zs_heading | strip }}</div>
+        <strong class="zs-delivery-estimate__dates" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</strong>
+      </div>
+    </div>
+    <p class="zs-delivery-estimate__meta">{{ zs_subline | strip }}</p>
+    <p class="zs-delivery-estimate__meta zs-delivery-estimate__tracking">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+      <span>{{ zs_tracking | strip }}</span>
+    </p>
+  </div>
+  <style>
+    .zs-delivery-estimate{flex:1 0 100%;min-width:0;border:1px solid var(--color-border,#ddd);border-radius:8px;padding:12px 14px;background:rgb(var(--color-foreground-rgb,30 30 30)/.025);color:var(--color-foreground,inherit);box-sizing:border-box;font-family:var(--font-body--family,inherit);margin-block:8px 5px}
+    .zs-delivery-estimate__main{display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+    .zs-delivery-estimate__main>svg{flex-shrink:0;margin-block-start:2px}
+    .zs-delivery-estimate__copy{min-width:0}
+    .zs-delivery-estimate__title{font-size:13px;font-weight:450;opacity:.8}
+    .zs-delivery-estimate__dates{font-size:15px;font-weight:650;display:block;margin-block-start:2px}
+    .zs-delivery-estimate__meta{margin:5px 0 0 30px;padding:0;font-size:12px;line-height:1.45;opacity:.78}
+    .zs-delivery-estimate[dir="rtl"] .zs-delivery-estimate__meta{margin-right:30px;margin-left:0}
+    .zs-delivery-estimate__tracking{display:flex;align-items:center;gap:6px}
+    .zs-delivery-estimate__tracking svg{flex-shrink:0}
+    @media(max-width:749px){.zs-delivery-estimate{padding:11px 12px;margin-block:6px 3px}}
+  </style>
+  <script>
+    (function () {
+      function updateDeliveryDates() {
+        document.querySelectorAll('[data-zs-delivery-estimate]').forEach(function (root) {
+          var target = root.querySelector('[data-zs-delivery-dates]');
+          if (!target) return;
+          var low = Number(root.dataset.minDays), high = Number(root.dataset.maxDays);
+          if (!Number.isInteger(low) || !Number.isInteger(high)) return;
+          var today = new Date();
+          var early = new Date(today.getFullYear(), today.getMonth(), today.getDate() + low, 12);
+          var late = new Date(today.getFullYear(), today.getMonth(), today.getDate() + high, 12);
+          var locale = root.dataset.locale || 'en';
+          try {
+            var formatter = new Intl.DateTimeFormat(locale, { day:'numeric', month:'short' });
+            target.textContent = formatter.format(early) + ' – ' + formatter.format(late);
+          } catch (error) {
+            // Keep the server-rendered day range if Intl is unavailable.
+          }
+        });
+      }
+      updateDeliveryDates();
+      document.addEventListener('shopify:section:load', updateDeliveryDates);
+    })();
+  </script>
+{% endif %}
