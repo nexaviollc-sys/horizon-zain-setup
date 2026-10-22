@@ -762,9 +762,17 @@
     #zs-about-{{ section.id }} .zs-about__craft-gallery {grid-template-columns:1fr;}
   }
   @media(max-width:700px){
-    #zs-about-{{ section.id }} .zs-about__product-gallery{grid-template-columns:1.25fr 1fr;gap:8px;}
-    #zs-about-{{ section.id }} .zs-about__product-gallery-tile{aspect-ratio:4/4;}
-    #zs-about-{{ section.id }} .zs-about__product-gallery-tile:nth-child(3){display:none;}
+    #zs-about-{{ section.id }} .zs-about__product-gallery{
+      display:grid;grid-template-columns:none;grid-auto-flow:column;
+      grid-auto-columns:minmax(0,78%);gap:8px;
+      overflow-x:auto;overscroll-behavior-inline:contain;
+      scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;padding-bottom:7px;
+    }
+    #zs-about-{{ section.id }} .zs-about__product-gallery-tile{
+      display:block;aspect-ratio:4/3.3;scroll-snap-align:start;
+    }
+    #zs-about-{{ section.id }} .zs-about__product-gallery-tile:nth-child(3){display:block;}
     #zs-about-{{ section.id }} .zs-about__product-gallery-note{margin:10px auto 16px;font-size:10px;}
     #zs-about-{{ section.id }} .zs-about__product-image-label{font-size:9px;left:9px;right:9px;bottom:10px;}
     #zs-about-{{ section.id }} .zs-about__craft-gallery {padding:16px;margin-top:21px;gap:14px;}
