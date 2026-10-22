@@ -8,6 +8,9 @@
 -%}
 
 {% unless product_resource == blank %}
+  {% if request.page_type == 'product' %}
+    {% render 'zs-delivery-estimate' %}
+  {% endif %}
   {% render 'variant-main-picker', product_resource: product_resource, section: section, product: product %}
 {% endunless %}
 
