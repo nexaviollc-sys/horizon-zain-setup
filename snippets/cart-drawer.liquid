@@ -21,6 +21,11 @@
     src="{{ 'cart-drawer.js' | asset_url }}"
     fetchpriority="low"
   ></script>
+  <script
+    type="module"
+    src="{{ 'zs-cart-carousel.js' | asset_url }}"
+    fetchpriority="low"
+  ></script>
   {{ 'zs-cart-v2.css' | asset_url | stylesheet_tag }}
 
   {% capture empty_cart_drawer_content %}
