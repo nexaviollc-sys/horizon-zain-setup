@@ -133,6 +133,19 @@
                       break
                     endif
                   endfor
+                  if zs_free_shipping == false and zs_shipping_usd > 0 and cart.item_count >= 2
+                    for zs_cart_line in cart.items
+                      for zs_allocation in zs_cart_line.line_level_discount_allocations
+                        if zs_allocation.discount_application.title contains 'ZS-BUNDLE15-2026' or zs_allocation.discount_application.title contains 'ZS-BUNDLE25-2026'
+                          assign zs_free_shipping = true
+                          break
+                        endif
+                      endfor
+                      if zs_free_shipping
+                        break
+                      endif
+                    endfor
+                  endif
                 %}
                 <div class="zs-cart-breakdown" aria-label="Order summary">
                   <div class="zs-cart-breakdown__row">
