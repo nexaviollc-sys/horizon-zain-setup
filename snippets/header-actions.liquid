@@ -136,7 +136,7 @@
   {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
     <button
       class="header-actions__action button-unstyled{% if display_style == 'text' %} header-actions__text-style{% endif %}"
-      on:click="#cart-drawer/toggle"
+      on:click="#cart-drawer/open"
       aria-haspopup="dialog"
       aria-expanded="false"
       aria-controls="cart-drawer"
