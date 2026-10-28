@@ -21,19 +21,33 @@
     src="{{ 'cart-drawer.js' | asset_url }}"
     fetchpriority="low"
   ></script>
+  {{ 'zs-cart-v2.css' | asset_url | stylesheet_tag }}
 
   {% capture empty_cart_drawer_content %}
-    <div
-      class="cart-drawer__content"
-      aria-label="{{ 'accessibility.cart' | t }}"
-    >
-      <h2
-        class="theme-drawer__title h4"
-        id="cart-drawer-heading"
-      >
-        {{ 'content.your_cart_is_empty' | t }}
-      </h2>
-
+    <div class="cart-drawer__content zs-cart-empty" aria-label="{{ 'accessibility.cart' | t }}">
+      <div class="zs-cart-empty__icon" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M3 8h18l-1.5 12H4.5L3 8Z"></path>
+          <path d="M8 9V6a4 4 0 0 1 8 0v3"></path>
+          <path d="M9 13h6"></path>
+        </svg>
+      </div>
+      <h3>
+        {% case request.locale.iso_code %}
+          {% when 'de' %}Dein Warenkorb ist leer
+          {% when 'fr' %}Votre panier est vide
+          {% when 'ar' %}سلتك فارغة
+          {% else %}Your cart is empty
+        {% endcase %}
+      </h3>
+      <p>
+        {% case request.locale.iso_code %}
+          {% when 'de' %}Entdecke handgefertigte Holzstücke für dein Zuhause.
+          {% when 'fr' %}Découvrez des pièces en bois façonnées à la main.
+          {% when 'ar' %}اكتشف منتجاتنا الخشبية المصنوعة يدويًا.
+          {% else %}Find something beautiful, shaped by hand for your home.
+        {% endcase %}
+      </p>
       <div class="cart-drawer__items">
         {% render 'cart-products', force_empty: true, context: 'drawer' %}
       </div>
@@ -63,79 +77,104 @@
           class="cart-drawer__inner{% if cart.empty? %} cart-drawer--empty{% endif %}"
           data-hydration-key="cart-drawer-inner"
         >
-          {%- if cart.empty? -%}
-            <div class="theme-drawer__header">
-              <button
-                on:click="#cart-drawer/close"
-                class="theme-drawer__close-button cart-drawer__close-button--empty"
-                type="button"
-                aria-label="{{ 'actions.close' | t }}"
-              >
-                <span class="svg-wrapper">
-                  {{- 'icon-close.svg' | inline_asset_content -}}
-                </span>
-              </button>
-            </div>
-          {%- else -%}
-            {% capture cart_badge_html %}
-              <span
-                class="theme-drawer__badge{% if cart.item_count == 0 %} visually-hidden{% endif %}"
-                aria-hidden="true"
-                {% if cart.item_count <= 99 %}
-                  data-maintain-ratio
-                {% endif %}
-              >
-                {{- cart.item_count -}}
-              </span>
-              {% if cart.item_count > 0 %}
-                <span class="visually-hidden">
-                  {{ 'accessibility.cart_count' | t }}: {{ cart.item_count }}
-                </span>
-              {% endif %}
-            {% endcapture %}
-            {% assign cart_drawer_title = 'content.cart_title' | t %}
-            {% render 'theme-drawer-header',
-              title: cart_drawer_title,
-              drawer_id: 'cart-drawer',
-              heading_id: 'cart-drawer-heading',
-              title_append: cart_badge_html
-            %}
-          {%- endif -%}
+          {% liquid
+            assign zs_drawer_title = 'Your Cart'
+            case request.locale.iso_code
+              when 'de'
+                assign zs_drawer_title = 'Warenkorb'
+              when 'fr'
+                assign zs_drawer_title = 'Votre panier'
+              when 'ar'
+                assign zs_drawer_title = 'سلتك'
+            endcase
+          %}
+          {% capture cart_badge_html %}
+            <span class="theme-drawer__badge" aria-label="{{ 'accessibility.cart_count' | t }}: {{ cart.item_count }}">{{ cart.item_count }}</span>
+          {% endcapture %}
+          {% render 'theme-drawer-header',
+            title: zs_drawer_title,
+            drawer_id: 'cart-drawer',
+            heading_id: 'cart-drawer-heading',
+            title_append: cart_badge_html
+          %}
 
           {% capture cart_items_children %}
-            {%- if cart.empty? -%}
+            {% if cart.empty? %}
               {{ empty_cart_drawer_content }}
-            {%- else -%}
-              <scroll-hint
-                class="cart-drawer__content"
-                aria-label="{{ 'accessibility.cart' | t }}"
-              >
+            {% else %}
+              <div class="cart-drawer__content" aria-label="{{ 'accessibility.cart' | t }}">
                 {% render 'zs-cart-shipping' %}
-                <scroll-hint class="cart-drawer__items">
+                <div class="cart-drawer__items">
                   {% render 'cart-products', context: 'drawer' %}
-                </scroll-hint>
-
+                </div>
                 {% render 'zs-cart-upsells' %}
+              </div>
 
-                <div class="cart-drawer__summary">
-                  {% assign zs_cart_savings = cart.original_total_price | minus: cart.total_price %}
+              <div class="cart-drawer__summary">
+                {% assign zs_cart_savings = cart.original_total_price | minus: cart.total_price %}
+                <div class="zs-cart-breakdown">
+                  <div class="zs-cart-breakdown__row">
+                    <span>
+                      {% case request.locale.iso_code %}
+                        {% when 'de' %}Zwischensumme
+                        {% when 'fr' %}Sous-total
+                        {% when 'ar' %}المجموع الفرعي
+                        {% else %}Subtotal
+                      {% endcase %}
+                    </span>
+                    <span>{{ cart.original_total_price | money }}</span>
+                  </div>
                   {% if zs_cart_savings > 0 %}
-                    <div class="zs-cart-savings" role="status">
+                    <div class="zs-cart-breakdown__row zs-cart-breakdown__row--savings">
                       <span>
                         {% case request.locale.iso_code %}
-                          {% when 'de' %}Deine Ersparnis
-                          {% when 'fr' %}Vos économies
-                          {% when 'ar' %}وفّرت
-                          {% else %}You've saved
+                          {% when 'de' %}Ersparnis
+                          {% when 'fr' %}Économies
+                          {% when 'ar' %}التوفير
+                          {% else %}Savings
                         {% endcase %}
                       </span>
-                      <strong>{{ zs_cart_savings | money }}</strong>
+                      <span>-{{ zs_cart_savings | money }}</span>
                     </div>
                   {% endif %}
-                  {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                  <div class="zs-cart-breakdown__row">
+                    <span>
+                      {% case request.locale.iso_code %}
+                        {% when 'de' %}Versand
+                        {% when 'fr' %}Livraison
+                        {% when 'ar' %}الشحن
+                        {% else %}Shipping
+                      {% endcase %}
+                    </span>
+                    <span>
+                      {% case request.locale.iso_code %}
+                        {% when 'de' %}An der Kasse
+                        {% when 'fr' %}À la caisse
+                        {% when 'ar' %}عند الدفع
+                        {% else %}At checkout
+                      {% endcase %}
+                    </span>
+                  </div>
                 </div>
-              </scroll-hint>
-            {%- endif -%}
+                {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                <a href="{{ routes.cart_url }}" class="zs-cart-view-cart">
+                  {% case request.locale.iso_code %}
+                    {% when 'de' %}Warenkorb ansehen
+                    {% when 'fr' %}Voir le panier
+                    {% when 'ar' %}عرض السلة
+                    {% else %}View cart
+                  {% endcase %}
+                </a>
+                <p class="zs-cart-trust">
+                  {% case request.locale.iso_code %}
+                    {% when 'de' %}Sicher bezahlen · Mit Sorgfalt handgefertigt
+                    {% when 'fr' %}Paiement sécurisé · Fait main avec soin
+                    {% when 'ar' %}دفع آمن · مصنوع يدويًا بعناية
+                    {% else %}Secure checkout · Handcrafted with care
+                  {% endcase %}
+                </p>
+              </div>
+            {% endif %}
           {% endcapture %}
           {% render 'cart-items-component',
             children: cart_items_children,
@@ -290,306 +329,6 @@
     .cart-drawer__header,
     .cart-drawer__content {
       background: transparent;
-    }
-  }
-
-  /* ZAISEN premium cart: stable order summary and mobile-friendly scrolling. */
-  #cart-drawer .theme-drawer__dialog {
-    --zs-cart-accent: #493124;
-    --zs-cart-success: #267b48;
-    --zs-cart-border: #e9e2d8;
-    background: #faf9f6;
-  }
-
-  #cart-drawer .theme-drawer__header {
-    background: #faf9f6;
-    border-bottom: 1px solid var(--zs-cart-border);
-    padding-block: 20px;
-  }
-
-  #cart-drawer .theme-drawer__title {
-    font-family: var(--font-heading--family);
-    font-size: clamp(24px, 2vw, 30px);
-    font-weight: 500;
-    color: #30231d;
-  }
-
-  #cart-drawer .cart-drawer__content:has(.cart-drawer__summary) {
-    overflow: hidden;
-    min-height: 0;
-  }
-
-  #cart-drawer .cart-drawer__items {
-    flex: 1 1 auto;
-    min-height: 0;
-    padding-block: 18px 8px;
-    scrollbar-width: thin;
-  }
-
-  #cart-drawer .cart-items__title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    line-height: 1.35;
-    font-weight: 550;
-  }
-
-  #cart-drawer .cart-items__media-image {
-    border-radius: 9px;
-  }
-
-  #cart-drawer .cart-drawer__summary,
-  #cart-drawer .theme-drawer__dialog[cart-summary-sticky='false'] .cart-drawer__summary {
-    position: relative;
-    bottom: auto;
-    z-index: 2;
-    flex-shrink: 0;
-    margin-top: 0;
-    gap: 12px;
-    padding: 14px 22px max(20px, env(safe-area-inset-bottom));
-    border-top: 1px solid var(--zs-cart-border);
-    background: #faf9f6;
-    mask-image: none;
-  }
-
-  #cart-drawer .cart-totals__container {
-    width: 100%;
-  }
-
-  #cart-drawer .cart__ctas {
-    width: 100%;
-  }
-
-  #cart-drawer .cart__checkout-button {
-    width: 100%;
-    min-height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: var(--zs-cart-accent);
-    color: #fffaf5;
-    border: 1px solid var(--zs-cart-accent);
-    border-radius: 7px;
-    font-size: 13px;
-    letter-spacing: .06em;
-    transition: background .18s ease;
-  }
-
-  #cart-drawer .cart__checkout-button:hover {
-    background: #63432f;
-  }
-
-  #cart-drawer .zs-cart-checkout__lock {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #cart-drawer .zs-cart-savings {
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 9px 12px;
-    border-radius: 6px;
-    color: #2f7448;
-    background: #eaf3ec;
-    font-size: 12px;
-  }
-
-  #cart-drawer .zs-cart-shipping {
-    flex-shrink: 0;
-    padding: 15px 22px;
-    border-bottom: 1px solid var(--zs-cart-border);
-    background: #fffdf9;
-  }
-
-  #cart-drawer .zs-cart-shipping__message {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    line-height: 1.4;
-    font-weight: 550;
-    color: #6a5446;
-  }
-
-  #cart-drawer .zs-cart-shipping__check {
-    display: none;
-    color: var(--zs-cart-success);
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  #cart-drawer .zs-cart-shipping.is-qualified .zs-cart-shipping__check {
-    display: inline;
-  }
-
-  #cart-drawer .zs-cart-shipping.is-qualified .zs-cart-shipping__message {
-    color: var(--zs-cart-success);
-  }
-
-  #cart-drawer .zs-cart-shipping__track {
-    height: 6px;
-    margin-top: 11px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #e8e5df;
-  }
-
-  #cart-drawer .zs-cart-shipping__track[hidden] {
-    display: none;
-  }
-
-  #cart-drawer .zs-cart-shipping__fill {
-    display: block;
-    width: 0;
-    height: 100%;
-    background: var(--zs-cart-success);
-    border-radius: inherit;
-    transition: width 260ms ease;
-  }
-
-  #cart-drawer .zs-cart-upsells {
-    flex-shrink: 0;
-    padding: 14px 22px;
-    border-top: 1px solid var(--zs-cart-border);
-    background: #faf9f6;
-  }
-
-  #cart-drawer .zs-cart-upsells h3 {
-    margin: 0 0 11px;
-    font-family: var(--font-heading--family);
-    font-size: 21px;
-    font-weight: 500;
-    line-height: 1.1;
-    color: #30231d;
-  }
-
-  #cart-drawer .zs-cart-upsells__list {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-  }
-
-  #cart-drawer .zs-cart-upsell__item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  #cart-drawer .zs-cart-upsell__image {
-    width: 56px;
-    height: 56px;
-    flex: 0 0 56px;
-    overflow: hidden;
-    border-radius: 6px;
-    background: #f0ece6;
-  }
-
-  #cart-drawer .zs-cart-upsell__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #cart-drawer .zs-cart-upsell__details {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  #cart-drawer .zs-cart-upsell__title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    font-size: 12px;
-    line-height: 1.4;
-    text-decoration: none;
-    color: #30231d;
-  }
-
-  #cart-drawer .zs-cart-upsell__price {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-top: 3px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #493124;
-  }
-
-  #cart-drawer .zs-cart-upsell__price s {
-    font-size: 11px;
-    color: #8a817b;
-    font-weight: 400;
-  }
-
-  #cart-drawer .zs-cart-upsell__add {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    border: 1px solid #cbb6a5;
-    border-radius: 7px;
-    background: #fff;
-    color: #493124;
-    font-size: 22px;
-    cursor: pointer;
-  }
-
-  #cart-drawer .zs-cart-upsell__add:hover {
-    background: #493124;
-    color: #fff;
-  }
-
-  #cart-drawer .zs-cart-upsell__add:disabled {
-    cursor: wait;
-    opacity: .5;
-  }
-
-  #cart-drawer .zs-cart-upsell__options {
-    flex-shrink: 0;
-    font-size: 11px;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  #cart-drawer .zs-cart-upsells__error {
-    margin: 8px 0 0;
-    color: #a43829;
-    font-size: 12px;
-  }
-
-  @media (max-height: 620px) {
-    #cart-drawer .zs-cart-upsells {
-      display: none;
-    }
-  }
-
-  @media (max-width: 749px) {
-    #cart-drawer .theme-drawer__header {
-      padding-block: 16px;
-    }
-    #cart-drawer .cart-drawer__summary {
-      padding-inline: 16px;
-    }
-    #cart-drawer .zs-cart-shipping,
-    #cart-drawer .zs-cart-upsells {
-      padding-inline: 16px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #cart-drawer .zs-cart-shipping__fill,
-    #cart-drawer .cart__checkout-button {
-      transition: none;
     }
   }
 
