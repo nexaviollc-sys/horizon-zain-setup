@@ -91,6 +91,12 @@
           {{- 'icon-close-menu.svg' | inline_asset_content -}}
         </span>
       </button>
+      {% if data_header_drawer_type == 'mobile-drawer' %}
+        <div class="zs-drawer-brand" aria-label="ZAISEN navigation">
+          <span class="zs-drawer-brand__name">ZAISEN</span>
+          <span class="zs-drawer-brand__tagline">NATURE, SHAPED BY HAND</span>
+        </div>
+      {% endif %}
       <nav
         class="menu-drawer__navigation"
         style="

@@ -611,4 +611,333 @@
     .content-for-layout > .shopify-section:first-child .product-information media-gallery.sticky-content {
     margin-top: 0;
   }
+
+  /* ZAISEN — Premium mobile drawer, native Shopify navigation kept intact.
+     Design: layered walnut masthead, warm ivory menu cards, subtle physical
+     depth, crisp controls. Scope all styling to the mobile drawer only. */
+  @media screen and (max-width: 749px) {
+    #header-component.header--zaisen header-drawer .menu-drawer {
+      --color-background: #F8F4EE;
+      --color-background-rgb: 248 244 238;
+      --color-foreground: #2B1D17;
+      --color-foreground-rgb: 43 29 23;
+      --color-foreground-subdued: #604B3C;
+      --color-foreground-muted: #705847;
+      --color-border: #DED0C0;
+      --menu-top-level-font-color: #2B1D17;
+      --menu-top-level-font-color-rgb: 43 29 23;
+      background: linear-gradient(166deg,#FCFAF6 0%,#F6F0E8 62%,#EEE3D5 100%) !important;
+      border-inline-end: 1px solid #CBB49A;
+      box-shadow: 16px 0 55px rgba(24,15,10,.32);
+      color: #2B1D17;
+      padding-block-end: max(16px,var(--safe-area-inset-bottom));
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #header-component.header--zaisen header-drawer .zs-drawer-brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      flex: 0 0 auto;
+      min-height: 125px;
+      margin-bottom: 13px;
+      padding: 24px 68px 20px 25px;
+      color: #FFF9F1;
+      background:
+        radial-gradient(ellipse at 7% 0%,rgba(216,181,106,.20),transparent 61%),
+        linear-gradient(110deg,#533B2B 0%,#38271E 54%,#2B1D17 100%);
+      border-bottom: 1px solid rgba(216,181,106,.34);
+      box-shadow: inset 0 1px 0 rgba(255,246,227,.20),
+                  0 8px 22px rgba(43,29,23,.13);
+    }
+    #header-component.header--zaisen header-drawer .zs-drawer-brand__name {
+      font-family: var(--font-heading--family,Georgia,serif);
+      font-size: 31px;
+      font-weight: 550;
+      line-height: 1.08;
+      letter-spacing: .085em;
+      color: #FFF9F1;
+    }
+    #header-component.header--zaisen header-drawer .zs-drawer-brand__tagline {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .19em;
+      color: #E1C49B;
+    }
+
+    #header-component.header--zaisen header-drawer .menu-drawer > .menu-drawer__close-button {
+      position: absolute;
+      z-index: 3;
+      top: calc(var(--safe-area-inset-top) + 25px);
+      inset-inline-end: 20px;
+      width: 42px;
+      height: 42px;
+      padding: 11px;
+      display: grid;
+      place-items: center;
+      color: #F7F3EE;
+      background: rgba(255,252,248,.10);
+      border: 1px solid rgba(216,181,106,.43);
+      border-radius: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer > .menu-drawer__close-button:is(:hover,:focus-visible) {
+      color: #2B1D17;
+      background: #F7F3EE;
+    }
+
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation {
+      padding: 4px 0 12px;
+      flex: 0 0 auto;
+      color: #2B1D17;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin: 0;
+      padding: 0 17px;
+      list-style: none;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li {
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      border: 0;
+      display: block;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li > a.menu-drawer__menu-item,
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li > details > summary.menu-drawer__menu-item,
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li > accordion-custom > details > summary.menu-drawer__menu-item {
+      min-height: 58px;
+      padding: 13px 16px 13px 18px;
+      border-radius: 13px;
+      border: 1px solid #DAC9B5;
+      background: linear-gradient(162deg,#FFFFFF 0%,#F8F2E9 100%);
+      box-shadow: inset 0 1px 0 #FFFFFF,
+                  inset 0 -1px 0 rgba(145,109,77,.08),
+                  0 3px 8px rgba(62,42,26,.075);
+      color: #302118;
+      --menu-top-level-font-color: #302118;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: .005em;
+      line-height: 1.35;
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li :is(a.menu-drawer__menu-item--mainlist,summary.menu-drawer__menu-item--mainlist):is(:hover,:focus-visible),
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation > .menu-drawer__menu > li > :is(details,accordion-custom) > details[open] > summary.menu-drawer__menu-item {
+      color: #2B1D17;
+      border-color: #BE9D72;
+      background: linear-gradient(160deg,#FFF9EF,#F0E2CF);
+      box-shadow: inset 0 1px 0 #FFFFFF,0 5px 13px rgba(88,56,32,.14);
+    }
+
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item--active,
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item[aria-current='page'] {
+      border-color: #AC8557 !important;
+      background: #F2E4D0 !important;
+      color: #2B1D17 !important;
+      box-shadow: inset 3px 0 0 #9E7145,0 3px 10px rgba(62,42,26,.09);
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item-text {
+      color: inherit;
+      white-space: normal;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item > .svg-wrapper,
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item .icon-plus,
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item .icon-caret {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      padding: 8px;
+      margin: 0 0 0 8px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: #77523A;
+      background: #F0E1CD;
+      border: 1px solid rgba(161,119,79,.24);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.76);
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item > .svg-wrapper svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Accordions: clearly separated inset links, not a long flat list. */
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--childlist,
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--grandchildlist {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 10px 7px 8px 14px;
+      margin: 0 0 4px;
+      border: 0;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--childlist > li,
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--grandchildlist > li {
+      flex: 0 0 auto;
+      min-height: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--childlist .menu-drawer__menu-item,
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--grandchildlist .menu-drawer__menu-item {
+      min-height: 45px;
+      padding: 11px 13px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,.57);
+      color: #413024;
+      font-size: 13px;
+      font-weight: 550;
+      line-height: 1.35;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--childlist .menu-drawer__menu-item:is(:hover,:focus-visible),
+    #header-component.header--zaisen header-drawer .menu-drawer__navigation .menu-drawer__menu--grandchildlist .menu-drawer__menu-item:is(:hover,:focus-visible) {
+      color: #2B1D17;
+      background: #EEE0CE;
+      border-color: #CFB69A;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    /* Native three-level submenu stays functional and gets the same palette. */
+    #header-component.header--zaisen header-drawer .menu-drawer__submenu {
+      --color-foreground: #2B1D17;
+      --color-foreground-rgb: 43 29 23;
+      --color-background: #F8F4EE;
+      background: linear-gradient(164deg,#FCFAF6,#F1E6D9);
+      color: #2B1D17;
+      box-shadow: inset 5px 0 16px rgba(64,42,26,.05);
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__nav-buttons {
+      min-height: 77px;
+      background: linear-gradient(110deg,#533B2B,#2B1D17);
+      border-bottom: 1px solid rgba(216,181,106,.34);
+      box-shadow: 0 6px 18px rgba(53,34,23,.12);
+      color: #F7F3EE;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__nav-buttons .menu-drawer__title {
+      color: #F7F3EE;
+      font-size: 15px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__nav-buttons :is(.menu-drawer__back-button,.menu-drawer__close-button) {
+      color: #F7F3EE;
+      background: transparent;
+      border: 0;
+      min-width: 46px;
+      min-height: 46px;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    #header-component.header--zaisen header-drawer .menu-drawer__nav-buttons :is(.menu-drawer__back-button,.menu-drawer__close-button):is(:hover,:focus-visible) {
+      background: rgba(216,181,106,.16);
+      color: #FFFFFF;
+    }
+
+    /* Region/language utility has its own raised, accessible card. */
+    #header-component.header--zaisen header-drawer .menu-drawer__utility-links {
+      margin: 13px 17px 14px;
+      padding: 0;
+      border-top: 1px solid #D7C3AB;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization__button {
+      width: 100%;
+      min-height: 55px;
+      margin: 14px 0 0;
+      padding: 9px 14px;
+      justify-content: space-between;
+      border: 1px solid #D6C1A7;
+      border-radius: 12px;
+      color: #302118 !important;
+      background: linear-gradient(155deg,#FFFDF9,#F0E3D2);
+      box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 9px rgba(59,40,27,.08);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization__button:is(:hover,:focus-visible) {
+      color: #2B1D17 !important;
+      background: #EAD9C4;
+      border-color: #B99369;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization__button .icon-caret {
+      color: #77523A;
+    }
+
+    #header-component.header--zaisen header-drawer .drawer-localization .localization-form,
+    #header-component.header--zaisen header-drawer .drawer-localization .localization-form__list,
+    #header-component.header--zaisen header-drawer .drawer-localization .language-selector,
+    #header-component.header--zaisen header-drawer .drawer-localization .country-selector-form__wrapper {
+      --color-foreground: #2B1D17;
+      --color-foreground-rgb: 43 29 23;
+      --color-foreground-subdued: #66503E;
+      --color-background: #F8F4EE;
+      color: #2B1D17;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization .localization-form__list-item {
+      --button-color: #2B1D17;
+      --color-foreground: #2B1D17;
+      --color-foreground-rgb: 43 29 23;
+      min-height: 46px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      color: #2B1D17;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization .localization-form__list-item:is(:hover,:focus-visible,[aria-current='true'],[aria-selected='true']) {
+      --button-color: #2B1D17 !important;
+      background: #EADBC8;
+      color: #2B1D17 !important;
+      border-color: #D2B79A;
+    }
+    #header-component.header--zaisen header-drawer .drawer-localization .localization-form__list-item :is(.country,.localization-form__currency,.svg-wrapper) {
+      color: #2B1D17 !important;
+      opacity: 1;
+    }
+
+    #header-component.header--zaisen header-drawer :is(a,button,summary,select,input):focus-visible {
+      outline: 2px solid #9C6E40;
+      outline-offset: 2px;
+    }
+
+    #header-component.header--zaisen header-drawer .menu-drawer__backdrop {
+      backdrop-filter: blur(4px) brightness(.60);
+      -webkit-backdrop-filter: blur(4px) brightness(.60);
+    }
+  }
+
+  /* Current / hovered country options must retain DARK lettering on the
+     cream popover, regardless of the dark main header foreground. */
+  #header-component.header--zaisen .dropdown-localization localization-form-component .localization-form__list-item:is(:hover,:focus,[aria-selected='true'],[aria-current='true']) {
+    --button-color: #2B1D17 !important;
+    --color-foreground-subdued: #2B1D17;
+    background: #F1E4D4 !important;
+    color: #2B1D17 !important;
+  }
+  #header-component.header--zaisen .dropdown-localization localization-form-component .localization-form__list-item:is(:hover,:focus,[aria-selected='true'],[aria-current='true']) :is(.country,.localization-form__currency,.svg-wrapper) {
+    color: #2B1D17 !important;
+    opacity: 1 !important;
+  }
+  #header-component.header--zaisen .dropdown-localization localization-form-component .language-selector .localization-form__select:is(:hover,:focus-visible) {
+    color: #2B1D17 !important;
+    background: #EADBC8 !important;
+  }
+
+  /* On the inner-page DARK header, the country selector button's hover
+     background is ivory. Force dark labels/caret to follow that background. */
+  #header-component.header--zaisen-dark .dropdown-localization__button:is(:hover,:focus-visible),
+  #header-component.header--zaisen-dark .dropdown-localization__button:is(:hover,:focus-visible) :is(span:not(.visually-hidden),svg) {
+    color: #2B1D17 !important;
+    --button-color: #2B1D17;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #header-component.header--zaisen header-drawer .menu-drawer__menu-item {
+      transition: none !important;
+    }
+  }
 {% endstylesheet %}

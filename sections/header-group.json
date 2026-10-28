@@ -42,7 +42,7 @@
             "navigation_bar": false,
             "background_color_navigation_bar": "#FFFFFF",
             "text_color_navigation_bar": "#2B1D17",
-            "drawer_accordion": false,
+            "drawer_accordion": true,
             "drawer_accordion_expand_first": false,
             "drawer_dividers": false
           },
