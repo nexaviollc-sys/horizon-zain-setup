@@ -1,0 +1,86 @@
+{% comment %}
+  ZAISEN desktop craftsmanship storytelling.
+  Uses only the current product's existing imagery. No stock images,
+  generated photography, or unverified manufacturing techniques.
+  Render only from a real product template's gallery column.
+{% endcomment %}
+{% liquid
+  assign zs_craft_title = product.title | downcase
+  assign zs_craft_type = product.type | downcase
+  assign zs_craft_category = zs_craft_title | append: ' ' | append: zs_craft_type
+  assign zs_craft_subheading = 'A little closer to nature'
+  assign zs_craft_paragraph = 'Every ZAISEN piece begins with the natural beauty of wood. Shaped and refined by skilled hands, it preserves the warmth, grain, and character that make handcrafted creations feel personal.'
+  assign zs_craft_second = 'A thoughtful piece for your home, made with care and an appreciation for timeless craftsmanship.'
+
+  if zs_craft_category contains 'horse'
+    assign zs_craft_subheading = 'Character in every carved curve'
+    assign zs_craft_paragraph = 'A wooden horse is more than a decorative figure. Its flowing silhouette, expressive stance, and natural grain come together through careful handcraftsmanship, giving each sculpture a character of its own.'
+    assign zs_craft_second = 'Made to bring warmth and a sense of movement to a desk, shelf, or favorite corner of your home.'
+  elsif zs_craft_category contains 'lamp' or zs_craft_category contains 'lighting'
+    assign zs_craft_subheading = 'Warmth you can see and feel'
+    assign zs_craft_paragraph = 'The natural beauty of wood meets a thoughtfully shaped silhouette. Every curve and surface is considered to give this handcrafted light a warm, distinctive presence in your space.'
+    assign zs_craft_second = 'A functional piece with the character of handcrafted decor, made to feel at home in inviting interiors.'
+  elsif zs_craft_category contains 'clock'
+    assign zs_craft_subheading = 'Timeless details, naturally'
+    assign zs_craft_paragraph = 'A wooden clock brings together everyday function and the quiet beauty of handcraftsmanship. Natural grain, carefully considered details, and a distinctive shape help make each piece part of the room.'
+    assign zs_craft_second = 'Designed to add warmth and character wherever you choose to display it.'
+  elsif zs_craft_category contains 'tray' or zs_craft_category contains 'serving'
+    assign zs_craft_subheading = 'Made for meaningful moments'
+    assign zs_craft_paragraph = 'There is something special about serving with a piece shaped from natural wood. The grain, tactile finish, and handcrafted details make this tray a warm addition to everyday gatherings.'
+    assign zs_craft_second = 'Thoughtfully made to be useful, welcoming, and beautiful between occasions.'
+  elsif zs_craft_category contains 'cup' or zs_craft_category contains 'jug' or zs_craft_category contains 'pitcher' or zs_craft_category contains 'drinkware'
+    assign zs_craft_subheading = 'Natural warmth at the table'
+    assign zs_craft_paragraph = 'A simple daily ritual becomes more memorable with the warmth of handcrafted wood. The natural grain and individual character of each piece bring an artisan touch to moments shared around the table.'
+    assign zs_craft_second = 'A thoughtful combination of function, traditional materials, and timeless presentation.'
+  elsif zs_craft_category contains 'cutlery' or zs_craft_category contains 'spoon' or zs_craft_category contains 'fork'
+    assign zs_craft_subheading = 'Everyday rituals, beautifully made'
+    assign zs_craft_paragraph = 'The warmth of wood belongs at the table. Shaped by hand with attention to form and character, this wooden cutlery brings a natural, inviting feel to serving and everyday meals.'
+    assign zs_craft_second = 'A small detail that makes everyday moments feel a little more thoughtful.'
+  elsif zs_craft_category contains 'boat' or zs_craft_category contains 'ship' or zs_craft_category contains 'nautical'
+    assign zs_craft_subheading = 'A story inspired by the sea'
+    assign zs_craft_paragraph = 'Inspired by timeless nautical forms, this wooden piece celebrates thoughtful details and the expressive beauty of natural wood. Its handcrafted character gives it a distinctive place in your home.'
+    assign zs_craft_second = 'A warm accent for anyone drawn to the stories and shapes of the sea.'
+  elsif zs_craft_category contains 'tissue box' or zs_craft_category contains 'canister' or zs_craft_category contains 'storage'
+    assign zs_craft_subheading = 'Practical details, made beautiful'
+    assign zs_craft_paragraph = 'Everyday essentials can carry their own sense of craft. Natural grain and thoughtfully finished wooden surfaces turn a practical item into a considered accent for the home.'
+    assign zs_craft_second = 'Made to complement your space with warmth, character, and usefulness.'
+  endif
+%}
+
+<div class="zs-craft-story" aria-label="The ZAISEN craft">
+  {% assign zs_craft_photos_count = 0 %}
+  {% capture zs_craft_photos %}
+    {% for zs_craft_image in product.images offset: 1 limit: 2 %}
+      {% assign zs_craft_photos_count = zs_craft_photos_count | plus: 1 %}
+      <figure class="zs-craft-story__photo">
+        {{
+          zs_craft_image
+          | image_url: width: 1000
+          | image_tag:
+            loading: 'lazy',
+            widths: '320, 480, 640, 800, 1000',
+            sizes: '(min-width: 1200px) 25vw, (min-width: 1024px) 23vw, 100vw',
+            alt: product.title,
+            class: 'zs-craft-story__image'
+        }}
+      </figure>
+    {% endfor %}
+  {% endcapture %}
+  {% if zs_craft_photos_count > 0 %}
+    <div class="zs-craft-story__photos zs-craft-story__photos--{{ zs_craft_photos_count }}">
+      {{ zs_craft_photos }}
+    </div>
+  {% endif %}
+  <div class="zs-craft-story__content">
+    <p class="zs-craft-story__eyebrow"><span aria-hidden="true"></span> THE ZAISEN CRAFT</p>
+    <h2 class="zs-craft-story__title">Shaped by Hand. <em>Made with Soul.</em></h2>
+    <h3 class="zs-craft-story__subheading">{{ zs_craft_subheading | escape }}</h3>
+    <p class="zs-craft-story__description">{{ zs_craft_paragraph | escape }}</p>
+    <p class="zs-craft-story__description zs-craft-story__description--last">{{ zs_craft_second | escape }}</p>
+    <div class="zs-craft-story__features" aria-label="Craftsmanship highlights">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 20c-3-5-2-11 3-15 4-3 9-2 11-1 1 8-1 14-7 16H6Z"/><path d="M6 20c3-5 6-8 11-11"/></svg> Natural Wood</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 13c2-3 3-4 5-4 3 0 4 4 7 4 2 0 3-2 6-4"/><path d="M5 16l3 4 6-1 4-3"/></svg> Handcrafted with Care</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 2 9 9l-7 3 7 3 3 7 3-7 7-3-7-3-3-7Z"/></svg> Unique Character</span>
+    </div>
+  </div>
+</div>
