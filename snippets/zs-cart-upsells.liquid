@@ -1,0 +1,84 @@
+{% comment %}ZAISEN complementary cart products; excludes items already in the cart.{% endcomment %}
+{% liquid
+  assign zs_upsell_collection = collections['wooden-home-decor']
+  if zs_upsell_collection == blank or zs_upsell_collection.products_count == 0
+    assign zs_upsell_collection = collections['handcrafted-wooden-gifts']
+  endif
+  if zs_upsell_collection == blank or zs_upsell_collection.products_count == 0
+    assign zs_upsell_collection = collections['wooden-desk-shelf-decor']
+  endif
+  if zs_upsell_collection == blank or zs_upsell_collection.products_count == 0
+    assign zs_upsell_collection = collections['all']
+  endif
+  assign zs_upsell_count = 0
+  case request.locale.iso_code
+    when 'de'
+      assign zs_upsell_heading = 'Passt wunderbar dazu'
+      assign zs_upsell_action = 'Hinzufügen'
+      assign zs_upsell_options = 'Optionen ansehen'
+    when 'fr'
+      assign zs_upsell_heading = 'Pour compléter votre sélection'
+      assign zs_upsell_action = 'Ajouter'
+      assign zs_upsell_options = 'Voir les options'
+    when 'ar'
+      assign zs_upsell_heading = 'أكمل مجموعتك'
+      assign zs_upsell_action = 'أضف'
+      assign zs_upsell_options = 'عرض الخيارات'
+    else
+      assign zs_upsell_heading = 'Complete your collection'
+      assign zs_upsell_action = 'Add'
+      assign zs_upsell_options = 'View options'
+  endcase
+%}
+{% capture zs_upsell_cards %}
+  {% for zs_product in zs_upsell_collection.products limit: 20 %}
+    {% assign zs_already_added = false %}
+    {% for zs_cart_item in cart.items %}
+      {% if zs_cart_item.product.id == zs_product.id %}
+        {% assign zs_already_added = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    {% if zs_product.available and zs_already_added == false and zs_upsell_count < 2 %}
+      {% assign zs_upsell_count = zs_upsell_count | plus: 1 %}
+      <article class="zs-cart-upsell__item">
+        <a class="zs-cart-upsell__image" href="{{ zs_product.url }}">
+          {% if zs_product.featured_image %}
+            {{ zs_product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', width: 72, height: 72, alt: zs_product.title }}
+          {% endif %}
+        </a>
+        <div class="zs-cart-upsell__details">
+          <a class="zs-cart-upsell__title" href="{{ zs_product.url }}">{{ zs_product.title | escape }}</a>
+          <div class="zs-cart-upsell__price">
+            {{ zs_product.selected_or_first_available_variant.price | money }}
+            {% if zs_product.selected_or_first_available_variant.compare_at_price > zs_product.selected_or_first_available_variant.price %}
+              <s>{{ zs_product.selected_or_first_available_variant.compare_at_price | money }}</s>
+            {% endif %}
+          </div>
+        </div>
+        {% if zs_product.has_only_default_variant %}
+          <button
+            class="zs-cart-upsell__add"
+            type="button"
+            data-zs-upsell-variant="{{ zs_product.selected_or_first_available_variant.id }}"
+            aria-label="{{ zs_upsell_action | escape }}: {{ zs_product.title | escape }}"
+            title="{{ zs_upsell_action | escape }}"
+          >+
+            <span class="visually-hidden">{{ zs_upsell_action | escape }}</span>
+          </button>
+        {% else %}
+          <a class="zs-cart-upsell__options" href="{{ zs_product.url }}" aria-label="{{ zs_upsell_options | escape }}: {{ zs_product.title | escape }}">
+            {{ zs_upsell_options }}
+          </a>
+        {% endif %}
+      </article>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+{% if zs_upsell_count > 0 %}
+  <aside class="zs-cart-upsells" aria-label="{{ zs_upsell_heading | escape }}">
+    <h3>{{ zs_upsell_heading }}</h3>
+    <div class="zs-cart-upsells__list">{{ zs_upsell_cards }}</div>
+    <p class="zs-cart-upsells__error" data-zs-upsell-error role="alert" hidden></p>
+  </aside>
+{% endif %}
