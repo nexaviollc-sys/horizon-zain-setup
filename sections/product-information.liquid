@@ -1,5 +1,8 @@
 {{ 'zs-product-polish.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'zs-buy-now.js' | asset_url }}" defer></script>
+{% if request.page_type == 'product' %}
+  <script src="{{ 'zs-product-staged-scroll.js' | asset_url }}" defer></script>
+{% endif %}
 
 
 <script type="application/ld+json">
