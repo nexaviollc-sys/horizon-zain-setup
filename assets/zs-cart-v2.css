@@ -759,6 +759,135 @@
   flex: 0 0 auto;
 }
 
+/* Simple empty-cart state with clear next action. */
+#cart-drawer .zs-cart-empty {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 35px 24px;
+  min-height: 0;
+  text-align: center;
+}
+
+#cart-drawer .zs-cart-empty__icon {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f8f4ee;
+  color: var(--zs-brown);
+}
+
+#cart-drawer .zs-cart-empty h3 {
+  margin: 0;
+  color: var(--zs-ink);
+  font-family: var(--font-heading--family);
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+#cart-drawer .zs-cart-empty p {
+  max-width: 280px;
+  margin: 0;
+  color: var(--zs-muted);
+  font-family: var(--font-body--family);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+#cart-drawer .cart-drawer--empty .cart-drawer__items,
+#cart-drawer .cart-drawer--empty .cart-items__wrapper--drawer-empty {
+  padding: 0;
+  width: 100%;
+  align-items: center;
+}
+
+#cart-drawer .cart-items__empty-button {
+  width: min(245px, 100%);
+  min-height: 43px;
+  border: 1px solid var(--zs-brown);
+  border-radius: 6px;
+  background: var(--zs-brown);
+  color: #fff;
+  font-family: var(--font-body--family);
+  font-size: 12px;
+}
+
+/* Overrides the previous drawer's responsive upsell suppression.
+   Scrolling keeps recommendations available without displacing checkout. */
+@media (max-height: 620px) {
+  #cart-drawer .zs-cart-upsells {
+    display: block;
+  }
+  #cart-drawer .cart-drawer__summary {
+    max-height: 75dvh;
+  }
+}
+
+@media (max-width: 479px) {
+  #cart-drawer {
+    --theme-drawer-width: 100vw;
+  }
+  #cart-drawer .theme-drawer__header {
+    padding: 15px 18px;
+    min-height: 60px;
+  }
+  #cart-drawer .theme-drawer__title {
+    font-size: 25px;
+  }
+  #cart-drawer .zs-cart-shipping {
+    margin: 12px 15px 4px;
+  }
+  #cart-drawer .cart-drawer__items,
+  #cart-drawer .zs-cart-upsells {
+    padding-inline: 15px;
+  }
+  #cart-drawer .cart-drawer__summary {
+    padding-inline: 15px;
+  }
+  #cart-drawer .cart-items__table-row,
+  #cart-drawer .cart-items__table-row.cart-items__table-row--full-width-variants {
+    grid-template-columns: 76px minmax(0, 1fr);
+    column-gap: 11px;
+  }
+  #cart-drawer .cart-items__media {
+    width: 76px;
+    height: 94px;
+  }
+  #cart-drawer .cart-items__title {
+    font-size: 12px;
+  }
+  #cart-drawer .cart-items__price {
+    font-size: 13px;
+  }
+  #cart-drawer .zs-cart-upsell__item {
+    padding: 7px;
+  }
+  #cart-drawer .zs-cart-upsell__image {
+    width: 100%;
+    height: auto;
+  }
+  #cart-drawer .zs-cart-upsell__title {
+    font-size: 10.5px;
+  }
+  #cart-drawer .zs-cart-breakdown {
+    padding: 11px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #cart-drawer .zs-cart-shipping__fill,
+  #cart-drawer .cart__checkout-button,
+  #cart-drawer .zs-cart-view-cart {
+    transition: none;
+  }
+}
+
 /* ZAISEN COMPACT FOOTER — prioritize visible cart items.
    Coupon stays collapsed as a tiny control beside Estimated total.
    The native Shopify checkout and accelerated wallets are untouched. */
@@ -1005,131 +1134,3 @@
   }
 }
 
-/* Simple empty-cart state with clear next action. */
-#cart-drawer .zs-cart-empty {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 35px 24px;
-  min-height: 0;
-  text-align: center;
-}
-
-#cart-drawer .zs-cart-empty__icon {
-  width: 76px;
-  height: 76px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #f8f4ee;
-  color: var(--zs-brown);
-}
-
-#cart-drawer .zs-cart-empty h3 {
-  margin: 0;
-  color: var(--zs-ink);
-  font-family: var(--font-heading--family);
-  font-size: 28px;
-  line-height: 1.1;
-  font-weight: 500;
-}
-
-#cart-drawer .zs-cart-empty p {
-  max-width: 280px;
-  margin: 0;
-  color: var(--zs-muted);
-  font-family: var(--font-body--family);
-  font-size: 12px;
-  line-height: 1.65;
-}
-
-#cart-drawer .cart-drawer--empty .cart-drawer__items,
-#cart-drawer .cart-drawer--empty .cart-items__wrapper--drawer-empty {
-  padding: 0;
-  width: 100%;
-  align-items: center;
-}
-
-#cart-drawer .cart-items__empty-button {
-  width: min(245px, 100%);
-  min-height: 43px;
-  border: 1px solid var(--zs-brown);
-  border-radius: 6px;
-  background: var(--zs-brown);
-  color: #fff;
-  font-family: var(--font-body--family);
-  font-size: 12px;
-}
-
-/* Overrides the previous drawer's responsive upsell suppression.
-   Scrolling keeps recommendations available without displacing checkout. */
-@media (max-height: 620px) {
-  #cart-drawer .zs-cart-upsells {
-    display: block;
-  }
-  #cart-drawer .cart-drawer__summary {
-    max-height: 75dvh;
-  }
-}
-
-@media (max-width: 479px) {
-  #cart-drawer {
-    --theme-drawer-width: 100vw;
-  }
-  #cart-drawer .theme-drawer__header {
-    padding: 15px 18px;
-    min-height: 60px;
-  }
-  #cart-drawer .theme-drawer__title {
-    font-size: 25px;
-  }
-  #cart-drawer .zs-cart-shipping {
-    margin: 12px 15px 4px;
-  }
-  #cart-drawer .cart-drawer__items,
-  #cart-drawer .zs-cart-upsells {
-    padding-inline: 15px;
-  }
-  #cart-drawer .cart-drawer__summary {
-    padding-inline: 15px;
-  }
-  #cart-drawer .cart-items__table-row,
-  #cart-drawer .cart-items__table-row.cart-items__table-row--full-width-variants {
-    grid-template-columns: 76px minmax(0, 1fr);
-    column-gap: 11px;
-  }
-  #cart-drawer .cart-items__media {
-    width: 76px;
-    height: 94px;
-  }
-  #cart-drawer .cart-items__title {
-    font-size: 12px;
-  }
-  #cart-drawer .cart-items__price {
-    font-size: 13px;
-  }
-  #cart-drawer .zs-cart-upsell__item {
-    padding: 7px;
-  }
-  #cart-drawer .zs-cart-upsell__image {
-    width: 100%;
-    height: auto;
-  }
-  #cart-drawer .zs-cart-upsell__title {
-    font-size: 10.5px;
-  }
-  #cart-drawer .zs-cart-breakdown {
-    padding: 11px 12px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #cart-drawer .zs-cart-shipping__fill,
-  #cart-drawer .cart__checkout-button,
-  #cart-drawer .zs-cart-view-cart {
-    transition: none;
-  }
-}
