@@ -43,21 +43,6 @@
         {% sections 'header-group' %}
       </div>
 
-      {% unless template.name == 'index' %}
-        <script>
-          // Reposition the existing shipping section under the header before
-          // Horizon measures header heights. Homepage DOM order is untouched.
-          (() => {
-            const group = document.getElementById('header-group');
-            const headerSection = group?.querySelector('.header-section');
-            const bar = group?.querySelector('[data-zs-announcement]')?.closest('.shopify-section');
-            if (headerSection && bar && headerSection.nextElementSibling !== bar) {
-              headerSection.insertAdjacentElement('afterend', bar);
-            }
-          })();
-        </script>
-      {% endunless %}
-
       <script>
         /**
          * Sets `--header-height` and `--header-group-height` to measured values before first paint.

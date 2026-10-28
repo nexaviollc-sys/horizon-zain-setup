@@ -11,23 +11,6 @@
   "type": "header",
   "name": "t:names.header",
   "sections": {
-    "zs_3d_announcement_bar_bRxW36": {
-      "type": "zs-3d-announcement-bar",
-      "name": "ZS Premium Announcement",
-      "settings": {
-        "message_1": "Handcrafted from pure wood",
-        "message_2": "Made to order • crafted with care",
-        "message_3": "Natural materials • timeless design",
-        "message_4": "Welcome to Zaisen",
-        "speed": 4,
-        "background_color": "#2B1D17",
-        "text_color": "#F7F3EE",
-        "accent_color": "#D8B56A",
-        "border_color": "#2B1D17",
-        "desktop_height": 46,
-        "mobile_height": 40
-      }
-    },
     "header_section": {
       "type": "header",
       "blocks": {
@@ -103,7 +86,7 @@
         "enable_transparent_header_home": true,
         "home_inverse_logo": false,
         "text_color_transparent_home": "#2B1D17",
-        "enable_transparent_header_product": true,
+        "enable_transparent_header_product": false,
         "product_inverse_logo": false,
         "text_color_transparent_product": "#2B1D17",
         "enable_transparent_header_collection": false,
@@ -115,7 +98,6 @@
     }
   },
   "order": [
-    "zs_3d_announcement_bar_bRxW36",
     "header_section"
   ]
 }
