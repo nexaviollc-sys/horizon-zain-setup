@@ -91,10 +91,11 @@
   // Other theme drawers may still use desktop squeeze. Overlay drawers,
   // specifically ZAISEN's cart, must never resize or shift the page.
   function syncPageSqueeze() {
+    const cartIsOpen = document.querySelector('#cart-drawer[open]') !== null;
     const openSidebar = document.querySelector('theme-drawer[open]:not([overlay-mode])');
     pageWrapper?.classList.toggle(
       'page-wrapper--drawer-open',
-      Boolean(openSidebar) && squeezeQuery.matches
+      !cartIsOpen && Boolean(openSidebar) && squeezeQuery.matches
     );
   }
 
