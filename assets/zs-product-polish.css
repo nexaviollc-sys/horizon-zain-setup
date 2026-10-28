@@ -213,33 +213,171 @@
 .zs-product-description,
 .zs-product-full-description { display:none !important; }
 
-/* ZAISEN two-stage gallery/detail page scrolling (desktop only) */
-@media screen and (min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+/* ZAISEN Atelier craft story: fills the media column naturally, with no
+   artificial scroll-track height or transformed product columns. */
+.product-information .zs-craft-story { display: none; }
+
+@media screen and (min-width: 1024px) {
   .product-information[data-testid="product-information"]
-    .product-information__grid[data-zs-staged-scroll="on"] {
-    align-content: start;
-    align-items: start;
-    grid-auto-rows: max-content;
-    position: relative;
-    overflow: visible;
+  .product-information__media > .zs-craft-story {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    margin: 26px 0 8px;
+    gap: 0;
   }
 
-  .product-information[data-testid="product-information"]
-    .product-information__grid[data-zs-staged-scroll="on"] > .product-information__media,
-  .product-information[data-testid="product-information"]
-    .product-information__grid[data-zs-staged-scroll="on"] > .product-details {
-    align-self: start;
-    min-height: 0;
-    transition: none;
-    will-change: transform;
+  .product-information .zs-craft-story__photos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 12px;
+    margin: 0 0 20px;
+    width: 100%;
+    min-width: 0;
   }
 
-  /* Native sticky details would conflict with the sequential handoff.
-     The scroll is still driven by the document (not mouse-wheel capture). */
-  .product-information[data-testid="product-information"]
-    .product-information__grid[data-zs-staged-scroll="on"] > .product-details.sticky-content--desktop {
-    position: relative !important;
-    top: auto !important;
-    inset-block-start: auto !important;
+  .product-information .zs-craft-story__photos--1 {
+    grid-template-columns: 1fr;
   }
+
+  .product-information .zs-craft-story__photo {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 4 / 3;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid #e6dacf;
+    border-radius: 11px;
+    overflow: hidden;
+    background: #fbf8f4;
+  }
+
+  .product-information .zs-craft-story__photos--1 .zs-craft-story__photo {
+    aspect-ratio: 16 / 7;
+  }
+
+  .product-information .zs-craft-story__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 7px;
+  }
+
+  .product-information .zs-craft-story__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    padding: clamp(22px, 2.7vw, 34px);
+    border: 1px solid #e8d8c7;
+    border-radius: 13px;
+    background: linear-gradient(140deg, #fbf6ef 0%, #f7efe4 100%);
+    box-shadow: 0 8px 27px rgba(59, 34, 18, .04);
+    color: #39291f;
+  }
+
+  .product-information .zs-craft-story__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 0 0 13px;
+    color: #986f50;
+    font: 700 10px/1.4 var(--font-body--family), sans-serif;
+    letter-spacing: .17em;
+  }
+
+  .product-information .zs-craft-story__eyebrow span {
+    display: block;
+    width: 29px;
+    height: 1.5px;
+    background: #aa7956;
+  }
+
+  .product-information .zs-craft-story__title {
+    width: 100%;
+    margin: 0 0 10px;
+    color: #38271d;
+    font: 500 clamp(27px, 2.35vw, 36px)/1.14 var(--font-heading--family), Georgia, serif;
+    letter-spacing: -.022em;
+    text-wrap: balance;
+  }
+
+  .product-information .zs-craft-story__title em {
+    color: #704b34;
+    font-style: italic;
+  }
+
+  .product-information .zs-craft-story__subheading {
+    margin: 0 0 12px;
+    color: #80573b;
+    font: 600 clamp(15px, 1.18vw, 18px)/1.35 var(--font-body--family), sans-serif;
+    letter-spacing: -.01em;
+  }
+
+  .product-information .zs-craft-story__description {
+    margin: 0 0 12px;
+    color: #625247;
+    font: 400 clamp(13px, .95vw, 15px)/1.7 var(--font-body--family), sans-serif;
+    overflow-wrap: break-word;
+  }
+
+  .product-information .zs-craft-story__description--last {
+    margin-bottom: 0;
+  }
+
+  .product-information .zs-craft-story__features {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    width: 100%;
+    margin-top: 19px;
+    padding-top: 14px;
+    border-top: 1px solid #e1cdbb;
+  }
+
+  .product-information .zs-craft-story__features span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    color: #73533c;
+    font: 650 11px/1.4 var(--font-body--family), sans-serif;
+  }
+
+  .product-information .zs-craft-story__features svg {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    color: #8b6247;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1240px) {
+  .product-information .zs-craft-story__content {
+    padding: 23px 21px;
+  }
+
+  .product-information .zs-craft-story__title {
+    font-size: 28px;
+  }
+
+  .product-information .zs-craft-story__photos {
+    gap: 9px;
+  }
+
+  .product-information .zs-craft-story__features {
+    gap: 8px 13px;
+  }
+}
+
+/* The mobile/tablet product media gallery remains unchanged. */
+@media screen and (max-width: 1023px) {
+  .product-information .zs-craft-story { display: none !important; }
 }
