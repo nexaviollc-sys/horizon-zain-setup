@@ -1,5 +1,5 @@
 import { Component } from '@theme/component';
-import { StandardEvents } from '@shopify/events';
+import { StandardEvents, CartLinesUpdateEvent } from '@shopify/events';
 import { DrawerOpenEvent } from '@theme/theme-drawer';
 import { ThemeEvents } from '@theme/events';
 
@@ -19,6 +19,9 @@ class CartDrawerComponent extends Component {
   /** @type {number} */
   #summaryThreshold = 0.5;
 
+  /** @type {MutationObserver | null} */
+  #shippingObserver = null;
+
   /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */
   get #themeDrawer() {
     return /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */ (this.closest('theme-drawer'));
@@ -32,6 +35,10 @@ class CartDrawerComponent extends Component {
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
+    this.addEventListener('click', this.#handleUpsellClick);
+    this.#shippingObserver = new MutationObserver(() => this.#updateShippingProgress());
+    this.#shippingObserver.observe(this, { childList: true, subtree: true });
+    this.#updateShippingProgress();
     this.#themeDrawer?.addEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
     this.addEventListener(ThemeEvents.cartSectionRestored, this.#handleCartSectionRestored);
 
@@ -46,6 +53,9 @@ class CartDrawerComponent extends Component {
   disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
+    this.removeEventListener('click', this.#handleUpsellClick);
+    this.#shippingObserver?.disconnect();
+    this.#shippingObserver = null;
     this.#themeDrawer?.removeEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
     this.removeEventListener(ThemeEvents.cartSectionRestored, this.#handleCartSectionRestored);
   }
@@ -68,6 +78,7 @@ class CartDrawerComponent extends Component {
    */
   #handleDrawerOpen = () => {
     this.#updateStickyState();
+    this.#updateShippingProgress();
 
     // Close cart drawer when installments CTA is clicked to avoid overlapping dialogs.
     // Re-queried on every open so it survives cart content re-renders that
@@ -99,7 +110,10 @@ class CartDrawerComponent extends Component {
 
     event.promise
       ?.then(({ detail }) => {
-        const settle = () => requestAnimationFrame(() => this.#updateStickyState());
+        const settle = () => requestAnimationFrame(() => {
+          this.#updateStickyState();
+          this.#updateShippingProgress();
+        });
 
         if (!shouldAutoOpen || detail?.didError) {
           settle();
@@ -120,6 +134,143 @@ class CartDrawerComponent extends Component {
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[cart-drawer] Event promise rejected:', error);
       });
+  };
+
+
+  /**
+   * Keep shipping progress accurate for the Shopify Market's presentment currency.
+   * We hide the progress bar if a trusted Shopify conversion rate is unavailable,
+   * rather than promise free shipping based on a misleading currency threshold.
+   */
+  #updateShippingProgress = () => {
+    const element = this.querySelector('[data-zs-shipping-progress]');
+    if (!(element instanceof HTMLElement)) return;
+
+    const message = element.querySelector('[data-zs-shipping-message]');
+    const track = element.querySelector('[data-zs-shipping-track]');
+    const fill = element.querySelector('[data-zs-shipping-fill]');
+    if (!(message instanceof HTMLElement) || !(track instanceof HTMLElement) || !(fill instanceof HTMLElement)) {
+      return;
+    }
+
+    const baseCurrency = (element.dataset.shopCurrency || '').toUpperCase();
+    const currency = (element.dataset.currency || baseCurrency).toUpperCase();
+    const goalUsdCents = Number(element.dataset.thresholdUsdCents);
+    const subtotalCents = Number(element.dataset.cartTotalCents);
+    const shopifyRate = Number(window.Shopify?.currency?.rate);
+    const rate = currency === 'USD' ? 1 : (baseCurrency === 'USD' ? shopifyRate : NaN);
+    const locale = (element.dataset.locale || 'en').split('-')[0].toLowerCase();
+
+    const translations = {
+      en: { eligible: "You've unlocked FREE shipping!", remaining: (amount) => `You're ${amount} away from FREE shipping`, unknown: 'Free shipping eligibility is confirmed at checkout.' },
+      de: { eligible: 'Kostenloser Versand freigeschaltet!', remaining: (amount) => `Noch ${amount} bis zum kostenlosen Versand`, unknown: 'Versandvorteile werden an der Kasse bestätigt.' },
+      fr: { eligible: 'La livraison gratuite est offerte !', remaining: (amount) => `Plus que ${amount} pour la livraison gratuite`, unknown: 'La livraison gratuite est confirmée au paiement.' },
+      ar: { eligible: 'لقد حصلت على الشحن المجاني!', remaining: (amount) => `تبقى ${amount} للشحن المجاني`, unknown: 'يتم تأكيد الشحن المجاني عند الدفع.' },
+    };
+    const words = translations[locale] || translations.en;
+
+    if (baseCurrency !== 'USD' || !Number.isFinite(rate) || rate <= 0 ||
+        !Number.isFinite(goalUsdCents) || goalUsdCents <= 0 ||
+        !Number.isFinite(subtotalCents) || subtotalCents < 0) {
+      track.hidden = true;
+      element.classList.remove('is-qualified');
+      if (message.textContent.trim() !== words.unknown) message.textContent = words.unknown;
+      return;
+    }
+
+    const goalCents = Math.ceil(goalUsdCents * rate);
+    const isQualified = subtotalCents >= goalCents;
+    const remainingCents = Math.max(0, goalCents - subtotalCents);
+    const completion = Math.min(100, Math.round((subtotalCents / goalCents) * 100));
+    let formattedAmount;
+    try {
+      formattedAmount = new Intl.NumberFormat(element.dataset.locale || 'en', {
+        style: 'currency',
+        currency,
+      }).format(remainingCents / 100);
+    } catch {
+      formattedAmount = `${(remainingCents / 100).toFixed(2)} ${currency}`;
+    }
+
+    const newText = isQualified ? words.eligible : words.remaining(formattedAmount);
+    if (message.textContent.trim() !== newText) message.textContent = newText;
+    element.classList.toggle('is-qualified', isQualified);
+    track.hidden = false;
+    track.setAttribute('aria-valuenow', String(completion));
+    fill.style.width = `${completion}%`;
+  };
+
+  /**
+   * AJAX quick add for the complementary single-variant items.
+   * Uses the same CartLinesUpdateEvent contract as Horizon's product forms
+   * so native cart rendering, quantity updates, and discounts are preserved.
+   * @param {MouseEvent} event
+   */
+  #handleUpsellClick = async (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest('button[data-zs-upsell-variant]');
+    if (!(button instanceof HTMLButtonElement) || !this.contains(button) || button.disabled) return;
+
+    const variantId = button.dataset.zsUpsellVariant || '';
+    if (!/^\\d+$/.test(variantId)) return;
+
+    const errorMessage = this.querySelector('[data-zs-upsell-error]');
+    if (errorMessage instanceof HTMLElement) errorMessage.hidden = true;
+    button.disabled = true;
+
+    const sectionIds = Array.from(document.querySelectorAll('cart-items-component'))
+      .map((element) => element instanceof HTMLElement ? element.dataset.sectionId : '')
+      .filter(Boolean);
+
+    const deferred = CartLinesUpdateEvent.createPromise();
+    this.dispatchEvent(new CartLinesUpdateEvent({
+      action: 'add',
+      context: 'product',
+      lines: [{ merchandiseId: variantId, quantity: 1 }],
+      promise: deferred.promise,
+    }));
+
+    try {
+      const response = await fetch(Theme.routes.cart_add_url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          items: [{ id: Number(variantId), quantity: 1 }],
+          sections: Array.from(new Set(sectionIds)).join(','),
+          sections_url: window.location.pathname,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok || data.status) {
+        throw new Error(data.description || data.message || 'Unable to add this product');
+      }
+
+      const cartResponse = await fetch(`${Theme.routes.cart_url}.json`, {
+        credentials: 'same-origin',
+        headers: { Accept: 'application/json' },
+      });
+      if (!cartResponse.ok) throw new Error('Unable to refresh cart');
+      const cart = await cartResponse.json();
+
+      deferred.resolve({
+        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(cart),
+        detail: {
+          items: cart.items,
+          sections: data.sections,
+          source: 'zs-cart-upsell',
+          didError: false,
+        },
+      });
+    } catch (error) {
+      deferred.reject(error);
+      if (errorMessage instanceof HTMLElement) {
+        errorMessage.textContent = error instanceof Error ? error.message : 'Unable to add this product';
+        errorMessage.hidden = false;
+      }
+    } finally {
+      if (button.isConnected) button.disabled = false;
+    }
   };
 
   #isCartEmpty() {
