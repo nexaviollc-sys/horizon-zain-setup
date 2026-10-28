@@ -337,6 +337,13 @@
         "padding-block-end": 0
       }
     },
+    "zs_lifestyle_story": {
+      "type": "zs-product-lifestyle",
+      "settings": {
+        "eyebrow": "STYLED IN REAL SPACES",
+        "image_label": "A LITTLE CLOSER TO NATURE"
+      }
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -482,6 +489,7 @@
   },
   "order": [
     "main",
+    "zs_lifestyle_story",
     "product_recommendations_qggXJq"
   ]
 }
