@@ -44,6 +44,34 @@
       </div>
 
       <script>
+        /*
+         * ZAISEN copper marquee placement (run synchronously before the
+         * header's first-paint measurements):
+         * - product templates: marquee ABOVE the header
+         * - homepage: hidden
+         * - all other templates: preserve the native header-group order
+         *
+         * Move the existing Shopify section rather than rendering a copy,
+         * so its content/settings, animation and localization stay intact.
+         */
+        (function positionZaisenMarquee() {
+          const group = document.getElementById('header-group');
+          const marqueeSection = group?.querySelector('.zs-copper-marquee-section');
+          if (!group || !marqueeSection) return;
+
+          {% if template.name == 'index' %}
+            marqueeSection.hidden = true;
+            marqueeSection.style.display = 'none';
+          {% elsif template.name == 'product' %}
+            const headerSection = group.querySelector('.header-section');
+            if (headerSection && marqueeSection !== headerSection.previousElementSibling) {
+              group.insertBefore(marqueeSection, headerSection);
+            }
+          {% endif %}
+        })();
+      </script>
+
+      <script>
         /**
          * Sets `--header-height` and `--header-group-height` to measured values before first paint.
          *
@@ -85,7 +113,11 @@
              * section down by the header's height using a margin, which offsetHeight also
              * excludes — so the header's height has to be added back manually.
              */
-            if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
+            if (
+              header.hasAttribute('transparent') &&
+              header.parentElement?.nextElementSibling &&
+              !header.parentElement.nextElementSibling.hidden
+            ) {
               headerGroupHeight += headerHeight;
             }
 
@@ -129,7 +161,9 @@
           const headerSection = document.querySelector('#header-group .header-section');
           if (!headerSection || !header?.hasAttribute('transparent')) return;
 
-          const hasImmediateSection = headerSection.nextElementSibling?.classList.contains('shopify-section');
+          const nextSection = headerSection.nextElementSibling;
+          const hasImmediateSection =
+            nextSection?.classList.contains('shopify-section') && !nextSection.hidden;
           if (!hasImmediateSection) {
             document.body.style.setProperty('--transparent-header-offset-boolean', '1');
           }
