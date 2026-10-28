@@ -212,7 +212,7 @@ class CartDrawerComponent extends Component {
     if (!(button instanceof HTMLButtonElement) || !this.contains(button) || button.disabled) return;
 
     const variantId = button.dataset.zsUpsellVariant || '';
-    if (!/^\\d+$/.test(variantId)) return;
+    if (!/^\d+$/.test(variantId)) return;
 
     const errorMessage = this.querySelector('[data-zs-upsell-error]');
     if (errorMessage instanceof HTMLElement) errorMessage.hidden = true;
