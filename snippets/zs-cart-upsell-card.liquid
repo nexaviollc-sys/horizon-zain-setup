@@ -4,7 +4,7 @@
 {% endcomment %}
 <article class="zs-cart-upsell__item" data-product-id="{{ zs_product.id }}">
   <a class="zs-cart-upsell__image" href="{{ zs_product.url }}" tabindex="-1" aria-hidden="true">
-    {{ zs_product.featured_image | image_url: width: 380 | image_tag: loading: 'lazy', widths: '120, 200, 300, 380', sizes: '(max-width: 480px) 44vw, 175px', alt: zs_product.title, class: 'zs-cart-upsell__photo' }}
+    {{ zs_product.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '240, 360, 480, 600, 720', sizes: '(max-width: 749px) 44vw, 230px', alt: zs_product.title, class: 'zs-cart-upsell__photo' }}
   </a>
   <div class="zs-cart-upsell__details">
     <a class="zs-cart-upsell__title" href="{{ zs_product.url }}">{{ zs_product.title | escape }}</a>
