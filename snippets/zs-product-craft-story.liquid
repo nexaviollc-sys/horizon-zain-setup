@@ -48,6 +48,18 @@
 %}
 
 <div class="zs-craft-story" aria-label="The ZAISEN craft">
+  <div class="zs-craft-story__content">
+    <p class="zs-craft-story__eyebrow"><span aria-hidden="true"></span> THE ZAISEN CRAFT</p>
+    <h2 class="zs-craft-story__title">Shaped by Hand. <em>Made with Soul.</em></h2>
+    <h3 class="zs-craft-story__subheading">{{ zs_craft_subheading | escape }}</h3>
+    <p class="zs-craft-story__description">{{ zs_craft_paragraph | escape }}</p>
+    <p class="zs-craft-story__description zs-craft-story__description--last">{{ zs_craft_second | escape }}</p>
+    <div class="zs-craft-story__features" aria-label="Craftsmanship highlights">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 20c-3-5-2-11 3-15 4-3 9-2 11-1 1 8-1 14-7 16H6Z"/><path d="M6 20c3-5 6-8 11-11"/></svg> Natural Wood</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 13c2-3 3-4 5-4 3 0 4 4 7 4 2 0 3-2 6-4"/><path d="M5 16l3 4 6-1 4-3"/></svg> Handcrafted with Care</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 2 9 9l-7 3 7 3 3 7 3-7 7-3-7-3-3-7Z"/></svg> Unique Character</span>
+    </div>
+  </div>
   {% assign zs_craft_photos_count = 0 %}
   {% capture zs_craft_photos %}
     {% for zs_craft_image in product.images offset: 1 limit: 2 %}
@@ -71,16 +83,5 @@
       {{ zs_craft_photos }}
     </div>
   {% endif %}
-  <div class="zs-craft-story__content">
-    <p class="zs-craft-story__eyebrow"><span aria-hidden="true"></span> THE ZAISEN CRAFT</p>
-    <h2 class="zs-craft-story__title">Shaped by Hand. <em>Made with Soul.</em></h2>
-    <h3 class="zs-craft-story__subheading">{{ zs_craft_subheading | escape }}</h3>
-    <p class="zs-craft-story__description">{{ zs_craft_paragraph | escape }}</p>
-    <p class="zs-craft-story__description zs-craft-story__description--last">{{ zs_craft_second | escape }}</p>
-    <div class="zs-craft-story__features" aria-label="Craftsmanship highlights">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 20c-3-5-2-11 3-15 4-3 9-2 11-1 1 8-1 14-7 16H6Z"/><path d="M6 20c3-5 6-8 11-11"/></svg> Natural Wood</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 13c2-3 3-4 5-4 3 0 4 4 7 4 2 0 3-2 6-4"/><path d="M5 16l3 4 6-1 4-3"/></svg> Handcrafted with Care</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 2 9 9l-7 3 7 3 3 7 3-7 7-3-7-3-3-7Z"/></svg> Unique Character</span>
-    </div>
-  </div>
+
 </div>
