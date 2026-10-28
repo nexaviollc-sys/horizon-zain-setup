@@ -1264,14 +1264,51 @@
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed {
-    /* Same walnut family as the footer; gently lighter at left, deeper at right. */
+    /* Softer walnut highlight on the LEFT; footer-matched deep walnut on the RIGHT.
+       The base stays steady through all hover and open-menu states. */
     background-color: #2B1D17;
     background-image:
-      radial-gradient(ellipse at 6% -10%,rgba(216,181,106,.11),transparent 52%),
-      linear-gradient(100deg,#463328 0%,#38271E 52%,#2B1D17 100%);
+      radial-gradient(ellipse at 5% -8%,rgba(216,181,106,.14),transparent 54%),
+      linear-gradient(100deg,#594131 0%,#3C2920 52%,#2B1D17 100%);
     box-shadow: inset 0 1px 0 rgba(216,181,106,.26),
                 inset 0 -1px 0 rgba(25,14,9,.13),
                 0 3px 12px rgba(20,12,8,.13);
+    overflow: hidden;
+  }
+
+  /* A quiet, continuous gold-tinted light pass — not a hover-triggered
+     header color swap. The off-screen ends avoid an animation jump. */
+  #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed::before {
+    content: '';
+    display: block !important;
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(216,181,106,.025) 22%,
+      rgba(216,181,106,.115) 52%,
+      rgba(216,181,106,.025) 78%,
+      transparent 100%
+    );
+    pointer-events: none;
+    transform: translateX(-120%);
+    animation: zs-walnut-header-light-pass 19s ease-in-out infinite;
+  }
+
+  @keyframes zs-walnut-header-light-pass {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(300%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed::before {
+      animation: none;
+      transform: translateX(-120%);
+    }
   }
 
   #header-component.header--zaisen-dark:not([transparent]) :is(.header__row--top,.header__row--bottom) {
