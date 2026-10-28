@@ -412,6 +412,13 @@
                   <text-component value="{{ price | strip_html }}"
                     ><bdi>{{ price }}</bdi></text-component
                   >
+                  {% if context == 'drawer' %}
+                    {% if item.variant.compare_at_price > item.original_price %}
+                      <s class="zs-cart-compare-at">{{ item.variant.compare_at_price | times: item.quantity | money }}</s>
+                    {% elsif item.original_line_price > item.final_line_price %}
+                      <s class="zs-cart-compare-at">{{ item.original_line_price | money }}</s>
+                    {% endif %}
+                  {% endif %}
                   {%- if item.unit_price_measurement -%}
                     <div class="cart-items__price-unit cart-secondary-typography">
                       {% render 'unit-price', price: unit_price, measurement: item.unit_price_measurement %}
