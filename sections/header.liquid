@@ -201,12 +201,6 @@
     assign class = class | append: ' header--zaisen'
   endif
 
-  # A barely-there right-side walnut tint on white inner-page headers only.
-  # The homepage's original transparent and sticky header is not altered.
-  if template.name != 'index'
-    assign class = class | append: ' header--zaisen-ivory-walnut'
-  endif
-
   # Header-only presentation hook: product pages keep the homepage's
   # transparent mechanics, but need dark utility/navigation colors.
   if template.name == 'product' and section.settings.enable_transparent_header_product
@@ -1250,29 +1244,6 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
-
-  /* ZAISEN — almost-white header with a faint walnut tint on the RIGHT only.
-     Maintain original logo, nav, height, sticky behavior and page boundaries.
-     The entire LEFT 75% stays pure white; no animation or hover color sweep. */
-  #header-component.header--zaisen-ivory-walnut:not([transparent]) .header__underlay-closed {
-    background-color: #FFFFFF;
-    background-image: linear-gradient(90deg,
-      #FFFFFF 0%,
-      #FFFFFF 75%,
-      #FCFAF8 87%,
-      #F2E8DF 100%
-    );
-  }
-
-  /* On dropdown open, keep the same softly tinted header visible.
-     Only the submenu area beneath the header receives its own background. */
-  #header-component.header--zaisen-ivory-walnut:not([transparent]) .header__underlay-open {
-    background: linear-gradient(to bottom,
-      transparent 0 var(--header-height),
-      var(--color-submenu,#FFFFFF) var(--header-height) 100%
-    );
-  }
-
 {% endstylesheet %}
 
 {% unless request.design_mode %}
