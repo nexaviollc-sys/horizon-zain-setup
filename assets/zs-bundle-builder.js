@@ -52,10 +52,14 @@
         const withinDetails = this.closest('.product-details')?.contains(event.target);
         if (withinDetails && !this.contains(event.target)) {
           this.refresh();
-          queueMicrotask(() => this.refresh());
+          setTimeout(() => this.refresh(), 80);
+          setTimeout(() => this.refresh(), 240);
         }
       };
-      this.onVariantUpdate = () => this.refresh();
+      this.onVariantUpdate = () => {
+        this.refresh();
+        setTimeout(() => this.refresh(), 80);
+      };
       this.onSubmitCapture = event => {
         if (event.target !== this.form || this.selectedRows().length < 2) return;
         event.preventDefault();
@@ -73,7 +77,7 @@
         this.purchase('checkout');
       };
       this.addEventListener('change', this.onLocalChange);
-      this.form?.addEventListener('change', this.onFormChange);
+      document.addEventListener('change', this.onFormChange, true);
       document.addEventListener('variant:update', this.onVariantUpdate);
       document.addEventListener('submit', this.onSubmitCapture, true);
       document.addEventListener('click', this.onClickCapture, true);
@@ -81,7 +85,7 @@
     }
     disconnectedCallback() {
       this.removeEventListener('change', this.onLocalChange);
-      this.form?.removeEventListener('change', this.onFormChange);
+      document.removeEventListener('change', this.onFormChange, true);
       document.removeEventListener('variant:update', this.onVariantUpdate);
       document.removeEventListener('submit', this.onSubmitCapture, true);
       document.removeEventListener('click', this.onClickCapture, true);
