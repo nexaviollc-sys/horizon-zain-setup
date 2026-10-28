@@ -55,6 +55,20 @@
       assign zs_qualifier = 'للطلبات من'
       assign zs_delivery_label = 'التوصيل إلى'
   endcase
+
+  assign zs_simple_offer = 'Free shipping on orders over'
+  assign zs_country_hint = 'Change your country to see shipping information for your location.'
+  case localization.language.iso_code
+    when 'fr'
+      assign zs_simple_offer = 'Livraison gratuite pour les commandes de plus de'
+      assign zs_country_hint = 'Changez de pays pour voir les informations de livraison correspondantes.'
+    when 'de'
+      assign zs_simple_offer = 'Kostenloser Versand für Bestellungen über'
+      assign zs_country_hint = 'Land ändern, um die passenden Versandinformationen zu sehen.'
+    when 'ar'
+      assign zs_simple_offer = 'شحن مجاني للطلبات التي تزيد عن'
+      assign zs_country_hint = 'غيّر بلدك للاطلاع على معلومات الشحن المناسبة له.'
+  endcase
 %}
 
 <section
@@ -74,15 +88,16 @@
   <div class="zs-announcement__inner">
     {% if zs_shipping_threshold > 0 %}
       {% unless template.name == 'index' %}
-        <p class="zs-announcement__minimal"{% if localization.language.iso_code == 'ar' %} dir="rtl"{% endif %}>
-          <span class="zs-announcement__minimal-title">{{ zs_headline | escape }}</span>
-          <span class="zs-announcement__minimal-condition">{{ zs_qualifier | escape }}</span>
-          <strong class="zs-announcement__minimal-amount">{{ zs_currency_prefix }}{{ zs_shipping_threshold }}+</strong>
-          <span class="zs-announcement__minimal-divider" aria-hidden="true"></span>
-          <span class="zs-announcement__minimal-destination">
-            {{ zs_delivery_label | escape }} <strong>{{ zs_destination | escape }}</strong>
-          </span>
-        </p>
+        <div class="zs-announcement__minimal">
+          <div class="zs-announcement__country">
+            <span class="zs-announcement__country-name">{{ zs_destination | escape }}</span>
+            <span class="zs-announcement__country-note">{{ zs_country_hint | escape }}</span>
+          </div>
+          <p class="zs-announcement__offer"{% if localization.language.iso_code == 'ar' %} dir="rtl"{% endif %}>
+            <span>{{ zs_simple_offer | escape }}</span>
+            <strong class="zs-announcement__minimal-amount">{{ zs_currency_prefix }}{{ zs_shipping_threshold }}</strong>
+          </p>
+        </div>
       {% else %}
       <div class="zs-announcement__shipping">
         <span class="zs-announcement__icon" aria-hidden="true">
@@ -387,11 +402,11 @@
   }
 
   /*
-   * Inner pages only: compact shipping strip under the transparent header.
-   * The homepage keeps the original deluxe ZAISEN announcement unchanged.
+   * Inner pages only: restrained shipping strip directly under the header.
+   * The original homepage announcement markup, style and position are preserved.
    */
   .zs-announcement.zs-announcement--inner {
-    min-height: 38px;
+    min-height: 48px;
     background: var(--zs-a-bg);
     border-block: 1px solid color-mix(in srgb, var(--zs-a-accent) 22%, transparent);
     box-shadow: none;
@@ -402,78 +417,99 @@
   }
 
   .zs-announcement--inner .zs-announcement__inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     grid-template-columns: none;
-    min-height: 38px;
-    padding: 7px 16px;
-    gap: 0;
+    min-height: 48px;
+    max-width: 1300px;
+    padding: 8px 24px;
   }
 
   .zs-announcement__minimal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    gap: 24px;
+    align-items: center;
+    min-height: 32px;
+    color: var(--zs-a-text);
+    font-family: var(--font-body--family, inherit);
+  }
+
+  .zs-announcement__country {
     display: flex;
-    align-items: baseline;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    min-width: 0;
+    text-align: start;
+  }
+
+  .zs-announcement__country-name {
+    color: var(--zs-a-text);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .zs-announcement__country-note {
+    color: color-mix(in srgb, var(--zs-a-text) 70%, var(--zs-a-bg));
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.005em;
+  }
+
+  .zs-announcement__offer {
+    display: flex;
     flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-end;
     gap: 0 5px;
     margin: 0;
+    text-align: end;
     color: var(--zs-a-text);
-    text-align: center;
-    font-family: var(--font-body--family, inherit);
-    font-size: 11.5px;
-    line-height: 1.4;
-  }
-
-  .zs-announcement__minimal-title {
-    font-family: var(--font-heading--family, Georgia, serif);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-  }
-
-  .zs-announcement__minimal-condition,
-  .zs-announcement__minimal-destination {
-    opacity: 0.88;
+    line-height: 1.35;
   }
 
   .zs-announcement__minimal-amount {
-    font-size: 12px;
-    font-weight: 750;
     color: var(--zs-a-accent);
+    font-size: 13px;
+    font-weight: 750;
     white-space: nowrap;
   }
 
-  .zs-announcement__minimal-divider {
-    align-self: center;
-    width: 1px;
-    height: 12px;
-    background: color-mix(in srgb, var(--zs-a-accent) 55%, transparent);
-    margin-inline: 13px;
-  }
-
-  .zs-announcement__minimal-destination strong {
-    color: var(--zs-a-text);
-    opacity: 1;
-    font-weight: 650;
-  }
-
   @media screen and (max-width: 749px) {
-    .zs-announcement.zs-announcement--inner { min-height: 46px; }
+    .zs-announcement.zs-announcement--inner { min-height: 60px; }
+
     .zs-announcement--inner .zs-announcement__inner {
-      min-height: 46px;
-      padding: 6px 10px;
+      min-height: 60px;
+      padding: 9px 14px;
     }
-    .zs-announcement__minimal { font-size: 10.5px; }
-    .zs-announcement__minimal-title { font-size: 12.5px; }
+
+    .zs-announcement__minimal {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 7px;
+    }
+
+    .zs-announcement__country {
+      align-items: center;
+      text-align: center;
+      gap: 2px;
+    }
+
+    .zs-announcement__country-name { font-size: 11.5px; }
+    .zs-announcement__country-note { font-size: 9.5px; }
+
+    .zs-announcement__offer {
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+    }
+
     .zs-announcement__minimal-amount { font-size: 11.5px; }
-    .zs-announcement__minimal-divider {
-      display: none;
-    }
-    .zs-announcement__minimal-destination {
-      flex-basis: 100%;
-      font-size: 10px;
-    }
   }
+
 {% endstylesheet %}
 
 {% javascript %}
