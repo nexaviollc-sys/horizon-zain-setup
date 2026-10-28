@@ -20,6 +20,19 @@
       break
     endif
   endfor
+  if zs_shipping_bundle_code == false and zs_shipping_usd > 0 and cart.item_count >= 2
+    for zs_cart_line in cart.items
+      for zs_allocation in zs_cart_line.line_level_discount_allocations
+        if zs_allocation.discount_application.title contains 'ZS-BUNDLE15-2026' or zs_allocation.discount_application.title contains 'ZS-BUNDLE25-2026'
+          assign zs_shipping_bundle_code = true
+          break
+        endif
+      endfor
+      if zs_shipping_bundle_code
+        break
+      endif
+    endfor
+  endif
   assign zs_shipping_threshold_cents = zs_shipping_usd | times: 100
   assign zs_shipping_usd_qualified = false
   if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_threshold_cents
