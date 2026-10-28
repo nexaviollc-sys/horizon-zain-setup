@@ -113,10 +113,30 @@
               </div>
 
               <div class="cart-drawer__summary">
-                {% assign zs_cart_savings = cart.original_total_price | minus: cart.total_price %}
-                <div class="zs-cart-breakdown">
+                {% liquid
+                  assign zs_cart_savings = cart.original_total_price | minus: cart.total_price
+                  assign zs_shipping_usd = 0
+                  case localization.country.iso_code
+                    when 'US', 'DE', 'FR'
+                      assign zs_shipping_usd = 60
+                    when 'CA', 'AU'
+                      assign zs_shipping_usd = 100
+                  endcase
+                  assign zs_free_shipping = false
+                  assign zs_shipping_usd_cents = zs_shipping_usd | times: 100
+                  if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_usd_cents
+                    assign zs_free_shipping = true
+                  endif
+                  for zs_discount in cart.discount_applications
+                    if zs_discount.title contains 'ZS-BUNDLESHIP-2026'
+                      assign zs_free_shipping = true
+                      break
+                    endif
+                  endfor
+                %}
+                <div class="zs-cart-breakdown" aria-label="Order summary">
                   <div class="zs-cart-breakdown__row">
-                    <span>
+                    <span class="zs-cart-breakdown__label">
                       {% case request.locale.iso_code %}
                         {% when 'de' %}Zwischensumme
                         {% when 'fr' %}Sous-total
@@ -124,23 +144,10 @@
                         {% else %}Subtotal
                       {% endcase %}
                     </span>
-                    <span>{{ cart.original_total_price | money }}</span>
+                    <strong>{{ cart.original_total_price | money }}</strong>
                   </div>
-                  {% if zs_cart_savings > 0 %}
-                    <div class="zs-cart-breakdown__row zs-cart-breakdown__row--savings">
-                      <span>
-                        {% case request.locale.iso_code %}
-                          {% when 'de' %}Ersparnis
-                          {% when 'fr' %}Économies
-                          {% when 'ar' %}التوفير
-                          {% else %}Savings
-                        {% endcase %}
-                      </span>
-                      <span>-{{ zs_cart_savings | money }}</span>
-                    </div>
-                  {% endif %}
-                  <div class="zs-cart-breakdown__row">
-                    <span>
+                  <div class="zs-cart-breakdown__row zs-cart-breakdown__row--shipping{% if zs_free_shipping %} is-free{% endif %}" data-zs-shipping-summary>
+                    <span class="zs-cart-breakdown__label">
                       {% case request.locale.iso_code %}
                         {% when 'de' %}Versand
                         {% when 'fr' %}Livraison
@@ -148,14 +155,41 @@
                         {% else %}Shipping
                       {% endcase %}
                     </span>
-                    <span>
+                    <strong data-zs-shipping-status>
+                      {% if zs_free_shipping %}
+                        {% case request.locale.iso_code %}
+                          {% when 'de' %}KOSTENLOS
+                          {% when 'fr' %}GRATUITE
+                          {% when 'ar' %}مجاني
+                          {% else %}FREE
+                        {% endcase %}
+                      {% elsif zs_shipping_usd > 0 %}
+                        {% case request.locale.iso_code %}
+                          {% when 'de' %}Noch nicht kostenlos
+                          {% when 'fr' %}Pas encore gratuite
+                          {% when 'ar' %}ليس مجانيًا بعد
+                          {% else %}Not free yet
+                        {% endcase %}
+                      {% else %}
+                        {% case request.locale.iso_code %}
+                          {% when 'de' %}An der Kasse
+                          {% when 'fr' %}À la caisse
+                          {% when 'ar' %}عند الدفع
+                          {% else %}At checkout
+                        {% endcase %}
+                      {% endif %}
+                    </strong>
+                  </div>
+                  <div class="zs-cart-breakdown__row zs-cart-breakdown__row--savings{% if zs_cart_savings <= 0 %} zs-cart-breakdown__row--no-savings{% endif %}">
+                    <span class="zs-cart-breakdown__label">
                       {% case request.locale.iso_code %}
-                        {% when 'de' %}An der Kasse
-                        {% when 'fr' %}À la caisse
-                        {% when 'ar' %}عند الدفع
-                        {% else %}At checkout
+                        {% when 'de' %}Ersparnis
+                        {% when 'fr' %}Économies
+                        {% when 'ar' %}التوفير
+                        {% else %}Savings
                       {% endcase %}
                     </span>
+                    <strong>{% if zs_cart_savings > 0 %}-{% endif %}{{ zs_cart_savings | money }}</strong>
                   </div>
                 </div>
                 {% render 'cart-summary', section_id: 'cart-drawer-section' %}
