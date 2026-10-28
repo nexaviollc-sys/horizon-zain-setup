@@ -69,6 +69,24 @@ html[scroll-lock] .page-wrapper {
   transition-timing-function: var(--animation-timing-fade-in);
 }
 
+/*
+ * ZAISEN: the cart is a floating overlay, not a desktop squeeze sidebar.
+ * Protect the original full-width product page even when a restored or
+ * concurrent drawer has left page-wrapper--drawer-open on the element.
+ * Other drawers retain their standard squeeze behavior when cart is closed.
+ */
+html:has(#cart-drawer[open]) .page-wrapper {
+  margin-inline-end: 0 !important;
+  margin-inline-start: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  transition: none !important;
+}
+
+html:has(#cart-drawer[open]) .page-wrapper shopify-account::part(dialog) {
+  translate: none !important;
+}
+
 img,
 picture,
 video,
