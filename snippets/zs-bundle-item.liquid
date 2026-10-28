@@ -1,7 +1,7 @@
 {% comment %}One optional curated ZAISEN bundle item; native variants remain select-able.{% endcomment %}
 {%- assign chosen_variant = item.selected_or_first_available_variant -%}
 {% if item != blank and chosen_variant != blank %}
-  <label class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
+  <div class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
     data-variant-id="{{ chosen_variant.id }}"
     data-price-cents="{{ chosen_variant.price }}">
     <input type="checkbox" class="zs-bundle__check" data-zs-check checked
@@ -32,5 +32,5 @@
         <span class="zs-bundle__saved" data-zs-saved></span>
       </span>
     </span>
-  </label>
+  </div>
 {% endif %}
