@@ -1251,74 +1251,67 @@
   }
 
   /*
-   * ZAISEN NATURAL WALNUT HEADER — INNER PAGES ONLY.
-   * The homepage never receives .header--zaisen-dark.
-   * Preserve the ORIGINAL logo pixels and original sticky behaviour.
-   *
-   * Medium toasted wood: #AD896B
-   * Original-logo-friendly text: #2B1D17
-   * Gentle cream hover: #F7F3EE
+   * ZAISEN — EXACT premium footer colors and layered gradients, non-home only.
+   * Homepage never receives .header--zaisen-dark. Keep sticky header native.
+   * Existing logo image is never recolored: cream backing preserves readability.
+   * Hover uses cream with dark ink; dropdowns retain cream and dark text.
    */
   #header-component.header--zaisen-dark:not([transparent]) {
-    --color-background-top-row: #AD896B !important;
-    --color-background-bottom-row: #AD896B !important;
-    --zs-header-accent: #77523A;
-    --zs-header-line: rgba(43,29,23,.25);
+    --color-background-top-row: #2B1D17 !important;
+    --color-background-bottom-row: #2B1D17 !important;
+    --zs-header-accent: #D8B56A;
+    --zs-header-line: rgba(216,181,106,.31);
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed {
-    /* Match the premium footer's layered walnut depth, in a softer,
-       natural wood tone that keeps the original dark logo legible. */
-    background-color: #AD896B;
+    background-color: #2B1D17;
     background-image:
-      radial-gradient(ellipse at 12% -10%, rgba(216,181,106,.14), transparent 46%),
-      radial-gradient(ellipse at 95% 12%, rgba(144,91,54,.14), transparent 45%),
-      linear-gradient(132deg, #B59273 0%, #A98364 42%, #8F6A4E 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255,247,233,.30),
-      inset 0 -1px 0 rgba(73,45,28,.18),
-      0 3px 13px rgba(54,36,24,.11);
+        radial-gradient(ellipse at 12% -8%,rgba(216,181,106,.135),transparent 46%),
+        radial-gradient(ellipse at 95% 13%,rgba(144,91,54,.16),transparent 45%),
+        linear-gradient(132deg,#403026 0%,#35251D 38%,#2B1D17 70%,#241813 100%);
+    box-shadow:inset 0 1px 0 rgba(216,181,106,.31),inset 0 14px 30px -35px rgba(255,248,230,.35);
   }
 
-  #header-component.header--zaisen-dark:not([transparent]) .header__row--top,
-  #header-component.header--zaisen-dark:not([transparent]) .header__row--bottom {
-    --color-foreground: #2B1D17;
-    --color-foreground-rgb: 43 29 23;
-    --color-account-icon: #2B1D17;
-    color: #2B1D17;
+  #header-component.header--zaisen-dark:not([transparent]) :is(.header__row--top,.header__row--bottom) {
+    --color-foreground: #F7F3EE;
+    --color-foreground-rgb: 247 243 238;
+    --color-account-icon: #F7F3EE;
+    color: #F7F3EE;
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__row--top {
-    border-bottom-color: rgba(43,29,23,.16);
+    border-bottom-color: rgba(216,181,106,.27);
   }
 
-  /* NEVER tint, invert or otherwise recolor the original ZAISEN logo. */
+  /* No filter or inverse branding: display the original logo unchanged. */
   #header-component.header--zaisen-dark:not([transparent]) .header-logo {
     color: #2B1D17;
+    background: #F7F3EE;
+    border: 1px solid rgba(216,181,106,.34);
+    border-radius: 9px;
+    padding: 4px 9px;
+    box-shadow: 0 1px 4px rgba(24,15,11,.12);
   }
-
   #header-component.header--zaisen-dark:not([transparent]) .header-logo__image {
     filter: none !important;
   }
 
-  /* Uncluttered desktop navigation, original text color always readable. */
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width:750px) {
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list {
-      --menu-top-level-font-color: #2B1D17;
-      --menu-top-level-font-color-rgb: 43 29 23;
+      --menu-top-level-font-color: #F7F3EE;
+      --menu-top-level-font-color-rgb: 247 243 238;
       --opacity-subdued-text: 1;
     }
 
-    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link,
-    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__disclosure {
-      color: #2B1D17;
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.menu-list__link,.menu-list__disclosure) {
+      color: #F7F3EE;
       opacity: 1;
     }
 
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link-title {
-      color: #2B1D17 !important;
+      color: #F7F3EE !important;
       background-color: transparent !important;
-      border: 1px solid rgba(43,29,23,.28) !important;
+      border: 1px solid rgba(216,181,106,.32) !important;
       border-radius: 9px;
       padding: 8px 13px;
       min-height: 38px;
@@ -1329,9 +1322,9 @@
     }
 
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link:is(.menu-list__link--active,[aria-current='page']) .menu-list__link-title {
-      color: #2B1D17 !important;
-      background-color: rgba(255,249,240,.22) !important;
-      border-color: #65432C !important;
+      color: #F7F3EE !important;
+      background-color: rgba(216,181,106,.12) !important;
+      border-color: #D8B56A !important;
       box-shadow: none !important;
     }
 
@@ -1341,8 +1334,8 @@
       color: #2B1D17 !important;
       background-color: #F7F3EE !important;
       border-color: #F7F3EE !important;
-      opacity: 1;
       box-shadow: none !important;
+      opacity: 1;
     }
 
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link:is(:hover,:focus-visible) .menu-list__link-title *,
@@ -1350,16 +1343,18 @@
       color: #2B1D17 !important;
     }
 
-    /* The original menu's "fourth link" ivory-on-hero rule is homepage-only
-       in practice; override inherited flyout-open styles for inner pages. */
+    /* Existing flyout-open rule previously made the fourth top link dark.
+       Leave it ivory on walnut except when hovered onto a cream button. */
     #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title {
+      color: #F7F3EE !important;
+    }
+    #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header-menu .menu-list__list-item:nth-child(4):is(:hover,:focus-within) .menu-list__link-title {
       color: #2B1D17 !important;
     }
   }
 
-  /* Dark walnut search, account, basket, mobile menu and country controls. */
   #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right {
-    --color-account-icon: #2B1D17 !important;
+    --color-account-icon: #F7F3EE !important;
   }
 
   #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right :is(
@@ -1369,57 +1364,65 @@
     .account-button
   ),
   #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu {
-    color: #2B1D17 !important;
-    --color-account-icon: #2B1D17;
+    color: #F7F3EE !important;
+    --color-account-icon: #F7F3EE;
     opacity: 1;
   }
 
   #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .dropdown-localization__button {
-    color: #2B1D17 !important;
-    background: rgba(255,250,243,.12) !important;
-    border-color: rgba(43,29,23,.28) !important;
+    color: #F7F3EE !important;
+    background: rgba(216,181,106,.09) !important;
+    border-color: rgba(216,181,106,.38) !important;
   }
 
-  /* Existing sitewide flyout-open CSS previously recolored these controls.
-     All states should now be walnut-on-medium-brown. */
+  /* Keep header icons ivory when a light navigation flyout opens. */
+  #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header__column--right {
+    --color-account-icon: #F7F3EE !important;
+  }
   #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header__column--right :is(
     .dropdown-localization__button,
     .search-action .header-actions__action,
     header-actions .header-actions__action,
     .account-button
   ) {
-    color: #2B1D17 !important;
-    --color-account-icon: #2B1D17;
+    color: #F7F3EE !important;
+    --color-account-icon: #F7F3EE;
     opacity: 1 !important;
   }
-
   #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .dropdown-localization__button {
-    background: rgba(255,250,243,.12) !important;
-    border-color: rgba(43,29,23,.28) !important;
+    color: #F7F3EE !important;
+    background: rgba(216,181,106,.09) !important;
+    border-color: rgba(216,181,106,.38) !important;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header-actions__action:not(.dropdown-localization__button):hover,
-    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu:hover {
+  @media (hover:hover) and (pointer:fine) {
+    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) :is(
+      .header-actions__action:not(.dropdown-localization__button),
+      .header__icon--menu
+    ):hover {
       color: #2B1D17 !important;
-      background: rgba(247,243,238,.55);
+      --color-account-icon: #2B1D17;
+      background: #F7F3EE;
       box-shadow: none;
     }
-
     #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .dropdown-localization__button:hover {
       color: #2B1D17 !important;
+      --color-account-icon: #2B1D17;
       background: #F7F3EE !important;
-      border-color: #77523A !important;
+      border-color: #D8B56A !important;
     }
   }
 
-  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right :is(.dropdown-localization__button,.header-actions__action):focus-visible,
-  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu:focus-visible {
-    outline: 2px solid #2B1D17;
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) :is(
+    .dropdown-localization__button,
+    .header-actions__action,
+    .header__icon--menu
+  ):focus-visible {
+    outline: 2px solid #D8B56A;
     outline-offset: 2px;
   }
 
-  /* Light flyouts and localization dropdowns keep readable dark text. */
+  /* Cream dropdowns retain readable walnut text — never cream-on-cream. */
   #header-component.header--zaisen.header--zaisen-dark :is(
     .zs-nav-flyout,
     .menu-list__submenu,
@@ -1434,30 +1437,28 @@
     --menu-top-level-font-color: #2B1D17;
     --menu-top-level-font-color-rgb: 43 29 23;
   }
-
   #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout > .menu-list__submenu-inner,
   #header-component.header--zaisen.header--zaisen-dark .localization-wrapper {
     background-color: #FFFCF8;
     color: #2B1D17;
   }
-
   #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout :is(
     .zs-category-buttons__link,
     .zs-category-buttons__text,
     .zs-bestseller-grid__card,
     .zs-bestseller-grid__name,
     .zs-nav-panel__title
-  ) { color: #2B1D17; }
-
+  ) {
+    color: #2B1D17;
+  }
   #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout :is(
     .zs-category-buttons__link,
     .zs-bestseller-grid__card
   ):is(:hover,:focus-visible) {
     color: #2B1D17;
-    background: #F3E9DD;
+    background-color: #F3E9DD;
     border-color: #C9A87C;
   }
-
   #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout .zs-nav-panel__view-all:is(:hover,:focus-visible) {
     color: #2B1D17;
     background-color: #F3E9DD;
