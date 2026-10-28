@@ -510,6 +510,118 @@
     .zs-announcement__minimal-amount { font-size: 11.5px; }
   }
 
+
+  /* INNER-PAGE shipping hero — never matches the homepage. Its background
+     begins behind the native transparent header and the message starts below it. */
+  #header-group > .header-section:has(> #header-component.header--zaisen-inner[transparent]) + .shopify-section:has(> .zs-announcement--inner) {
+    margin-top: 0 !important;
+  }
+  .zs-announcement.zs-announcement--inner {
+    box-sizing: border-box;
+    min-height: 0;
+    padding: calc(var(--header-height, 90px) + 12px) 0 20px;
+    background:
+      radial-gradient(ellipse at 78% 0%, rgba(215,173,112,.24), transparent 49%),
+      radial-gradient(ellipse at 8% 100%, rgba(159,92,57,.26), transparent 51%),
+      linear-gradient(109deg, #241711 0%, #38241C 42%, #5D3F2B 100%);
+    color: #F7F3EE;
+    border: 0;
+    border-block-end: 1px solid rgba(216,181,106,.43);
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,.05);
+  }
+  .zs-announcement.zs-announcement--inner::before {
+    display: block;
+    inset: auto 8% 0;
+    height: 1px;
+    opacity: 1;
+    background: linear-gradient(90deg,transparent,rgba(216,181,106,.5),transparent);
+  }
+  .zs-announcement.zs-announcement--inner::after {
+    opacity: .65;
+    background-image: linear-gradient(118deg,transparent 0 40%,rgba(255,255,255,.035) 50%,transparent 60%);
+  }
+  .zs-announcement.zs-announcement--inner .zs-announcement__inner {
+    display: block;
+    width: min(100%, 1300px);
+    max-width: 1300px;
+    min-height: 70px;
+    padding: 8px clamp(20px, 4vw, 54px);
+    margin-inline: auto;
+  }
+  .zs-announcement--inner .zs-announcement__minimal {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,auto);
+    align-items: center;
+    gap: clamp(24px,4vw,64px);
+    min-height: 70px;
+    color: #F7F3EE;
+  }
+  .zs-announcement--inner .zs-announcement__country {
+    align-items: flex-start;
+    gap: 7px;
+    text-align: start;
+  }
+  .zs-announcement--inner .zs-announcement__country-name {
+    font-family: var(--font-heading--family,Georgia,serif);
+    color: #FFF9F0;
+    font-size: clamp(18px,1.75vw,23px);
+    font-weight: 550;
+    letter-spacing: -.015em;
+    line-height: 1.2;
+  }
+  .zs-announcement--inner .zs-announcement__country-note {
+    color: #E2CCB7;
+    font-size: clamp(11.5px,1vw,13px);
+    line-height: 1.4;
+    max-width: 520px;
+    opacity: 1;
+  }
+  .zs-announcement--inner .zs-announcement__offer {
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 0 7px;
+    color: #FFF9F0;
+    font-size: clamp(15px,1.4vw,18px);
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: end;
+    max-width: 520px;
+  }
+  .zs-announcement--inner .zs-announcement__minimal-amount {
+    color: #E9C284;
+    font-size: clamp(21px,2vw,26px);
+    font-weight: 750;
+    white-space: nowrap;
+  }
+  @media (max-width:749px) {
+    .zs-announcement.zs-announcement--inner {
+      min-height: 0;
+      padding: calc(var(--header-height, 88px) + 12px) 0 19px;
+    }
+    .zs-announcement.zs-announcement--inner .zs-announcement__inner {
+      min-height: 0;
+      padding: 8px 18px;
+    }
+    .zs-announcement--inner .zs-announcement__minimal {
+      grid-template-columns: minmax(0,1fr);
+      gap: 12px;
+      min-height: 0;
+      justify-items: center;
+    }
+    .zs-announcement--inner .zs-announcement__country {
+      align-items: center;
+      text-align: center;
+      gap: 5px;
+    }
+    .zs-announcement--inner .zs-announcement__country-name { font-size: 19px; }
+    .zs-announcement--inner .zs-announcement__country-note { font-size: 12px; }
+    .zs-announcement--inner .zs-announcement__offer {
+      justify-content: center;
+      text-align: center;
+      font-size: 15px;
+    }
+    .zs-announcement--inner .zs-announcement__minimal-amount { font-size: 21px; }
+  }
 {% endstylesheet %}
 
 {% javascript %}

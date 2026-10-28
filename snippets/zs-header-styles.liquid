@@ -665,4 +665,31 @@
     .content-for-layout > .shopify-section:first-child .product-information.section.spacing-style {
     --section-top-offset: clamp(14px, 1.6vw, 24px);
   }
+
+  /* INNER PAGES ONLY: ivory controls while the header overlays the walnut
+     gradient. The original white sticky header returns on scroll. */
+  #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right {
+    --color-account-icon: #F7F3EE;
+  }
+  #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .header__column--right :is(.dropdown-localization__button,.search-action .header-actions__action,header-actions .header-actions__action,.account-button) {
+    color: #F7F3EE !important;
+    --color-account-icon: #F7F3EE;
+  }
+  #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))) .dropdown-localization__button {
+    border-color: rgba(248,238,222,.52);
+    background-color: rgba(43,29,23,.22);
+  }
+  #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']) .header__icon--menu {
+    color: #F7F3EE;
+  }
+  #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))):not(:has(.menu-list__link:hover)) .header-logo__image {
+    filter: brightness(0) invert(1);
+  }
+  @media (min-width:750px) {
+    #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))):not(:has(.menu-list__link:hover)) .header-menu .menu-list__link-title,
+    #header-component.header--zaisen.header--zaisen-inner[transparent='not-sticky']:not([data-sticky-state='active']):not(:has(.zs-nav-flyout:not([inert]))):not(:has(.menu-list__link:hover)) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title {
+      color: #F7F3EE;
+      border-color: rgba(248,238,222,.55);
+    }
+  }
 {% endstylesheet %}
