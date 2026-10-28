@@ -1,10 +1,11 @@
 {% comment %}
-  Premium ZAISEN cart recommendation card.
-  Only called for an available product with has_only_default_variant == true.
+  ZAISEN cart carousel slide. Parent only passes in-stock, default-variant
+  products not already in the cart. Native Ajax quick add is delegated
+  to cart-drawer-component.
 {% endcomment %}
-<article class="zs-cart-upsell__item" data-product-id="{{ zs_product.id }}">
+<article class="zs-cart-upsell__item" data-product-id="{{ zs_product.id }}" role="group" aria-roledescription="slide" aria-label="{{ zs_product.title | escape }}">
   <a class="zs-cart-upsell__image" href="{{ zs_product.url }}" tabindex="-1" aria-hidden="true">
-    {{ zs_product.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '240, 360, 480, 600, 720', sizes: '(max-width: 749px) 44vw, 230px', alt: zs_product.title, class: 'zs-cart-upsell__photo' }}
+    {{ zs_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '160, 240, 320, 400', sizes: '(max-width: 749px) 100px, 110px', alt: zs_product.title, class: 'zs-cart-upsell__photo' }}
   </a>
   <div class="zs-cart-upsell__details">
     <a class="zs-cart-upsell__title" href="{{ zs_product.url }}">{{ zs_product.title | escape }}</a>
@@ -20,8 +21,8 @@
     type="button"
     data-zs-upsell-variant="{{ zs_product.selected_or_first_available_variant.id }}"
     aria-label="{{ zs_upsell_action | escape }}: {{ zs_product.title | escape }}"
+    title="{{ zs_upsell_action | escape }}"
   >
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-    {{ zs_upsell_action | escape }}
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
   </button>
 </article>
