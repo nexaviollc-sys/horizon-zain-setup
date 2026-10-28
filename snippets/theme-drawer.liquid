@@ -35,7 +35,9 @@
     var dialogs = [];
     for (var i = 0; i < drawerIds.length; i++) {
       var drawer = document.getElementById(drawerIds[i]);
-      if (!drawer) continue;
+      // Modal overlay drawers (the ZAISEN cart) should never reopen during
+      // the next page navigation; shoppers should start with their page intact.
+      if (!drawer || drawer.hasAttribute('overlay-mode')) continue;
 
       drawer.setAttribute('open', '');
 
@@ -86,24 +88,19 @@
   const squeezeQuery = window.matchMedia('(min-width: 990px)');
 
   // ── Squeeze coordination ──
-  // Listens to all drawers. Only squeezes on wide viewports.
-  document.addEventListener('theme-drawer:open', () => {
-    if (squeezeQuery.matches) {
-      pageWrapper?.classList.add('page-wrapper--drawer-open');
-    }
-  });
+  // Other theme drawers may still use desktop squeeze. Overlay drawers,
+  // specifically ZAISEN's cart, must never resize or shift the page.
+  function syncPageSqueeze() {
+    const openSidebar = document.querySelector('theme-drawer[open]:not([overlay-mode])');
+    pageWrapper?.classList.toggle(
+      'page-wrapper--drawer-open',
+      Boolean(openSidebar) && squeezeQuery.matches
+    );
+  }
 
-  document.addEventListener('theme-drawer:close', () => {
-    const openDrawer = document.querySelector('theme-drawer[open]');
-    if (!openDrawer) {
-      pageWrapper?.classList.remove('page-wrapper--drawer-open');
-    }
-  });
-
-  squeezeQuery.addEventListener('change', () => {
-    const openDrawer = document.querySelector('theme-drawer[open]');
-    pageWrapper?.classList.toggle('page-wrapper--drawer-open', Boolean(openDrawer) && squeezeQuery.matches);
-  });
+  document.addEventListener('theme-drawer:open', syncPageSqueeze);
+  document.addEventListener('theme-drawer:close', syncPageSqueeze);
+  squeezeQuery.addEventListener('change', syncPageSqueeze);
 
   // ── State persistence ──
   // Store open drawer IDs sorted by their visual stack order so
