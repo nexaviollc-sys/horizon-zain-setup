@@ -1729,4 +1729,91 @@
       height: 82px;
     }
   }
+
+  /* ZAISEN gallery V5: thumbnail rail must not stretch the image/grid height */
+  @media screen and (min-width: 750px) {
+    /*
+     * Previous fixed-height rail spanned both slideshow grid rows, pushing
+     * the arrow row (and all subsequent content) hundreds of pixels below
+     * a shorter product image. Keep the rail independently positioned so
+     * ONLY the natural image and compact arrows determine gallery height.
+     */
+    media-gallery.zs-atelier-gallery.media-gallery--carousel
+      slideshow-component:has(.zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left']) {
+      position: relative;
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr);
+      grid-template-rows: minmax(0, auto) min-content;
+      grid-template-areas:
+        "left-space container"
+        "left-space arrows";
+      align-content: start;
+      align-items: start;
+      column-gap: 20px;
+      row-gap: 9px;
+      height: auto;
+      min-height: 0;
+    }
+
+    media-gallery.zs-atelier-gallery
+      .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] {
+      position: absolute;
+      grid-area: unset;
+      inset-block-start: 0;
+      inset-block-end: 0;
+      inset-inline-start: 0;
+      width: 104px;
+      min-width: 0;
+      height: auto;
+      min-height: 0;
+      max-height: min(76svh, 760px);
+      margin: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    media-gallery.zs-atelier-gallery
+      .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left']
+      .slideshow-controls__thumbnails-container {
+      height: 100%;
+      max-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    media-gallery.zs-atelier-gallery slideshow-component > slideshow-container {
+      grid-area: container;
+      align-self: start;
+      min-height: 0;
+      height: auto;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__nav-actions {
+      grid-area: arrows;
+      align-self: start;
+      margin-block-start: 0;
+      min-height: 40px;
+    }
+
+    /* The section below now begins after the actual photograph and arrows,
+       rather than after the unrelated 76svh thumbnail-rail height. */
+    .product-information__media > media-gallery.zs-atelier-gallery {
+      min-height: 0;
+      height: auto;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 1100px) {
+    media-gallery.zs-atelier-gallery.media-gallery--carousel
+      slideshow-component:has(.zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left']) {
+      grid-template-columns: 91px minmax(0, 1fr);
+      column-gap: 14px;
+    }
+
+    media-gallery.zs-atelier-gallery
+      .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] {
+      width: 91px;
+      max-height: min(76svh, 760px);
+    }
+  }
 {% endstylesheet %}
