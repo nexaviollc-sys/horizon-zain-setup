@@ -29,6 +29,13 @@
     assign transparent_text_color_setting = section.settings.text_color_transparent_collection
   endif
 
+  # Inner pages use the same native transparent -> sticky-solid mechanism
+  # as the homepage, but never modify the homepage's settings or state.
+  if template.name != 'index'
+    assign transparent = 'always'
+    assign transparent_text_color_setting = '#2B1D17'
+  endif
+
   if section.settings.enable_sticky_header == 'always'
     assign sticky = 'always'
   elsif section.settings.enable_sticky_header == 'scroll-up'
@@ -199,6 +206,10 @@
 
   if section.settings.zaisen_premium_header
     assign class = class | append: ' header--zaisen'
+  endif
+
+  if template.name != 'index' and section.settings.zaisen_premium_header
+    assign class = class | append: ' header--zaisen-inner'
   endif
 
   # Header-only presentation hook: product pages keep the homepage's

@@ -58,7 +58,7 @@
 %}
 
 <section
-  class="zs-announcement"
+  class="zs-announcement{% unless template.name == 'index' %} zs-announcement--inner{% endunless %}"
   data-zs-announcement
   data-speed="{{ section.settings.speed | times: 1000 }}"
   style="
@@ -73,6 +73,17 @@
 >
   <div class="zs-announcement__inner">
     {% if zs_shipping_threshold > 0 %}
+      {% unless template.name == 'index' %}
+        <p class="zs-announcement__minimal"{% if localization.language.iso_code == 'ar' %} dir="rtl"{% endif %}>
+          <span class="zs-announcement__minimal-title">{{ zs_headline | escape }}</span>
+          <span class="zs-announcement__minimal-condition">{{ zs_qualifier | escape }}</span>
+          <strong class="zs-announcement__minimal-amount">{{ zs_currency_prefix }}{{ zs_shipping_threshold }}+</strong>
+          <span class="zs-announcement__minimal-divider" aria-hidden="true"></span>
+          <span class="zs-announcement__minimal-destination">
+            {{ zs_delivery_label | escape }} <strong>{{ zs_destination | escape }}</strong>
+          </span>
+        </p>
+      {% else %}
       <div class="zs-announcement__shipping">
         <span class="zs-announcement__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" focusable="false">
@@ -101,6 +112,7 @@
           <span>{{ zs_destination | escape }}</span>
         </span>
       </div>
+      {% endunless %}
     {% else %}
       <div class="zs-announcement__legacy" aria-live="polite">
         {% for i in (1..4) %}
@@ -372,6 +384,95 @@
 
   @media (prefers-reduced-motion: reduce) {
     .zs-announcement__message { transform: none; transition: opacity 120ms linear; }
+  }
+
+  /*
+   * Inner pages only: compact shipping strip under the transparent header.
+   * The homepage keeps the original deluxe ZAISEN announcement unchanged.
+   */
+  .zs-announcement.zs-announcement--inner {
+    min-height: 38px;
+    background: var(--zs-a-bg);
+    border-block: 1px solid color-mix(in srgb, var(--zs-a-accent) 22%, transparent);
+    box-shadow: none;
+  }
+
+  .zs-announcement--inner::before {
+    display: none;
+  }
+
+  .zs-announcement--inner .zs-announcement__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: none;
+    min-height: 38px;
+    padding: 7px 16px;
+    gap: 0;
+  }
+
+  .zs-announcement__minimal {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 5px;
+    margin: 0;
+    color: var(--zs-a-text);
+    text-align: center;
+    font-family: var(--font-body--family, inherit);
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  .zs-announcement__minimal-title {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .zs-announcement__minimal-condition,
+  .zs-announcement__minimal-destination {
+    opacity: 0.88;
+  }
+
+  .zs-announcement__minimal-amount {
+    font-size: 12px;
+    font-weight: 750;
+    color: var(--zs-a-accent);
+    white-space: nowrap;
+  }
+
+  .zs-announcement__minimal-divider {
+    align-self: center;
+    width: 1px;
+    height: 12px;
+    background: color-mix(in srgb, var(--zs-a-accent) 55%, transparent);
+    margin-inline: 13px;
+  }
+
+  .zs-announcement__minimal-destination strong {
+    color: var(--zs-a-text);
+    opacity: 1;
+    font-weight: 650;
+  }
+
+  @media screen and (max-width: 749px) {
+    .zs-announcement.zs-announcement--inner { min-height: 46px; }
+    .zs-announcement--inner .zs-announcement__inner {
+      min-height: 46px;
+      padding: 6px 10px;
+    }
+    .zs-announcement__minimal { font-size: 10.5px; }
+    .zs-announcement__minimal-title { font-size: 12.5px; }
+    .zs-announcement__minimal-amount { font-size: 11.5px; }
+    .zs-announcement__minimal-divider {
+      display: none;
+    }
+    .zs-announcement__minimal-destination {
+      flex-basis: 100%;
+      font-size: 10px;
+    }
   }
 {% endstylesheet %}
 
