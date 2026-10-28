@@ -1,3 +1,29 @@
+{% comment %}
+ZAISEN country-specific shipping thresholds, configured in USD in Shopify Shipping.
+Keep these values aligned with the active Shopify shipping zones; do not assume
+a fixed currency conversion for markets that display local currencies.
+{% endcomment %}
+{% liquid
+  assign zs_shipping_threshold = 0
+
+  case localization.country.iso_code
+    when 'US', 'GB', 'DE', 'FR', 'AE'
+      assign zs_shipping_threshold = 60
+    when 'CA', 'AU'
+      assign zs_shipping_threshold = 100
+  endcase
+
+  assign zs_shipping_caption = 'FREE SHIPPING ON ORDERS'
+  case localization.language.iso_code
+    when 'fr'
+      assign zs_shipping_caption = 'LIVRAISON GRATUITE DÈS'
+    when 'de'
+      assign zs_shipping_caption = 'KOSTENLOSER VERSAND AB'
+    when 'ar'
+      assign zs_shipping_caption = 'شحن مجاني للطلبات بقيمة'
+  endcase
+%}
+
 <section
   class="zs-announcement"
   data-zs-announcement
@@ -16,7 +42,17 @@
     <span class="zs-announcement__line" aria-hidden="true"></span>
 
     <div class="zs-announcement__stage" aria-live="polite">
-      {% for i in (1..4) %}
+      {% if zs_shipping_threshold > 0 %}
+        <div class="zs-announcement__message zs-announcement__message--shipping is-active" data-zs-announcement-message>
+          <span class="zs-announcement__diamond" aria-hidden="true">◆</span>
+          <span class="zs-announcement__text">
+            {{ zs_shipping_caption | escape }}
+            <strong class="zs-announcement__amount">${{ zs_shipping_threshold }}+ USD</strong>
+          </span>
+          <span class="zs-announcement__diamond" aria-hidden="true">◆</span>
+        </div>
+      {% else %}
+        {% for i in (1..4) %}
         {% liquid
           assign text_key = 'message_' | append: i
           assign message = section.settings[text_key]
@@ -32,7 +68,8 @@
             <span class="zs-announcement__diamond" aria-hidden="true">◆</span>
           </div>
         {% endif %}
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     <span class="zs-announcement__line zs-announcement__line--right" aria-hidden="true"></span>
@@ -132,6 +169,16 @@
     text-align: center;
     text-transform: uppercase;
     text-wrap: balance;
+  }
+
+  .zs-announcement__message--shipping .zs-announcement__text {
+    letter-spacing: 0.11em;
+  }
+
+  .zs-announcement__amount {
+    color: var(--zs-a-accent);
+    font-weight: 800;
+    white-space: nowrap;
   }
 
   .zs-announcement__diamond {
