@@ -1,8 +1,8 @@
 {% comment %}
-  ZAISEN cart shipping progress.
-  Thresholds are specified in USD per the ZAISEN shipping plan. The JS
-  controller only converts when Shopify supplies an exchange rate, avoiding
-  false free-shipping promises in unsupported presentment currencies.
+  ZAISEN shipping qualification is based on the active shopper's country
+  and Shopify's discounted cart total (not compare-at prices).
+  All thresholds are USD. Shopify shipping rates and discounts are finalized
+  at checkout, which remains authoritative.
 {% endcomment %}
 {%- liquid
   assign zs_shipping_usd = 0
@@ -12,27 +12,54 @@
     when 'CA', 'AU'
       assign zs_shipping_usd = 100
   endcase
+
+  assign zs_shipping_bundle_code = false
+  for zs_discount in cart.discount_applications
+    if zs_discount.title contains 'ZS-BUNDLESHIP-2026'
+      assign zs_shipping_bundle_code = true
+      break
+    endif
+  endfor
+  assign zs_shipping_threshold_cents = zs_shipping_usd | times: 100
+  assign zs_shipping_usd_qualified = false
+  if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_threshold_cents
+    assign zs_shipping_usd_qualified = true
+  endif
+  assign zs_shipping_qualified = false
+  if zs_shipping_usd_qualified or zs_shipping_bundle_code
+    assign zs_shipping_qualified = true
+  endif
 -%}
 {% if zs_shipping_usd > 0 %}
   <div
-    class="zs-cart-shipping"
+    class="zs-cart-shipping{% if zs_shipping_qualified %} is-qualified{% endif %}"
     data-zs-shipping-progress
-    data-threshold-usd-cents="{{ zs_shipping_usd | times: 100 }}"
+    data-threshold-usd-cents="{{ zs_shipping_threshold_cents }}"
     data-cart-total-cents="{{ cart.total_price }}"
     data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | escape }}"
     data-shop-currency="{{ shop.currency | escape }}"
     data-locale="{{ request.locale.iso_code | escape }}"
+    data-bundle-shipping="{% if zs_shipping_bundle_code %}true{% else %}false{% endif %}"
     aria-live="polite"
   >
     <div class="zs-cart-shipping__message">
       <span class="zs-cart-shipping__check" aria-hidden="true">✓</span>
       <span data-zs-shipping-message>
-        {% case request.locale.iso_code %}
-          {% when 'de' %}Versandvorteile werden an der Kasse bestätigt.
-          {% when 'fr' %}La livraison gratuite est confirmée au paiement.
-          {% when 'ar' %}يتم تأكيد الشحن المجاني عند الدفع.
-          {% else %}Free shipping eligibility is confirmed at checkout.
-        {% endcase %}
+        {% if zs_shipping_qualified %}
+          {% case request.locale.iso_code %}
+            {% when 'de' %}Kostenloser Versand freigeschaltet
+            {% when 'fr' %}Livraison gratuite débloquée
+            {% when 'ar' %}الشحن المجاني متاح
+            {% else %}You've unlocked FREE shipping
+          {% endcase %}
+        {% else %}
+          {% case request.locale.iso_code %}
+            {% when 'de' %}Kostenlosen Versand freischalten
+            {% when 'fr' %}Plus que quelques pas vers la livraison gratuite
+            {% when 'ar' %}اقتربت من الشحن المجاني
+            {% else %}You're on your way to FREE shipping
+          {% endcase %}
+        {% endif %}
       </span>
     </div>
     <div
