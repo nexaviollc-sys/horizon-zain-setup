@@ -275,7 +275,16 @@
         if (!updateResponse.ok || updated.status) {
           throw new Error('Products were added, but the bundle discount could not be applied. Please review your cart.');
         }
-        window.location.assign(destination === 'checkout' ? '/checkout' : base + 'cart');
+        if (destination === 'checkout') {
+          window.location.assign(base + 'checkout');
+          return;
+        }
+        await this.openCartDrawer(base);
+        this.processing = false;
+        buttons.forEach((button, index) => {
+          button.disabled = disabledBefore[index];
+          button.removeAttribute('aria-busy');
+        });
       } catch (error) {
         this.processing = false;
         buttons.forEach((button, index) => {
@@ -284,6 +293,56 @@
         });
         this.showError(error?.message || 'Something went wrong. Please try again.');
       }
+    }
+
+    /**
+     * Keep bundle Add to Cart on the product page and show the latest
+     * Shopify-calculated discounts in the native ZAISEN side drawer.
+     * Buy Now continues to checkout.
+     */
+    async openCartDrawer(base) {
+      const drawer = document.getElementById('cart-drawer');
+      if (!drawer) {
+        window.location.assign(base + 'cart');
+        return;
+      }
+
+      const response = await fetch(base + '?sections=cart-drawer-section', {
+        credentials: 'same-origin',
+        headers: {'Accept': 'application/json'}
+      });
+      if (!response.ok) throw new Error('Could not update the cart drawer.');
+      const sections = await response.json();
+      const renderedHtml = sections['cart-drawer-section'];
+      if (typeof renderedHtml !== 'string' || !renderedHtml) {
+        throw new Error('Could not load the updated cart drawer.');
+      }
+
+      const parsed = new DOMParser().parseFromString(renderedHtml, 'text/html');
+      const replacement = parsed.querySelector('#cart-drawer .cart-drawer__inner');
+      const current = drawer.querySelector('.cart-drawer__inner');
+      if (!replacement || !current) throw new Error('Cart drawer content unavailable.');
+
+      current.replaceWith(replacement);
+
+      // Bundle form uses Ajax directly rather than the native Horizon
+      // product-form events: synchronize the header count ourselves.
+      try {
+        const cartResponse = await fetch(base + 'cart.js', {
+          credentials: 'same-origin',
+          headers: {'Accept': 'application/json'}
+        });
+        if (cartResponse.ok) {
+          const cart = await cartResponse.json();
+          const icon = document.querySelector('cart-icon');
+          if (icon?.renderCartBubble) icon.renderCartBubble(cart.item_count, true);
+        }
+      } catch (_) {
+        // The visible drawer still contains Shopify's latest rendered cart.
+      }
+
+      await customElements.whenDefined('theme-drawer');
+      drawer.open();
     }
 
     showError(message) {
