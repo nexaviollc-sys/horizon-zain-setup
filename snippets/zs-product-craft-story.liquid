@@ -61,8 +61,12 @@
     </div>
   </div>
   {% assign zs_craft_photos_count = 0 %}
+  {% assign zs_lifestyle_last_image = product.images.last %}
   {% capture zs_craft_photos %}
     {% for zs_craft_image in product.images offset: 1 limit: 2 %}
+      {% if zs_craft_image.id == zs_lifestyle_last_image.id %}
+        {% continue %}
+      {% endif %}
       {% assign zs_craft_photos_count = zs_craft_photos_count | plus: 1 %}
       <figure class="zs-craft-story__photo">
         {{
