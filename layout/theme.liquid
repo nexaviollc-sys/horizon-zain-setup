@@ -43,6 +43,15 @@
         {% sections 'header-group' %}
       </div>
 
+      {%- comment -%}
+        ZAISEN inner-page header-to-content transition.
+        This sits OUTSIDE the sticky header, so it scrolls away naturally.
+        The homepage/transparent hero remains exactly untouched.
+      {%- endcomment -%}
+      {% unless template.name == 'index' %}
+        <div class="zs-inner-header-transition" aria-hidden="true"></div>
+      {% endunless %}
+
       <script>
         /**
          * Sets `--header-height` and `--header-group-height` to measured values before first paint.

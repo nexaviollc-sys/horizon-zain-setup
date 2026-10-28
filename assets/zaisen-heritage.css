@@ -110,3 +110,48 @@ body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement) {display
 body:has(.zf-hero) #header-group .zs-announcement{display:none!important}
 body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__underlay-closed{background:transparent!important;box-shadow:none!important}
 body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__underlay-closed{background:#FFFFFF!important}
+
+
+/* ZAISEN premium transition: a standalone, non-sticky color bridge under
+   the INNER-PAGE header. It does not touch the sticky header or home hero. */
+.zs-inner-header-transition {
+  display: block;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 32px;
+  min-height: 32px;
+  pointer-events: none;
+  background-color: #FCFAF7;
+  background-image:
+    linear-gradient(180deg,
+      rgba(252,250,247,0) 0%,
+      rgba(252,250,247,.10) 14%,
+      rgba(252,250,247,.44) 42%,
+      rgba(252,250,247,.82) 77%,
+      #FCFAF7 100%),
+    radial-gradient(ellipse at 5% -15%,rgba(216,181,106,.14),transparent 55%),
+    linear-gradient(100deg,#594131 0%,#3C2920 52%,#2B1D17 100%);
+}
+
+/* The product breadcrumb/gallery begins on warm ivory, fading to white
+   before the actual product photo and purchase content. No image overlays. */
+main[data-template^='product'] .product-information.section {
+  background: linear-gradient(180deg,#FCFAF7 0px,#FFFFFF 90px);
+}
+main[data-template^='product'] media-gallery.zs-atelier-gallery .zs-atg__heading {
+  color: #67513F;
+}
+main[data-template^='product'] media-gallery.zs-atelier-gallery .zs-atg__view-label {
+  color: #917555;
+}
+
+@media (max-width:749px) {
+  .zs-inner-header-transition {
+    height: 22px;
+    min-height: 22px;
+  }
+  main[data-template^='product'] .product-information.section {
+    background: linear-gradient(180deg,#FCFAF7 0px,#FFFFFF 65px);
+  }
+}
