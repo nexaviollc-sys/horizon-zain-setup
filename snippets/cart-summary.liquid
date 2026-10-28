@@ -227,7 +227,7 @@
     endif
   -%}
 
-  <div class="cart-totals__container{% if settings.show_installments %} cart-totals__container--has-installments{% endif %}">
+  <div class="cart-totals__container{% if settings.show_installments and section_id != 'cart-drawer-section' %} cart-totals__container--has-installments{% endif %}">
     <span
       class="cart-totals__item cart-totals__total"
       role="status"
@@ -244,7 +244,7 @@
         <bdi>{{ total_price }}</bdi>
       </text-component>
     </span>
-    {% if settings.show_installments %}
+    {% if settings.show_installments and section_id != 'cart-drawer-section' %}
       <span class="cart-totals__item cart-totals__installments">
         {% form 'cart', cart %}
           {{ form | payment_terms }}
@@ -283,7 +283,7 @@
     {% endif %}
   </button>
 
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
+  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons and section_id != 'cart-drawer-section' %}
     <div
       class="
         additional-checkout-buttons
