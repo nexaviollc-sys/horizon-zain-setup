@@ -159,22 +159,7 @@
                   </div>
                 </div>
                 {% render 'cart-summary', section_id: 'cart-drawer-section' %}
-                <a href="{{ routes.cart_url }}" class="zs-cart-view-cart">
-                  {% case request.locale.iso_code %}
-                    {% when 'de' %}Warenkorb ansehen
-                    {% when 'fr' %}Voir le panier
-                    {% when 'ar' %}عرض السلة
-                    {% else %}View cart
-                  {% endcase %}
-                </a>
-                <p class="zs-cart-trust">
-                  {% case request.locale.iso_code %}
-                    {% when 'de' %}Sicher bezahlen · Mit Sorgfalt handgefertigt
-                    {% when 'fr' %}Paiement sécurisé · Fait main avec soin
-                    {% when 'ar' %}دفع آمن · مصنوع يدويًا بعناية
-                    {% else %}Secure checkout · Handcrafted with care
-                  {% endcase %}
-                </p>
+
               </div>
             {% endif %}
           {% endcapture %}
