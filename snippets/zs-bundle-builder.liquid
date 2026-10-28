@@ -1,0 +1,140 @@
+{% comment %}
+  ZAISEN curated app-free bundle selector (20 per-product curated pairs).
+  This is an independent checkout permalink, not a Shopify composite inventory item.
+  Native Shopify discount codes:
+  ZS-BUNDLE15-2026 (min 2, 15% of eligible live prices);
+  ZS-BUNDLE25-2026 (min 3, 25% of eligible live prices);
+  ZS-BUNDLESHIP-2026 (min 2, supported shipping countries).
+{% endcomment %}
+{%- liquid
+  assign zs_pair_handles = ''
+  case product.handle
+    when 'handcrafted-wooden-pitcher-cups-set'
+      assign zs_pair_handles = 'hand-carved-wooden-tea-set-6-cups-tray,handcrafted-wooden-jug-4-cups-set'
+    when 'wooden-ship-wheel-wall-clock'
+      assign zs_pair_handles = 'wooden-ship-wheel-desk-clock,handcrafted-wooden-ship-decor'
+    when 'hand-carved-wooden-tissue-box-cover'
+      assign zs_pair_handles = 'tea-coffee-sugar-canisters-wooden-set,handcrafted-carved-wooden-serving-tray-set-of-3'
+    when 'hand-carved-wooden-foldable-serving-tray'
+      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,hand-carved-wooden-tea-set-6-cups-tray'
+    when 'handcrafted-wooden-cutlery-set'
+      assign zs_pair_handles = 'handcrafted-wooden-nesting-bowl-set,wooden-serving-tray-set-of-3'
+    when 'wooden-serving-tray-set-of-3'
+      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,handcrafted-wooden-nesting-bowl-set'
+    when 'wooden-ship-wheel-desk-clock'
+      assign zs_pair_handles = 'wooden-ship-wheel-wall-clock,handcrafted-wooden-sailboat-desk-decor'
+    when 'handcrafted-wooden-nesting-bowl-set'
+      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,hand-carved-wooden-foldable-serving-tray'
+    when 'handcrafted-wooden-jug-4-cups-set'
+      assign zs_pair_handles = 'handcrafted-wooden-pitcher-cups-set,hand-carved-wooden-tea-set-6-cups-tray'
+    when 'handcrafted-wooden-jug-5-cups-set'
+      assign zs_pair_handles = 'handcrafted-wooden-pitcher-cups-set,hand-carved-wooden-tea-set-6-cups-tray'
+    when 'hand-carved-wooden-tea-set-6-cups-tray'
+      assign zs_pair_handles = 'wooden-serving-tray-set-of-3,tea-coffee-sugar-canisters-wooden-set'
+    when 'handcrafted-wooden-ship-decor'
+      assign zs_pair_handles = 'wooden-ship-wheel-wall-clock,handcrafted-wooden-sailboat-desk-decor'
+    when 'handcrafted-wooden-sailboat-desk-decor'
+      assign zs_pair_handles = 'handcrafted-wooden-ship-decor,wooden-ship-wheel-desk-clock'
+    when 'handcrafted-carved-wooden-serving-tray-set-of-3'
+      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,handcrafted-wooden-nesting-bowl-set'
+    when 'handcrafted-carved-wooden-table-lamp'
+      assign zs_pair_handles = 'wooden-duck-lamp-animal-table-light,wooden-dolphin-lamp-coastal-table-light'
+    when 'tea-coffee-sugar-canisters-wooden-set'
+      assign zs_pair_handles = 'hand-carved-wooden-tea-set-6-cups-tray,wooden-serving-tray-set-of-3'
+    when 'wooden-duck-lamp-animal-table-light'
+      assign zs_pair_handles = 'wooden-dolphin-lamp-coastal-table-light,wooden-horse-lamp-equestrian-table-light'
+    when 'wooden-dolphin-lamp-coastal-table-light'
+      assign zs_pair_handles = 'wooden-duck-lamp-animal-table-light,handcrafted-carved-wooden-table-lamp'
+    when 'wooden-horse-lamp-equestrian-table-light'
+      assign zs_pair_handles = 'handcrafted-wooden-horse-statue,handcrafted-carved-wooden-table-lamp'
+    when 'handcrafted-wooden-horse-statue'
+      assign zs_pair_handles = 'wooden-horse-lamp-equestrian-table-light,wooden-ship-wheel-wall-clock'
+  endcase
+  assign zs_pair_parts = zs_pair_handles | split: ','
+  assign zs_recommendation_one = all_products[zs_pair_parts[0]]
+  assign zs_recommendation_two = all_products[zs_pair_parts[1]]
+  assign zs_main_variant = product.selected_or_first_available_variant
+  assign zs_country = localization.country.iso_code | upcase
+  assign zs_bundle_shipping_supported = false
+  case zs_country
+    when 'US', 'GB', 'DE', 'FR', 'AE', 'CA', 'AU'
+      assign zs_bundle_shipping_supported = true
+  endcase
+-%}
+{% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank %}
+  {{ 'zs-bundle-builder.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'zs-bundle-builder.js' | asset_url }}" defer></script>
+  <zs-bundle-builder
+    class="zs-bundle"
+    data-product-id="{{ product.id }}"
+    data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
+    data-locale="{{ request.locale.iso_code | escape }}"
+    data-country="{{ zs_country }}"
+    data-free-shipping="{{ zs_bundle_shipping_supported }}"
+    data-cart-path="{{ routes.root_url }}cart/"
+  >
+    <header class="zs-bundle__head">
+      <div>
+        <p class="zs-bundle__eyebrow">CURATED FOR YOUR PIECE</p>
+        <h2 class="zs-bundle__heading">Complete Your Collection</h2>
+      </div>
+      <span class="zs-bundle__badge" data-zs-tier>25% OFF</span>
+    </header>
+
+    <div class="zs-bundle__rows">
+      <div class="zs-bundle__row zs-bundle__row--main"
+        data-zs-row data-zs-main
+        data-variant-id="{{ zs_main_variant.id }}"
+        data-price-cents="{{ zs_main_variant.price }}">
+        <input type="checkbox" checked disabled aria-label="Main product is always included" class="zs-bundle__check">
+        <span class="zs-bundle__picture">
+          {% if product.featured_image %}
+            {{ product.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: product.title }}
+          {% else %}
+            <span>ZAISEN</span>
+          {% endif %}
+        </span>
+        <span class="zs-bundle__details">
+          <span class="zs-bundle__name">{{ product.title | escape }}</span>
+          <span class="zs-bundle__hint">Your selected item · Included</span>
+          <span class="zs-bundle__price-group">
+            <s class="zs-bundle__original" data-zs-original>{{ zs_main_variant.price | money }}</s>
+            <strong class="zs-bundle__price" data-zs-price>{{ zs_main_variant.price | money }}</strong>
+            <span class="zs-bundle__saved" data-zs-saved></span>
+          </span>
+        </span>
+      </div>
+      <select class="zs-bundle__main-variants" data-zs-main-variants hidden aria-hidden="true" tabindex="-1">
+        {% for v in product.variants %}
+          <option value="{{ v.id }}" data-price="{{ v.price }}" {% if v.id == zs_main_variant.id %}selected{% endif %}>{{ v.title | escape }}</option>
+        {% endfor %}
+      </select>
+
+      {% assign zs_bundle_rec = zs_recommendation_one %}
+      {% render 'zs-bundle-item', item: zs_bundle_rec, index: 1 %}
+      {% assign zs_bundle_rec = zs_recommendation_two %}
+      {% render 'zs-bundle-item', item: zs_bundle_rec, index: 2 %}
+    </div>
+
+    <div class="zs-bundle__summary">
+      <div class="zs-bundle__summary-row"><span>Regular total</span><s data-zs-regular-total>—</s></div>
+      <div class="zs-bundle__summary-row zs-bundle__summary-row--total">
+        <span>Bundle total</span><strong data-zs-bundle-total>—</strong>
+      </div>
+      <div class="zs-bundle__summary-row zs-bundle__summary-row--save">
+        <span data-zs-tier-description>Save 25% with 3 products</span><strong data-zs-save-total>—</strong>
+      </div>
+      <p class="zs-bundle__shipping" data-zs-shipping>
+        {% if zs_bundle_shipping_supported %}✦ FREE SHIPPING INCLUDED{% else %}Shipping options depend on your destination{% endif %}
+      </p>
+    </div>
+
+    <button type="button" class="zs-bundle__checkout" data-zs-checkout disabled>
+      <span>BUY BUNDLE — SAVE 25%</span><span aria-hidden="true">→</span>
+    </button>
+    <p class="zs-bundle__footnote">
+      Discount and shipping codes are applied at Shopify checkout. Prices are based on current live item prices; checkout confirms the final amount.
+    </p>
+    <p class="zs-bundle__error" data-zs-error role="status" hidden></p>
+  </zs-bundle-builder>
+{% endif %}

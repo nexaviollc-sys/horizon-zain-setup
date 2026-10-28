@@ -27,8 +27,9 @@
       </a>
     </div>
     {% content_for 'blocks' %}
-    {% comment %} Keep product details directly below HANDPICKED FOR YOU in the purchase column. {% endcomment %}
+    {% comment %} Curated two-item bundles and existing product details below the purchase blocks. {% endcomment %}
     {% if request.page_type == 'product' and closest.product != blank %}
+      {% render 'zs-bundle-builder', product: closest.product %}
       {% render 'zs-product-detail-accordions', product: closest.product, section_id: section.id %}
     {% endif %}
   {% endcapture %}

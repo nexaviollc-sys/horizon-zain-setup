@@ -1,0 +1,36 @@
+{% comment %}One optional curated ZAISEN bundle item; native variants remain select-able.{% endcomment %}
+{%- assign chosen_variant = item.selected_or_first_available_variant -%}
+{% if item != blank and chosen_variant != blank %}
+  <label class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
+    data-variant-id="{{ chosen_variant.id }}"
+    data-price-cents="{{ chosen_variant.price }}">
+    <input type="checkbox" class="zs-bundle__check" data-zs-check checked
+      aria-label="Include {{ item.title | escape }} in bundle">
+    <span class="zs-bundle__picture">
+      {% if item.featured_image %}
+        {{ item.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: item.title }}
+      {% else %}
+        <span>ZAISEN</span>
+      {% endif %}
+    </span>
+    <span class="zs-bundle__details">
+      <span class="zs-bundle__name">{{ item.title | escape }}</span>
+      {% unless item.has_only_default_variant %}
+        <span class="zs-bundle__variants">
+          <select data-zs-variant aria-label="Choose a variant for {{ item.title | escape }}">
+            {% for v in item.variants %}
+              <option value="{{ v.id }}" data-price="{{ v.price }}"
+                {% if v.id == chosen_variant.id %}selected{% endif %}
+                {% unless v.available %}disabled{% endunless %}>{{ v.title | escape }}</option>
+            {% endfor %}
+          </select>
+        </span>
+      {% endunless %}
+      <span class="zs-bundle__price-group">
+        <s class="zs-bundle__original" data-zs-original>{{ chosen_variant.price | money }}</s>
+        <strong class="zs-bundle__price" data-zs-price>{{ chosen_variant.price | money }}</strong>
+        <span class="zs-bundle__saved" data-zs-saved></span>
+      </span>
+    </span>
+  </label>
+{% endif %}
