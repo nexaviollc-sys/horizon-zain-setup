@@ -1363,80 +1363,220 @@
   }
 
   /*
-   * ZAISEN responsive fit-to-screen product gallery v2
-   * The square image width is limited by viewport height, keeping the
-   * entire item in view on laptops without cropping any product photography.
-   * Preserve Horizon's zoom, swipe and thumbnail controls.
+   * ZAISEN Atelier gallery V3 — desktop editorial layout:
+   * left-side vertical native thumbnails + large uncropped hero image.
+   * Width fills the existing product media column (no 540px center cap).
+   * Image height adapts to the viewport rather than producing a huge square.
    */
   @media screen and (min-width: 750px) {
     media-gallery.zs-atelier-gallery {
-      width: min(100%, 540px, max(345px, calc(100svh - 290px)));
-      max-width: 100%;
-      margin-inline: auto;
-    }
-    media-gallery.zs-atelier-gallery slideshow-container {
-      box-sizing: border-box;
-      padding: 7px;
-      border-radius: 12px;
-      box-shadow: 0 7px 22px rgba(43, 29, 23, .055);
-    }
-    media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
-      --gallery-aspect-ratio: 1;
+      --zs-gallery-hero-height: clamp(370px, calc(100svh - 245px), 670px);
       width: 100%;
-      max-height: none;
-      aspect-ratio: 1 / 1;
+      max-width: 100%;
+      margin-inline: 0;
     }
-    media-gallery.zs-atelier-gallery .zs-atg__heading {
-      margin-bottom: 8px;
+
+    media-gallery.zs-atelier-gallery.media-gallery--carousel slideshow-component:has(.zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left']) {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      grid-template-rows: minmax(0, auto) min-content;
+      grid-template-areas:
+        "controls container"
+        "controls arrows";
+      column-gap: 15px;
+      row-gap: 8px;
+      align-items: start;
+      min-width: 0;
     }
+
+    /* Let Horizon's native slideshow controls participate as direct grid items. */
     media-gallery.zs-atelier-gallery .zs-atg__toolbar {
-      margin-top: 9px;
+      display: contents;
     }
+
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] {
+      grid-area: controls;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      width: 78px;
+      min-width: 0;
+      height: var(--zs-gallery-hero-height);
+      max-height: var(--zs-gallery-hero-height);
+      min-height: 0;
+      overflow: hidden;
+      align-self: start;
+      flex: 0 0 auto;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails-container {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scrollbar-width: thin;
+      scrollbar-color: #cbb6a2 transparent;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnails {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 100%;
+      max-height: none;
+      gap: 9px;
+      margin: 0;
+      padding: 3px;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar > slideshow-controls[thumbnails][pagination-position='left'] .slideshow-controls__thumbnail {
+      flex: 0 0 70px;
+      width: 70px;
+      height: 70px;
+      min-width: 70px;
+      min-height: 70px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #e1d7ca;
+    }
+
+    media-gallery.zs-atelier-gallery slideshow-component > slideshow-container {
+      grid-area: container;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: auto;
+      padding: 7px;
+      margin: 0;
+      border-radius: 12px;
+      background: #f8f4ef;
+      border: 1px solid #e7ddd0;
+      box-shadow: 0 8px 26px rgba(43, 29, 23, .055);
+      box-sizing: border-box;
+    }
+
+    media-gallery.zs-atelier-gallery slideshow-container > slideshow-slides {
+      width: 100%;
+      min-width: 0;
+      height: var(--zs-gallery-hero-height);
+      min-height: 0;
+      max-height: var(--zs-gallery-hero-height);
+      border-radius: 8px;
+    }
+
+    media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
+      --gallery-aspect-ratio: auto;
+      --media-preview-ratio: auto;
+      flex: 0 0 100%;
+      width: 100%;
+      min-width: 100%;
+      height: var(--zs-gallery-hero-height);
+      min-height: 0;
+      max-height: var(--zs-gallery-hero-height);
+      aspect-ratio: auto;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide .product-media {
+      height: 100%;
+      width: 100%;
+      aspect-ratio: auto;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__nav-actions {
+      display: flex;
+      grid-area: arrows;
+      justify-self: end;
+      justify-content: flex-end;
+      align-items: center;
+      align-self: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0 1px;
+    }
+
+    media-gallery.zs-atelier-gallery .zs-atg__heading {
+      margin-bottom: 10px;
+    }
+
     media-gallery.zs-atelier-gallery .zs-atg__caption {
-      margin-top: 9px;
+      margin-top: 8px;
     }
-    media-gallery.zs-atelier-gallery .zs-atg__toolbar .slideshow-controls__thumbnail {
-      flex-basis: 58px;
-      width: 58px;
-      height: 58px;
+
+    @media screen and (max-height: 670px) {
+      media-gallery.zs-atelier-gallery {
+        --zs-gallery-hero-height: clamp(320px, calc(100svh - 215px), 470px);
+      }
+      media-gallery.zs-atelier-gallery .zs-atg__heading {
+        margin-bottom: 6px;
+      }
+      media-gallery.zs-atelier-gallery .zs-atg__caption {
+        margin-top: 5px;
+      }
     }
   }
+
+  /* On phones the full-width square product remains swipeable, with
+     native horizontal thumbnails below and no squeezed desktop rail. */
   @media screen and (max-width: 749px) {
     media-gallery.zs-atelier-gallery {
-      width: min(calc(100% - 20px), 410px, max(280px, calc(100svh - 235px)));
+      width: 100%;
       max-width: 100%;
       margin-inline: auto;
     }
+
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+    }
+
     media-gallery.zs-atelier-gallery slideshow-container {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 100%;
       margin-inline: 0;
       padding: 5px;
-      border-radius: 11px;
+      border-radius: 10px;
       box-shadow: 0 5px 18px rgba(43, 29, 23, .045);
     }
+
     media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
       --gallery-aspect-ratio: 1;
+      --media-preview-ratio: 1;
       width: 100%;
-      max-height: none;
+      height: auto;
+      max-height: min(460px, calc(100svh - 160px));
       aspect-ratio: 1 / 1;
     }
+
     media-gallery.zs-atelier-gallery .zs-atg__heading {
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
+
     media-gallery.zs-atelier-gallery .zs-atg__caption {
       margin-top: 7px;
     }
-    media-gallery.zs-atelier-gallery .zs-atg__toolbar {
-      margin-top: 7px;
-    }
+
     media-gallery.zs-atelier-gallery slideshow-controls.media-gallery__mobile-controls[thumbnails] {
-      min-height: 58px;
+      min-height: 60px;
       margin-top: 7px;
-      --thumbnail-width: 52px;
+      --thumbnail-width: 54px;
     }
+
     media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail {
-      flex-basis: 52px;
-      width: 52px;
-      height: 52px;
+      flex-basis: 54px;
+      width: 54px;
+      height: 54px;
     }
   }
+
 {% endstylesheet %}
