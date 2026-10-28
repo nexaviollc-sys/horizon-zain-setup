@@ -1,8 +1,15 @@
-/* ZAISEN bundle checkout, native Shopify discount codes + cart permalinks.
-   The main product is fixed; shoppers can uncheck either curated complement.
-   Prices use current storefront variant prices; checkout is authoritative.
-   Discount rules use native Shopify codes (15% min 2, 25% min 3).
-*/
+/*
+ * ZAISEN bundle controls for the EXISTING Add to Cart + Buy Now buttons.
+ * Two curated optional additions; native 15% / 25% product discount codes.
+ * Free shipping is either earned via the normal country minimum or the
+ * separate qualifying bundle shipping code. Only eligible destinations are
+ * shown as free. No separate bundle purchase button is rendered.
+ *
+ * Shopify Ajax Cart API: POST cart/add.js with items, followed by
+ * POST cart/update.js with comma-separated discount codes.
+ * Intercept theme form only when extras are checked. Main-only actions
+ * continue to use their original native theme handlers.
+ */
 (() => {
   if (customElements.get('zs-bundle-builder')) return;
 
@@ -11,139 +18,267 @@
       this.main = this.querySelector('[data-zs-main]');
       this.rows = [...this.querySelectorAll('[data-zs-row]')];
       this.extras = [...this.querySelectorAll('[data-zs-optional]')];
-      this.button = this.querySelector('[data-zs-checkout]');
-      this.errorNode = this.querySelector('[data-zs-error]');
       this.mainChoices = this.querySelector('[data-zs-main-variants]');
-      this.priceFormatter = null;
+      this.formComponent = this.closest('.buy-buttons-block')?.querySelector('product-form-component');
+      this.form = this.formComponent?.querySelector('form') || null;
+      this.errorNode = this.querySelector('[data-zs-error]');
+      this.promo = this.querySelector('[data-zs-delivery-zone]');
+      this.progress = this.querySelector('[data-zs-progress]');
+      this.progressFill = this.querySelector('[data-zs-progress-fill]');
+      this.processing = false;
+      this.currency = (this.dataset.currency || 'USD').toUpperCase();
+
       try {
-        this.priceFormatter = new Intl.NumberFormat(this.dataset.locale || 'en-US', {
-          style: 'currency',
-          currency: this.dataset.currency || 'USD',
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
+        this.format = new Intl.NumberFormat(this.dataset.locale || 'en-US', {
+          style: 'currency', currency: this.currency,
+          minimumFractionDigits: 2, maximumFractionDigits: 2
         });
       } catch (_) {
-        this.priceFormatter = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
+        this.format = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
       }
-      this.onLocalChange = (event) => {
+
+      this.onLocalChange = event => {
         if (event.target.matches('[data-zs-variant]')) {
           const row = event.target.closest('[data-zs-row]');
-          const selected = event.target.selectedOptions[0];
-          if (row && selected) {
-            row.dataset.variantId = selected.value;
-            row.dataset.priceCents = selected.dataset.price || row.dataset.priceCents;
+          const variant = event.target.selectedOptions[0];
+          if (row && variant) {
+            row.dataset.variantId = variant.value;
+            row.dataset.priceCents = variant.dataset.price || row.dataset.priceCents;
           }
         }
         this.refresh();
       };
-      this.onDocumentChange = (event) => {
-        const form = event.target.closest?.('product-form-component');
-        const details = this.closest('.product-details');
-        const changedMainOption = details && details.contains(event.target) && !this.contains(event.target);
-        if (form?.dataset.productId === this.dataset.productId || changedMainOption) {
-          setTimeout(() => this.refresh(), 80);
-          setTimeout(() => this.refresh(), 240);
+      this.onFormChange = event => {
+        const withinDetails = this.closest('.product-details')?.contains(event.target);
+        if (withinDetails && !this.contains(event.target)) {
+          this.refresh();
+          queueMicrotask(() => this.refresh());
         }
       };
-      this.onVariantUpdate = () => setTimeout(() => this.refresh(), 80);
-      this.onClick = () => this.buy();
+      this.onVariantUpdate = () => this.refresh();
+      this.onSubmitCapture = event => {
+        if (event.target !== this.form || this.selectedRows().length < 2) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (this.processing || !this.form?.reportValidity()) return;
+        this.purchase('cart');
+      };
+      this.onClickCapture = event => {
+        const target = event.target instanceof Element
+          ? event.target.closest('[data-zs-buy-now]') : null;
+        if (!target || !this.form?.contains(target) || this.selectedRows().length < 2) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (this.processing || target.disabled || !this.form.reportValidity()) return;
+        this.purchase('checkout');
+      };
       this.addEventListener('change', this.onLocalChange);
-      document.addEventListener('change', this.onDocumentChange, true);
+      this.form?.addEventListener('change', this.onFormChange);
       document.addEventListener('variant:update', this.onVariantUpdate);
-      this.button?.addEventListener('click', this.onClick);
+      document.addEventListener('submit', this.onSubmitCapture, true);
+      document.addEventListener('click', this.onClickCapture, true);
       this.refresh();
     }
     disconnectedCallback() {
       this.removeEventListener('change', this.onLocalChange);
-      document.removeEventListener('change', this.onDocumentChange, true);
+      this.form?.removeEventListener('change', this.onFormChange);
       document.removeEventListener('variant:update', this.onVariantUpdate);
-      this.button?.removeEventListener('click', this.onClick);
+      document.removeEventListener('submit', this.onSubmitCapture, true);
+      document.removeEventListener('click', this.onClickCapture, true);
     }
-    money(cents) {
-      return this.priceFormatter.format(Math.round(cents) / 100);
-    }
+    money(cents) { return this.format.format(Math.round(cents) / 100); }
+
     syncMainVariant() {
-      const input = document.querySelector(
-        'product-form-component[data-product-id="' + this.dataset.productId + '"] input[name="id"]'
-      );
-      const matched = [...this.mainChoices?.options || []].find(option => option.value === input?.value);
-      if (matched) {
-        this.main.dataset.variantId = matched.value;
-        this.main.dataset.priceCents = matched.dataset.price;
-        this.mainChoices.value = matched.value;
+      const chosenId = this.form?.querySelector('input[name="id"]')?.value;
+      const option = [...(this.mainChoices?.options || [])].find(o => o.value === chosenId);
+      if (option && this.main) {
+        this.main.dataset.variantId = option.value;
+        this.main.dataset.priceCents = option.dataset.price;
+        this.mainChoices.value = option.value;
       }
     }
+
     selectedRows() {
-      return this.rows.filter(row => row.hasAttribute('data-zs-main') ||
-        row.querySelector('[data-zs-check]')?.checked);
+      return this.rows.filter(row =>
+        row.hasAttribute('data-zs-main') ||
+        (!!row.querySelector('[data-zs-check]')?.checked &&
+         !row.querySelector('[data-zs-check]')?.disabled));
     }
+
+    quantity() {
+      const field = this.form?.querySelector('input[name="quantity"]');
+      const qty = Number(field?.value || '1');
+      return Number.isInteger(qty) && qty > 0 ? Math.min(qty, 999) : 1;
+    }
+
     refresh() {
       if (!this.main) return;
       this.syncMainVariant();
       const selected = this.selectedRows();
       const count = selected.length;
-      const percent = count === 3 ? 25 : (count === 2 ? 15 : 0);
+      const rate = count === 3 ? 25 : count === 2 ? 15 : 0;
+      const mainQty = this.quantity();
       let before = 0, after = 0;
+
       for (const row of this.rows) {
         const checked = selected.includes(row);
         row.classList.toggle('zs-bundle__row--unselected', !checked);
-        const price = Number(row.dataset.priceCents) || 0;
-        const discountPrice = checked ? Math.round(price * (100 - percent) / 100) : price;
-        if (checked) { before += price; after += discountPrice; }
-        const original = row.querySelector('[data-zs-original]');
-        const current = row.querySelector('[data-zs-price]');
-        const saved = row.querySelector('[data-zs-saved]');
-        if (original) {
-          original.textContent = this.money(price);
-          original.hidden = !checked || !percent;
+        const unit = Number(row.dataset.priceCents) || 0;
+        const discounted = checked ? Math.round(unit * (100 - rate) / 100) : unit;
+        const units = row === this.main ? mainQty : 1;
+        if (checked) {
+          before += unit * units;
+          after += discounted * units;
         }
-        if (current) current.textContent = this.money(discountPrice);
-        if (saved) saved.textContent = checked && percent ? 'Save ' + this.money(price - discountPrice) : '';
+        const oldPrice = row.querySelector('[data-zs-original]');
+        const price = row.querySelector('[data-zs-price]');
+        const saved = row.querySelector('[data-zs-saved]');
+        if (oldPrice) {
+          oldPrice.textContent = this.money(unit);
+          oldPrice.hidden = !checked || !rate;
+        }
+        if (price) price.textContent = this.money(discounted);
+        if (saved) saved.textContent = checked && rate
+          ? 'Save ' + this.money((unit - discounted) * units) : '';
       }
+
       const tier = this.querySelector('[data-zs-tier]');
-      if (tier) tier.textContent = percent ? percent + '% OFF' : 'SELECT MORE';
-      const description = this.querySelector('[data-zs-tier-description]');
-      if (description) {
-        description.textContent = percent
-          ? 'Save ' + percent + '% on ' + count + ' products'
-          : 'Add one more item to unlock 15%';
-      }
+      if (tier) tier.textContent = rate ? rate + '% OFF' : 'BUNDLE & SAVE';
+      const desc = this.querySelector('[data-zs-tier-description]');
+      if (desc) desc.textContent = rate
+        ? 'Save ' + rate + '% on ' + count + ' selected products'
+        : 'Add one matching product for 15% off';
       const regular = this.querySelector('[data-zs-regular-total]');
       if (regular) regular.textContent = this.money(before);
       const total = this.querySelector('[data-zs-bundle-total]');
       if (total) total.textContent = this.money(after);
-      const savedTotal = this.querySelector('[data-zs-save-total]');
-      if (savedTotal) savedTotal.textContent = percent ? 'SAVE ' + this.money(before - after) : '—';
-      const shipping = this.querySelector('[data-zs-shipping]');
-      if (shipping) shipping.textContent = this.dataset.freeShipping === 'true'
-        ? (count >= 2 ? '✦ FREE SHIPPING INCLUDED' : 'Free shipping unlocks with 2 products')
-        : 'Shipping options depend on your destination';
-      if (this.button) {
-        this.button.disabled = count < 2;
-        const label = this.button.querySelector('span');
-        if (label) label.textContent = percent
-          ? 'BUY BUNDLE — SAVE ' + percent + '%'
-          : 'CHOOSE A MATCHING PRODUCT';
+      const savings = this.querySelector('[data-zs-save-total]');
+      if (savings) savings.textContent = rate ? 'SAVE ' + this.money(before - after) : '—';
+
+      this.currentRate = rate;
+      this.selectedTotal = after;
+      this.updateShipping(count, after);
+
+      // The original Add to Cart and Buy Now buttons stay present, active,
+      // and controlled by the native product form and variant availability.
+      if (this.errorNode) {
+        this.errorNode.hidden = true;
+        this.errorNode.textContent = '';
       }
-      this.currentPercent = percent;
     }
-    buy() {
-      this.refresh();
-      if (!this.currentPercent) return;
-      const selected = this.selectedRows();
-      const ids = selected.map(row => row.dataset.variantId);
-      if (ids.some(id => !/^\d+$/.test(id || '')) || new Set(ids).size !== ids.length) {
-        this.showError('Please select a valid available variant for each product.');
-        return;
+
+    updateShipping(count, totalCents) {
+      const supported = this.dataset.freeShipping === 'true';
+      const thresholdUSD = Number(this.dataset.shippingThresholdCents) || 0;
+      const isUSD = this.currency === 'USD';
+      const normalEligible = supported && isUSD && thresholdUSD > 0 && totalCents >= thresholdUSD;
+      const bundleEligible = supported && count >= 2;
+      const unlocked = normalEligible || bundleEligible;
+      // Fixed thresholds in Shopify are USD. Don't falsely convert that
+      // dollar threshold using unverified foreign-exchange rates.
+      const percent = !supported ? 0 : unlocked ? 100 :
+        isUSD && thresholdUSD > 0 ? Math.max(0, Math.min(100,
+          Math.round(totalCents / thresholdUSD * 100))) : 0;
+      const country = this.dataset.countryName || this.dataset.country || 'your destination';
+      const label = this.querySelector('[data-zs-shipping-label]');
+      const note = this.querySelector('[data-zs-shipping-note]');
+      const check = this.querySelector('[data-zs-shipping-check]');
+      this.promo?.classList.toggle('is-unlocked', unlocked);
+      if (check) check.textContent = unlocked ? '✓' : '○';
+      if (this.progress) {
+        this.progress.setAttribute('aria-valuenow', String(percent));
+        this.progress.setAttribute('aria-label', unlocked
+          ? 'Free shipping unlocked' : 'Progress toward free shipping');
       }
-      const discount = this.currentPercent === 25 ? 'ZS-BUNDLE25-2026' : 'ZS-BUNDLE15-2026';
+      if (this.progressFill) this.progressFill.style.width = percent + '%';
+      if (label) {
+        label.textContent = unlocked ? '✓ FREE SHIPPING UNLOCKED'
+          : supported ? 'FREE SHIPPING ON ORDERS $' + (thresholdUSD / 100) + '+ USD'
+          : 'SHIPPING AT CHECKOUT';
+      }
+      if (note) {
+        if (!supported) note.textContent = 'Shipping availability depends on your country.';
+        else if (normalEligible) note.textContent = 'Your selection qualifies for free shipping to ' + country + '.';
+        else if (bundleEligible) note.textContent = 'Your bundle includes free shipping to ' + country + ', even below the standard $' + (thresholdUSD / 100) + ' USD minimum.';
+        else if (isUSD) note.textContent = 'Add ' + this.money(Math.max(0, thresholdUSD - totalCents)) + ' more for free shipping to ' + country + '.';
+        else note.textContent = 'Free shipping from $' + (thresholdUSD / 100) + ' USD equivalent, or with any 2-item bundle.';
+      }
+      const shippingSummary = this.querySelector('[data-zs-shipping]');
+      if (shippingSummary) shippingSummary.textContent = unlocked
+        ? '✦ FREE SHIPPING INCLUDED'
+        : supported ? 'Free shipping with a qualifying bundle or country minimum'
+          : 'Shipping calculated at checkout';
+    }
+
+    lines() {
+      const selected = this.selectedRows();
+      const variants = selected.map(row => String(row.dataset.variantId || ''));
+      if (variants.some(id => !/^\d+$/.test(id)) || new Set(variants).size !== variants.length) {
+        throw new Error('Please choose an available variant for each selected product.');
+      }
+      const formData = new FormData(this.form);
+      const mainId = String(formData.get('id') || '');
+      if (!mainId || mainId !== variants[0]) {
+        throw new Error('Your main product option is updating. Please try again.');
+      }
+      const properties = {};
+      for (const [key, value] of formData.entries()) {
+        const match = key.match(/^properties\[([^\]]+)\]$/);
+        if (match && typeof value === 'string' && value) properties[match[1]] = value;
+      }
+      const main = {id:Number(mainId),quantity:this.quantity()};
+      if (Object.keys(properties).length) main.properties = properties;
+      const sellingPlan = formData.get('selling_plan');
+      if (sellingPlan) main.selling_plan = Number(sellingPlan);
+      return [main, ...variants.slice(1).map(id => ({id:Number(id),quantity:1}))];
+    }
+
+    async purchase(destination) {
+      if (this.processing || this.selectedRows().length < 2) return;
+      let items;
+      try { this.syncMainVariant(); items = this.lines(); }
+      catch (error) { this.showError(error.message); return; }
+      this.processing = true;
+      const buttons = [...this.form.querySelectorAll('button[name="add"],[data-zs-buy-now]')];
+      const disabledBefore = buttons.map(button => button.disabled);
+      buttons.forEach(button => {button.disabled = true; button.setAttribute('aria-busy','true');});
+      const root = window.Shopify?.routes?.root || this.dataset.cartPath?.replace(/cart\/?$/, '') || '/';
+      const base = root.endsWith('/') ? root : root + '/';
+      const discount = this.currentRate === 25 ? 'ZS-BUNDLE25-2026' : 'ZS-BUNDLE15-2026';
       const codes = [discount];
       if (this.dataset.freeShipping === 'true') codes.push('ZS-BUNDLESHIP-2026');
-      const cartPath = this.dataset.cartPath || '/cart/';
-      const url = cartPath + ids.map(id => id + ':1').join(',') +
-        '?discount=' + encodeURIComponent(codes.join(','));
-      window.location.assign(url);
+
+      try {
+        const addResponse = await fetch(base + 'cart/add.js', {
+          method:'POST', credentials:'same-origin',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body:JSON.stringify({items})
+        });
+        const added = await addResponse.json();
+        if (!addResponse.ok || added.status) {
+          throw new Error(added.description || added.message || 'Could not add the selected products.');
+        }
+        // Shopify supports multiple comma-separated discount codes in cart/update.js.
+        const updateResponse = await fetch(base + 'cart/update.js', {
+          method:'POST', credentials:'same-origin',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body:JSON.stringify({discount:codes.join(',')})
+        });
+        const updated = await updateResponse.json();
+        if (!updateResponse.ok || updated.status) {
+          throw new Error('Products were added, but the bundle discount could not be applied. Please review your cart.');
+        }
+        window.location.assign(destination === 'checkout' ? '/checkout' : base + 'cart');
+      } catch (error) {
+        this.processing = false;
+        buttons.forEach((button, index) => {
+          button.disabled = disabledBefore[index];
+          button.removeAttribute('aria-busy');
+        });
+        this.showError(error?.message || 'Something went wrong. Please try again.');
+      }
     }
+
     showError(message) {
       if (!this.errorNode) return;
       this.errorNode.hidden = false;
