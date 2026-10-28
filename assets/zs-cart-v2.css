@@ -1,7 +1,7 @@
 /* ZAISEN / compact premium cart drawer (reference-inspired).
    The product data, cart mutations, discounts and checkout remain Shopify-native. */
 #cart-drawer {
-  --theme-drawer-width: min(440px, 100vw);
+  --theme-drawer-width: min(410px, 100vw);
   --zs-ink: #30251e;
   --zs-muted: #776c64;
   --zs-brown: #77523a;
@@ -17,6 +17,29 @@
   width: var(--theme-drawer-width);
   box-shadow: -12px 0 42px rgba(35, 25, 18, .07);
 }
+
+/* Modal in desktop too: dims the intact underlying storefront without
+   shrinking the page or leaving a giant permanent second column. */
+#cart-drawer .theme-drawer__dialog::backdrop {
+  background-color: rgba(27, 20, 16, .35);
+}
+
+/* Explicit sizing keeps global Horizon sidebar variables from making
+   ZAISEN's cart wider than the reference layout. */
+#cart-drawer .theme-drawer__dialog {
+  max-width: 100vw;
+  max-height: 100dvh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#cart-drawer .cart-drawer__summary .additional-checkout-buttons,
+#cart-drawer .cart-drawer__summary .cart-totals__installments {
+  display: none;
+}
+
 
 #cart-drawer .cart-drawer__inner,
 #cart-drawer .cart-items-component {
