@@ -212,3 +212,34 @@
 .product-information ~ .zs-detail-accordions,
 .zs-product-description,
 .zs-product-full-description { display:none !important; }
+
+/* ZAISEN two-stage gallery/detail page scrolling (desktop only) */
+@media screen and (min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .product-information[data-testid="product-information"]
+    .product-information__grid[data-zs-staged-scroll="on"] {
+    align-content: start;
+    align-items: start;
+    grid-auto-rows: max-content;
+    position: relative;
+    overflow: visible;
+  }
+
+  .product-information[data-testid="product-information"]
+    .product-information__grid[data-zs-staged-scroll="on"] > .product-information__media,
+  .product-information[data-testid="product-information"]
+    .product-information__grid[data-zs-staged-scroll="on"] > .product-details {
+    align-self: start;
+    min-height: 0;
+    transition: none;
+    will-change: transform;
+  }
+
+  /* Native sticky details would conflict with the sequential handoff.
+     The scroll is still driven by the document (not mouse-wheel capture). */
+  .product-information[data-testid="product-information"]
+    .product-information__grid[data-zs-staged-scroll="on"] > .product-details.sticky-content--desktop {
+    position: relative !important;
+    top: auto !important;
+    inset-block-start: auto !important;
+  }
+}
