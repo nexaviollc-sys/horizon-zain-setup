@@ -1361,4 +1361,82 @@
   @media (prefers-reduced-motion: reduce) {
     media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail { transition: none; }
   }
+
+  /*
+   * ZAISEN responsive fit-to-screen product gallery v2
+   * The square image width is limited by viewport height, keeping the
+   * entire item in view on laptops without cropping any product photography.
+   * Preserve Horizon's zoom, swipe and thumbnail controls.
+   */
+  @media screen and (min-width: 750px) {
+    media-gallery.zs-atelier-gallery {
+      width: min(100%, 540px, max(345px, calc(100svh - 290px)));
+      max-width: 100%;
+      margin-inline: auto;
+    }
+    media-gallery.zs-atelier-gallery slideshow-container {
+      box-sizing: border-box;
+      padding: 7px;
+      border-radius: 12px;
+      box-shadow: 0 7px 22px rgba(43, 29, 23, .055);
+    }
+    media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
+      --gallery-aspect-ratio: 1;
+      width: 100%;
+      max-height: none;
+      aspect-ratio: 1 / 1;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__heading {
+      margin-bottom: 8px;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar {
+      margin-top: 9px;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__caption {
+      margin-top: 9px;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar .slideshow-controls__thumbnail {
+      flex-basis: 58px;
+      width: 58px;
+      height: 58px;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    media-gallery.zs-atelier-gallery {
+      width: min(calc(100% - 20px), 410px, max(280px, calc(100svh - 235px)));
+      max-width: 100%;
+      margin-inline: auto;
+    }
+    media-gallery.zs-atelier-gallery slideshow-container {
+      margin-inline: 0;
+      padding: 5px;
+      border-radius: 11px;
+      box-shadow: 0 5px 18px rgba(43, 29, 23, .045);
+    }
+    media-gallery.zs-atelier-gallery slideshow-slides > slideshow-slide.product-media-container {
+      --gallery-aspect-ratio: 1;
+      width: 100%;
+      max-height: none;
+      aspect-ratio: 1 / 1;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__heading {
+      margin-bottom: 6px;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__caption {
+      margin-top: 7px;
+    }
+    media-gallery.zs-atelier-gallery .zs-atg__toolbar {
+      margin-top: 7px;
+    }
+    media-gallery.zs-atelier-gallery slideshow-controls.media-gallery__mobile-controls[thumbnails] {
+      min-height: 58px;
+      margin-top: 7px;
+      --thumbnail-width: 52px;
+    }
+    media-gallery.zs-atelier-gallery .slideshow-controls__thumbnail {
+      flex-basis: 52px;
+      width: 52px;
+      height: 52px;
+    }
+  }
 {% endstylesheet %}
