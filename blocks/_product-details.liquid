@@ -27,9 +27,8 @@
       </a>
     </div>
     {% content_for 'blocks' %}
-    {% comment %} Curated two-item bundles and existing product details below the purchase blocks. {% endcomment %}
+    {% comment %} Bundle moved inside buy-buttons above Add to Cart; retain product details. {% endcomment %}
     {% if request.page_type == 'product' and closest.product != blank %}
-      {% render 'zs-bundle-builder', product: closest.product %}
       {% render 'zs-product-detail-accordions', product: closest.product, section_id: section.id %}
     {% endif %}
   {% endcapture %}

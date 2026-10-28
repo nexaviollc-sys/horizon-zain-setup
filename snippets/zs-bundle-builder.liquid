@@ -58,9 +58,14 @@
   assign zs_main_variant = product.selected_or_first_available_variant
   assign zs_country = localization.country.iso_code | upcase
   assign zs_bundle_shipping_supported = false
+  assign zs_shipping_threshold_usd = 0
   case zs_country
-    when 'US', 'GB', 'DE', 'FR', 'AE', 'CA', 'AU'
+    when 'US', 'GB', 'DE', 'FR', 'AE'
       assign zs_bundle_shipping_supported = true
+      assign zs_shipping_threshold_usd = 60
+    when 'CA', 'AU'
+      assign zs_bundle_shipping_supported = true
+      assign zs_shipping_threshold_usd = 100
   endcase
 -%}
 {% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank and zs_main_variant.available %}
@@ -73,8 +78,21 @@
     data-locale="{{ request.locale.iso_code | escape }}"
     data-country="{{ zs_country }}"
     data-free-shipping="{{ zs_bundle_shipping_supported }}"
+    data-shipping-threshold-cents="{{ zs_shipping_threshold_usd | times: 100 }}"
+    data-country-name="{{ localization.country.name | escape }}"
     data-cart-path="{{ routes.root_url }}cart/"
   >
+    <div class="zs-bundle__delivery" data-zs-delivery-zone aria-live="polite">
+      <div class="zs-bundle__delivery-top">
+        <span class="zs-bundle__delivery-check" data-zs-shipping-check aria-hidden="true">✓</span>
+        <strong class="zs-bundle__delivery-label" data-zs-shipping-label>Free shipping progress</strong>
+      </div>
+      <div class="zs-bundle__delivery-track" data-zs-progress role="progressbar"
+        aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="zs-bundle__delivery-fill" data-zs-progress-fill style="width:0%"></span>
+      </div>
+      <p class="zs-bundle__delivery-note" data-zs-shipping-note>Checking your free shipping...</p>
+    </div>
     <header class="zs-bundle__head">
       <div>
         <p class="zs-bundle__eyebrow">CURATED FOR YOUR PIECE</p>
@@ -131,11 +149,8 @@
       </p>
     </div>
 
-    <button type="button" class="zs-bundle__checkout" data-zs-checkout disabled>
-      <span>BUY BUNDLE — SAVE 25%</span><span aria-hidden="true">→</span>
-    </button>
     <p class="zs-bundle__footnote">
-      Discount and shipping codes are applied at Shopify checkout. Prices are based on current live item prices; checkout confirms the final amount.
+      Choose your matching pieces, then use Add to Cart or Buy Now below. Bundle savings and shipping are confirmed by Shopify at checkout.
     </p>
     <p class="zs-bundle__error" data-zs-error role="status" hidden></p>
   </zs-bundle-builder>

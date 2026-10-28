@@ -44,6 +44,13 @@
   {{ block.shopify_attributes }}
 >
   {%- if product != blank -%}
+    {%- comment -%}
+      Product-specific bundle selector appears above the native Add to Cart / Buy Now
+      form, preserving the user's chosen variant and quantity controls.
+    {%- endcomment -%}
+    {% if request.page_type == 'product' %}
+      {% render 'zs-bundle-builder', product: product %}
+    {% endif %}
     {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
     <product-form-component
       data-section-id="{{ section.id }}"
