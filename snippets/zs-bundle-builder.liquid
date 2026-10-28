@@ -84,46 +84,28 @@
   >
     <div class="zs-bundle__delivery" data-zs-delivery-zone aria-live="polite">
       <div class="zs-bundle__delivery-top">
-        <span class="zs-bundle__delivery-check" data-zs-shipping-check aria-hidden="true">✓</span>
+        <span class="zs-bundle__delivery-check" data-zs-shipping-check aria-hidden="true" hidden>✓</span>
         <strong class="zs-bundle__delivery-label" data-zs-shipping-label>Free shipping progress</strong>
       </div>
       <div class="zs-bundle__delivery-track" data-zs-progress role="progressbar"
         aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span class="zs-bundle__delivery-fill" data-zs-progress-fill style="width:0%"></span>
       </div>
-      <p class="zs-bundle__delivery-note" data-zs-shipping-note>Checking your free shipping...</p>
     </div>
     <header class="zs-bundle__head">
       <div>
-        <p class="zs-bundle__eyebrow">CURATED FOR YOUR PIECE</p>
+        <p class="zs-bundle__eyebrow">ADD 1 &amp; SAVE 15% · ADD 2 &amp; SAVE 25%</p>
         <h2 class="zs-bundle__heading">Complete Your Collection</h2>
       </div>
-      <span class="zs-bundle__badge" data-zs-tier>25% OFF</span>
+      <span class="zs-bundle__badge" data-zs-tier>UP TO 25% OFF</span>
     </header>
 
     <div class="zs-bundle__rows">
-      <div class="zs-bundle__row zs-bundle__row--main"
-        data-zs-row data-zs-main
+      {%- comment -%}The current product is always included in totals and checkout but is not repeated in recommendation cards.{%- endcomment -%}
+      <div data-zs-row data-zs-main
         data-variant-id="{{ zs_main_variant.id }}"
-        data-price-cents="{{ zs_main_variant.price }}">
-        <input type="checkbox" checked disabled aria-label="Main product is always included" class="zs-bundle__check">
-        <span class="zs-bundle__picture">
-          {% if product.featured_image %}
-            {{ product.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: product.title }}
-          {% else %}
-            <span>ZAISEN</span>
-          {% endif %}
-        </span>
-        <span class="zs-bundle__details">
-          <span class="zs-bundle__name">{{ product.title | escape }}</span>
-          <span class="zs-bundle__hint">Your selected item · Included</span>
-          <span class="zs-bundle__price-group">
-            <s class="zs-bundle__original" data-zs-original>{{ zs_main_variant.price | money }}</s>
-            <strong class="zs-bundle__price" data-zs-price>{{ zs_main_variant.price | money }}</strong>
-            <span class="zs-bundle__saved" data-zs-saved></span>
-          </span>
-        </span>
-      </div>
+        data-price-cents="{{ zs_main_variant.price }}"
+        hidden></div>
       <select class="zs-bundle__main-variants" data-zs-main-variants hidden aria-hidden="true" tabindex="-1">
         {% for v in product.variants %}
           <option value="{{ v.id }}" data-price="{{ v.price }}" {% if v.id == zs_main_variant.id %}selected{% endif %}>{{ v.title | escape }}</option>
@@ -142,15 +124,12 @@
         <span>Bundle total</span><strong data-zs-bundle-total>—</strong>
       </div>
       <div class="zs-bundle__summary-row zs-bundle__summary-row--save">
-        <span data-zs-tier-description>Save 25% with 3 products</span><strong data-zs-save-total>—</strong>
+        <span data-zs-tier-description>Choose 1 or 2 matching pieces to save</span><strong data-zs-save-total>—</strong>
       </div>
-      <p class="zs-bundle__shipping" data-zs-shipping>
-        {% if zs_bundle_shipping_supported %}✦ FREE SHIPPING INCLUDED{% else %}Shipping options depend on your destination{% endif %}
-      </p>
     </div>
 
     <p class="zs-bundle__footnote">
-      Choose your matching pieces, then use Add to Cart or Buy Now below. Bundle savings and shipping are confirmed by Shopify at checkout.
+      Your current product is included automatically. Add a matching piece to save 15%, or both to save 25%. Final discounts are confirmed at checkout.
     </p>
     <p class="zs-bundle__error" data-zs-error role="status" hidden></p>
   </zs-bundle-builder>

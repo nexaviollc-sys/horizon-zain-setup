@@ -27,7 +27,7 @@
 .zs-bundle__row{display:flex;align-items:center;gap:10px;width:100%;min-width:0;position:relative;padding:9px 10px;border:1px solid var(--zs-bundle-border);border-radius:11px;background:rgba(255,255,255,.84);box-shadow:inset 0 1px 0 #FFF;transition:background-color .18s ease,border-color .18s ease,opacity .18s ease}
 .zs-bundle__row--main{background:#FFFDF9;border-color:#CFB48E}
 .zs-bundle__row--option:hover{border-color:#BB986C;background:#FFFDF9}
-.zs-bundle__row--unselected{opacity:.58;background:#FAF7F2}
+.zs-bundle__row--unselected{opacity:.9;background:#FAF7F2}
 .zs-bundle__check{flex:0 0 auto;width:18px;height:18px;margin:0;cursor:pointer;accent-color:#77523A}
 .zs-bundle__check:disabled{cursor:default;opacity:.95}
 .zs-bundle__check:focus-visible{outline:2px solid #694C30;outline-offset:3px}
@@ -127,3 +127,14 @@
 @media(prefers-reduced-motion:reduce){
  .product-details .zs-bundle__delivery-fill{transition:none}
 }
+
+/* Hidden main product is still counted, but no longer displayed as a third bundle card. */
+.product-details .zs-bundle [data-zs-main][hidden]{display:none!important;}
+/* Only one green check appears when shipping is actually unlocked. */
+.product-details .zs-bundle__delivery-check[hidden]{display:none!important;}
+.product-details .zs-bundle__delivery:not(.is-unlocked) .zs-bundle__delivery-check{display:none!important;}
+.product-details .zs-bundle__delivery.is-unlocked .zs-bundle__delivery-check:not([hidden]){display:grid!important;}
+/* One-line shipping message and a clean, compact progress track. */
+.product-details .zs-bundle__delivery{padding:11px 12px 12px;}
+.product-details .zs-bundle__delivery-track{margin:10px 0 0;}
+.product-details .zs-bundle__delivery-label{font-size:12px;line-height:1.5;}

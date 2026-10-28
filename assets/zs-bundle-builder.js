@@ -147,11 +147,11 @@
       }
 
       const tier = this.querySelector('[data-zs-tier]');
-      if (tier) tier.textContent = rate ? rate + '% OFF' : 'BUNDLE & SAVE';
+      if (tier) tier.textContent = rate ? rate + '% OFF' : 'UP TO 25% OFF';
       const desc = this.querySelector('[data-zs-tier-description]');
       if (desc) desc.textContent = rate
         ? 'Save ' + rate + '% on ' + count + ' selected products'
-        : 'Add one matching product for 15% off';
+        : 'Add 1 piece: 15% off · Add both: 25% off';
       const regular = this.querySelector('[data-zs-regular-total]');
       if (regular) regular.textContent = this.money(before);
       const total = this.querySelector('[data-zs-bundle-total]');
@@ -174,44 +174,47 @@
     updateShipping(count, totalCents) {
       const supported = this.dataset.freeShipping === 'true';
       const thresholdUSD = Number(this.dataset.shippingThresholdCents) || 0;
-      const isUSD = this.currency === 'USD';
-      const normalEligible = supported && isUSD && thresholdUSD > 0 && totalCents >= thresholdUSD;
+      const currency = this.currency;
+      const marketRate = Number(window.Shopify?.currency?.rate);
+      // Shopify's own storefront rate can help estimate progress in local currencies.
+      // Avoid assuming that $60 USD and €60 are equivalent if the rate isn't available.
+      const thresholdLocal = currency === 'USD' ? thresholdUSD :
+        Number.isFinite(marketRate) && marketRate > 0 && marketRate < 5000
+          ? thresholdUSD * marketRate : null;
+      const normalEligible = supported && thresholdLocal != null &&
+        thresholdLocal > 0 && totalCents >= thresholdLocal;
       const bundleEligible = supported && count >= 2;
       const unlocked = normalEligible || bundleEligible;
-      // Fixed thresholds in Shopify are USD. Don't falsely convert that
-      // dollar threshold using unverified foreign-exchange rates.
-      const percent = !supported ? 0 : unlocked ? 100 :
-        isUSD && thresholdUSD > 0 ? Math.max(0, Math.min(100,
-          Math.round(totalCents / thresholdUSD * 100))) : 0;
-      const country = this.dataset.countryName || this.dataset.country || 'your destination';
+      const percentage = !supported ? 0 : unlocked ? 100 :
+        thresholdLocal != null && thresholdLocal > 0
+          ? Math.max(0, Math.min(99, Math.round(totalCents / thresholdLocal * 100)))
+          : 0;
       const label = this.querySelector('[data-zs-shipping-label]');
-      const note = this.querySelector('[data-zs-shipping-note]');
       const check = this.querySelector('[data-zs-shipping-check]');
+      const formattedThreshold = '$' + thresholdUSD / 100 + '+';
       this.promo?.classList.toggle('is-unlocked', unlocked);
-      if (check) check.textContent = unlocked ? '✓' : '○';
+      if (check) {
+        check.hidden = !unlocked;
+        // Only one checkmark: the circular icon. Never duplicate it in text.
+        check.textContent = '✓';
+      }
       if (this.progress) {
-        this.progress.setAttribute('aria-valuenow', String(percent));
+        this.progress.setAttribute('aria-valuenow', String(percentage));
         this.progress.setAttribute('aria-label', unlocked
-          ? 'Free shipping unlocked' : 'Progress toward free shipping');
+          ? 'Free shipping unlocked'
+          : 'Free shipping progress to ' + formattedThreshold + ' USD');
       }
-      if (this.progressFill) this.progressFill.style.width = percent + '%';
-      if (label) {
-        label.textContent = unlocked ? '✓ FREE SHIPPING UNLOCKED'
-          : supported ? 'FREE SHIPPING ON ORDERS $' + (thresholdUSD / 100) + '+ USD'
-          : 'SHIPPING AT CHECKOUT';
+      if (this.progressFill) this.progressFill.style.width = percentage + '%';
+      if (!label) return;
+      if (!supported) {
+        label.textContent = 'SHIPPING CALCULATED AT CHECKOUT';
+      } else if (normalEligible) {
+        label.textContent = 'YOUR ORDER QUALIFIES FOR FREE SHIPPING (' + formattedThreshold + ' USD)';
+      } else if (bundleEligible) {
+        label.textContent = 'YOUR BUNDLE QUALIFIES FOR FREE SHIPPING';
+      } else {
+        label.textContent = 'FREE SHIPPING ON ORDERS ' + formattedThreshold + ' USD';
       }
-      if (note) {
-        if (!supported) note.textContent = 'Shipping availability depends on your country.';
-        else if (normalEligible) note.textContent = 'Your selection qualifies for free shipping to ' + country + '.';
-        else if (bundleEligible) note.textContent = 'Your bundle includes free shipping to ' + country + ', even below the standard $' + (thresholdUSD / 100) + ' USD minimum.';
-        else if (isUSD) note.textContent = 'Add ' + this.money(Math.max(0, thresholdUSD - totalCents)) + ' more for free shipping to ' + country + '.';
-        else note.textContent = 'Free shipping from $' + (thresholdUSD / 100) + ' USD equivalent, or with any 2-item bundle.';
-      }
-      const shippingSummary = this.querySelector('[data-zs-shipping]');
-      if (shippingSummary) shippingSummary.textContent = unlocked
-        ? '✦ FREE SHIPPING INCLUDED'
-        : supported ? 'Free shipping with a qualifying bundle or country minimum'
-          : 'Shipping calculated at checkout';
     }
 
     lines() {
