@@ -338,6 +338,7 @@
       }
     },
     "zs_lifestyle_story": {
+
       "type": "zs-product-lifestyle",
       "settings": {
         "eyebrow": "STYLED IN REAL SPACES",
