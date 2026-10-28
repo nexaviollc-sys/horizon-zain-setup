@@ -1,0 +1,156 @@
+{%- comment -%}
+  ZAISEN copper announcement bar, below header.
+  Live Shopify USD shipping thresholds verified 2026-10-28:
+  US, UK, Germany, France and UAE $60+; Canada and Australia $100+.
+{%- endcomment -%}
+{%- liquid
+  assign zs_country = localization.country.iso_code | upcase
+  assign zs_threshold = 0
+  assign zs_country_label = ''
+
+  case zs_country
+    when 'US'
+      assign zs_country_label = 'USA'
+      assign zs_threshold = 60
+    when 'GB'
+      assign zs_country_label = 'UK'
+      assign zs_threshold = 60
+    when 'DE'
+      assign zs_country_label = 'GERMANY'
+      assign zs_threshold = 60
+    when 'FR'
+      assign zs_country_label = 'FRANCE'
+      assign zs_threshold = 60
+    when 'AE'
+      assign zs_country_label = 'UAE'
+      assign zs_threshold = 60
+    when 'CA'
+      assign zs_country_label = 'CANADA'
+      assign zs_threshold = 100
+    when 'AU'
+      assign zs_country_label = 'AUSTRALIA'
+      assign zs_threshold = 100
+  endcase
+
+  if zs_threshold > 0
+    capture zs_shipping_message
+      echo 'FREE SHIPPING TO '
+      echo zs_country_label
+      echo ' ON ORDERS $'
+      echo zs_threshold
+      echo '+'
+    endcapture
+  else
+    assign zs_shipping_message = 'TRACKED INTERNATIONAL SHIPPING'
+  endif
+
+  assign zs_craft_message = section.settings.craft_message | default: 'HANDCRAFTED WOODEN PRODUCTS'
+  assign zs_quality_message = section.settings.quality_message | default: 'MADE WITH CARE, MADE TO BE CHERISHED'
+  assign zs_returns_message = section.settings.returns_message | default: '14-DAY RETURNS'
+-%}
+<div class="zs-copper-marquee" role="region" aria-label="ZAISEN shipping and craftsmanship announcements" style="--zs-copper-duration: {{ section.settings.speed | default: 40 }}s">
+  <p class="visually-hidden">{{ zs_craft_message | escape }}. {{ zs_shipping_message | strip | escape }}. {{ zs_quality_message | escape }}. {{ zs_returns_message | escape }}.</p>
+  <div class="zs-copper-marquee__viewport" aria-hidden="true">
+    <div class="zs-copper-marquee__track">
+      {%- for duplicate in (1..2) -%}
+        <div class="zs-copper-marquee__group">
+          <span class="zs-copper-marquee__text">{{ zs_craft_message | escape }}</span>
+          <span class="zs-copper-marquee__star">✦</span>
+          <span class="zs-copper-marquee__text">{{ zs_shipping_message | strip | escape }}</span>
+          <span class="zs-copper-marquee__star">✦</span>
+          <span class="zs-copper-marquee__text">{{ zs_quality_message | escape }}</span>
+          <span class="zs-copper-marquee__star">✦</span>
+          <span class="zs-copper-marquee__text">{{ zs_returns_message | escape }}</span>
+          <span class="zs-copper-marquee__star">✦</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% stylesheet %}
+  .zs-copper-marquee {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-width: 0;
+    height: 39px;
+    background-color: #85522F;
+    background-image: radial-gradient(ellipse 74% 170% at 51% 48%,#A4693B 0%,#945E36 38%,#734A2C 69%,#51351F 100%);
+    border-block: 1px solid rgba(43,25,12,.26);
+    box-shadow: inset 0 1px 0 rgba(222,162,96,.25), inset 0 -1px 0 rgba(45,25,11,.18);
+    color: #22170F;
+    overflow: hidden;
+  }
+  .zs-copper-marquee__viewport {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  .zs-copper-marquee__track {
+    display: flex;
+    align-items: center;
+    flex: 0 0 max-content;
+    width: max-content;
+    height: 100%;
+    animation: zs-copper-shipping-scroll var(--zs-copper-duration,40s) linear infinite;
+    will-change: transform;
+  }
+  .zs-copper-marquee__group {
+    display: flex;
+    flex: 0 0 max-content;
+    align-items: center;
+    justify-content: flex-start;
+    gap: clamp(30px,4.4vw,78px);
+    padding-inline: clamp(15px,2vw,38px);
+    height: 100%;
+    white-space: nowrap;
+  }
+  .zs-copper-marquee__text,.zs-copper-marquee__star {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #22170F;
+  }
+  .zs-copper-marquee__text {
+    font-family: var(--font-body--family,Arial,sans-serif);
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: .20em;
+  }
+  .zs-copper-marquee__star {font-size: 15px;font-weight: 700;letter-spacing: 0;}
+  @keyframes zs-copper-shipping-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (hover:hover) and (pointer:fine) {
+    .zs-copper-marquee:hover .zs-copper-marquee__track {animation-play-state:paused;}
+  }
+  @media (max-width:749px) {
+    .zs-copper-marquee {height:35px;}
+    .zs-copper-marquee__group {gap:24px;padding-inline:14px;}
+    .zs-copper-marquee__text {font-size:10px;letter-spacing:.15em;}
+    .zs-copper-marquee__star {font-size:12px;}
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .zs-copper-marquee__track {animation:none;transform:none;will-change:auto;}
+    .zs-copper-marquee__group:nth-child(2) {display:none;}
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "ZAISEN Copper Marquee",
+  "tag": "section",
+  "class": "zs-copper-marquee-section",
+  "settings": [
+    {"type":"text","id":"craft_message","label":"Craftsmanship message","default":"HANDCRAFTED WOODEN PRODUCTS"},
+    {"type":"text","id":"quality_message","label":"Quality message","default":"MADE WITH CARE, MADE TO BE CHERISHED"},
+    {"type":"text","id":"returns_message","label":"Returns message","default":"14-DAY RETURNS"},
+    {"type":"range","id":"speed","label":"Scroll duration","min":24,"max":72,"step":4,"unit":"s","default":40}
+  ],
+  "presets": [{"name":"ZAISEN Copper Marquee"}]
+}
+{% endschema %}

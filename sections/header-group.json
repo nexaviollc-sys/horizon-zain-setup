@@ -95,9 +95,19 @@
         "zaisen_premium_header": true,
         "zaisen_accent_color": "#2B1D17"
       }
+    },
+    "zs_copper_shipping_marquee": {
+      "type": "zs-copper-shipping-marquee",
+      "settings": {
+        "craft_message": "HANDCRAFTED WOODEN PRODUCTS",
+        "quality_message": "MADE WITH CARE, MADE TO BE CHERISHED",
+        "returns_message": "14-DAY RETURNS",
+        "speed": 40
+      }
     }
   },
   "order": [
-    "header_section"
+    "header_section",
+    "zs_copper_shipping_marquee"
   ]
 }
