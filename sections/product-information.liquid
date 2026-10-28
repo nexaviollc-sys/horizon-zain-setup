@@ -1,8 +1,10 @@
 {{ 'zs-product-polish.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'zs-buy-now.js' | asset_url }}" defer></script>
-{% if request.page_type == 'product' %}
-  <script src="{{ 'zs-product-staged-scroll.js' | asset_url }}" defer></script>
-{% endif %}
+{% comment %}
+  Desktop craftsmanship story now fills the gallery column naturally.
+  The previous staged-scrolling script is intentionally not loaded because
+  its synthetic scroll track could leave blank space below the gallery.
+{% endcomment %}
 
 
 <script type="application/ld+json">
