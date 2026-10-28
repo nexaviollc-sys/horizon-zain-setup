@@ -1251,114 +1251,221 @@
   }
 
   /*
-   * ZAISEN dark walnut header — inner pages ONLY.
-   * The homepage (template index) never has .header--zaisen-dark, so its
-   * transparent hero/header, navigation, and scrolling styles are unchanged.
-   * Keep the existing solid, sticky mechanics and bright dropdown panels.
+   * ZAISEN — clear, restrained walnut header for inner pages only.
+   * The homepage never gets this class; do not change its appearance or
+   * its native transparent/sticky behaviour.
+   *
+   * Palette: walnut #2B1D17, cream #F7F3EE, gold #D8B56A.
+   * All focus, hover, flyout and mobile states keep an explicit contrast pair.
    */
   #header-component.header--zaisen-dark:not([transparent]) {
     --color-background-top-row: #2B1D17 !important;
     --color-background-bottom-row: #2B1D17 !important;
-    --zs-header-accent: #D8B56A !important;
-    --zs-header-line: rgba(216,181,106,.32);
+    --zs-header-accent: #D8B56A;
+    --zs-header-line: rgba(216,181,106,.28);
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed {
     background: #2B1D17;
-    box-shadow: 0 3px 12px rgba(29,17,11,.15);
+    box-shadow: 0 2px 12px rgba(35,23,17,.13);
   }
 
+  /* Keep general header foreground cream; light overlays supply their own
+     dark foreground below rather than inheriting this header text color. */
   #header-component.header--zaisen-dark:not([transparent]) .header__row--top,
   #header-component.header--zaisen-dark:not([transparent]) .header__row--bottom {
-    --color-foreground: #F7F3EE !important;
-    --color-foreground-rgb: 247 243 238 !important;
+    --color-foreground: #F7F3EE;
+    --color-foreground-rgb: 247 243 238;
     --color-account-icon: #F7F3EE;
-    --color-border: #D8B56A;
     color: #F7F3EE;
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__row--top {
-    border-bottom-color: rgba(216,181,106,.27);
+    border-bottom-color: rgba(216,181,106,.20);
   }
 
-  /* Keep the existing logo asset, tinting only its display on inner pages. */
   #header-component.header--zaisen-dark:not([transparent]) .header-logo {
     color: #F7F3EE;
   }
 
+  /* Change only the displayed inner-page logo, not the original asset. */
   #header-component.header--zaisen-dark:not([transparent]) .header-logo__image {
     filter: brightness(0) invert(1);
   }
 
+  /*
+   * Desktop primary nav: quiet and legible at rest; gold + dark walnut on
+   * hover/focus. Do not let the generic menu-dimming rule fade the other links.
+   * Menu selectors intentionally stop at top-level navigation labels.
+   */
   @media screen and (min-width: 750px) {
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list {
+      --menu-top-level-font-color: #F7F3EE;
+      --menu-top-level-font-color-rgb: 247 243 238;
+      --opacity-subdued-text: 1;
+    }
+
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link,
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__disclosure {
       color: #F7F3EE;
     }
 
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link-title {
-      color: #F7F3EE;
-      border-color: rgba(216,181,106,.36);
-      background: transparent;
-      box-shadow: none;
+      color: #F7F3EE !important;
+      background-color: transparent !important;
+      border: 1px solid rgba(216,181,106,.25) !important;
+      border-radius: 8px;
+      padding: 8px 13px;
+      min-height: 38px;
+      font-weight: 550;
+      box-shadow: none !important;
+      opacity: 1;
+      transition: background-color .18s ease, border-color .18s ease, color .18s ease;
     }
 
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link:is(.menu-list__link--active,[aria-current='page']) .menu-list__link-title {
-      color: #F7F3EE;
-      border-color: #D8B56A;
-      background: rgba(216,181,106,.09);
-      box-shadow: none;
+      color: #F7F3EE !important;
+      border-color: #D8B56A !important;
+      background-color: rgba(216,181,106,.09) !important;
     }
 
+    /* Hover/open/focus all use an intentionally contrasted GOLD-on-WALNUT pair. */
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link:is(:hover,:focus-visible) .menu-list__link-title,
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__list-item:is(:hover,:focus-within) > .menu-list__link .menu-list__link-title,
     #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__trigger:has(.menu-list__disclosure[aria-expanded='true']) .menu-list__link-title {
-      color: #F7F3EE;
-      background: rgba(216,181,106,.10);
-      border-color: #D8B56A;
-      box-shadow: none;
+      color: #2B1D17 !important;
+      background-color: #D8B56A !important;
+      border-color: #D8B56A !important;
+      box-shadow: none !important;
+      opacity: 1;
+    }
+
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__link:is(:hover,:focus-visible) .menu-list__link-title *,
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu .menu-list__trigger:has(.menu-list__disclosure[aria-expanded='true']) .menu-list__link-title * {
+      color: #2B1D17 !important;
+    }
+
+    /* In the older theme, opening the cream Category / Best Sellers flyout
+       also turned the 4th top nav label dark. The header itself stays walnut. */
+    #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header-menu .menu-list__list-item:nth-child(4) .menu-list__link-title {
+      color: #F7F3EE !important;
+    }
+
+    #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header-menu .menu-list__list-item:nth-child(4):is(:hover,:focus-within) .menu-list__link-title {
+      color: #2B1D17 !important;
     }
   }
 
-  #header-component.header--zaisen-dark:not([transparent]) .header__column--right {
-    --color-account-icon: #F7F3EE;
+  /* Utility controls are cream in EVERY header state, including while a
+     separate cream flyout is open. Header remains solid walnut, never white. */
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right {
+    --color-account-icon: #F7F3EE !important;
   }
 
-  #header-component.header--zaisen-dark:not([transparent]) .header__column--right :is(
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right :is(
     .dropdown-localization__button,
     .search-action .header-actions__action,
     header-actions .header-actions__action,
     .account-button
   ),
-  #header-component.header--zaisen-dark:not([transparent]) .header__icon--menu {
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu {
     color: #F7F3EE !important;
     --color-account-icon: #F7F3EE;
+    opacity: 1;
   }
 
-  #header-component.header--zaisen-dark:not([transparent]) .dropdown-localization__button {
-    border-color: rgba(216,181,106,.44);
-    background: rgba(216,181,106,.07);
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .dropdown-localization__button {
+    background: rgba(216,181,106,.08) !important;
+    border-color: rgba(216,181,106,.35) !important;
+  }
+
+  /* Overrides a homepage-specific flyout-open icon color inherited by all
+     .header--zaisen elements. Without this, dark icons disappear on walnut. */
+  #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header__column--right :is(
+    .dropdown-localization__button,
+    .search-action .header-actions__action,
+    header-actions .header-actions__action,
+    .account-button
+  ) {
+    color: #F7F3EE !important;
+    --color-account-icon: #F7F3EE;
+    opacity: 1 !important;
+  }
+
+  #header-component.header--zaisen.header--zaisen-dark:has(.zs-nav-flyout:not([inert])) .header__column--right .dropdown-localization__button {
+    background: rgba(216,181,106,.08) !important;
+    border-color: rgba(216,181,106,.35) !important;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    #header-component.header--zaisen-dark:not([transparent]) .header-actions__action:not(.dropdown-localization__button):hover,
-    #header-component.header--zaisen-dark:not([transparent]) .header__icon--menu:hover {
+    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header-actions__action:not(.dropdown-localization__button):hover,
+    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu:hover {
       color: #D8B56A !important;
-      background: rgba(216,181,106,.10);
-      box-shadow: inset 0 0 0 1px rgba(216,181,106,.28);
+      background: rgba(216,181,106,.13);
+      box-shadow: none;
     }
 
-    #header-component.header--zaisen-dark:not([transparent]) .dropdown-localization__button:hover {
+    #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .dropdown-localization__button:hover {
       color: #F7F3EE !important;
-      background: rgba(216,181,106,.12);
-      border-color: #D8B56A;
+      background: rgba(216,181,106,.16) !important;
+      border-color: #D8B56A !important;
     }
   }
 
-  /* Flyouts, search and country/language menus remain light and legible. */
-  #header-component.header--zaisen-dark .zs-nav-flyout {
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__column--right :is(
+    .dropdown-localization__button,
+    .header-actions__action
+  ):focus-visible,
+  #header-component.header--zaisen.header--zaisen-dark:not([transparent]) .header__icon--menu:focus-visible {
+    outline: 2px solid #D8B56A;
+    outline-offset: 2px;
+  }
+
+  /*
+   * Isolate the cream dropdowns/overlays from the cream header foreground.
+   * This prevents ivory text on an ivory surface when any menu is hovered.
+   */
+  #header-component.header--zaisen.header--zaisen-dark :is(
+    .zs-nav-flyout,
+    .menu-list__submenu,
+    .localization-wrapper,
+    .localization-form__list,
+    .language-selector
+  ) {
     --color-foreground: #2B1D17;
     --color-foreground-rgb: 43 29 23;
     --color-background: #FFFCF8;
+    --color-background-rgb: 255 252 248;
+    --menu-top-level-font-color: #2B1D17;
+    --menu-top-level-font-color-rgb: 43 29 23;
+  }
+
+  #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout > .menu-list__submenu-inner,
+  #header-component.header--zaisen.header--zaisen-dark .localization-wrapper {
+    background-color: #FFFCF8;
+    color: #2B1D17;
+  }
+
+  #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout :is(
+    .zs-category-buttons__link,
+    .zs-category-buttons__text,
+    .zs-bestseller-grid__card,
+    .zs-bestseller-grid__name,
+    .zs-nav-panel__title
+  ) {
+    color: #2B1D17;
+  }
+
+  #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout .zs-category-buttons__link:is(:hover,:focus-visible),
+  #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout .zs-bestseller-grid__card:is(:hover,:focus-visible) {
+    background-color: #F3E9DD;
+    color: #2B1D17;
+    border-color: #C9A87C;
+  }
+
+  #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout .zs-nav-panel__view-all:is(:hover,:focus-visible) {
+    color: #2B1D17;
+    background-color: #F3E9DD;
   }
 
 {% endstylesheet %}
