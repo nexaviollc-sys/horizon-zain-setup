@@ -108,6 +108,9 @@
         data-testid="product-information-media"
       >
         {{ media_gallery }}
+        {% if request.page_type == 'product' and product != blank %}
+          {% render 'zs-product-craft-story', product: product %}
+        {% endif %}
       </div>
     {% endcapture %}
 
