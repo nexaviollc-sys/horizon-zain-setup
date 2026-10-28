@@ -51,8 +51,10 @@
       assign zs_pair_handles = 'wooden-horse-lamp-equestrian-table-light,wooden-ship-wheel-wall-clock'
   endcase
   assign zs_pair_parts = zs_pair_handles | split: ','
-  assign zs_recommendation_one = all_products[zs_pair_parts[0]]
-  assign zs_recommendation_two = all_products[zs_pair_parts[1]]
+  assign zs_handle_one = zs_pair_parts | first
+  assign zs_handle_two = zs_pair_parts | last
+  assign zs_recommendation_one = all_products[zs_handle_one]
+  assign zs_recommendation_two = all_products[zs_handle_two]
   assign zs_main_variant = product.selected_or_first_available_variant
   assign zs_country = localization.country.iso_code | upcase
   assign zs_bundle_shipping_supported = false
