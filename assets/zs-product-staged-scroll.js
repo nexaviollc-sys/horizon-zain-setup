@@ -30,7 +30,14 @@
   }
 
   function createInstance(section) {
-    if (instances.has(section)) return;
+    const existing = instances.get(section);
+    if (existing) {
+      if (existing.grid.isConnected && section.contains(existing.grid)) return;
+      // Shopify may replace the product grid without replacing its section.
+      existing.cleanup();
+      activeInstances.delete(existing);
+      instances.delete(section);
+    }
     const grid = section.querySelector('product-component.product-information__grid');
     const media = grid?.querySelector(':scope > .product-information__media');
     const details = grid?.querySelector(':scope > .product-details');
@@ -178,7 +185,10 @@
     onScroll();
     setup();
   });
-  document.addEventListener('shopify:section:unload', onScroll);
+  document.addEventListener('shopify:section:unload', () => {
+    onScroll();
+    requestAnimationFrame(setup);
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setup, { once: true });
