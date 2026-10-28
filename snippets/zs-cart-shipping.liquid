@@ -1,0 +1,51 @@
+{% comment %}
+  ZAISEN cart shipping progress.
+  Thresholds are specified in USD per the ZAISEN shipping plan. The JS
+  controller only converts when Shopify supplies an exchange rate, avoiding
+  false free-shipping promises in unsupported presentment currencies.
+{% endcomment %}
+{%- liquid
+  assign zs_shipping_usd = 0
+  case localization.country.iso_code
+    when 'US', 'DE', 'FR'
+      assign zs_shipping_usd = 60
+    when 'CA', 'AU'
+      assign zs_shipping_usd = 100
+  endcase
+-%}
+{% if zs_shipping_usd > 0 %}
+  <div
+    class="zs-cart-shipping"
+    data-zs-shipping-progress
+    data-threshold-usd-cents="{{ zs_shipping_usd | times: 100 }}"
+    data-cart-total-cents="{{ cart.total_price }}"
+    data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | escape }}"
+    data-shop-currency="{{ shop.currency | escape }}"
+    data-locale="{{ request.locale.iso_code | escape }}"
+    aria-live="polite"
+  >
+    <div class="zs-cart-shipping__message">
+      <span class="zs-cart-shipping__check" aria-hidden="true">✓</span>
+      <span data-zs-shipping-message>
+        {% case request.locale.iso_code %}
+          {% when 'de' %}Versandvorteile werden an der Kasse bestätigt.
+          {% when 'fr' %}La livraison gratuite est confirmée au paiement.
+          {% when 'ar' %}يتم تأكيد الشحن المجاني عند الدفع.
+          {% else %}Free shipping eligibility is confirmed at checkout.
+        {% endcase %}
+      </span>
+    </div>
+    <div
+      class="zs-cart-shipping__track"
+      role="progressbar"
+      aria-label="Free shipping progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      data-zs-shipping-track
+      hidden
+    >
+      <span class="zs-cart-shipping__fill" data-zs-shipping-fill></span>
+    </div>
+  </div>
+{% endif %}
