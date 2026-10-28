@@ -63,7 +63,7 @@
       assign zs_bundle_shipping_supported = true
   endcase
 -%}
-{% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank %}
+{% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank and zs_main_variant.available %}
   {{ 'zs-bundle-builder.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'zs-bundle-builder.js' | asset_url }}" defer></script>
   <zs-bundle-builder

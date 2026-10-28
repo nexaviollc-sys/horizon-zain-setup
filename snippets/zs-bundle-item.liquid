@@ -4,7 +4,8 @@
   <div class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
     data-variant-id="{{ chosen_variant.id }}"
     data-price-cents="{{ chosen_variant.price }}">
-    <input type="checkbox" class="zs-bundle__check" data-zs-check checked
+    <input type="checkbox" class="zs-bundle__check" data-zs-check
+      {% if chosen_variant.available %}checked{% else %}disabled{% endif %}
       aria-label="Include {{ item.title | escape }} in bundle">
     <span class="zs-bundle__picture">
       {% if item.featured_image %}

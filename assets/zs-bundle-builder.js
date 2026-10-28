@@ -38,20 +38,25 @@
       };
       this.onDocumentChange = (event) => {
         const form = event.target.closest?.('product-form-component');
-        if (form?.dataset.productId === this.dataset.productId) {
+        const details = this.closest('.product-details');
+        const changedMainOption = details && details.contains(event.target) && !this.contains(event.target);
+        if (form?.dataset.productId === this.dataset.productId || changedMainOption) {
           setTimeout(() => this.refresh(), 80);
           setTimeout(() => this.refresh(), 240);
         }
       };
+      this.onVariantUpdate = () => setTimeout(() => this.refresh(), 80);
       this.onClick = () => this.buy();
       this.addEventListener('change', this.onLocalChange);
       document.addEventListener('change', this.onDocumentChange, true);
+      document.addEventListener('variant:update', this.onVariantUpdate);
       this.button?.addEventListener('click', this.onClick);
       this.refresh();
     }
     disconnectedCallback() {
       this.removeEventListener('change', this.onLocalChange);
       document.removeEventListener('change', this.onDocumentChange, true);
+      document.removeEventListener('variant:update', this.onVariantUpdate);
       this.button?.removeEventListener('click', this.onClick);
     }
     money(cents) {
