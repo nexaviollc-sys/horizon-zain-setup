@@ -63,9 +63,7 @@
             data-zs-upsell-variant="{{ zs_product.selected_or_first_available_variant.id }}"
             aria-label="{{ zs_upsell_action | escape }}: {{ zs_product.title | escape }}"
             title="{{ zs_upsell_action | escape }}"
-          >+
-            <span class="visually-hidden">{{ zs_upsell_action | escape }}</span>
-          </button>
+          >{{ zs_upsell_action | escape }}</button>
         {% else %}
           <a class="zs-cart-upsell__options" href="{{ zs_product.url }}" aria-label="{{ zs_upsell_options | escape }}: {{ zs_product.title | escape }}">
             {{ zs_upsell_options }}
