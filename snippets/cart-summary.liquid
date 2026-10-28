@@ -258,22 +258,6 @@
 </div>
 
 <div class="cart__ctas{% if section_id == 'cart-drawer-section' %} zs-cart__ctas{% endif %}">
-  {% if section_id == 'cart-drawer-section' and additional_checkout_buttons %}
-    <div class="zs-cart-express" aria-label="Express checkout">
-      <div class="zs-cart-express__heading">
-        {% case request.locale.iso_code %}
-          {% when 'de' %}Express-Zahlung
-          {% when 'fr' %}Paiement express
-          {% when 'ar' %}الدفع السريع
-          {% else %}Express checkout
-        {% endcase %}
-      </div>
-      <div class="additional-checkout-buttons">
-        {{ content_for_additional_checkout_buttons }}
-      </div>
-    </div>
-  {% endif %}
-
   <button
     type="submit"
     id="checkout"
@@ -299,7 +283,15 @@
     {% endif %}
   </button>
 
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons and section_id != 'cart-drawer-section' %}
+  {% if section_id == 'cart-drawer-section' %}
+    {% if additional_checkout_buttons %}
+      <div class="zs-cart-express" aria-label="Express checkout">
+        <div class="additional-checkout-buttons">
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      </div>
+    {% endif %}
+  {% elsif additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div
       class="
         additional-checkout-buttons
