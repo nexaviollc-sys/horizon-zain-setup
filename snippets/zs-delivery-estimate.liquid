@@ -1,35 +1,16 @@
 {% comment %}
-  ZAISEN — estimated delivery above add-to-cart.
-  Mirrors shipping ranges configured Oct 22 2026: GB 4–5 days; US, DE, FR, CA, AU, AE, SA 7–9 days.
-  Plus one calendar day for order processing. Review if Shopify shipping rates change.
-  Delivery dates are estimates, not guaranteed arrival dates.
+  ZAISEN Promise badges above add-to-cart. Delivery dates deliberately omitted.
 {% endcomment %}
 {% liquid
   assign zs_country = localization.country.iso_code | upcase
-  assign zs_shipping_min = 7
-  assign zs_shipping_max = 9
   assign zs_supported = false
   case zs_country
-    when 'GB'
-      assign zs_shipping_min = 4
-      assign zs_shipping_max = 5
-      assign zs_supported = true
-    when 'US', 'DE', 'FR', 'CA', 'AU', 'AE', 'SA'
+    when 'GB', 'US', 'DE', 'FR', 'CA', 'AU', 'AE', 'SA'
       assign zs_supported = true
   endcase
-  assign zs_arrival_min = zs_shipping_min | plus: 1
-  assign zs_arrival_max = zs_shipping_max | plus: 1
   assign zs_language = request.locale.iso_code | slice: 0, 2
 %}
 {% if zs_supported %}
-  {% capture zs_delivery %}
-    {% case zs_language %}
-      {% when 'de' %}Voraussichtliche Lieferung
-      {% when 'fr' %}Livraison estimée
-      {% when 'ar' %}التوصيل المتوقع
-      {% else %}Estimated delivery
-    {% endcase %}
-  {% endcapture %}
   {% capture zs_refunds %}
     {% case zs_language %}
       {% when 'de' %}14 Tage Rückgabe & Erstattung
@@ -94,15 +75,6 @@
       {% else %}Contact ZAISEN
     {% endcase %}
   {% endcapture %}
-  {% capture zs_days %}
-    {% case zs_language %}
-      {% when 'de' %}Tage
-      {% when 'fr' %}jours
-      {% when 'ar' %}أيام
-      {% else %}days
-    {% endcase %}
-  {% endcapture %}
-
   {% capture zs_promise %}
     {% case zs_language %}
       {% when 'de' %}Das ZAISEN Versprechen
@@ -150,10 +122,6 @@
   {% endcapture %}
 
   <div class="zs-delivery-estimate zs-product-benefits"
-    data-zs-delivery-estimate
-    data-min-days="{{ zs_arrival_min }}"
-    data-max-days="{{ zs_arrival_max }}"
-    data-locale="{{ request.locale.iso_code | escape }}"
     dir="{% if zs_language == 'ar' %}rtl{% else %}ltr{% endif %}"
     aria-label="{% if zs_language == 'de' %}Produktvorteile{% elsif zs_language == 'fr' %}Avantages du produit{% elsif zs_language == 'ar' %}مزايا المنتج{% else %}Product benefits{% endif %}">
     <div class="zs-product-benefits__heading">
@@ -169,8 +137,6 @@
         </span>
         <span class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_free_shipping_short | strip }}</span>
-          <span class="zs-product-benefits__sr-only">{{ zs_delivery | strip }}:</span>
-          <span class="zs-product-benefits__date" data-zs-delivery-dates>{{ zs_arrival_min }}–{{ zs_arrival_max }} {{ zs_days | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_shipping_country | strip }}</span>
         </span>
       </div>
@@ -325,17 +291,6 @@
       letter-spacing: 0;
       overflow-wrap: break-word;
     }
-    .product-information .zs-product-benefits__date {
-      display: block;
-      margin: 0;
-      color: #766357 !important;
-      font-family: var(--font-body--family, inherit);
-      font-size: 10px !important;
-      font-weight: 500 !important;
-      line-height: 1.2 !important;
-      letter-spacing: 0;
-      white-space: normal;
-    }
     .product-information .zs-product-benefits__sr-only {
       position: absolute !important;
       width: 1px !important;
@@ -370,7 +325,6 @@
       }
       .product-information .zs-product-benefits__icon { width: 14px !important; height: 14px !important; }
       .product-information .zs-product-benefits__title { font-size: 10.75px !important; }
-      .product-information .zs-product-benefits__date { font-size: 9.5px !important; }
     }
     @media (max-width: 340px) {
       .product-information .zs-product-benefits__grid {
@@ -378,28 +332,4 @@
       }
     }
   </style>
-  <script>
-    (function () {
-      function updateDeliveryDates() {
-        document.querySelectorAll('[data-zs-delivery-estimate]').forEach(function (root) {
-          var target = root.querySelector('[data-zs-delivery-dates]');
-          if (!target) return;
-          var low = Number(root.dataset.minDays), high = Number(root.dataset.maxDays);
-          if (!Number.isInteger(low) || !Number.isInteger(high)) return;
-          var today = new Date();
-          var early = new Date(today.getFullYear(), today.getMonth(), today.getDate() + low, 12);
-          var late = new Date(today.getFullYear(), today.getMonth(), today.getDate() + high, 12);
-          var locale = root.dataset.locale || 'en';
-          try {
-            var formatter = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
-            target.textContent = formatter.format(early) + ' – ' + formatter.format(late);
-          } catch (error) {
-            // Keep the server-rendered estimate when Intl is unavailable.
-          }
-        });
-      }
-      updateDeliveryDates();
-      document.addEventListener('shopify:section:load', updateDeliveryDates);
-    })();
-  </script>
 {% endif %}
