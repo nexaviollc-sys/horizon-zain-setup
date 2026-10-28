@@ -31,6 +31,12 @@
 
     {{ content_for_header }}
     {{ 'zaisen-heritage.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'index' %}
+      <style>
+        /* Hide the copper shipping marquee on ZAISEN's homepage before first paint. */
+        #header-group .zs-copper-marquee-section { display: none !important; }
+      </style>
+    {% endif %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
