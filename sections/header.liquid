@@ -1264,12 +1264,14 @@
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed {
+    /* Same walnut family as the footer; gently lighter at left, deeper at right. */
     background-color: #2B1D17;
     background-image:
-        radial-gradient(ellipse at 12% -8%,rgba(216,181,106,.135),transparent 46%),
-        radial-gradient(ellipse at 95% 13%,rgba(144,91,54,.16),transparent 45%),
-        linear-gradient(132deg,#403026 0%,#35251D 38%,#2B1D17 70%,#241813 100%);
-    box-shadow:inset 0 1px 0 rgba(216,181,106,.31),inset 0 14px 30px -35px rgba(255,248,230,.35);
+      radial-gradient(ellipse at 6% -10%,rgba(216,181,106,.11),transparent 52%),
+      linear-gradient(100deg,#463328 0%,#38271E 52%,#2B1D17 100%);
+    box-shadow: inset 0 1px 0 rgba(216,181,106,.26),
+                inset 0 -1px 0 rgba(25,14,9,.13),
+                0 3px 12px rgba(20,12,8,.13);
   }
 
   #header-component.header--zaisen-dark:not([transparent]) :is(.header__row--top,.header__row--bottom) {
@@ -1283,14 +1285,14 @@
     border-bottom-color: rgba(216,181,106,.27);
   }
 
-  /* No filter or inverse branding: display the original logo unchanged. */
+  /* Original ZAISEN logo: no artificial cream card or border around it. */
   #header-component.header--zaisen-dark:not([transparent]) .header-logo {
-    color: #2B1D17;
-    background: #F7F3EE;
-    border: 1px solid rgba(216,181,106,.34);
-    border-radius: 9px;
-    padding: 4px 9px;
-    box-shadow: 0 1px 4px rgba(24,15,11,.12);
+    color: #F7F3EE;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
   }
   #header-component.header--zaisen-dark:not([transparent]) .header-logo__image {
     filter: none !important;
@@ -1462,6 +1464,81 @@
   #header-component.header--zaisen.header--zaisen-dark .zs-nav-flyout .zs-nav-panel__view-all:is(:hover,:focus-visible) {
     color: #2B1D17;
     background-color: #F3E9DD;
+  }
+
+
+  /*
+   * Inner-page menu refinements — leave the homepage completely untouched.
+   * Arrows remain the native clickable submenu disclosure buttons, but are
+   * aligned INSIDE Category and Best Sellers instead of straddling the edge.
+   */
+  @media screen and (min-width:750px) {
+    #header-component.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger .menu-list__link-title {
+      padding-inline-start: 13px;
+      padding-inline-end: 37px;
+    }
+
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger > .menu-list__disclosure {
+      position: absolute;
+      inset-inline-start: auto;
+      inset-inline-end: 11px;
+      inset-block-start: 50%;
+      width: 18px;
+      height: 32px;
+      min-width: 18px;
+      padding: 0;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(-50%);
+      color: #F7F3EE;
+      z-index: 2;
+    }
+
+    #header-component.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger > .menu-list__disclosure .menu-list__disclosure-icon {
+      display: block;
+      width: 11px;
+      height: 8px;
+      fill: currentColor;
+    }
+
+    #header-component.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger:is(:hover,:focus-within) > .menu-list__disclosure {
+      color: #2B1D17;
+    }
+
+    /* Hover on the arrow itself highlights only its own nav button. */
+    #header-component.header--zaisen.header--zaisen-dark[data-menu-style='menu'] .header-menu :is(.zs-category-item,.zs-bestsellers-item) > .menu-list__trigger:is(:hover,:focus-within) .menu-list__link-title {
+      color: #2B1D17 !important;
+      background-color: #F7F3EE !important;
+      border-color: #F7F3EE !important;
+    }
+  }
+
+  /*
+   * Horizon's open underlay used a SOLID background and covered the gradient
+   * when any menu was hovered/opened. Keep the same closed gradient visible.
+   * Paint only the actual submenu zone beneath, not the header itself.
+   */
+  #header-component.header--zaisen-dark:not([transparent]) .header__underlay-open {
+    background: linear-gradient(to bottom,
+      transparent 0 var(--header-height),
+      var(--color-submenu,#FFFCF8) var(--header-height) 100%
+    ) !important;
+  }
+
+  /* Category and Best Sellers use their own compact cream flyout cards.
+     Do not paint a full-width cream band when those flyouts are visible. */
+  #header-component.header--zaisen-dark:not([transparent]):has(.zs-nav-flyout:not([inert])) .header__underlay-open {
+    background: transparent !important;
   }
 
 {% endstylesheet %}
