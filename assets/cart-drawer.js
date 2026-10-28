@@ -77,6 +77,9 @@ class CartDrawerComponent extends Component {
    * Handles the theme-drawer opening — updates sticky state and wires up the installments CTA.
    */
   #handleDrawerOpen = () => {
+    // Always show the chosen items first, not a previously scrolled recommendation area.
+    this.#resetScrollPosition();
+    requestAnimationFrame(() => this.#resetScrollPosition());
     this.#updateStickyState();
     this.#updateShippingProgress();
 
@@ -113,6 +116,7 @@ class CartDrawerComponent extends Component {
         const settle = () => requestAnimationFrame(() => {
           this.#updateStickyState();
           this.#updateShippingProgress();
+          if (event.action === 'add') this.#resetScrollPosition();
         });
 
         if (!shouldAutoOpen || detail?.didError) {
@@ -321,6 +325,18 @@ class CartDrawerComponent extends Component {
       if (button.isConnected) button.disabled = false;
     }
   };
+
+  /**
+   * Prevent the drawer from reopening at a stale scroll position.
+   * Quantity changes can preserve the shopper's position; only opening
+   * and adding items scroll back to the selected products.
+   */
+  #resetScrollPosition() {
+    const content = this.querySelector('.cart-drawer__content');
+    if (content instanceof HTMLElement) content.scrollTop = 0;
+    const products = this.querySelector('.cart-drawer__items');
+    if (products instanceof HTMLElement) products.scrollTop = 0;
+  }
 
   #isCartEmpty() {
     return Boolean(this.querySelector('.cart-drawer--empty'));
