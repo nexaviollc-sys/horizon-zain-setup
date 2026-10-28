@@ -1,37 +1,48 @@
 {% comment %}
-  Recommend up to 2 single-variant, in-stock ZAISEN products not in the cart.
-  First inspect collections related to cart products, then fall back to the
-  general catalog. Never display a choice that requires option selection.
+  ZAISEN cart recommendations: a compact, single-card auto-rotating carousel.
+  Candidate products come from the current cart's Shopify collections plus
+  a broader catalog fallback. Never recommend products already in the cart
+  or products needing variant selection. No hard-coded product handles.
 {% endcomment %}
 {% liquid
   assign zs_upsell_count = 0
+  assign zs_related_count = 0
   assign zs_seen_ids = '|'
   case request.locale.iso_code
     when 'de'
-      assign zs_upsell_heading = 'Passt wunderbar dazu'
-      assign zs_upsell_action = 'Hinzufügen'
+      assign zs_upsell_heading = 'Das könnte dir auch gefallen'
+      assign zs_upsell_action = 'Zum Warenkorb hinzufügen'
       assign zs_upsell_eyebrow = 'FÜR DICH AUSGEWÄHLT'
+      assign zs_upsell_prev = 'Vorheriges Produkt'
+      assign zs_upsell_next = 'Nächstes Produkt'
     when 'fr'
-      assign zs_upsell_heading = 'Complétez votre collection'
-      assign zs_upsell_action = 'Ajouter'
-      assign zs_upsell_eyebrow = 'SÉLECTION POUR VOUS'
+      assign zs_upsell_heading = 'Vous aimerez aussi'
+      assign zs_upsell_action = 'Ajouter au panier'
+      assign zs_upsell_eyebrow = 'CHOISI POUR VOUS'
+      assign zs_upsell_prev = 'Produit précédent'
+      assign zs_upsell_next = 'Produit suivant'
     when 'ar'
-      assign zs_upsell_heading = 'أكمل مجموعتك'
+      assign zs_upsell_heading = 'قد يعجبك أيضًا'
       assign zs_upsell_action = 'إضافة إلى السلة'
       assign zs_upsell_eyebrow = 'اختيرت لك'
+      assign zs_upsell_prev = 'المنتج السابق'
+      assign zs_upsell_next = 'المنتج التالي'
     else
-      assign zs_upsell_heading = 'Complete your collection'
+      assign zs_upsell_heading = 'You may also love'
       assign zs_upsell_action = 'Add to cart'
       assign zs_upsell_eyebrow = 'HANDPICKED FOR YOU'
+      assign zs_upsell_prev = 'Previous product'
+      assign zs_upsell_next = 'Next product'
   endcase
 %}
 {% capture zs_upsell_cards %}
-  {% comment %}Prefer products genuinely related by Shopify collection membership.{% endcomment %}
-  {% for zs_cart_line in cart.items limit: 4 %}
+  {% comment %}Up to 5 relevant products based on the actual cart contents.{% endcomment %}
+  {% for zs_cart_line in cart.items limit: 5 %}
+    {% if zs_related_count >= 5 %}{% break %}{% endif %}
     {% for zs_related_collection in zs_cart_line.product.collections limit: 8 %}
-      {% if zs_upsell_count >= 2 %}{% break %}{% endif %}
-      {% for zs_product in zs_related_collection.products limit: 25 %}
-        {% if zs_upsell_count >= 2 %}{% break %}{% endif %}
+      {% if zs_related_count >= 5 %}{% break %}{% endif %}
+      {% for zs_product in zs_related_collection.products limit: 35 %}
+        {% if zs_related_count >= 5 %}{% break %}{% endif %}
         {% assign zs_key = zs_product.id | prepend: '|' | append: '|' %}
         {% assign zs_already_added = false %}
         {% for zs_cart_item in cart.items %}
@@ -44,19 +55,19 @@
           {% unless zs_seen_ids contains zs_key %}
             {% assign zs_seen_ids = zs_seen_ids | append: zs_product.id | append: '|' %}
             {% assign zs_upsell_count = zs_upsell_count | plus: 1 %}
+            {% assign zs_related_count = zs_related_count | plus: 1 %}
             {% render 'zs-cart-upsell-card', zs_product: zs_product, zs_upsell_action: zs_upsell_action %}
           {% endunless %}
         {% endif %}
       {% endfor %}
     {% endfor %}
-    {% if zs_upsell_count >= 2 %}{% break %}{% endif %}
   {% endfor %}
 
-  {% comment %}Use available single-variant catalog products when collections are sparse.{% endcomment %}
-  {% if zs_upsell_count < 2 %}
+  {% comment %}Add other eligible products so the carousel feels diverse.{% endcomment %}
+  {% if zs_upsell_count < 9 %}
     {% assign zs_fallback_collection = collections['all'] %}
-    {% for zs_product in zs_fallback_collection.products limit: 45 %}
-      {% if zs_upsell_count >= 2 %}{% break %}{% endif %}
+    {% for zs_product in zs_fallback_collection.products limit: 50 %}
+      {% if zs_upsell_count >= 9 %}{% break %}{% endif %}
       {% assign zs_key = zs_product.id | prepend: '|' | append: '|' %}
       {% assign zs_already_added = false %}
       {% for zs_cart_item in cart.items %}
@@ -76,12 +87,26 @@
   {% endif %}
 {% endcapture %}
 {% if zs_upsell_count > 0 %}
-  <aside class="zs-cart-upsells" aria-label="{{ zs_upsell_heading | escape }}">
+  <zs-cart-recommendations class="zs-cart-upsells" data-interval="2000" data-count="{{ zs_upsell_count }}" aria-label="{{ zs_upsell_heading | escape }}">
     <div class="zs-cart-upsells__head">
-      <span class="zs-cart-upsells__eyebrow">{{ zs_upsell_eyebrow }}</span>
-      <h3>{{ zs_upsell_heading }}</h3>
+      <div class="zs-cart-upsells__heading">
+        <span class="zs-cart-upsells__eyebrow">{{ zs_upsell_eyebrow }}</span>
+        <h3>{{ zs_upsell_heading }}</h3>
+      </div>
+      {% if zs_upsell_count > 1 %}
+        <div class="zs-cart-upsells__arrows">
+          <button type="button" class="zs-cart-upsells__arrow" data-zs-slide-direction="-1" aria-label="{{ zs_upsell_prev | escape }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>
+          </button>
+          <button type="button" class="zs-cart-upsells__arrow" data-zs-slide-direction="1" aria-label="{{ zs_upsell_next | escape }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      {% endif %}
     </div>
-    <div class="zs-cart-upsells__list">{{ zs_upsell_cards }}</div>
+    <div class="zs-cart-upsells__viewport">
+      <div class="zs-cart-upsells__track" aria-live="off">{{ zs_upsell_cards }}</div>
+    </div>
     <p class="zs-cart-upsells__error" data-zs-upsell-error role="alert" hidden></p>
-  </aside>
+  </zs-cart-recommendations>
 {% endif %}
