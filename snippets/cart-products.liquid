@@ -291,8 +291,17 @@
                           role="list"
                         >
                           {%- for discount in item.line_level_discount_allocations -%}
-                            <li>
-                              <bdi>{{ discount.discount_application.title | escape }}</bdi>
+                            <li class="{% if context == 'drawer' %}zs-cart-line-discount{% endif %}">
+                              {% if context == 'drawer' and discount.discount_application.title contains 'ZS-BUNDLE' %}
+                                {% case request.locale.iso_code %}
+                                  {% when 'de' %}Bundle-Rabatt angewendet
+                                  {% when 'fr' %}Remise du lot appliquée
+                                  {% when 'ar' %}تم تطبيق خصم المجموعة
+                                  {% else %}Bundle savings applied
+                                {% endcase %}
+                              {% else %}
+                                <bdi>{{ discount.discount_application.title | escape }}</bdi>
+                              {% endif %}
                             </li>
                           {%- endfor -%}
                         </ul>
