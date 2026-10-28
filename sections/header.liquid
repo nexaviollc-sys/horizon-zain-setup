@@ -1267,8 +1267,11 @@
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__underlay-closed {
-    background: #AD896B;
-    box-shadow: 0 2px 10px rgba(54,36,24,.10);
+    /* Subtle sunlit-wood depth: creamier crown, natural walnut base. */
+    background: linear-gradient(180deg, #BA987A 0%, #AF8B6D 52%, #A38062 100%);
+    box-shadow: inset 0 1px 0 rgba(255,247,233,.34),
+                inset 0 -1px 0 rgba(73,45,28,.15),
+                0 3px 13px rgba(54,36,24,.11);
   }
 
   #header-component.header--zaisen-dark:not([transparent]) .header__row--top,
