@@ -149,6 +149,8 @@ class CartDrawerComponent extends Component {
     const message = element.querySelector('[data-zs-shipping-message]');
     const track = element.querySelector('[data-zs-shipping-track]');
     const fill = element.querySelector('[data-zs-shipping-fill]');
+    const shippingRow = this.querySelector('[data-zs-shipping-summary]');
+    const shippingStatus = shippingRow?.querySelector('[data-zs-shipping-status]');
     if (!(message instanceof HTMLElement) || !(track instanceof HTMLElement) || !(fill instanceof HTMLElement)) {
       return;
     }
@@ -160,28 +162,73 @@ class CartDrawerComponent extends Component {
     const shopifyRate = Number(window.Shopify?.currency?.rate);
     const rate = currency === 'USD' ? 1 : (baseCurrency === 'USD' ? shopifyRate : NaN);
     const locale = (element.dataset.locale || 'en').split('-')[0].toLowerCase();
+    const hasBundleShipping = element.dataset.bundleShipping === 'true';
 
     const translations = {
-      en: { eligible: "You've unlocked FREE shipping!", remaining: (amount) => `You're ${amount} away from FREE shipping`, unknown: 'Free shipping eligibility is confirmed at checkout.' },
-      de: { eligible: 'Kostenloser Versand freigeschaltet!', remaining: (amount) => `Noch ${amount} bis zum kostenlosen Versand`, unknown: 'Versandvorteile werden an der Kasse bestätigt.' },
-      fr: { eligible: 'La livraison gratuite est offerte !', remaining: (amount) => `Plus que ${amount} pour la livraison gratuite`, unknown: 'La livraison gratuite est confirmée au paiement.' },
-      ar: { eligible: 'لقد حصلت على الشحن المجاني!', remaining: (amount) => `تبقى ${amount} للشحن المجاني`, unknown: 'يتم تأكيد الشحن المجاني عند الدفع.' },
+      en: {
+        eligible: "You've unlocked FREE shipping!",
+        bundle: 'Your bundle unlocks FREE shipping!',
+        remaining: (amount) => `Add ${amount} more for FREE shipping`,
+        free: 'FREE',
+        notFree: 'Not free yet',
+        unknown: 'At checkout',
+        unknownProgress: 'Shipping confirmed at checkout',
+      },
+      de: {
+        eligible: 'Kostenloser Versand freigeschaltet!',
+        bundle: 'Dein Bundle erhält kostenlosen Versand!',
+        remaining: (amount) => `Noch ${amount} bis zum kostenlosen Versand`,
+        free: 'KOSTENLOS',
+        notFree: 'Noch nicht kostenlos',
+        unknown: 'An der Kasse',
+        unknownProgress: 'Versand an der Kasse bestätigt',
+      },
+      fr: {
+        eligible: 'Livraison gratuite débloquée !',
+        bundle: 'Livraison gratuite avec votre lot !',
+        remaining: (amount) => `Plus que ${amount} pour la livraison gratuite`,
+        free: 'GRATUITE',
+        notFree: 'Pas encore gratuite',
+        unknown: 'À la caisse',
+        unknownProgress: 'Livraison confirmée à la caisse',
+      },
+      ar: {
+        eligible: 'لقد حصلت على الشحن المجاني!',
+        bundle: 'طلبك المجمع مؤهل للشحن المجاني!',
+        remaining: (amount) => `أضف ${amount} للشحن المجاني`,
+        free: 'مجاني',
+        notFree: 'ليس مجانيًا بعد',
+        unknown: 'عند الدفع',
+        unknownProgress: 'يتم تأكيد الشحن عند الدفع',
+      },
     };
     const words = translations[locale] || translations.en;
 
-    if (baseCurrency !== 'USD' || !Number.isFinite(rate) || rate <= 0 ||
-        !Number.isFinite(goalUsdCents) || goalUsdCents <= 0 ||
-        !Number.isFinite(subtotalCents) || subtotalCents < 0) {
+    const setStatus = (status, qualified) => {
+      if (shippingStatus instanceof HTMLElement && shippingStatus.textContent.trim() !== status) {
+        shippingStatus.textContent = status;
+      }
+      shippingRow?.classList.toggle('is-free', qualified);
+    };
+
+    const canConvert = baseCurrency === 'USD' &&
+      Number.isFinite(rate) && rate > 0 &&
+      Number.isFinite(goalUsdCents) && goalUsdCents > 0 &&
+      Number.isFinite(subtotalCents) && subtotalCents >= 0;
+
+    if (!canConvert && !hasBundleShipping) {
       track.hidden = true;
       element.classList.remove('is-qualified');
-      if (message.textContent.trim() !== words.unknown) message.textContent = words.unknown;
+      if (message.textContent.trim() !== words.unknownProgress) message.textContent = words.unknownProgress;
+      setStatus(words.unknown, false);
       return;
     }
 
-    const goalCents = Math.ceil(goalUsdCents * rate);
-    const isQualified = subtotalCents >= goalCents;
-    const remainingCents = Math.max(0, goalCents - subtotalCents);
-    const completion = Math.min(100, Math.round((subtotalCents / goalCents) * 100));
+    const goalCents = canConvert ? Math.ceil(goalUsdCents * rate) : 0;
+    const isQualified = hasBundleShipping || (canConvert && subtotalCents >= goalCents);
+    const remainingCents = canConvert ? Math.max(0, goalCents - subtotalCents) : 0;
+    const completion = hasBundleShipping ? 100 : Math.min(100, Math.round((subtotalCents / goalCents) * 100));
+
     let formattedAmount;
     try {
       formattedAmount = new Intl.NumberFormat(element.dataset.locale || 'en', {
@@ -192,12 +239,14 @@ class CartDrawerComponent extends Component {
       formattedAmount = `${(remainingCents / 100).toFixed(2)} ${currency}`;
     }
 
-    const newText = isQualified ? words.eligible : words.remaining(formattedAmount);
-    if (message.textContent.trim() !== newText) message.textContent = newText;
+    const nextMessage = hasBundleShipping ? words.bundle :
+      isQualified ? words.eligible : words.remaining(formattedAmount);
+    if (message.textContent.trim() !== nextMessage) message.textContent = nextMessage;
     element.classList.toggle('is-qualified', isQualified);
     track.hidden = false;
     track.setAttribute('aria-valuenow', String(completion));
     fill.style.width = `${completion}%`;
+    setStatus(isQualified ? words.free : words.notFree, isQualified);
   };
 
   /**
