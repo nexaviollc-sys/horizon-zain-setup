@@ -285,7 +285,7 @@ onDocumentLoaded(() => {
       const headerGroupHeight = entries.reduce((totalHeight, entry) => {
         if (
           entry.target !== header ||
-          (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling)
+          (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling && !header.parentElement.nextElementSibling.hidden)
         ) {
           return totalHeight + (entry.borderBoxSize[0]?.blockSize ?? 0);
         }
