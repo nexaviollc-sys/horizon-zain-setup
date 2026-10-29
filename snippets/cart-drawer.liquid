@@ -125,17 +125,24 @@
                   case localization.country.iso_code
                     when 'GB'
                       assign zs_shipping_usd = 60
-                      assign zs_shipping_standard_label = '$6.99 USD'
+                      assign zs_shipping_standard_label = '$6.99'
                     when 'US', 'DE', 'FR'
                       assign zs_shipping_usd = 60
-                      assign zs_shipping_standard_label = '$9.99 USD'
+                      assign zs_shipping_standard_label = '$9.99'
                     when 'AE'
                       assign zs_shipping_usd = 60
-                      assign zs_shipping_standard_label = '$5.99 USD'
+                      assign zs_shipping_standard_label = '$5.99'
                     when 'CA', 'AU'
                       assign zs_shipping_usd = 100
-                      assign zs_shipping_standard_label = '$14.99 USD'
+                      assign zs_shipping_standard_label = '$14.99'
                   endcase
+                  comment
+                    Non-USD destinations use the shared client-side Shopify market
+                    currency formatter. Avoid flashing a misleading USD shipping rate.
+                  endcomment
+                  unless localization.country.currency.iso_code == 'USD' and cart.currency.iso_code == 'USD'
+                    assign zs_shipping_standard_label = ''
+                  endunless
                   assign zs_free_shipping = false
                   assign zs_shipping_usd_cents = zs_shipping_usd | times: 100
                   if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_usd_cents
