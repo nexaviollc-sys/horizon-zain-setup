@@ -35,7 +35,7 @@
     nodes.forEach((el) => {
       const value = convert(el.dataset.zsUsdAmountCents, el.dataset.zsCurrencyKind || 'minimum');
       // When Shopify has not supplied a usable rate, hide the foreign USD amount.
-      const text = value || (el.dataset.zsCurrencyFallback || 'At checkout');
+      const text = value ? value + (el.dataset.zsCurrencySuffix || '') : (el.dataset.zsCurrencyFallback || 'At checkout');
       if (el.textContent.trim() !== text) el.textContent = text;
     });
   };
