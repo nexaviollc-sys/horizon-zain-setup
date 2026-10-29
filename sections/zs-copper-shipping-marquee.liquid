@@ -36,9 +36,7 @@
     capture zs_shipping_message
       echo 'FREE SHIPPING TO '
       echo zs_country_label
-      echo ' ON ORDERS $'
-      echo zs_threshold
-      echo '+'
+      echo ' ON ORDERS (LOCAL MINIMUM)'
     endcapture
   else
     assign zs_shipping_message = 'SHIPPING DETAILS AT CHECKOUT'
@@ -56,7 +54,14 @@
         <div class="zs-copper-marquee__group">
           <span class="zs-copper-marquee__text">{{ zs_craft_message | escape }}</span>
           <span class="zs-copper-marquee__star">✦</span>
-          <span class="zs-copper-marquee__text">{{ zs_shipping_message | strip | escape }}</span>
+          <span class="zs-copper-marquee__text">
+             {% if zs_threshold > 0 %}
+               FREE SHIPPING TO {{ zs_country_label | escape }} ON ORDERS
+               <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM{% endif %}</span>
+             {% else %}
+               {{ zs_shipping_message | strip | escape }}
+             {% endif %}
+           </span>
           <span class="zs-copper-marquee__star">✦</span>
           <span class="zs-copper-marquee__text">{{ zs_quality_message | escape }}</span>
           <span class="zs-copper-marquee__star">✦</span>
