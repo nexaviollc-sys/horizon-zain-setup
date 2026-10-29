@@ -121,11 +121,20 @@
                 {% liquid
                   assign zs_cart_savings = cart.original_total_price | minus: cart.total_price
                   assign zs_shipping_usd = 0
+                  assign zs_shipping_standard_label = ''
                   case localization.country.iso_code
-                    when 'GB', 'US', 'DE', 'FR', 'AE'
+                    when 'GB'
                       assign zs_shipping_usd = 60
+                      assign zs_shipping_standard_label = '$6.99 USD'
+                    when 'US', 'DE', 'FR'
+                      assign zs_shipping_usd = 60
+                      assign zs_shipping_standard_label = '$9.99 USD'
+                    when 'AE'
+                      assign zs_shipping_usd = 60
+                      assign zs_shipping_standard_label = '$5.99 USD'
                     when 'CA', 'AU'
                       assign zs_shipping_usd = 100
+                      assign zs_shipping_standard_label = '$14.99 USD'
                   endcase
                   assign zs_free_shipping = false
                   assign zs_shipping_usd_cents = zs_shipping_usd | times: 100
@@ -153,26 +162,26 @@
                   <div class="zs-cart-breakdown__row zs-cart-breakdown__row--shipping{% if zs_free_shipping %} is-free{% endif %}" data-zs-shipping-summary>
                     <span class="zs-cart-breakdown__label">
                       {% case request.locale.iso_code %}
-                        {% when 'de' %}Versand
-                        {% when 'fr' %}Livraison
-                        {% when 'ar' %}الشحن
-                        {% else %}Shipping
+                        {% when 'de' %}Versand nach {{ localization.country.name | escape }}
+                        {% when 'fr' %}Livraison vers {{ localization.country.name | escape }}
+                        {% when 'ar' %}الشحن إلى {{ localization.country.name | escape }}
+                        {% else %}Shipping to {{ localization.country.name | escape }}
                       {% endcase %}
                     </span>
                     <strong data-zs-shipping-status>
                       {% if zs_free_shipping %}
                         {% case request.locale.iso_code %}
-                          {% when 'de' %}Mindestwert erreicht
-                          {% when 'fr' %}Seuil atteint
-                          {% when 'ar' %}تم بلوغ الحد
-                          {% else %}Minimum reached
+                          {% when 'de' %}Vorauss. kostenlos
+                          {% when 'fr' %}Gratuite (est.)
+                          {% when 'ar' %}مجاني (تقديري)
+                          {% else %}Est. FREE
                         {% endcase %}
-                      {% elsif zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' %}
+                      {% elsif zs_shipping_standard_label != blank %}
                         {% case request.locale.iso_code %}
-                          {% when 'de' %}Mindestwert nicht erreicht
-                          {% when 'fr' %}Seuil non atteint
-                          {% when 'ar' %}لم يتم بلوغ الحد
-                          {% else %}Minimum not reached
+                          {% when 'de' %}ca. {{ zs_shipping_standard_label }}
+                          {% when 'fr' %}env. {{ zs_shipping_standard_label }}
+                          {% when 'ar' %}تقديري {{ zs_shipping_standard_label }}
+                          {% else %}Est. {{ zs_shipping_standard_label }}
                         {% endcase %}
                       {% else %}
                         {% case request.locale.iso_code %}
