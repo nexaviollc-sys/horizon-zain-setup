@@ -122,7 +122,7 @@
                   assign zs_cart_savings = cart.original_total_price | minus: cart.total_price
                   assign zs_shipping_usd = 0
                   case localization.country.iso_code
-                    when 'US', 'DE', 'FR'
+                    when 'GB', 'US', 'DE', 'FR', 'AE'
                       assign zs_shipping_usd = 60
                     when 'CA', 'AU'
                       assign zs_shipping_usd = 100
@@ -132,25 +132,11 @@
                   if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_usd_cents
                     assign zs_free_shipping = true
                   endif
-                  for zs_discount in cart.discount_applications
-                    if zs_discount.title contains 'ZS-BUNDLESHIP-2026'
-                      assign zs_free_shipping = true
-                      break
-                    endif
-                  endfor
-                  if zs_free_shipping == false and zs_shipping_usd > 0 and cart.item_count >= 2
-                    for zs_cart_line in cart.items
-                      for zs_allocation in zs_cart_line.line_level_discount_allocations
-                        if zs_allocation.discount_application.title contains 'ZS-BUNDLE15-2026' or zs_allocation.discount_application.title contains 'ZS-BUNDLE25-2026'
-                          assign zs_free_shipping = true
-                          break
-                        endif
-                      endfor
-                      if zs_free_shipping
-                        break
-                      endif
-                    endfor
-                  endif
+                  comment
+                    Preserve all cart/bundle discount applications. A product
+                    discount does not prove a free shipping rate; checkout
+                    remains authoritative for the shipping charge.
+                  endcomment
                 %}
                 <div class="zs-cart-breakdown" aria-label="Order summary">
                   <div class="zs-cart-breakdown__row">
@@ -176,17 +162,17 @@
                     <strong data-zs-shipping-status>
                       {% if zs_free_shipping %}
                         {% case request.locale.iso_code %}
-                          {% when 'de' %}KOSTENLOS
-                          {% when 'fr' %}GRATUITE
-                          {% when 'ar' %}مجاني
-                          {% else %}FREE
+                          {% when 'de' %}Mindestwert erreicht
+                          {% when 'fr' %}Seuil atteint
+                          {% when 'ar' %}تم بلوغ الحد
+                          {% else %}Minimum reached
                         {% endcase %}
-                      {% elsif zs_shipping_usd > 0 %}
+                      {% elsif zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' %}
                         {% case request.locale.iso_code %}
-                          {% when 'de' %}Noch nicht kostenlos
-                          {% when 'fr' %}Pas encore gratuite
-                          {% when 'ar' %}ليس مجانيًا بعد
-                          {% else %}Not free yet
+                          {% when 'de' %}Mindestwert nicht erreicht
+                          {% when 'fr' %}Seuil non atteint
+                          {% when 'ar' %}لم يتم بلوغ الحد
+                          {% else %}Minimum not reached
                         {% endcase %}
                       {% else %}
                         {% case request.locale.iso_code %}
