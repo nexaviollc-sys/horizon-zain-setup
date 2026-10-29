@@ -7,7 +7,7 @@
 {%- liquid
   assign zs_shipping_usd = 0
   case localization.country.iso_code
-    when 'US', 'DE', 'FR'
+    when 'GB', 'US', 'DE', 'FR', 'AE'
       assign zs_shipping_usd = 60
     when 'CA', 'AU'
       assign zs_shipping_usd = 100
@@ -38,10 +38,11 @@
   if zs_shipping_usd > 0 and cart.currency.iso_code == 'USD' and cart.total_price >= zs_shipping_threshold_cents
     assign zs_shipping_usd_qualified = true
   endif
-  assign zs_shipping_qualified = false
-  if zs_shipping_usd_qualified or zs_shipping_bundle_code
-    assign zs_shipping_qualified = true
-  endif
+  comment
+    Bundle product discounts remain in place; they do not independently
+    prove a free-shipping rate. Final rates are decided at checkout.
+  endcomment
+  assign zs_shipping_qualified = zs_shipping_usd_qualified
 -%}
 {% if zs_shipping_usd > 0 %}
   <div
@@ -51,6 +52,7 @@
     data-cart-total-cents="{{ cart.total_price }}"
     data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | escape }}"
     data-shop-currency="{{ shop.currency | escape }}"
+    data-country-name="{{ localization.country.name | escape }}"
     data-locale="{{ request.locale.iso_code | escape }}"
     data-bundle-shipping="{% if zs_shipping_bundle_code %}true{% else %}false{% endif %}"
     aria-live="polite"
@@ -60,17 +62,17 @@
       <span data-zs-shipping-message>
         {% if zs_shipping_qualified %}
           {% case request.locale.iso_code %}
-            {% when 'de' %}Kostenloser Versand freigeschaltet
-            {% when 'fr' %}Livraison gratuite débloquée
-            {% when 'ar' %}الشحن المجاني متاح
-            {% else %}You've unlocked FREE shipping
+            {% when 'de' %}Versand-Mindestwert erreicht – an der Kasse bestätigen
+            {% when 'fr' %}Seuil de livraison gratuite atteint – à confirmer à la caisse
+            {% when 'ar' %}تم بلوغ الحد الأدنى للشحن المجاني – التأكيد عند الدفع
+            {% else %}Free-shipping minimum reached for {{ localization.country.name | escape }} — confirm at checkout
           {% endcase %}
         {% else %}
           {% case request.locale.iso_code %}
-            {% when 'de' %}Kostenlosen Versand freischalten
-            {% when 'fr' %}Plus que quelques pas vers la livraison gratuite
-            {% when 'ar' %}اقتربت من الشحن المجاني
-            {% else %}You're on your way to FREE shipping
+            {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} ab &#36;{{ zs_shipping_usd }} USD – an der Kasse bestätigen
+            {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }} dès {{ zs_shipping_usd }} USD – à confirmer à la caisse
+            {% when 'ar' %}الشحن المجاني إلى {{ localization.country.name | escape }} للطلبات بقيمة &#36;{{ zs_shipping_usd }} USD أو أكثر – التأكيد عند الدفع
+            {% else %}Free shipping to {{ localization.country.name | escape }} on orders &#36;{{ zs_shipping_usd }} USD+ — confirm at checkout
           {% endcase %}
         {% endif %}
       </span>
@@ -78,7 +80,7 @@
     <div
       class="zs-cart-shipping__track"
       role="progressbar"
-      aria-label="Free shipping progress"
+      aria-label="Progress toward free-shipping minimum"
       aria-valuemin="0"
       aria-valuemax="100"
       aria-valuenow="0"
