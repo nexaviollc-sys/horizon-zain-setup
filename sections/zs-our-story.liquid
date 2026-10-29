@@ -266,6 +266,20 @@
       </div>
     </section>
 
+    {%- comment -%}
+      Task 6: One shared, country-aware shipping FAQ answer is used both
+      visibly and in FAQPage JSON-LD to prevent conflicting promises.
+      The seven country thresholds and transit estimates come from the
+      selected-country values set in the Task 5 shipping summary.
+    {%- endcomment -%}
+    {%- capture zs_story_shipping_faq_answer -%}
+      {%- if zs_story_free_min > 0 -%}
+        ZAISEN orders to {{ zs_story_country }} are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is {{ zs_story_transit | downcase }}. Free shipping applies to orders of ${{ zs_story_free_min }} USD or more; smaller orders may incur shipping charges calculated at checkout. Delivery times are estimates, not guarantees, and may be affected by customs, holidays or carrier delays.
+      {%- else -%}
+        ZAISEN generally prepares orders in 1–2 days before dispatch where delivery is available. Shipping options, delivery estimates and charges for {{ zs_story_country }} are confirmed at checkout. Free shipping is not guaranteed for every country or order.
+      {%- endif -%}
+    {%- endcapture -%}
+
     {% comment %}Matches the eight customer-facing FAQs; rich search presentation is not guaranteed.{% endcomment %}
     <script type="application/ld+json">
       {
@@ -298,10 +312,10 @@
           },
           {
             "@type": "Question",
-            "name": "Does ZAISEN offer free international shipping?",
+            "name": "When is free international shipping available, and how long does delivery take?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We currently offer free shipping to the United States, United Kingdom, Germany, France, Canada, Australia, the United Arab Emirates and Saudi Arabia. Delivery estimates depend on the destination and may be affected by customs, holidays or carrier delays. Our Shipping Policy has the current details."
+              "text": {{ zs_story_shipping_faq_answer | strip | json }}
             }
           },
           {
@@ -349,7 +363,7 @@
         <details><summary>Are ZAISEN products really handmade?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Yes. Our wooden products are created through hands-on craftsmanship at our workshop in Pakistan. Our team shapes, details, finishes and prepares the pieces we offer. We do not purchase finished wooden décor from local wholesale warehouses and simply resell it under the ZAISEN name.</div></details>
         <details><summary>Where are ZAISEN wooden products made?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our working workshop is in the Saddar area near Islamabad, Pakistan. This is where our wooden products are crafted. Our administrative and legal business address is separate from our production location and is listed in our <a href="{{ routes.root_url }}policies/legal-notice">Legal Notice</a>.</div></details>
         <details><summary>Are your product photographs real or AI-generated?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our listings represent the actual wooden product designs we sell. Some images may be digitally polished or styled using AI-assisted editing to create consistent backgrounds and presentation. We aim to represent each design accurately, but natural wood grain, color and small handmade details can vary from piece to piece. Check each listing for dimensions and materials.</div></details>
-        <details><summary>Does ZAISEN offer free international shipping?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Yes. We currently offer free shipping to the United States, United Kingdom, Germany, France, Canada, Australia, the United Arab Emirates and Saudi Arabia. Delivery estimates depend on the destination and may be affected by customs, holidays or carrier delays. Our <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a> has the current details.</div></details>
+        <details><summary>When is free international shipping available, and how long does delivery take?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>{{ zs_story_shipping_faq_answer | strip | escape }} <a href="{{ routes.root_url }}policies/shipping-policy">Read our Shipping Policy</a>.</div></details>
         <details><summary>Which shipping company delivers ZAISEN orders?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We arrange international shipments through Star Cargo International and relevant delivery partners. Once tracking information becomes available after dispatch, we provide it so you can follow your order's journey.</div></details>
         <details><summary>What if my product arrives damaged or doesn't match its description?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Contact us within 14 days of delivery if your product arrives damaged, defective, incorrect or materially different from its description. Send your order number, a description of the problem and clear photographs or video. We review eligible cases under our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. A suitable outcome may include a repair, replacement, partial refund or full refund, depending on the circumstances. Natural wood variations are not automatically defects.</div></details>
         <details><summary>Can I return an order simply because I changed my mind?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We do not offer discretionary change-of-mind returns unless applicable law requires otherwise. The 14-day period for reporting genuine product issues begins when your order arrives. You can read the eligibility details in our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. Your mandatory consumer rights remain unaffected.</div></details>
