@@ -78,13 +78,14 @@
       </span>
       {% form 'localization', id: 'ZsCartCountryForm', class: 'zs-cart-shipping__country-form' %}
         <label class="visually-hidden" for="ZsCartCountrySelect">Shipping destination</label>
-        <select id="ZsCartCountrySelect" name="country_code" class="zs-cart-shipping__country-select">
+        <select id="ZsCartCountrySelect" name="country_code" class="zs-cart-shipping__country-select" data-current-country="{{ localization.country.iso_code | escape }}" aria-label="Shipping country — select to update automatically">
           {% for zs_country in localization.available_countries %}
             {% if zs_country.iso_code == 'GB' or zs_country.iso_code == 'US' or zs_country.iso_code == 'DE' or zs_country.iso_code == 'FR' or zs_country.iso_code == 'AE' or zs_country.iso_code == 'CA' or zs_country.iso_code == 'AU' %}
               <option value="{{ zs_country.iso_code }}" {% if zs_country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ zs_country.name | escape }}</option>
             {% endif %}
           {% endfor %}
         </select>
+        <noscript>
         <button type="submit" class="zs-cart-shipping__country-apply" aria-label="Apply shipping country">
           {% case request.locale.iso_code %}
             {% when 'de' %}Ändern
@@ -93,6 +94,7 @@
             {% else %}Update
           {% endcase %}
         </button>
+        </noscript>
       {% endform %}
     </div>
     <div class="zs-cart-shipping__message">
