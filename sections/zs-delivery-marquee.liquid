@@ -3,13 +3,55 @@
   Four identical groups create a seamless CSS marquee without JavaScript.
 {%- endcomment -%}
 {%- assign s = section.settings -%}
+{%- comment -%}
+  Homepage delivery marquee: country-specific free-shipping thresholds (USD).
+  Shopify checkout remains authoritative for rate eligibility.
+{%- endcomment -%}
+{%- liquid
+  assign zs_marquee_minimum = 0
+  assign zs_marquee_country = ''
+  case localization.country.iso_code
+    when 'GB'
+      assign zs_marquee_minimum = 60
+      assign zs_marquee_country = 'UK'
+    when 'US'
+      assign zs_marquee_minimum = 60
+      assign zs_marquee_country = 'USA'
+    when 'DE'
+      assign zs_marquee_minimum = 60
+      assign zs_marquee_country = 'GERMANY'
+    when 'FR'
+      assign zs_marquee_minimum = 60
+      assign zs_marquee_country = 'FRANCE'
+    when 'AE'
+      assign zs_marquee_minimum = 60
+      assign zs_marquee_country = 'UAE'
+    when 'CA'
+      assign zs_marquee_minimum = 100
+      assign zs_marquee_country = 'CANADA'
+    when 'AU'
+      assign zs_marquee_minimum = 100
+      assign zs_marquee_country = 'AUSTRALIA'
+  endcase
+  if zs_marquee_minimum > 0
+    capture zs_marquee_shipping_message
+      echo 'FREE SHIPPING TO '
+      echo zs_marquee_country
+      echo ' ON ORDERS $'
+      echo zs_marquee_minimum
+      echo '+'
+    endcapture
+  else
+    assign zs_marquee_shipping_message = s.message_1 | default: 'SHIPPING DETAILS AT CHECKOUT'
+  endif
+-%}
 <section id="zsm-{{ section.id }}" class="zsm" aria-label="ZAISEN shopping benefits and support"
   style="--zsm-bg:{{ s.background }};--zsm-text:{{ s.text_color }};--zsm-accent:{{ s.accent_color }};--zsm-h:{{ s.height }}px;--zsm-speed:{{ s.duration }}s">
   <div class="zsm__viewport">
     <div class="zsm__track">
       {% for repeat in (1..4) %}
         <div class="zsm__group"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
-          {% if s.message_1 != blank %}<span class="zsm__message">{{ s.message_1 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
+          {% if zs_marquee_shipping_message != blank %}<span class="zsm__message">{{ zs_marquee_shipping_message | strip | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_2 != blank %}<span class="zsm__message">{{ s.message_2 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_3 != blank %}<span class="zsm__message">{{ s.message_3 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_4 != blank %}<span class="zsm__message">{{ s.message_4 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
@@ -43,7 +85,7 @@
   "class":"section-zs-delivery-marquee",
   "settings":[
     {"type":"header","content":"Shipping and service messages"},
-    {"type":"text","id":"message_1","label":"Message 1","default":"FREE WORLDWIDE SHIPPING"},
+    {"type":"text","id":"message_1","label":"Message 1","default":"SHIPPING DETAILS AT CHECKOUT"},
     {"type":"text","id":"message_2","label":"Message 2","default":"24/7 SUPPORT"},
     {"type":"text","id":"message_3","label":"Message 3","default":"14-DAY REFUNDS"},
     {"type":"text","id":"message_4","label":"Message 4","default":"SECURE PAYMENT"},
