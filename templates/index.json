@@ -534,14 +534,6 @@
             "delivery_time": "7–9 days"
           }
         },
-        "shf_country_sa": {
-          "type": "country",
-          "settings": {
-            "flag": "🇸🇦",
-            "country_name": "Saudi Arabia",
-            "delivery_time": "7–9 days"
-          }
-        },
         "shf_faq_shipping": {
           "type": "faq",
           "settings": {
@@ -591,7 +583,6 @@
         "shf_country_au",
         "shf_country_ae",
         "shf_country_fr",
-        "shf_country_sa",
         "shf_faq_shipping",
         "shf_faq_handcrafted",
         "shf_faq_wood",
