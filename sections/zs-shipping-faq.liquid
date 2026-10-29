@@ -188,7 +188,7 @@
                 <div class="zs-shf__answer">
                   {%- if block.id == 'shf_faq_shipping' -%}
                     {%- if zs_ship_free_min > 0 -%}
-                      <p>Orders shipped to <strong>{{ zs_ship_country | escape }}</strong> are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is <strong>{{ zs_ship_days }}</strong>. Free shipping applies to orders of <strong>&#36;{{ zs_ship_free_min }} USD or more</strong>. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.</p>
+                      <p>Orders shipped to <strong>{{ zs_ship_country | escape }}</strong> are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is <strong>{{ zs_ship_days }}</strong>. Free shipping starts from <strong data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local minimum">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}the local minimum{% endif %}</strong> for qualifying orders. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.</p>
                     {%- else -%}
                       <p>Orders are typically prepared in 1–2 days before dispatch. Shipping availability, rates and estimated delivery times depend on your selected destination and are confirmed at checkout. Free shipping is not guaranteed for every country or order.</p>
                     {%- endif -%}
@@ -627,7 +627,7 @@
           "type": "faq",
           "settings": {
             "question": "What are the shipping costs and delivery times for my country?",
-            "answer": "Orders are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is 4–5 days to the UK, and 8–9 days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France and UAE, or $100 USD or more for Canada and Australia. Smaller orders may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
+            "answer": "Orders are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is 4–5 days to the UK, and 8–9 days to the USA, Germany, France, UAE, Canada and Australia. Free shipping is available when the eligible subtotal meets the selected country's shipping minimum, as shown in the delivery information above. Smaller orders may incur shipping charges confirmed at checkout. Delivery times are estimates, not guarantees.",
             "show_refund_link": false
           }
         },
