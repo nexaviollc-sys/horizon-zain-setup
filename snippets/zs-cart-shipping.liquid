@@ -6,11 +6,20 @@
 {% endcomment %}
 {%- liquid
   assign zs_shipping_usd = 0
+  assign zs_shipping_standard_cents = 0
   case localization.country.iso_code
-    when 'GB', 'US', 'DE', 'FR', 'AE'
+    when 'GB'
       assign zs_shipping_usd = 60
+      assign zs_shipping_standard_cents = 699
+    when 'US', 'DE', 'FR'
+      assign zs_shipping_usd = 60
+      assign zs_shipping_standard_cents = 999
+    when 'AE'
+      assign zs_shipping_usd = 60
+      assign zs_shipping_standard_cents = 599
     when 'CA', 'AU'
       assign zs_shipping_usd = 100
+      assign zs_shipping_standard_cents = 1499
   endcase
 
   assign zs_shipping_bundle_code = false
@@ -49,6 +58,7 @@
     class="zs-cart-shipping{% if zs_shipping_qualified %} is-qualified{% endif %}"
     data-zs-shipping-progress
     data-threshold-usd-cents="{{ zs_shipping_threshold_cents }}"
+    data-standard-shipping-usd-cents="{{ zs_shipping_standard_cents }}"
     data-cart-total-cents="{{ cart.total_price }}"
     data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | escape }}"
     data-shop-currency="{{ shop.currency | escape }}"
@@ -57,22 +67,50 @@
     data-bundle-shipping="{% if zs_shipping_bundle_code %}true{% else %}false{% endif %}"
     aria-live="polite"
   >
+    <div class="zs-cart-shipping__country-row">
+      <span class="zs-cart-shipping__country-caption">
+        {% case request.locale.iso_code %}
+          {% when 'de' %}Lieferland
+          {% when 'fr' %}Pays de livraison
+          {% when 'ar' %}بلد التوصيل
+          {% else %}Deliver to
+        {% endcase %}
+      </span>
+      {% form 'localization', id: 'ZsCartCountryForm', class: 'zs-cart-shipping__country-form' %}
+        <label class="visually-hidden" for="ZsCartCountrySelect">Shipping destination</label>
+        <select id="ZsCartCountrySelect" name="country_code" class="zs-cart-shipping__country-select">
+          {% for zs_country in localization.available_countries %}
+            {% if zs_country.iso_code == 'GB' or zs_country.iso_code == 'US' or zs_country.iso_code == 'DE' or zs_country.iso_code == 'FR' or zs_country.iso_code == 'AE' or zs_country.iso_code == 'CA' or zs_country.iso_code == 'AU' %}
+              <option value="{{ zs_country.iso_code }}" {% if zs_country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ zs_country.name | escape }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <button type="submit" class="zs-cart-shipping__country-apply">
+          {% case request.locale.iso_code %}
+            {% when 'de' %}Ändern
+            {% when 'fr' %}Changer
+            {% when 'ar' %}تغيير
+            {% else %}Change
+          {% endcase %}
+        </button>
+      {% endform %}
+    </div>
     <div class="zs-cart-shipping__message">
       <span class="zs-cart-shipping__check" aria-hidden="true">✓</span>
       <span data-zs-shipping-message>
         {% if zs_shipping_qualified %}
           {% case request.locale.iso_code %}
-            {% when 'de' %}Versand-Mindestwert erreicht – an der Kasse bestätigen
-            {% when 'fr' %}Seuil de livraison gratuite atteint – à confirmer à la caisse
-            {% when 'ar' %}تم بلوغ الحد الأدنى للشحن المجاني – التأكيد عند الدفع
-            {% else %}Free-shipping minimum reached for {{ localization.country.name | escape }} — confirm at checkout
+            {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} möglich.
+            {% when 'fr' %}Livraison gratuite possible vers {{ localization.country.name | escape }}.
+            {% when 'ar' %}طلبك مؤهل للشحن المجاني إلى {{ localization.country.name | escape }}.
+            {% else %}You've unlocked free shipping to {{ localization.country.name | escape }}.
           {% endcase %}
         {% else %}
           {% case request.locale.iso_code %}
-            {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} ab &#36;{{ zs_shipping_usd }} USD – an der Kasse bestätigen
-            {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }} dès {{ zs_shipping_usd }} USD – à confirmer à la caisse
-            {% when 'ar' %}الشحن المجاني إلى {{ localization.country.name | escape }} للطلبات بقيمة &#36;{{ zs_shipping_usd }} USD أو أكثر – التأكيد عند الدفع
-            {% else %}Free shipping to {{ localization.country.name | escape }} on orders &#36;{{ zs_shipping_usd }} USD+ — confirm at checkout
+            {% when 'de' %}Noch mehr einkaufen für kostenlosen Versand nach {{ localization.country.name | escape }}.
+            {% when 'fr' %}Ajoutez des articles pour la livraison gratuite vers {{ localization.country.name | escape }}.
+            {% when 'ar' %}أضف المزيد للحصول على شحن مجاني إلى {{ localization.country.name | escape }}.
+            {% else %}Add more to get free shipping from ZAISEN to {{ localization.country.name | escape }}.
           {% endcase %}
         {% endif %}
       </span>
@@ -89,5 +127,13 @@
     >
       <span class="zs-cart-shipping__fill" data-zs-shipping-fill></span>
     </div>
+    <p class="zs-cart-shipping__disclaimer">
+      {% case request.locale.iso_code %}
+        {% when 'de' %}Versandkosten sind Schätzungen. Endpreis an der Kasse.
+        {% when 'fr' %}Frais estimés, confirmés à la caisse.
+        {% when 'ar' %}الشحن تقديري ويتم تأكيده عند الدفع.
+        {% else %}Shipping is estimated; final rates are confirmed at checkout.
+      {% endcase %}
+    </p>
   </div>
 {% endif %}
