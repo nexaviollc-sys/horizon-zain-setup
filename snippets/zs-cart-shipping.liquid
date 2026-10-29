@@ -85,12 +85,12 @@
             {% endif %}
           {% endfor %}
         </select>
-        <button type="submit" class="zs-cart-shipping__country-apply">
+        <button type="submit" class="zs-cart-shipping__country-apply" aria-label="Apply shipping country">
           {% case request.locale.iso_code %}
             {% when 'de' %}Ändern
             {% when 'fr' %}Changer
             {% when 'ar' %}تغيير
-            {% else %}Change
+            {% else %}Update
           {% endcase %}
         </button>
       {% endform %}
@@ -110,7 +110,7 @@
             {% when 'de' %}Noch mehr einkaufen für kostenlosen Versand nach {{ localization.country.name | escape }}.
             {% when 'fr' %}Ajoutez des articles pour la livraison gratuite vers {{ localization.country.name | escape }}.
             {% when 'ar' %}أضف المزيد للحصول على شحن مجاني إلى {{ localization.country.name | escape }}.
-            {% else %}Add more to get free shipping from ZAISEN to {{ localization.country.name | escape }}.
+            {% else %}Add more for free shipping.
           {% endcase %}
         {% endif %}
       </span>
@@ -127,12 +127,12 @@
     >
       <span class="zs-cart-shipping__fill" data-zs-shipping-fill></span>
     </div>
-    <p class="zs-cart-shipping__disclaimer">
+    <p class="zs-cart-shipping__disclaimer" data-zs-shipping-note>
       {% case request.locale.iso_code %}
-        {% when 'de' %}Versandkosten sind Schätzungen. Endpreis an der Kasse.
-        {% when 'fr' %}Frais estimés, confirmés à la caisse.
-        {% when 'ar' %}الشحن تقديري ويتم تأكيده عند الدفع.
-        {% else %}Shipping is estimated; final rates are confirmed at checkout.
+        {% when 'de' %}Versand voraussichtlich · endgültiger Preis an der Kasse
+        {% when 'fr' %}Livraison estimée · montant final à la caisse
+        {% when 'ar' %}الشحن تقديري · السعر النهائي عند الدفع
+        {% else %}Estimated shipping · Final rate at checkout
       {% endcase %}
     </p>
   </div>
