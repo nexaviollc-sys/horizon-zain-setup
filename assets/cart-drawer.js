@@ -149,8 +149,8 @@ class CartDrawerComponent extends Component {
   #updateShippingProgress = () => {
     const element = this.querySelector('[data-zs-shipping-progress]');
     if (!(element instanceof HTMLElement)) return;
-
     const message = element.querySelector('[data-zs-shipping-message]');
+    const note = element.querySelector('[data-zs-shipping-note]');
     const track = element.querySelector('[data-zs-shipping-track]');
     const fill = element.querySelector('[data-zs-shipping-fill]');
     const shippingRow = this.querySelector('[data-zs-shipping-summary]');
@@ -168,87 +168,89 @@ class CartDrawerComponent extends Component {
     const locale = localeTag.split('-')[0].toLowerCase();
     const country = element.dataset.countryName || 'your country';
     const usdMinimum = '$' + String(thresholdUsdCents / 100) + ' USD';
-
     const translations = {
       en: {
-        reached: (name) => "You've unlocked free shipping to " + name + '.',
-        remaining: (amount, name) => 'Add ' + amount + ' more to get free shipping from ZAISEN to ' + name + '.',
-        unknown: (name, minimum) => 'Get free shipping from ZAISEN to ' + name + ' on orders of ' + minimum + '+.',
-        estimated: 'Est. ',
-        free: 'FREE',
-        checkout: 'At checkout',
+        reached: 'Free shipping unlocked',
+        remaining: (amount) => 'Add ' + amount + ' more for free shipping',
+        unknown: (name, goal) => 'Free shipping to ' + name + ' from ' + goal,
+        note: (price) => 'Est. shipping: ' + price + ' · Final rate at checkout',
+        noteFree: 'Est. shipping: Free · Final rate at checkout',
+        estimated: 'Est. ', free: 'FREE', checkout: 'At checkout',
       },
       de: {
-        reached: (name) => 'Du hast kostenlosen Versand nach ' + name + ' freigeschaltet.',
-        remaining: (amount, name) => 'Noch ' + amount + ' bis zum kostenlosen Versand von ZAISEN nach ' + name + '.',
-        unknown: (name, minimum) => 'Kostenloser Versand von ZAISEN nach ' + name + ' ab ' + minimum + '.',
-        estimated: 'ca. ',
-        free: 'KOSTENLOS',
-        checkout: 'An der Kasse',
+        reached: 'Kostenloser Versand freigeschaltet',
+        remaining: (amount) => 'Noch ' + amount + ' bis zum Gratisversand',
+        unknown: (name, goal) => 'Gratisversand nach ' + name + ' ab ' + goal,
+        note: (price) => 'Versand ca. ' + price + ' · Endpreis an der Kasse',
+        noteFree: 'Versand vorauss. gratis · An der Kasse prüfen',
+        estimated: 'ca. ', free: 'KOSTENLOS', checkout: 'An der Kasse',
       },
       fr: {
-        reached: (name) => 'Vous avez obtenu la livraison gratuite vers ' + name + '.',
-        remaining: (amount, name) => 'Ajoutez encore ' + amount + ' pour la livraison gratuite ZAISEN vers ' + name + '.',
-        unknown: (name, minimum) => 'Livraison gratuite ZAISEN vers ' + name + ' dès ' + minimum + '.',
-        estimated: 'env. ',
-        free: 'GRATUITE',
-        checkout: 'À la caisse',
+        reached: 'Livraison gratuite débloquée',
+        remaining: (amount) => 'Encore ' + amount + ' pour la livraison gratuite',
+        unknown: (name, goal) => 'Livraison gratuite vers ' + name + ' dès ' + goal,
+        note: (price) => 'Livraison estimée : ' + price + ' · Tarif final à la caisse',
+        noteFree: 'Livraison gratuite estimée · À confirmer à la caisse',
+        estimated: 'env. ', free: 'GRATUITE', checkout: 'À la caisse',
       },
       ar: {
-        reached: (name) => 'أصبحت مؤهلاً للشحن المجاني إلى ' + name + '.',
-        remaining: (amount, name) => 'أضف ' + amount + ' للحصول على شحن مجاني من ZAISEN إلى ' + name + '.',
-        unknown: (name, minimum) => 'الشحن المجاني من ZAISEN إلى ' + name + ' للطلبات بقيمة ' + minimum + ' أو أكثر.',
-        estimated: 'تقديري ',
-        free: 'مجاني',
-        checkout: 'عند الدفع',
+        reached: 'تم فتح الشحن المجاني',
+        remaining: (amount) => 'أضف ' + amount + ' للشحن المجاني',
+        unknown: (name, goal) => 'شحن مجاني إلى ' + name + ' من ' + goal,
+        note: (price) => 'الشحن التقديري: ' + price + ' · السعر النهائي عند الدفع',
+        noteFree: 'الشحن التقديري: مجاني · يتم التأكيد عند الدفع',
+        estimated: 'تقديري ', free: 'مجاني', checkout: 'عند الدفع',
       },
     };
     const words = translations[locale] || translations.en;
-    // The market rates are defined by Shopify in USD; never pass these
-    // configured USD cents through a local-currency money filter.
-    const standardShipping = Number.isFinite(standardUsdCents) && standardUsdCents > 0
-      ? words.estimated + '$' + (standardUsdCents / 100).toFixed(2) + (currency === 'USD' ? '' : ' USD')
-      : words.checkout;
-    const updateStatus = (minimumMet, status) => {
-      if (shippingStatus instanceof HTMLElement && shippingStatus.textContent.trim() !== status) {
-        shippingStatus.textContent = status;
+    // Shopify configures these standard shipping prices in USD. They remain estimates
+    // because promotions and local-currency rounding are settled at checkout.
+    const standardPrice = Number.isFinite(standardUsdCents) && standardUsdCents > 0
+      ? '$' + (standardUsdCents / 100).toFixed(2) + ' USD'
+      : null;
+    const standardStatus = standardPrice ? words.estimated + standardPrice : words.checkout;
+    const changeNote = (copy) => {
+      if (note instanceof HTMLElement && note.textContent.trim() !== copy) note.textContent = copy;
+    };
+    const changeStatus = (free, copy) => {
+      if (shippingStatus instanceof HTMLElement && shippingStatus.textContent.trim() !== copy) {
+        shippingStatus.textContent = copy;
       }
-      shippingRow?.classList.toggle('is-free', minimumMet);
+      shippingRow?.classList.toggle('is-free', free);
     };
     const canConvert = (currency === 'USD' || baseCurrency === 'USD') &&
       Number.isFinite(rate) && rate > 0 &&
       Number.isFinite(thresholdUsdCents) && thresholdUsdCents > 0 &&
       Number.isFinite(subtotalCents) && subtotalCents >= 0;
-
     if (!canConvert) {
       track.hidden = true;
       element.classList.remove('is-qualified');
       const copy = words.unknown(country, usdMinimum);
       if (message.textContent.trim() !== copy) message.textContent = copy;
-      updateStatus(false, standardShipping);
+      changeStatus(false, standardStatus);
+      changeNote(standardPrice ? words.note(standardPrice) : words.checkout);
       return;
     }
-
-    // The actual Shopify shipping rate and local-currency rounding are
-    // finalized at checkout; the progress estimate is not an eligibility guarantee.
-    const thresholdCents = Math.ceil(thresholdUsdCents * rate);
-    const minimumMet = subtotalCents >= thresholdCents;
-    const remainingCents = Math.max(0, thresholdCents - subtotalCents);
-    const completion = Math.min(100, Math.round((subtotalCents / thresholdCents) * 100));
+    // Approximate progress from Shopify's currency rate. Checkout stays authoritative.
+    const targetCents = Math.ceil(thresholdUsdCents * rate);
+    const minimumMet = subtotalCents >= targetCents;
+    const remainingCents = Math.max(0, targetCents - subtotalCents);
+    const completion = Math.min(100, Math.round((subtotalCents / targetCents) * 100));
     let remaining;
     try {
       remaining = new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
     } catch {
       remaining = (remainingCents / 100).toFixed(2) + ' ' + currency;
     }
-    const copy = minimumMet ? words.reached(country) : words.remaining(remaining, country);
+    const copy = minimumMet ? words.reached : words.remaining(remaining);
     if (message.textContent.trim() !== copy) message.textContent = copy;
     element.classList.toggle('is-qualified', minimumMet);
     track.hidden = false;
-    track.setAttribute('aria-label', 'Estimated progress toward free shipping to ' + country);
+    track.setAttribute('aria-label', 'Estimated free-shipping progress for ' + country);
     track.setAttribute('aria-valuenow', String(completion));
     fill.style.width = String(completion) + '%';
-    updateStatus(minimumMet, minimumMet ? words.estimated + words.free : standardShipping);
+    changeStatus(minimumMet, minimumMet ? words.estimated + words.free : standardStatus);
+    changeNote(minimumMet ? words.noteFree : standardPrice ? words.note(standardPrice) : words.checkout);
   };
 
   /**
