@@ -2169,10 +2169,10 @@
 #cart-drawer .zs-cart-shipping__country-select {
   display: block !important;
   appearance: auto !important;
-  flex: 0 1 172px !important;
+  flex: 1 1 220px !important;
   width: 100% !important;
   min-width: 95px !important;
-  max-width: 172px !important;
+  max-width: 220px !important;
   height: 28px !important;
   min-height: 28px !important;
   padding: 3px 7px !important;
