@@ -159,103 +159,96 @@ class CartDrawerComponent extends Component {
 
     const baseCurrency = (element.dataset.shopCurrency || '').toUpperCase();
     const currency = (element.dataset.currency || baseCurrency).toUpperCase();
-    const goalUsdCents = Number(element.dataset.thresholdUsdCents);
-    const totalCents = Number(element.dataset.cartTotalCents);
+    const thresholdUsdCents = Number(element.dataset.thresholdUsdCents);
+    const standardUsdCents = Number(element.dataset.standardShippingUsdCents);
+    const subtotalCents = Number(element.dataset.cartTotalCents);
     const shopifyRate = Number(window.Shopify?.currency?.rate);
     const rate = currency === 'USD' ? 1 : baseCurrency === 'USD' ? shopifyRate : NaN;
     const localeTag = element.dataset.locale || 'en';
     const locale = localeTag.split('-')[0].toLowerCase();
     const country = element.dataset.countryName || 'your country';
-    const hasBundleOffer = element.dataset.bundleShipping === 'true';
-    const usdGoal = '$' + String(goalUsdCents / 100) + ' USD';
+    const usdMinimum = '$' + String(thresholdUsdCents / 100) + ' USD';
 
     const translations = {
       en: {
-        reached: (name, goal) => 'Your discounted cart meets the ' + goal + ' free-shipping minimum for ' + name + '. Final shipping confirmed at checkout.',
-        remaining: (amount, goal, name) => 'Add ' + amount + ' more toward free shipping to ' + name + ' (' + goal + ' minimum). Checkout confirms rates.',
-        unknown: (goal, name) => 'Free shipping to ' + name + ' on orders ' + goal + '+. Rates and eligibility confirmed at checkout.',
-        bundle: 'Bundle offer applied. ',
-        met: 'Minimum reached',
-        notMet: 'Minimum not reached',
+        reached: (name) => "You've unlocked free shipping to " + name + '.',
+        remaining: (amount, name) => 'Add ' + amount + ' more to get free shipping from ZAISEN to ' + name + '.',
+        unknown: (name, minimum) => 'Get free shipping from ZAISEN to ' + name + ' on orders of ' + minimum + '+.',
+        estimated: 'Est. ',
+        free: 'FREE',
         checkout: 'At checkout',
       },
       de: {
-        reached: (name, goal) => 'Dein Warenkorb nach Rabatten erreicht den Mindestwert von ' + goal + ' für ' + name + '. Versand wird an der Kasse bestätigt.',
-        remaining: (amount, goal, name) => 'Noch ' + amount + ' bis zum Versand-Mindestwert für ' + name + ' (' + goal + '). Bestätigung an der Kasse.',
-        unknown: (goal, name) => 'Kostenloser Versand nach ' + name + ' ab ' + goal + '. Bestätigung an der Kasse.',
-        bundle: 'Bundle-Angebot angewendet. ',
-        met: 'Mindestwert erreicht',
-        notMet: 'Mindestwert nicht erreicht',
+        reached: (name) => 'Du hast kostenlosen Versand nach ' + name + ' freigeschaltet.',
+        remaining: (amount, name) => 'Noch ' + amount + ' bis zum kostenlosen Versand von ZAISEN nach ' + name + '.',
+        unknown: (name, minimum) => 'Kostenloser Versand von ZAISEN nach ' + name + ' ab ' + minimum + '.',
+        estimated: 'ca. ',
+        free: 'KOSTENLOS',
         checkout: 'An der Kasse',
       },
       fr: {
-        reached: (name, goal) => 'Votre panier après remises atteint le seuil de ' + goal + ' pour ' + name + '. Livraison confirmée à la caisse.',
-        remaining: (amount, goal, name) => 'Encore ' + amount + ' pour atteindre le seuil vers ' + name + ' (' + goal + '). Vérification à la caisse.',
-        unknown: (goal, name) => 'Livraison gratuite vers ' + name + ' dès ' + goal + '. Confirmation à la caisse.',
-        bundle: 'Offre groupée appliquée. ',
-        met: 'Seuil atteint',
-        notMet: 'Seuil non atteint',
+        reached: (name) => 'Vous avez obtenu la livraison gratuite vers ' + name + '.',
+        remaining: (amount, name) => 'Ajoutez encore ' + amount + ' pour la livraison gratuite ZAISEN vers ' + name + '.',
+        unknown: (name, minimum) => 'Livraison gratuite ZAISEN vers ' + name + ' dès ' + minimum + '.',
+        estimated: 'env. ',
+        free: 'GRATUITE',
         checkout: 'À la caisse',
       },
       ar: {
-        reached: (name, goal) => 'قيمة السلة بعد الخصومات بلغت حد الشحن المجاني ' + goal + ' إلى ' + name + '. يتم تأكيد الشحن عند الدفع.',
-        remaining: (amount, goal, name) => 'أضف ' + amount + ' للوصول إلى حد الشحن المجاني إلى ' + name + ' (' + goal + '). يتم التأكيد عند الدفع.',
-        unknown: (goal, name) => 'الشحن المجاني إلى ' + name + ' للطلبات بقيمة ' + goal + ' أو أكثر. يتم تأكيد الأسعار عند الدفع.',
-        bundle: 'تم تطبيق عرض الحزمة. ',
-        met: 'تم بلوغ الحد',
-        notMet: 'لم يتم بلوغ الحد',
+        reached: (name) => 'أصبحت مؤهلاً للشحن المجاني إلى ' + name + '.',
+        remaining: (amount, name) => 'أضف ' + amount + ' للحصول على شحن مجاني من ZAISEN إلى ' + name + '.',
+        unknown: (name, minimum) => 'الشحن المجاني من ZAISEN إلى ' + name + ' للطلبات بقيمة ' + minimum + ' أو أكثر.',
+        estimated: 'تقديري ',
+        free: 'مجاني',
         checkout: 'عند الدفع',
       },
     };
     const words = translations[locale] || translations.en;
-
-    const setStatus = (status, minimumMet) => {
+    // The market rates are defined by Shopify in USD; never pass these
+    // configured USD cents through a local-currency money filter.
+    const standardShipping = Number.isFinite(standardUsdCents) && standardUsdCents > 0
+      ? words.estimated + '$' + (standardUsdCents / 100).toFixed(2) + (currency === 'USD' ? '' : ' USD')
+      : words.checkout;
+    const updateStatus = (minimumMet, status) => {
       if (shippingStatus instanceof HTMLElement && shippingStatus.textContent.trim() !== status) {
         shippingStatus.textContent = status;
       }
       shippingRow?.classList.toggle('is-free', minimumMet);
     };
-
-    // Use the discounted Shopify cart total. Never invent a converted threshold.
     const canConvert = (currency === 'USD' || baseCurrency === 'USD') &&
       Number.isFinite(rate) && rate > 0 &&
-      Number.isFinite(goalUsdCents) && goalUsdCents > 0 &&
-      Number.isFinite(totalCents) && totalCents >= 0;
+      Number.isFinite(thresholdUsdCents) && thresholdUsdCents > 0 &&
+      Number.isFinite(subtotalCents) && subtotalCents >= 0;
 
     if (!canConvert) {
       track.hidden = true;
       element.classList.remove('is-qualified');
-      const copy = words.unknown(usdGoal, country);
+      const copy = words.unknown(country, usdMinimum);
       if (message.textContent.trim() !== copy) message.textContent = copy;
-      setStatus(words.checkout, false);
+      updateStatus(false, standardShipping);
       return;
     }
 
-    const goalCents = Math.ceil(goalUsdCents * rate);
-    const minimumMet = totalCents >= goalCents;
-    const remainingCents = Math.max(0, goalCents - totalCents);
-    const completion = Math.min(100, Math.round((totalCents / goalCents) * 100));
-
-    let formattedAmount;
+    // The actual Shopify shipping rate and local-currency rounding are
+    // finalized at checkout; the progress estimate is not an eligibility guarantee.
+    const thresholdCents = Math.ceil(thresholdUsdCents * rate);
+    const minimumMet = subtotalCents >= thresholdCents;
+    const remainingCents = Math.max(0, thresholdCents - subtotalCents);
+    const completion = Math.min(100, Math.round((subtotalCents / thresholdCents) * 100));
+    let remaining;
     try {
-      formattedAmount = new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
+      remaining = new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
     } catch {
-      formattedAmount = (remainingCents / 100).toFixed(2) + ' ' + currency;
+      remaining = (remainingCents / 100).toFixed(2) + ' ' + currency;
     }
-
-    // Bundle product discounts remain untouched, but a bundle discount
-    // alone must not force a full progress bar or promise free delivery.
-    const prefix = hasBundleOffer && !minimumMet ? words.bundle : '';
-    const copy = prefix + (minimumMet
-      ? words.reached(country, usdGoal)
-      : words.remaining(formattedAmount, usdGoal, country));
+    const copy = minimumMet ? words.reached(country) : words.remaining(remaining, country);
     if (message.textContent.trim() !== copy) message.textContent = copy;
     element.classList.toggle('is-qualified', minimumMet);
     track.hidden = false;
-    track.setAttribute('aria-label', 'Progress toward free-shipping minimum for ' + country);
+    track.setAttribute('aria-label', 'Estimated progress toward free shipping to ' + country);
     track.setAttribute('aria-valuenow', String(completion));
     fill.style.width = String(completion) + '%';
-    setStatus(minimumMet ? words.met : words.notMet, minimumMet);
+    updateStatus(minimumMet, minimumMet ? words.estimated + words.free : standardShipping);
   };
 
   /**
