@@ -197,6 +197,66 @@
   transition: width .22s ease;
 }
 
+/* Compact Shopify-country picker inside the cart shipping-progress panel. */
+#cart-drawer .zs-cart-shipping__country-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-bottom: 10px;
+}
+#cart-drawer .zs-cart-shipping__country-caption {
+  color: #79604c;
+  font: 650 10px/1.35 var(--font-body--family);
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+#cart-drawer .zs-cart-shipping__country-form {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+#cart-drawer .zs-cart-shipping__country-select {
+  appearance: auto;
+  min-width: 0;
+  max-width: min(186px, 57%);
+  border: 1px solid #e1d4c8;
+  border-radius: 6px;
+  background: white;
+  color: #523827;
+  padding: 6px 7px;
+  font: 600 11px/1.35 var(--font-body--family);
+  cursor: pointer;
+}
+#cart-drawer .zs-cart-shipping__country-apply {
+  flex: 0 0 auto;
+  border: 1px solid #765038;
+  border-radius: 6px;
+  background: transparent;
+  color: #765038;
+  padding: 6px 9px;
+  font: 650 11px/1.35 var(--font-body--family);
+  cursor: pointer;
+}
+#cart-drawer .zs-cart-shipping__country-apply:hover,
+#cart-drawer .zs-cart-shipping__country-apply:focus-visible {
+  color: white;
+  background: #765038;
+}
+#cart-drawer .zs-cart-shipping__country-select:focus-visible {
+  outline: 2px solid #765038;
+  outline-offset: 2px;
+}
+#cart-drawer .zs-cart-shipping__disclaimer {
+  margin: 8px 0 0;
+  color: #85766a;
+  font: 450 10px/1.4 var(--font-body--family);
+}
+
 /* ZAISEN product rows: editorial product-first layout with spacious titles. */
 #cart-drawer .cart-drawer__items {
   flex: 0 0 auto;
@@ -593,6 +653,15 @@
   font: 650 12.5px/1.35 var(--font-body--family);
   text-align: end;
   white-space: nowrap;
+}
+#cart-drawer .zs-cart-breakdown__row--shipping .zs-cart-breakdown__label {
+  min-width: 0;
+  flex: 1 1 auto;
+  white-space: normal;
+}
+#cart-drawer .zs-cart-breakdown__row--shipping [data-zs-shipping-status] {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
 }
 #cart-drawer .zs-cart-breakdown__row--shipping.is-free strong {
   display: inline-flex;
