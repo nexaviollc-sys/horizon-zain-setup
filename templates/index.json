@@ -545,8 +545,8 @@
         "shf_faq_shipping": {
           "type": "faq",
           "settings": {
-            "question": "Do you offer free worldwide shipping?",
-            "answer": "Yes! Every ZAISEN order ships FREE to the United Kingdom, United States, Germany, Canada, Australia, the United Arab Emirates, France and Saudi Arabia. There are no shipping charges on any order to these eight countries. Estimated delivery is 4–5 days for the UK and 7–9 days for the other listed destinations. Delivery times are estimates, not guarantees.",
+            "question": "What are the shipping costs and delivery times for my country?",
+            "answer": "Orders are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is 4–5 days to the UK, and 8–9 days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France and UAE, or $100 USD or more for Canada and Australia. Smaller orders may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
             "show_refund_link": false
           }
         },
