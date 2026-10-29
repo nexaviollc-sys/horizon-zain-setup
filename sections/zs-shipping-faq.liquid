@@ -127,7 +127,9 @@
           <div class="zs-shf__country zs-shf__country--threshold" role="listitem">
             <div class="zs-shf__country-name"><span class="zs-shf__country-title">Free shipping on orders</span></div>
             <div class="zs-shf__country-bottom">
-              <span class="zs-shf__free" aria-label="Free shipping on orders of {{ zs_ship_free_min }} US dollars or more">$<span>{{ zs_ship_free_min }}</span>+ USD</span>
+              <span class="zs-shf__free" aria-label="Free shipping above the selected market's minimum">
+                <span data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}AT CHECKOUT{% endif %}</span>
+              </span>
             </div>
           </div>
         </div>
