@@ -5,6 +5,51 @@
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
+  comment
+    Task 2: display delivery cards only for the Shopify-selected country.
+    USD free shipping minimums; transit estimates follow 1–2 days preparation.
+  endcomment
+  assign zs_ship_country = localization.country.name
+  assign zs_ship_flag = '🌍'
+  assign zs_ship_days = ''
+  assign zs_ship_free_min = 0
+  case localization.country.iso_code
+    when 'GB'
+      assign zs_ship_country = 'United Kingdom'
+      assign zs_ship_flag = '🇬🇧'
+      assign zs_ship_days = '4–5 days'
+      assign zs_ship_free_min = 60
+    when 'US'
+      assign zs_ship_country = 'United States'
+      assign zs_ship_flag = '🇺🇸'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 60
+    when 'DE'
+      assign zs_ship_country = 'Germany'
+      assign zs_ship_flag = '🇩🇪'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 60
+    when 'FR'
+      assign zs_ship_country = 'France'
+      assign zs_ship_flag = '🇫🇷'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 60
+    when 'AE'
+      assign zs_ship_country = 'United Arab Emirates'
+      assign zs_ship_flag = '🇦🇪'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 60
+    when 'CA'
+      assign zs_ship_country = 'Canada'
+      assign zs_ship_flag = '🇨🇦'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 100
+    when 'AU'
+      assign zs_ship_country = 'Australia'
+      assign zs_ship_flag = '🇦🇺'
+      assign zs_ship_days = '8–9 days'
+      assign zs_ship_free_min = 100
+  endcase
   assign contact_href = s.contact_link
   if contact_href == blank
     assign contact_page = pages['contact']
@@ -56,24 +101,49 @@
         <h3>{{ s.country_heading | escape }}</h3>
         <p>{{ s.country_intro | escape }}</p>
       </div>
-      <div class="zs-shf__countries" role="list" aria-label="Estimated ZAISEN delivery by country">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'country' -%}
-            <div class="zs-shf__country" role="listitem" {{ block.shopify_attributes }}>
-              <div class="zs-shf__country-name">
-                <span class="zs-shf__flag" aria-hidden="true">{{ block.settings.flag | escape }}</span>
-                <span class="zs-shf__country-title">{{ block.settings.country_name | escape }}</span>
-              </div>
-              <div class="zs-shf__country-bottom">
-                <span class="zs-shf__time"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path stroke-linecap="round" d="M10 5.5v4.8l3.2 2"/></svg>{{ block.settings.delivery_time | escape }}</span>
-                <span class="zs-shf__free" aria-label="Free shipping on all orders to this country">{{ s.free_label | escape }}</span>
-              </div>
+      {% if zs_ship_free_min > 0 %}
+        <div class="zs-shf__countries" role="list" aria-label="Shipping details for {{ zs_ship_country | escape }}">
+          <div class="zs-shf__country" role="listitem">
+            <div class="zs-shf__country-name">
+              <span class="zs-shf__flag" aria-hidden="true">{{ zs_ship_flag }}</span>
+              <span class="zs-shf__country-title">{{ zs_ship_country | escape }}</span>
             </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+            <div class="zs-shf__country-bottom">
+              <span class="zs-shf__time">Selected destination</span>
+            </div>
+          </div>
+          <div class="zs-shf__country" role="listitem">
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Order preparation</span></div>
+            <div class="zs-shf__country-bottom">
+              <strong class="zs-shf__time zs-shf__time--value">1–2 days</strong>
+            </div>
+          </div>
+          <div class="zs-shf__country" role="listitem">
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Shipping after dispatch</span></div>
+            <div class="zs-shf__country-bottom">
+              <strong class="zs-shf__time zs-shf__time--value">{{ zs_ship_days }}</strong>
+            </div>
+          </div>
+          <div class="zs-shf__country zs-shf__country--threshold" role="listitem">
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Free shipping on orders</span></div>
+            <div class="zs-shf__country-bottom">
+              <span class="zs-shf__free" aria-label="Free shipping on orders of {{ zs_ship_free_min }} US dollars or more">$<span>{{ zs_ship_free_min }}</span>+ USD</span>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="zs-shf__countries zs-shf__countries--unavailable" role="list" aria-label="Shipping information for selected country">
+          <div class="zs-shf__country" role="listitem">
+            <div class="zs-shf__country-name">
+              <span class="zs-shf__flag" aria-hidden="true">{{ zs_ship_flag }}</span>
+              <span class="zs-shf__country-title">{{ zs_ship_country | escape }}</span>
+            </div>
+            <div class="zs-shf__country-bottom"><span class="zs-shf__time">Shipping availability and rates are confirmed at checkout.</span></div>
+          </div>
+        </div>
+      {% endif %}
       <div class="zs-shf__delivery-note">
-        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path stroke-linecap="round" d="M10 9v4.5M10 5.7v.4"/></svg>
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 9v4.5M10 5.7v.4"/></svg>
         <span>{{ s.shipping_note | escape }}
           {%- if shop.shipping_policy != blank -%}
             <a href="{{ shop.shipping_policy.url }}">{{ s.shipping_policy_label | escape }}</a>
@@ -150,6 +220,10 @@
 .zs-shf__country-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:17px}
 .zs-shf__time{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:#6D6055;font-size:12px;font-weight:500}
 .zs-shf__time svg{color:#A0805F;flex-shrink:0}
+.zs-shf__time--value{font-size:20px;font-weight:750;line-height:1.2;color:var(--zs-shf-ink,#2B1D17);letter-spacing:-.02em}
+.zs-shf__country--threshold .zs-shf__free{font-size:12px;padding:8px 10px}
+.zs-shf__countries--unavailable{grid-template-columns:minmax(0,1fr)}
+.zs-shf__countries--unavailable .zs-shf__time{white-space:normal}
 .zs-shf__free{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border-radius:6px;padding:5px 8px;background:#E1EFE6;color:#285B45;font-weight:800;font-size:10px;line-height:1;letter-spacing:.065em;text-transform:uppercase}
 .zs-shf__delivery-note{display:flex;align-items:flex-start;gap:9px;margin:15px 2px 0;color:var(--zs-shf-muted,#80736A);font-size:12px;line-height:1.65}
 .zs-shf__delivery-note svg{flex-shrink:0;margin-top:1px;color:#997C5B}
@@ -201,6 +275,8 @@
  .zs-shf__country-title{font-size:11.5px;line-height:1.3}
  .zs-shf__country-bottom{gap:5px;margin-top:8px}
  .zs-shf__time{font-size:10.5px;gap:3px}
+ .zs-shf__time--value{font-size:17px}
+ .zs-shf__country--threshold .zs-shf__free{font-size:10px;padding:6px 8px}
  .zs-shf__time svg{width:13px;height:13px}
  .zs-shf__free{font-size:9px;padding:4px 6px}
  .zs-shf__delivery-note{font-size:11px;margin-top:13px}
@@ -273,13 +349,13 @@
       "type": "text",
       "id": "country_heading",
       "label": "Country heading",
-      "default": "Estimated delivery by country"
+      "default": "Delivery to your selected country"
     },
     {
       "type": "text",
       "id": "country_intro",
       "label": "Country subheading",
-      "default": "FREE shipping on all orders to these countries"
+      "default": "Shipping details for your selected destination"
     },
     {
       "type": "text",
@@ -291,7 +367,7 @@
       "type": "textarea",
       "id": "shipping_note",
       "label": "Shipping disclaimer",
-      "default": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery."
+      "default": "Allow 1–2 days for order preparation before dispatch. Shipping times are estimates, not guarantees. Free delivery applies to qualifying orders; final rates are confirmed at checkout."
     },
     {
       "type": "text",
