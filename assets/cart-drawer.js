@@ -36,6 +36,7 @@ class CartDrawerComponent extends Component {
     super.connectedCallback();
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
     this.addEventListener('click', this.#handleUpsellClick);
+    this.addEventListener('change', this.#handleShippingCountryChange);
     this.#shippingObserver = new MutationObserver(() => this.#updateShippingProgress());
     this.#shippingObserver.observe(this, { childList: true, subtree: true });
     this.#updateShippingProgress();
@@ -54,6 +55,7 @@ class CartDrawerComponent extends Component {
     super.disconnectedCallback();
     document.removeEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
     this.removeEventListener('click', this.#handleUpsellClick);
+    this.removeEventListener('change', this.#handleShippingCountryChange);
     this.#shippingObserver?.disconnect();
     this.#shippingObserver = null;
     this.#themeDrawer?.removeEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
@@ -140,6 +142,27 @@ class CartDrawerComponent extends Component {
       });
   };
 
+
+  /**
+   * Use Shopify's own localization form, like the header country selector.
+   * Delegated change handling survives cart-drawer section re-renders.
+   * Selecting a different country automatically refreshes the market,
+   * product/cart prices, shipping estimates, and free-shipping progress.
+   *
+   * @param {Event} event
+   */
+  #handleShippingCountryChange = (event) => {
+    const select = event.target;
+    if (!(select instanceof HTMLSelectElement) || !select.matches('#ZsCartCountrySelect')) return;
+    const selected = select.value?.toUpperCase();
+    const original = (select.dataset.currentCountry || '').toUpperCase();
+    if (!selected || selected === original || !this.contains(select)) return;
+    const form = select.closest('form');
+    if (!(form instanceof HTMLFormElement)) return;
+    // Match the existing header localization workflow: Shopify sets the market
+    // from country_code and reloads the storefront in that market's currency.
+    form.submit();
+  };
 
   /**
    * Keep shipping progress accurate for the Shopify Market's presentment currency.
