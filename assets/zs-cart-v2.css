@@ -2122,3 +2122,133 @@
     flex-basis: 37px;
   }
 }
+
+/* ZAISEN compact cart-shipping refinement — destination + progress + estimate */
+#cart-drawer .zs-cart-shipping {
+  margin: 8px 14px 3px !important;
+  padding: 9px 11px !important;
+  border: 1px solid #e8ddd1 !important;
+  border-radius: 9px !important;
+  background: #fbf8f4 !important;
+  box-shadow: none !important;
+}
+#cart-drawer .zs-cart-shipping.is-qualified {
+  border-color: #dce9dc !important;
+  background: #f5faf4 !important;
+}
+#cart-drawer .zs-cart-shipping__country-row {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  gap: 7px !important;
+  margin: 0 0 7px !important;
+  min-height: 28px !important;
+}
+#cart-drawer .zs-cart-shipping__country-caption {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  color: #736052 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font: 600 10.5px/1.25 var(--font-body--family) !important;
+  white-space: nowrap !important;
+}
+#cart-drawer .zs-cart-shipping__country-form {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+#cart-drawer .zs-cart-shipping__country-select {
+  display: block !important;
+  appearance: auto !important;
+  flex: 0 1 172px !important;
+  width: 100% !important;
+  min-width: 95px !important;
+  max-width: 172px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 3px 7px !important;
+  border: 1px solid #ddd0c4 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: #4b3526 !important;
+  font: 600 11px/1.25 var(--font-body--family) !important;
+  box-shadow: none !important;
+}
+#cart-drawer .zs-cart-shipping__country-apply {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 3px 8px !important;
+  border: 1px solid #c9b4a3 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: #654632 !important;
+  font: 650 10.5px/1.25 var(--font-body--family) !important;
+  white-space: nowrap !important;
+}
+#cart-drawer .zs-cart-shipping__country-apply:hover,
+#cart-drawer .zs-cart-shipping__country-apply:focus-visible {
+  background: #684832 !important;
+  color: #fff !important;
+}
+#cart-drawer .zs-cart-shipping__message {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  color: #654833 !important;
+  font: 650 11.5px/1.28 var(--font-body--family) !important;
+  letter-spacing: 0 !important;
+}
+#cart-drawer .zs-cart-shipping.is-qualified .zs-cart-shipping__message { color: #2c6a45 !important; }
+#cart-drawer .zs-cart-shipping__check {
+  width: 15px !important;
+  height: 15px !important;
+  flex-basis: 15px !important;
+  font-size: 10px !important;
+}
+#cart-drawer .zs-cart-shipping__track {
+  margin: 6px 0 0 !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+}
+#cart-drawer .zs-cart-shipping__disclaimer {
+  display: block !important;
+  margin: 6px 0 0 !important;
+  padding: 0 !important;
+  color: #85776d !important;
+  font: 450 10px/1.25 var(--font-body--family) !important;
+  letter-spacing: 0 !important;
+}
+#cart-drawer .zs-cart-breakdown__row--shipping .zs-cart-breakdown__label {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  white-space: normal !important;
+  font-size: 11px !important;
+}
+#cart-drawer .zs-cart-breakdown__row--shipping [data-zs-shipping-status] {
+  flex: 0 0 auto !important;
+  font-size: 11px !important;
+  text-align: end !important;
+  white-space: nowrap !important;
+}
+@media (max-width: 360px) {
+  #cart-drawer .zs-cart-shipping { margin-inline: 8px !important; padding-inline: 8px !important; }
+  #cart-drawer .zs-cart-shipping__country-caption { font-size: 10px !important; }
+  #cart-drawer .zs-cart-shipping__country-row { gap: 5px !important; }
+  #cart-drawer .zs-cart-shipping__country-form { gap: 4px !important; }
+  #cart-drawer .zs-cart-shipping__country-select { min-width: 82px !important; font-size: 10px !important; }
+  #cart-drawer .zs-cart-shipping__country-apply { padding-inline: 6px !important; font-size: 10px !important; }
+}
