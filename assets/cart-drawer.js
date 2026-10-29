@@ -158,16 +158,18 @@ class CartDrawerComponent extends Component {
     if (!(message instanceof HTMLElement) || !(track instanceof HTMLElement) || !(fill instanceof HTMLElement)) return;
 
     const baseCurrency = (element.dataset.shopCurrency || '').toUpperCase();
-    const currency = (element.dataset.currency || baseCurrency).toUpperCase();
+    const market = window.ZaisenShippingCurrency;
+    const currency = (element.dataset.currency || market?.currency || baseCurrency).toUpperCase();
     const thresholdUsdCents = Number(element.dataset.thresholdUsdCents);
     const standardUsdCents = Number(element.dataset.standardShippingUsdCents);
     const subtotalCents = Number(element.dataset.cartTotalCents);
     const shopifyRate = Number(window.Shopify?.currency?.rate);
-    const rate = currency === 'USD' ? 1 : baseCurrency === 'USD' ? shopifyRate : NaN;
+    const rate = market?.available && market.currency === currency
+      ? market.rate : currency === 'USD' ? 1 : baseCurrency === 'USD' ? shopifyRate : NaN;
     const localeTag = element.dataset.locale || 'en';
     const locale = localeTag.split('-')[0].toLowerCase();
     const country = element.dataset.countryName || 'your country';
-    const usdMinimum = '$' + String(thresholdUsdCents / 100) + ' USD';
+    const minimumDisplay = market?.convert(thresholdUsdCents, 'minimum') || (currency === 'USD' ? '$' + String(thresholdUsdCents / 100) : null);
     const translations = {
       en: {
         reached: 'Free shipping unlocked',
@@ -206,7 +208,8 @@ class CartDrawerComponent extends Component {
     // Shopify configures these standard shipping prices in USD. They remain estimates
     // because promotions and local-currency rounding are settled at checkout.
     const standardPrice = Number.isFinite(standardUsdCents) && standardUsdCents > 0
-      ? '$' + (standardUsdCents / 100).toFixed(2) + ' USD'
+      ? (market?.convert(standardUsdCents, 'rate') ||
+        (currency === 'USD' ? '$' + (standardUsdCents / 100).toFixed(2) : null))
       : null;
     const standardStatus = standardPrice ? words.estimated + standardPrice : words.checkout;
     const changeNote = (copy) => {
@@ -225,7 +228,7 @@ class CartDrawerComponent extends Component {
     if (!canConvert) {
       track.hidden = true;
       element.classList.remove('is-qualified');
-      const copy = words.unknown(country, usdMinimum);
+      const copy = minimumDisplay ? words.unknown(country, minimumDisplay) : words.checkout;
       if (message.textContent.trim() !== copy) message.textContent = copy;
       changeStatus(false, standardStatus);
       changeNote(standardPrice ? words.note(standardPrice) : words.checkout);
@@ -238,7 +241,8 @@ class CartDrawerComponent extends Component {
     const completion = Math.min(100, Math.round((subtotalCents / targetCents) * 100));
     let remaining;
     try {
-      remaining = new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
+      remaining = market?.format(remainingCents / 100) ||
+        new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
     } catch {
       remaining = (remainingCents / 100).toFixed(2) + ' ' + currency;
     }
