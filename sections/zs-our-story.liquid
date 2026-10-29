@@ -181,10 +181,51 @@
         <div><b>THREE</b><h3>We arrange dispatch</h3><p>International delivery is arranged through our shipping partners, including Star Cargo International.</p></div>
         <div><b>FOUR</b><h3>You follow its journey</h3><p>We share a tracking number when available so you can follow the shipment until delivery.</p></div>
       </div>
+      {%- liquid
+        comment
+          Task 5: Our Story summary follows the Shopify-selected country.
+          Thresholds are in USD; shipping time is estimated after 1–2 days preparation.
+          Checkout remains authoritative for final rates.
+        endcomment
+        assign zs_story_country = localization.country.name | default: 'your destination'
+        assign zs_story_free_min = 0
+        assign zs_story_transit = ''
+        case localization.country.iso_code
+          when 'GB'
+            assign zs_story_free_min = 60
+            assign zs_story_transit = '4–5 DAYS'
+          when 'US'
+            assign zs_story_free_min = 60
+            assign zs_story_transit = '8–9 DAYS'
+          when 'DE'
+            assign zs_story_free_min = 60
+            assign zs_story_transit = '8–9 DAYS'
+          when 'FR'
+            assign zs_story_free_min = 60
+            assign zs_story_transit = '8–9 DAYS'
+          when 'AE'
+            assign zs_story_free_min = 60
+            assign zs_story_transit = '8–9 DAYS'
+          when 'CA'
+            assign zs_story_free_min = 100
+            assign zs_story_transit = '8–9 DAYS'
+          when 'AU'
+            assign zs_story_free_min = 100
+            assign zs_story_transit = '8–9 DAYS'
+        endcase
+      -%}
       <div class="zs-about__shipping-summary">
-        <div><strong>FREE</strong><span>Shipping to all 8 countries we currently serve</span></div>
-        <div><strong>1 DAY</strong><span>Usual order processing before dispatch</span></div>
-        <div><strong>TRACKED</strong><span>Tracking details shared when available</span></div>
+        {%- if zs_story_free_min > 0 -%}
+          <div><strong>&#36;{{ zs_story_free_min }}+</strong><span>Free shipping to {{ zs_story_country | escape }} on qualifying orders (USD)</span></div>
+        {%- else -%}
+          <div><strong>AT CHECKOUT</strong><span>Shipping availability and rates for {{ zs_story_country | escape }} are confirmed at checkout</span></div>
+        {%- endif -%}
+        <div><strong>1–2 DAYS</strong><span>Order preparation before dispatch</span></div>
+        {%- if zs_story_free_min > 0 -%}
+          <div><strong>{{ zs_story_transit }}</strong><span>Estimated shipping to {{ zs_story_country | escape }} after dispatch</span></div>
+        {%- else -%}
+          <div><strong>DELIVERY</strong><span>Available shipping times are confirmed at checkout</span></div>
+        {%- endif -%}
       </div>
       <div class="zs-about__country-wrap">
         <h3>Where we deliver</h3>
