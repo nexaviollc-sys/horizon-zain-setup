@@ -112,10 +112,10 @@
   {% endcapture %}
   {% capture zs_shipping_sub %}
     {% case zs_language %}
-      {% when 'de' %}Nach {{ zs_country_short | escape }} · ab Mindestwert
-      {% when 'fr' %}Vers {{ zs_country_short | escape }} · commande éligible
-      {% when 'ar' %}إلى {{ zs_country_short | escape }} · للطلبات المؤهلة
-      {% else %}To {{ zs_country_short | escape }} · eligible orders
+      {% when 'de' %}Nach {{ zs_country_short | escape }} · für alle Bestellungen
+      {% when 'fr' %}Vers {{ zs_country_short | escape }} · toutes commandes
+      {% when 'ar' %}إلى {{ zs_country_short | escape }} · على جميع الطلبات
+      {% else %}To {{ zs_country_short | escape }} · on all orders
     {% endcase %}
   {% endcapture %}
   {% capture zs_returns_short %}
@@ -128,10 +128,10 @@
   {% endcapture %}
   {% capture zs_returns_sub %}
     {% case zs_language %}
-      {% when 'de' %}Hilfe bei Schäden oder Fehlern
-      {% when 'fr' %}Aide si abîmé ou non conforme
-      {% when 'ar' %}استرداد للضرر أو عدم المطابقة
-      {% else %}Refunds if damaged or not as shown
+      {% when 'de' %}Einfache Rückerstattung
+      {% when 'fr' %}Remboursement facile
+      {% when 'ar' %}استرداد سهل
+      {% else %}Easy refunds
     {% endcase %}
   {% endcapture %}
   {% capture zs_craft_short %}
@@ -161,10 +161,10 @@
 
   {% capture zs_support_sub %}
     {% case zs_language %}
-      {% when 'de' %}Wir helfen dir gerne
-      {% when 'fr' %}Toujours là pour vous
-      {% when 'ar' %}نحن هنا لمساعدتك
-      {% else %}Questions? We're here to help
+      {% when 'de' %}Rund um die Uhr erreichbar
+      {% when 'fr' %}Disponible 24 h/24, 7 j/7
+      {% when 'ar' %}متاحون على مدار الساعة
+      {% else %}Available 24/7
     {% endcase %}
   {% endcapture %}
 
