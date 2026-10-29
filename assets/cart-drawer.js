@@ -155,102 +155,107 @@ class CartDrawerComponent extends Component {
     const fill = element.querySelector('[data-zs-shipping-fill]');
     const shippingRow = this.querySelector('[data-zs-shipping-summary]');
     const shippingStatus = shippingRow?.querySelector('[data-zs-shipping-status]');
-    if (!(message instanceof HTMLElement) || !(track instanceof HTMLElement) || !(fill instanceof HTMLElement)) {
-      return;
-    }
+    if (!(message instanceof HTMLElement) || !(track instanceof HTMLElement) || !(fill instanceof HTMLElement)) return;
 
     const baseCurrency = (element.dataset.shopCurrency || '').toUpperCase();
     const currency = (element.dataset.currency || baseCurrency).toUpperCase();
     const goalUsdCents = Number(element.dataset.thresholdUsdCents);
-    const subtotalCents = Number(element.dataset.cartTotalCents);
+    const totalCents = Number(element.dataset.cartTotalCents);
     const shopifyRate = Number(window.Shopify?.currency?.rate);
-    const rate = currency === 'USD' ? 1 : (baseCurrency === 'USD' ? shopifyRate : NaN);
-    const locale = (element.dataset.locale || 'en').split('-')[0].toLowerCase();
-    const hasBundleShipping = element.dataset.bundleShipping === 'true';
+    const rate = currency === 'USD' ? 1 : baseCurrency === 'USD' ? shopifyRate : NaN;
+    const localeTag = element.dataset.locale || 'en';
+    const locale = localeTag.split('-')[0].toLowerCase();
+    const country = element.dataset.countryName || 'your country';
+    const hasBundleOffer = element.dataset.bundleShipping === 'true';
+    const usdGoal = '$' + String(goalUsdCents / 100) + ' USD';
 
     const translations = {
       en: {
-        eligible: "You've unlocked FREE shipping!",
-        bundle: 'Your bundle unlocks FREE shipping!',
-        remaining: (amount) => `Add ${amount} more for FREE shipping`,
-        free: 'FREE',
-        notFree: 'Not free yet',
-        unknown: 'At checkout',
-        unknownProgress: 'Shipping confirmed at checkout',
+        reached: (name, goal) => 'Your discounted cart meets the ' + goal + ' free-shipping minimum for ' + name + '. Final shipping confirmed at checkout.',
+        remaining: (amount, goal, name) => 'Add ' + amount + ' more toward free shipping to ' + name + ' (' + goal + ' minimum). Checkout confirms rates.',
+        unknown: (goal, name) => 'Free shipping to ' + name + ' on orders ' + goal + '+. Rates and eligibility confirmed at checkout.',
+        bundle: 'Bundle offer applied. ',
+        met: 'Minimum reached',
+        notMet: 'Minimum not reached',
+        checkout: 'At checkout',
       },
       de: {
-        eligible: 'Kostenloser Versand freigeschaltet!',
-        bundle: 'Dein Bundle erhält kostenlosen Versand!',
-        remaining: (amount) => `Noch ${amount} bis zum kostenlosen Versand`,
-        free: 'KOSTENLOS',
-        notFree: 'Noch nicht kostenlos',
-        unknown: 'An der Kasse',
-        unknownProgress: 'Versand an der Kasse bestätigt',
+        reached: (name, goal) => 'Dein Warenkorb nach Rabatten erreicht den Mindestwert von ' + goal + ' für ' + name + '. Versand wird an der Kasse bestätigt.',
+        remaining: (amount, goal, name) => 'Noch ' + amount + ' bis zum Versand-Mindestwert für ' + name + ' (' + goal + '). Bestätigung an der Kasse.',
+        unknown: (goal, name) => 'Kostenloser Versand nach ' + name + ' ab ' + goal + '. Bestätigung an der Kasse.',
+        bundle: 'Bundle-Angebot angewendet. ',
+        met: 'Mindestwert erreicht',
+        notMet: 'Mindestwert nicht erreicht',
+        checkout: 'An der Kasse',
       },
       fr: {
-        eligible: 'Livraison gratuite débloquée !',
-        bundle: 'Livraison gratuite avec votre lot !',
-        remaining: (amount) => `Plus que ${amount} pour la livraison gratuite`,
-        free: 'GRATUITE',
-        notFree: 'Pas encore gratuite',
-        unknown: 'À la caisse',
-        unknownProgress: 'Livraison confirmée à la caisse',
+        reached: (name, goal) => 'Votre panier après remises atteint le seuil de ' + goal + ' pour ' + name + '. Livraison confirmée à la caisse.',
+        remaining: (amount, goal, name) => 'Encore ' + amount + ' pour atteindre le seuil vers ' + name + ' (' + goal + '). Vérification à la caisse.',
+        unknown: (goal, name) => 'Livraison gratuite vers ' + name + ' dès ' + goal + '. Confirmation à la caisse.',
+        bundle: 'Offre groupée appliquée. ',
+        met: 'Seuil atteint',
+        notMet: 'Seuil non atteint',
+        checkout: 'À la caisse',
       },
       ar: {
-        eligible: 'لقد حصلت على الشحن المجاني!',
-        bundle: 'طلبك المجمع مؤهل للشحن المجاني!',
-        remaining: (amount) => `أضف ${amount} للشحن المجاني`,
-        free: 'مجاني',
-        notFree: 'ليس مجانيًا بعد',
-        unknown: 'عند الدفع',
-        unknownProgress: 'يتم تأكيد الشحن عند الدفع',
+        reached: (name, goal) => 'قيمة السلة بعد الخصومات بلغت حد الشحن المجاني ' + goal + ' إلى ' + name + '. يتم تأكيد الشحن عند الدفع.',
+        remaining: (amount, goal, name) => 'أضف ' + amount + ' للوصول إلى حد الشحن المجاني إلى ' + name + ' (' + goal + '). يتم التأكيد عند الدفع.',
+        unknown: (goal, name) => 'الشحن المجاني إلى ' + name + ' للطلبات بقيمة ' + goal + ' أو أكثر. يتم تأكيد الأسعار عند الدفع.',
+        bundle: 'تم تطبيق عرض الحزمة. ',
+        met: 'تم بلوغ الحد',
+        notMet: 'لم يتم بلوغ الحد',
+        checkout: 'عند الدفع',
       },
     };
     const words = translations[locale] || translations.en;
 
-    const setStatus = (status, qualified) => {
+    const setStatus = (status, minimumMet) => {
       if (shippingStatus instanceof HTMLElement && shippingStatus.textContent.trim() !== status) {
         shippingStatus.textContent = status;
       }
-      shippingRow?.classList.toggle('is-free', qualified);
+      shippingRow?.classList.toggle('is-free', minimumMet);
     };
 
-    const canConvert = baseCurrency === 'USD' &&
+    // Use the discounted Shopify cart total. Never invent a converted threshold.
+    const canConvert = (currency === 'USD' || baseCurrency === 'USD') &&
       Number.isFinite(rate) && rate > 0 &&
       Number.isFinite(goalUsdCents) && goalUsdCents > 0 &&
-      Number.isFinite(subtotalCents) && subtotalCents >= 0;
+      Number.isFinite(totalCents) && totalCents >= 0;
 
-    if (!canConvert && !hasBundleShipping) {
+    if (!canConvert) {
       track.hidden = true;
       element.classList.remove('is-qualified');
-      if (message.textContent.trim() !== words.unknownProgress) message.textContent = words.unknownProgress;
-      setStatus(words.unknown, false);
+      const copy = words.unknown(usdGoal, country);
+      if (message.textContent.trim() !== copy) message.textContent = copy;
+      setStatus(words.checkout, false);
       return;
     }
 
-    const goalCents = canConvert ? Math.ceil(goalUsdCents * rate) : 0;
-    const isQualified = hasBundleShipping || (canConvert && subtotalCents >= goalCents);
-    const remainingCents = canConvert ? Math.max(0, goalCents - subtotalCents) : 0;
-    const completion = hasBundleShipping ? 100 : Math.min(100, Math.round((subtotalCents / goalCents) * 100));
+    const goalCents = Math.ceil(goalUsdCents * rate);
+    const minimumMet = totalCents >= goalCents;
+    const remainingCents = Math.max(0, goalCents - totalCents);
+    const completion = Math.min(100, Math.round((totalCents / goalCents) * 100));
 
     let formattedAmount;
     try {
-      formattedAmount = new Intl.NumberFormat(element.dataset.locale || 'en', {
-        style: 'currency',
-        currency,
-      }).format(remainingCents / 100);
+      formattedAmount = new Intl.NumberFormat(localeTag, { style: 'currency', currency }).format(remainingCents / 100);
     } catch {
-      formattedAmount = `${(remainingCents / 100).toFixed(2)} ${currency}`;
+      formattedAmount = (remainingCents / 100).toFixed(2) + ' ' + currency;
     }
 
-    const nextMessage = hasBundleShipping ? words.bundle :
-      isQualified ? words.eligible : words.remaining(formattedAmount);
-    if (message.textContent.trim() !== nextMessage) message.textContent = nextMessage;
-    element.classList.toggle('is-qualified', isQualified);
+    // Bundle product discounts remain untouched, but a bundle discount
+    // alone must not force a full progress bar or promise free delivery.
+    const prefix = hasBundleOffer && !minimumMet ? words.bundle : '';
+    const copy = prefix + (minimumMet
+      ? words.reached(country, usdGoal)
+      : words.remaining(formattedAmount, usdGoal, country));
+    if (message.textContent.trim() !== copy) message.textContent = copy;
+    element.classList.toggle('is-qualified', minimumMet);
     track.hidden = false;
+    track.setAttribute('aria-label', 'Progress toward free-shipping minimum for ' + country);
     track.setAttribute('aria-valuenow', String(completion));
-    fill.style.width = `${completion}%`;
-    setStatus(isQualified ? words.free : words.notFree, isQualified);
+    fill.style.width = String(completion) + '%';
+    setStatus(minimumMet ? words.met : words.notMet, minimumMet);
   };
 
   /**
