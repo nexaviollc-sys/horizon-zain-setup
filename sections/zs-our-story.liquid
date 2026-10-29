@@ -216,7 +216,7 @@
       -%}
       <div class="zs-about__shipping-summary">
         {%- if zs_story_free_min > 0 -%}
-          <div><strong>&#36;{{ zs_story_free_min }}+</strong><span>Free shipping to {{ zs_story_country | escape }} on qualifying orders (USD)</span></div>
+          <div><strong data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}AT CHECKOUT{% endif %}</strong><span>Free shipping to {{ zs_story_country | escape }} on orders meeting the market minimum</span></div>
         {%- else -%}
           <div><strong>AT CHECKOUT</strong><span>Shipping availability and rates for {{ zs_story_country | escape }} are confirmed at checkout</span></div>
         {%- endif -%}
@@ -363,7 +363,16 @@
         <details><summary>Are ZAISEN products really handmade?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Yes. Our wooden products are created through hands-on craftsmanship at our workshop in Pakistan. Our team shapes, details, finishes and prepares the pieces we offer. We do not purchase finished wooden décor from local wholesale warehouses and simply resell it under the ZAISEN name.</div></details>
         <details><summary>Where are ZAISEN wooden products made?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our working workshop is in the Saddar area near Islamabad, Pakistan. This is where our wooden products are crafted. Our administrative and legal business address is separate from our production location and is listed in our <a href="{{ routes.root_url }}policies/legal-notice">Legal Notice</a>.</div></details>
         <details><summary>Are your product photographs real or AI-generated?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Our listings represent the actual wooden product designs we sell. Some images may be digitally polished or styled using AI-assisted editing to create consistent backgrounds and presentation. We aim to represent each design accurately, but natural wood grain, color and small handmade details can vary from piece to piece. Check each listing for dimensions and materials.</div></details>
-        <details><summary>When is free international shipping available, and how long does delivery take?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>{{ zs_story_shipping_faq_answer | strip | escape }} <a href="{{ routes.root_url }}policies/shipping-policy">Read our Shipping Policy</a>.</div></details>
+        <details><summary>When is free international shipping available, and how long does delivery take?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>
+        {% if zs_story_free_min > 0 %}
+          ZAISEN orders to {{ zs_story_country | escape }} are prepared in 1–2 days before dispatch. Shipping after dispatch is estimated at {{ zs_story_transit | downcase }}. Free shipping starts from
+          <span data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local market minimum">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}the local market minimum{% endif %}</span>
+          for qualifying orders. Lower-value orders may incur shipping charges, and checkout confirms rates.
+        {% else %}
+          Shipping availability and charges for {{ zs_story_country | escape }} are confirmed at checkout.
+        {% endif %}
+        <a href="{{ routes.root_url }}policies/shipping-policy">Read our Shipping Policy</a>.
+      </div></details>
         <details><summary>Which shipping company delivers ZAISEN orders?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We arrange international shipments through Star Cargo International and relevant delivery partners. Once tracking information becomes available after dispatch, we provide it so you can follow your order's journey.</div></details>
         <details><summary>What if my product arrives damaged or doesn't match its description?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>Contact us within 14 days of delivery if your product arrives damaged, defective, incorrect or materially different from its description. Send your order number, a description of the problem and clear photographs or video. We review eligible cases under our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. A suitable outcome may include a repair, replacement, partial refund or full refund, depending on the circumstances. Natural wood variations are not automatically defects.</div></details>
         <details><summary>Can I return an order simply because I changed my mind?<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>We do not offer discretionary change-of-mind returns unless applicable law requires otherwise. The 14-day period for reporting genuine product issues begins when your order arrives. You can read the eligibility details in our <a href="{{ routes.root_url }}policies/refund-policy">Refund Policy</a>. Your mandatory consumer rights remain unaffected.</div></details>
