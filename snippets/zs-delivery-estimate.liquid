@@ -4,9 +4,23 @@
 {% liquid
   assign zs_country = localization.country.iso_code | upcase
   assign zs_supported = false
+  assign zs_shipping_threshold_usd = 0
+  assign zs_country_short = localization.country.name
   case zs_country
-    when 'GB', 'US', 'DE', 'FR', 'CA', 'AU', 'AE', 'SA'
+    when 'GB', 'US', 'DE', 'FR', 'AE'
       assign zs_supported = true
+      assign zs_shipping_threshold_usd = 60
+    when 'CA', 'AU'
+      assign zs_supported = true
+      assign zs_shipping_threshold_usd = 100
+  endcase
+  case zs_country
+    when 'GB'
+      assign zs_country_short = 'UK'
+    when 'US'
+      assign zs_country_short = 'USA'
+    when 'AE'
+      assign zs_country_short = 'UAE'
   endcase
   assign zs_language = request.locale.iso_code | slice: 0, 2
 %}
@@ -45,10 +59,10 @@
   {% endcapture %}
   {% capture zs_shipping_country %}
     {% case zs_language %}
-      {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }}
-      {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }}
-      {% when 'ar' %}شحن مجاني إلى {{ localization.country.name | escape }}
-      {% else %}Free shipping to {{ localization.country.name | escape }}
+      {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} ab &#36;{{ zs_shipping_threshold_usd }} USD. Endgültige Versandkosten an der Kasse.
+      {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }} dès &#36;{{ zs_shipping_threshold_usd }} USD. Frais définitifs à la caisse.
+      {% when 'ar' %}الشحن المجاني إلى {{ localization.country.name | escape }} للطلبات المؤهلة من &#36;{{ zs_shipping_threshold_usd }} دولار أمريكي. يتم تأكيد الشحن عند الدفع.
+      {% else %}Free shipping to {{ localization.country.name | escape }} on eligible orders of &#36;{{ zs_shipping_threshold_usd }} USD or more. Final shipping confirmed at checkout.
     {% endcase %}
   {% endcapture %}
   {% capture zs_support %}
@@ -90,10 +104,18 @@
   {% endcomment %}
   {% capture zs_free_shipping_short %}
     {% case zs_language %}
-      {% when 'de' %}Gratis Versand
-      {% when 'fr' %}Livraison gratuite
-      {% when 'ar' %}شحن مجاني
-      {% else %}Free Shipping
+      {% when 'de' %}Gratis ab &#36;{{ zs_shipping_threshold_usd }}
+      {% when 'fr' %}Livraison dès &#36;{{ zs_shipping_threshold_usd }}
+      {% when 'ar' %}شحن مجاني من &#36;{{ zs_shipping_threshold_usd }}
+      {% else %}Free Shipping &#36;{{ zs_shipping_threshold_usd }}+
+    {% endcase %}
+  {% endcapture %}
+  {% capture zs_shipping_sub %}
+    {% case zs_language %}
+      {% when 'de' %}Nach {{ zs_country_short | escape }} · ab Mindestwert
+      {% when 'fr' %}Vers {{ zs_country_short | escape }} · commande éligible
+      {% when 'ar' %}إلى {{ zs_country_short | escape }} · للطلبات المؤهلة
+      {% else %}To {{ zs_country_short | escape }} · eligible orders
     {% endcase %}
   {% endcapture %}
   {% capture zs_returns_short %}
@@ -104,6 +126,14 @@
       {% else %}14-Day Returns
     {% endcase %}
   {% endcapture %}
+  {% capture zs_returns_sub %}
+    {% case zs_language %}
+      {% when 'de' %}Hilfe bei Schäden oder Fehlern
+      {% when 'fr' %}Aide si abîmé ou non conforme
+      {% when 'ar' %}استرداد للضرر أو عدم المطابقة
+      {% else %}Refunds if damaged or not as shown
+    {% endcase %}
+  {% endcapture %}
   {% capture zs_craft_short %}
     {% case zs_language %}
       {% when 'de' %}Handarbeit aus Holz
@@ -112,12 +142,29 @@
       {% else %}Handcrafted Wood
     {% endcase %}
   {% endcapture %}
+  {% capture zs_craft_sub %}
+    {% case zs_language %}
+      {% when 'de' %}Echtes Holz, mit Sorgfalt gefertigt
+      {% when 'fr' %}Bois véritable, fait avec soin
+      {% when 'ar' %}خشب حقيقي صُنع بعناية
+      {% else %}Real wood, crafted with care
+    {% endcase %}
+  {% endcapture %}
   {% capture zs_support_short %}
     {% case zs_language %}
       {% when 'de' %}Kundenservice
       {% when 'fr' %}Service client
       {% when 'ar' %}دعم العملاء
       {% else %}Customer Support
+    {% endcase %}
+  {% endcapture %}
+
+  {% capture zs_support_sub %}
+    {% case zs_language %}
+      {% when 'de' %}Wir helfen dir gerne
+      {% when 'fr' %}Toujours là pour vous
+      {% when 'ar' %}نحن هنا لمساعدتك
+      {% else %}Questions? We're here to help
     {% endcase %}
   {% endcapture %}
 
@@ -137,6 +184,7 @@
         </span>
         <span class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_free_shipping_short | strip }}</span>
+          <span class="zs-product-benefits__subtitle">{{ zs_shipping_sub | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_shipping_country | strip }}</span>
         </span>
       </div>
@@ -149,6 +197,7 @@
         </span>
         <span class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_returns_short | strip }}</span>
+          <span class="zs-product-benefits__subtitle">{{ zs_returns_sub | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_refunds | strip }}. {{ zs_refunds_detail | strip }}</span>
         </span>
       </div>
@@ -161,6 +210,7 @@
         </span>
         <span class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_craft_short | strip }}</span>
+          <span class="zs-product-benefits__subtitle">{{ zs_craft_sub | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_craft | strip }}. {{ zs_craft_detail | strip }}</span>
         </span>
       </div>
@@ -173,6 +223,7 @@
         </span>
         <span class="zs-product-benefits__copy">
           <span class="zs-product-benefits__title">{{ zs_support_short | strip }}</span>
+          <span class="zs-product-benefits__subtitle">{{ zs_support_sub | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_support | strip }}. {{ zs_support_prompt | strip }} {{ zs_support_link | strip }}</span>
         </span>
       </a>
@@ -238,10 +289,10 @@
       min-width: 0;
       width: 100%;
       height: auto !important;
-      min-height: 35px !important;
+      min-height: 44px !important;
       max-height: none !important;
       margin: 0 !important;
-      padding: 6px 8px !important;
+      padding: 5px 8px !important;
       border: 1px solid #e8dcd0 !important;
       border-radius: 7px !important;
       background: #f8f3ed !important;
@@ -273,7 +324,7 @@
       flex-direction: column !important;
       align-items: flex-start !important;
       justify-content: center !important;
-      gap: 1px !important;
+      gap: 2px !important;
       min-width: 0;
       width: auto !important;
       height: auto !important;
@@ -285,10 +336,23 @@
       display: block;
       margin: 0;
       color: #443126 !important;
-      font-size: 11.5px !important;
+      font-size: 11px !important;
       font-weight: 700 !important;
       line-height: 1.2 !important;
       letter-spacing: 0;
+      overflow-wrap: break-word;
+    }
+    .product-information .zs-product-benefits__subtitle {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      color: #806d5d !important;
+      font-size: 9.2px !important;
+      font-weight: 500 !important;
+      line-height: 1.15 !important;
+      letter-spacing: 0;
+      white-space: normal;
       overflow-wrap: break-word;
     }
     .product-information .zs-product-benefits__sr-only {
@@ -315,8 +379,8 @@
       .product-information .zs-product-benefits__grid { gap: 5px !important; }
       .product-information .zs-product-benefits__item {
         gap: 6px !important;
-        padding: 6px !important;
-        min-height: 34px !important;
+        padding: 5px 6px !important;
+        min-height: 43px !important;
       }
       .product-information .zs-product-benefits__icon-frame {
         flex-basis: 21px !important;
@@ -324,7 +388,8 @@
         height: 21px !important;
       }
       .product-information .zs-product-benefits__icon { width: 14px !important; height: 14px !important; }
-      .product-information .zs-product-benefits__title { font-size: 10.75px !important; }
+      .product-information .zs-product-benefits__title { font-size: 10.3px !important; }
+      .product-information .zs-product-benefits__subtitle { font-size: 8.8px !important; line-height: 1.14 !important; }
     }
     @media (max-width: 340px) {
       .product-information .zs-product-benefits__grid {
