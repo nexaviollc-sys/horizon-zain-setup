@@ -34,13 +34,7 @@
       assign zs_marquee_country = 'AUSTRALIA'
   endcase
   if zs_marquee_minimum > 0
-    capture zs_marquee_shipping_message
-      echo 'FREE SHIPPING TO '
-      echo zs_marquee_country
-      echo ' ON ORDERS $'
-      echo zs_marquee_minimum
-      echo '+'
-    endcapture
+    assign zs_marquee_shipping_message = blank
   else
     assign zs_marquee_shipping_message = s.message_1 | default: 'SHIPPING DETAILS AT CHECKOUT'
   endif
@@ -51,7 +45,13 @@
     <div class="zsm__track">
       {% for repeat in (1..4) %}
         <div class="zsm__group"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
-          {% if zs_marquee_shipping_message != blank %}<span class="zsm__message">{{ zs_marquee_shipping_message | strip | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
+          {% if zs_marquee_minimum > 0 %}
+            <span class="zsm__message">FREE SHIPPING TO {{ zs_marquee_country | escape }} ON ORDERS
+              <span data-zs-usd-amount-cents="{{ zs_marquee_minimum | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_marquee_minimum }}+{% else %}LOCAL MINIMUM{% endif %}</span>
+            </span><span class="zsm__separator" aria-hidden="true">✦</span>
+          {% elsif zs_marquee_shipping_message != blank %}
+            <span class="zsm__message">{{ zs_marquee_shipping_message | strip | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>
+          {% endif %>
           {% if s.message_2 != blank %}<span class="zsm__message">{{ s.message_2 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_3 != blank %}<span class="zsm__message">{{ s.message_3 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
           {% if s.message_4 != blank %}<span class="zsm__message">{{ s.message_4 | escape }}</span><span class="zsm__separator" aria-hidden="true">✦</span>{% endif %}
