@@ -59,10 +59,10 @@
   {% endcapture %}
   {% capture zs_shipping_country %}
     {% case zs_language %}
-      {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} ab &#36;{{ zs_shipping_threshold_usd }} USD. Endgültige Versandkosten an der Kasse.
-      {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }} dès &#36;{{ zs_shipping_threshold_usd }} USD. Frais définitifs à la caisse.
-      {% when 'ar' %}الشحن المجاني إلى {{ localization.country.name | escape }} للطلبات المؤهلة من &#36;{{ zs_shipping_threshold_usd }} دولار أمريكي. يتم تأكيد الشحن عند الدفع.
-      {% else %}Free shipping to {{ localization.country.name | escape }} on eligible orders of &#36;{{ zs_shipping_threshold_usd }} USD or more. Final shipping confirmed at checkout.
+      {% when 'de' %}Kostenloser Versand nach {{ localization.country.name | escape }} ab dem landesspezifischen Mindestwert. Endgültige Versandkosten an der Kasse.
+      {% when 'fr' %}Livraison gratuite vers {{ localization.country.name | escape }} dès le seuil de votre marché. Frais définitifs à la caisse.
+      {% when 'ar' %}الشحن المجاني إلى {{ localization.country.name | escape }} للطلبات التي تتجاوز الحد الأدنى المحلي. يتم تأكيد الشحن عند الدفع.
+      {% else %}Free shipping to {{ localization.country.name | escape }} when your order meets the local market minimum. Final shipping confirmed at checkout.
     {% endcase %}
   {% endcapture %}
   {% capture zs_support %}
@@ -104,10 +104,10 @@
   {% endcomment %}
   {% capture zs_free_shipping_short %}
     {% case zs_language %}
-      {% when 'de' %}Gratis ab &#36;{{ zs_shipping_threshold_usd }}
-      {% when 'fr' %}Livraison dès &#36;{{ zs_shipping_threshold_usd }}
-      {% when 'ar' %}شحن مجاني من &#36;{{ zs_shipping_threshold_usd }}
-      {% else %}Free Shipping &#36;{{ zs_shipping_threshold_usd }}+
+      {% when 'de' %}Gratis Versand
+      {% when 'fr' %}Livraison gratuite
+      {% when 'ar' %}شحن مجاني
+      {% else %}Free Shipping
     {% endcase %}
   {% endcapture %}
   {% capture zs_shipping_sub %}
@@ -183,7 +183,7 @@
           </svg>
         </span>
         <span class="zs-product-benefits__copy">
-          <span class="zs-product-benefits__title">{{ zs_free_shipping_short | strip }}</span>
+          <span class="zs-product-benefits__title">{{ zs_free_shipping_short | strip }} <span class="zs-product-benefits__market-amount" data-zs-usd-amount-cents="{{ zs_shipping_threshold_usd | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback=" ">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_shipping_threshold_usd }}+{% endif %}</span></span>
           <span class="zs-product-benefits__subtitle">{{ zs_shipping_sub | strip }}</span>
           <span class="zs-product-benefits__sr-only">{{ zs_shipping_country | strip }}</span>
         </span>
@@ -341,6 +341,10 @@
       line-height: 1.2 !important;
       letter-spacing: 0;
       overflow-wrap: break-word;
+    }
+    .product-information .zs-product-benefits__market-amount {
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
     .product-information .zs-product-benefits__subtitle {
       display: block;
