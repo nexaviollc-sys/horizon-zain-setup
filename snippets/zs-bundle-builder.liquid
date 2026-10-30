@@ -74,7 +74,7 @@
   <zs-bundle-builder
     class="zs-bundle"
     data-product-id="{{ product.id }}"
-    data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
+    data-currency="{{ localization.country.currency.iso_code | default: shop.currency | escape }}"
     data-locale="{{ request.locale.iso_code | escape }}"
     data-country="{{ zs_country }}"
     data-free-shipping="{{ zs_bundle_shipping_supported }}"
