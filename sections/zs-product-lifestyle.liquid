@@ -319,6 +319,47 @@
     .zs-lifestyle-section__signature-note { font-size:11px; color:#6c5d4e; }
   }
 
+
+  @media screen and (min-width: 750px) {
+    .zs-lifestyle-section { padding-block:clamp(42px,5vw,72px); }
+    .zs-lifestyle-section__overline { margin-bottom:22px; padding-inline:6px; }
+    .zs-lifestyle-section__stage {
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:0; padding:14px; border-radius:32px;
+      background:#f5f0e9;
+    }
+    .zs-lifestyle-section__media { position:relative; }
+    .zs-lifestyle-section__image-frame { border-radius:22px; background:#fff; }
+    .zs-lifestyle-section__image-note {
+      position:absolute; left:18px; bottom:18px; z-index:1;
+      width:fit-content; max-width:calc(100% - 36px); margin:0;
+      padding:10px 14px; border-radius:100px;
+      background:rgba(255,255,255,.93); color:#604b37;
+      font-size:9px; letter-spacing:.055em;
+    }
+    .zs-lifestyle-section__content { padding:clamp(24px,3.5vw,56px); }
+    .zs-lifestyle-section__kicker {
+      background:#e7dccd; padding:9px 13px;
+      margin-bottom:22px; color:#60462f; font-weight:600;
+    }
+    .zs-lifestyle-section__title {
+      max-width:19ch; color:#31271e;
+      font:650 clamp(29px,3.4vw,52px)/1.09 var(--font-body--family),sans-serif;
+      letter-spacing:-.045em; text-wrap:balance;
+    }
+    .zs-lifestyle-section__description {
+      margin-top:22px; max-width:40ch; color:#685f55;
+      font-size:clamp(14px,1.15vw,16px); line-height:1.75;
+    }
+    .zs-lifestyle-section__signature {
+      width:fit-content; max-width:100%; margin-top:28px;
+      padding:13px 18px 13px 13px; gap:11px;
+      border-radius:16px; background:rgba(255,255,255,.72);
+    }
+    .zs-lifestyle-section__signature-name { font-size:10px; letter-spacing:.08em; }
+    .zs-lifestyle-section__signature-note { color:#6c5d4e; font-size:11px; }
+  }
+
 {% endstylesheet %}
 
 {% schema %}
