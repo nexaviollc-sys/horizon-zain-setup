@@ -164,7 +164,7 @@
                         {% else %}Subtotal
                       {% endcase %}
                     </span>
-                    <strong>{{ cart.original_total_price | money }}</strong>
+                    <strong>{% render 'format-price', price: cart.original_total_price, type: 'market_cart' %}</strong>
                   </div>
                   <div class="zs-cart-breakdown__row zs-cart-breakdown__row--shipping{% if zs_free_shipping %} is-free{% endif %}" data-zs-shipping-summary>
                     <span class="zs-cart-breakdown__label">
@@ -209,7 +209,7 @@
                         {% else %}Savings
                       {% endcase %}
                     </span>
-                    <strong>{% if zs_cart_savings > 0 %}-{% endif %}{{ zs_cart_savings | money }}</strong>
+                    <strong>{% if zs_cart_savings > 0 %}-{% endif %}{% render 'format-price', price: zs_cart_savings, type: 'market_cart' %}</strong>
                   </div>
                 </div>
                 {% render 'cart-summary', section_id: 'cart-drawer-section' %}
