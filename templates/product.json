@@ -338,7 +338,6 @@
       }
     },
     "zs_lifestyle_story": {
-
       "type": "zs-product-lifestyle",
       "settings": {
         "eyebrow": "STYLED IN REAL SPACES",
@@ -486,11 +485,53 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "zs_workshop_journey": {
+      "type": "zs-workshop-journey",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "wood",
+            "heading": "Selected with care",
+            "description": "We choose wood for its natural grain and individual character."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "craft",
+            "heading": "Shaped by hand",
+            "description": "Our makers carve, sand, and refine the details, bringing each wooden piece to life."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "package",
+            "heading": "Ready for your home",
+            "description": "Each piece is finished, checked, and carefully packed for its journey to you."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "eyebrow": "THE CARE BEHIND EVERY PIECE",
+        "heading": "From Our Workshop to Your Home",
+        "intro": "Natural wood, thoughtful handwork, and care in every detail. A closer look at the journey behind your ZAISEN piece.",
+        "link": "/pages/our-story",
+        "link_label": "Discover our story"
+      }
     }
   },
   "order": [
     "main",
     "zs_lifestyle_story",
+    "zs_workshop_journey",
     "product_recommendations_qggXJq"
   ]
 }

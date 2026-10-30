@@ -1,0 +1,112 @@
+<section class="zs-workshop" aria-labelledby="zs-workshop-title-{{ section.id }}">
+  <div class="zs-workshop__inner">
+    <header class="zs-workshop__header">
+      <div>
+        <p class="zs-workshop__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <h2 id="zs-workshop-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+      <p class="zs-workshop__intro">{{ section.settings.intro | escape }}</p>
+    </header>
+    <ol class="zs-workshop__steps">
+      {% for block in section.blocks %}
+        <li class="zs-workshop__step" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <div class="zs-workshop__photo">
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300,450,600,900', sizes: '(min-width: 750px) 30vw, 90vw', alt: block.settings.heading }}
+            </div>
+          {% else %}
+            <div class="zs-workshop__illustration" aria-hidden="true">
+              <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                {% case block.settings.icon %}
+                  {% when 'wood' %}
+                    <path d="M24 57 76 23l22 15-52 34Z M24 57V42l52-34 22 15v15 M46 72V57l52-34 M24 42l22 15"/>
+                    <path d="m36 41 36-23m-24 29 37-24m-29 29 36-24m-36 34 32-21"/>
+                    <ellipse cx="62" cy="34" rx="9" ry="3" transform="rotate(-33 62 34)"/>
+                  {% when 'craft' %}
+                    <path d="M22 61h75M30 57c4-19 20-27 37-24 14 3 23 11 27 24H30Z M35 62v8h53v-8"/>
+                    <path d="m61 29 18-18 9 9-18 18m3-21 9 9M52 40c13-2 23 2 29 10M44 48c6-3 12-3 19-1"/>
+                    <path d="m48 23 2-7m-12 13-7-2m13 7-5 5"/>
+                  {% else %}
+                    <path d="m26 31 34-15 34 15-34 16Z M26 31v32l34 15 34-15V31 M60 47v31 M43 23l34 16v16l-9-4V43"/>
+                    <path d="m37 59 12 5m-12 0 7 3 M84 13l4 4 8-9"/>
+                {% endcase %}
+              </svg>
+            </div>
+          {% endif %}
+          <div class="zs-workshop__step-copy">
+            <span class="zs-workshop__number" aria-hidden="true">0{{ forloop.index }}</span>
+            <div>
+              <h3>{{ block.settings.heading | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+    {% if section.settings.link != blank %}
+      <a class="zs-workshop__link" href="{{ section.settings.link }}">{{ section.settings.link_label | escape }} <span aria-hidden="true">↗</span></a>
+    {% endif %}
+  </div>
+</section>
+{% stylesheet %}
+  .zs-workshop { padding: 10px clamp(20px,4vw,64px) clamp(44px,5vw,72px); background:#fff; color:#30291f; }
+  .zs-workshop *, .zs-workshop *::before { box-sizing:border-box; }
+  .zs-workshop__inner { max-width:1280px; margin-inline:auto; border-top:1px solid #e7e1da; padding-top:clamp(30px,4vw,52px); }
+  .zs-workshop__header { display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:end; margin-bottom:30px; }
+  .zs-workshop__eyebrow { margin:0 0 14px; font:500 9px/1.5 var(--font-body--family),sans-serif; letter-spacing:.17em; color:#7c6249; }
+  .zs-workshop h2 { max-width:23ch; margin:0; font:400 clamp(29px,3vw,44px)/1.15 var(--font-heading--family),Georgia,serif; letter-spacing:-.03em; text-wrap:balance; }
+  .zs-workshop__intro { max-width:43ch; margin:0 0 3px; justify-self:end; font:400 14px/1.8 var(--font-body--family),sans-serif; color:#71695f; }
+  .zs-workshop__steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,3vw,40px); list-style:none; padding:0; margin:0; }
+  .zs-workshop__step { min-width:0; }
+  .zs-workshop__illustration { display:grid; place-items:center; height:132px; background:#faf8f5; color:#927252; border-radius:4px; margin-bottom:22px; }
+  .zs-workshop__illustration svg { width:116px; height:82px; }
+  .zs-workshop__photo { aspect-ratio:4/3; overflow:hidden; border-radius:4px; margin-bottom:22px; }
+  .zs-workshop__photo img { display:block; width:100%; height:100%; object-fit:cover; }
+  .zs-workshop__step-copy { display:flex; align-items:baseline; gap:14px; }
+  .zs-workshop__number { flex-shrink:0; color:#927252; font:400 12px/1.5 var(--font-body--family),sans-serif; }
+  .zs-workshop h3 { margin:0 0 10px; font:400 clamp(21px,2vw,26px)/1.2 var(--font-heading--family),Georgia,serif; letter-spacing:-.015em; }
+  .zs-workshop__step p { margin:0; max-width:34ch; color:#71695f; font:400 13px/1.8 var(--font-body--family),sans-serif; }
+  .zs-workshop__link { display:inline-flex; align-items:center; gap:18px; margin-top:30px; padding:8px 0; color:#604b38; font:500 12px/1.5 var(--font-body--family),sans-serif; text-decoration:underline; text-underline-offset:5px; }
+  .zs-workshop__link:focus-visible { outline:2px solid #927252; outline-offset:5px; }
+  @media(max-width:749px) {
+    .zs-workshop { padding-top:0; padding-bottom:40px; }
+    .zs-workshop__header { grid-template-columns:1fr; gap:16px; margin-bottom:24px; }
+    .zs-workshop__intro { justify-self:start; font-size:13px; }
+    .zs-workshop__steps { grid-template-columns:minmax(0,1fr); gap:24px; }
+    .zs-workshop__step { display:grid; grid-template-columns:84px minmax(0,1fr); gap:16px; align-items:start; }
+    .zs-workshop__illustration { height:84px; margin:0; }
+    .zs-workshop__illustration svg { width:76px; height:60px; }
+    .zs-workshop__photo { aspect-ratio:1; margin:0; }
+    .zs-workshop__step-copy { gap:9px; }
+    .zs-workshop__number { font-size:10px; }
+    .zs-workshop h3 { font-size:22px; margin-bottom:8px; }
+    .zs-workshop__step p { font-size:12px; line-height:1.75; }
+    .zs-workshop__link { margin-top:22px; }
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name":"ZAISEN Workshop Journey",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Small heading","default":"THE CARE BEHIND EVERY PIECE"},
+    {"type":"text","id":"heading","label":"Heading","default":"From Our Workshop to Your Home"},
+    {"type":"text","id":"intro","label":"Introduction","default":"Natural wood, thoughtful handwork, and care in every detail. A closer look at the journey behind your ZAISEN piece."},
+    {"type":"url","id":"link","label":"Story link","default":"/pages/our-story"},
+    {"type":"text","id":"link_label","label":"Link label","default":"Discover our story"}
+  ],
+  "max_blocks":3,
+  "blocks":[{
+    "type":"step","name":"Craft step","settings":[
+      {"type":"image_picker","id":"image","label":"Workshop photo"},
+      {"type":"select","id":"icon","label":"Illustration","options":[{"value":"wood","label":"Wood"},{"value":"craft","label":"Craftsmanship"},{"value":"package","label":"Packaging"}],"default":"wood"},
+      {"type":"text","id":"heading","label":"Heading","default":"Selected with care"},
+      {"type":"textarea","id":"description","label":"Description","default":"We choose wood for its natural grain and individual character."}
+    ]
+  }],
+  "presets":[{"name":"ZAISEN Workshop Journey","blocks":[
+    {"type":"step","settings":{"icon":"wood","heading":"Selected with care","description":"We choose wood for its natural grain and individual character."}},
+    {"type":"step","settings":{"icon":"craft","heading":"Shaped by hand","description":"Our makers carve, sand, and refine the details, bringing each wooden piece to life."}},
+    {"type":"step","settings":{"icon":"package","heading":"Ready for your home","description":"Each piece is finished, checked, and carefully packed for its journey to you."}}
+  ]}]
+}
+{% endschema %}
