@@ -374,24 +374,33 @@
     font-size:18px;
   }
   .zf-hero a:focus-visible{outline:2px solid var(--zf-gold);outline-offset:4px}
-  /* Header remains overlay-transparent on home, but all its foreground elements
-     are walnut for a white/empty banner. The original native sticky behavior stays. */
+  /* Transparent at the very top; opaque immediately on scroll.
+     Do not rely solely on the native sticky IntersectionObserver state:
+     its active transition can lag behind scrolling and leave the hero
+     headline visible behind the navigation. header.js sets zsScrolled
+     using the theme's actual scroll container and resets it at scroll 0. */
   body:has(.zf-hero) #header-group {background:transparent!important}
   body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement){display:none!important}
   body:has(.zf-hero) #header-group .zs-announcement{display:none!important}
-  body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__underlay-closed {
+  body:has(.zf-hero) #header-component:not([data-zs-scrolled='true']) {
+    --closed-underlay-height:0px;
+  }
+  body:has(.zf-hero) #header-component:not([data-zs-scrolled='true']) .header__underlay-closed {
     background:transparent!important;
     box-shadow:none!important;
   }
-  body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__row {
+  body:has(.zf-hero) #header-component:not([data-zs-scrolled='true']) .header__row {
     background:transparent!important;
     border-color:transparent!important;
   }
-  body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__underlay-closed {
+  body:has(.zf-hero) #header-component[data-zs-scrolled='true'] {
+    --closed-underlay-height:100%;
+  }
+  body:has(.zf-hero) #header-component[data-zs-scrolled='true'] .header__underlay-closed {
     background:#FFFFFF!important;
     box-shadow:0 8px 24px rgba(43,29,23,.08)!important;
   }
-  body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__row{background:#FFFFFF!important}
+  body:has(.zf-hero) #header-component[data-zs-scrolled='true'] .header__row{background:#FFFFFF!important}
   body:has(.zf-hero) #header-component .zf-header-ctas__outline {
     color:#2B1D17!important;
     border-color:#2B1D17!important;
