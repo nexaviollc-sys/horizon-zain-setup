@@ -26,15 +26,23 @@
       this.progress = this.querySelector('[data-zs-progress]');
       this.progressFill = this.querySelector('[data-zs-progress-fill]');
       this.processing = false;
-      this.currency = (this.dataset.currency || 'USD').toUpperCase();
-
+      this.currency = (this.dataset.currency || window.Shopify?.currency?.active || 'USD').toUpperCase();
+      // Display labels only: variant cents are already converted by Shopify Markets.
+      const prefixes = { USD: 'US$', CAD: 'CAD$', AUD: 'AUD$', EUR: '€', GBP: '£', AED: 'AED ' };
+      this.currencyPrefix = prefixes[this.currency] || this.currency + ' ';
+      this.isCurrencySymbol = this.currency === 'EUR' || this.currency === 'GBP';
       try {
         this.format = new Intl.NumberFormat(this.dataset.locale || 'en-US', {
-          style: 'currency', currency: this.currency,
-          minimumFractionDigits: 2, maximumFractionDigits: 2
+          style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2
+        });
+        this.wholeFormat = new Intl.NumberFormat(this.dataset.locale || 'en-US', {
+          style: 'decimal', maximumFractionDigits: 0
         });
       } catch (_) {
-        this.format = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
+        this.format = new Intl.NumberFormat('en-US', {
+          minimumFractionDigits: 2, maximumFractionDigits: 2
+        });
+        this.wholeFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
       }
 
       this.onLocalChange = event => {
@@ -90,7 +98,27 @@
       document.removeEventListener('submit', this.onSubmitCapture, true);
       document.removeEventListener('click', this.onClickCapture, true);
     }
-    money(cents) { return this.format.format(Math.round(cents) / 100); }
+    money(cents) {
+      return this.currencyPrefix + this.format.format(Math.round(cents) / 100);
+    }
+
+    // Small code and full-size amount; leave bundle rows and totals intact.
+    showMoney(element, cents, leading = '') {
+      if (!element) return;
+      const prefix = document.createElement('span');
+      prefix.className = 'zs-bundle__currency-prefix' +
+        (this.isCurrencySymbol ? ' zs-bundle__currency-prefix--symbol' : '');
+      prefix.textContent = this.currencyPrefix;
+      element.replaceChildren(
+        document.createTextNode(leading),
+        prefix,
+        document.createTextNode(this.format.format(Math.round(cents) / 100))
+      );
+    }
+
+    shippingMinimumLabel(localCents) {
+      return this.currencyPrefix + this.wholeFormat.format(Math.ceil(localCents / 100)) + '+';
+    }
 
     syncMainVariant() {
       const chosenId = this.form?.querySelector('input[name="id"]')?.value;
@@ -138,12 +166,14 @@
         const price = row.querySelector('[data-zs-price]');
         const saved = row.querySelector('[data-zs-saved]');
         if (oldPrice) {
-          oldPrice.textContent = this.money(unit);
+          this.showMoney(oldPrice, unit);
           oldPrice.hidden = !checked || !rate;
         }
-        if (price) price.textContent = this.money(discounted);
-        if (saved) saved.textContent = checked && rate
-          ? 'Save ' + this.money((unit - discounted) * units) : '';
+        this.showMoney(price, discounted);
+        if (saved) {
+          if (checked && rate) this.showMoney(saved, (unit - discounted) * units, 'Save ');
+          else saved.textContent = '';
+        }
       }
 
       const tier = this.querySelector('[data-zs-tier]');
@@ -153,11 +183,14 @@
         ? 'Save ' + rate + '% on ' + count + ' selected products'
         : 'Add 1 piece: 15% off · Add both: 25% off';
       const regular = this.querySelector('[data-zs-regular-total]');
-      if (regular) regular.textContent = this.money(before);
+      this.showMoney(regular, before);
       const total = this.querySelector('[data-zs-bundle-total]');
-      if (total) total.textContent = this.money(after);
+      this.showMoney(total, after);
       const savings = this.querySelector('[data-zs-save-total]');
-      if (savings) savings.textContent = rate ? 'SAVE ' + this.money(before - after) : '—';
+      if (savings) {
+        if (rate) this.showMoney(savings, before - after, 'SAVE ');
+        else savings.textContent = '—';
+      }
 
       this.currentRate = rate;
       this.selectedTotal = after;
@@ -191,7 +224,11 @@
           : 0;
       const label = this.querySelector('[data-zs-shipping-label]');
       const check = this.querySelector('[data-zs-shipping-check]');
-      const formattedThreshold = '$' + thresholdUSD / 100 + '+';
+      const formattedThreshold = thresholdLocal != null && thresholdLocal > 0
+        ? this.shippingMinimumLabel(thresholdLocal) : null;
+      const thresholdDescription = formattedThreshold
+        ? (currency === 'USD' ? formattedThreshold : 'EST. ' + formattedThreshold)
+        : null;
       this.promo?.classList.toggle('is-unlocked', unlocked);
       if (check) {
         check.hidden = !unlocked;
@@ -202,18 +239,22 @@
         this.progress.setAttribute('aria-valuenow', String(percentage));
         this.progress.setAttribute('aria-label', unlocked
           ? 'Free shipping unlocked'
-          : 'Free shipping progress to ' + formattedThreshold + ' USD');
+          : thresholdDescription
+            ? 'Free shipping progress to ' + thresholdDescription
+            : 'Free shipping minimum confirmed at checkout');
       }
       if (this.progressFill) this.progressFill.style.width = percentage + '%';
       if (!label) return;
       if (!supported) {
         label.textContent = 'SHIPPING CALCULATED AT CHECKOUT';
       } else if (normalEligible) {
-        label.textContent = 'YOUR ORDER QUALIFIES FOR FREE SHIPPING (' + formattedThreshold + ' USD)';
+        label.textContent = 'YOUR ORDER QUALIFIES FOR FREE SHIPPING (' + thresholdDescription + ')';
       } else if (bundleEligible) {
         label.textContent = 'YOUR BUNDLE QUALIFIES FOR FREE SHIPPING';
       } else {
-        label.textContent = 'FREE SHIPPING ON ORDERS ' + formattedThreshold + ' USD';
+        label.textContent = thresholdDescription
+          ? 'FREE SHIPPING ON ORDERS ' + thresholdDescription
+          : 'FREE SHIPPING MINIMUM CONFIRMED AT CHECKOUT';
       }
     }
 
