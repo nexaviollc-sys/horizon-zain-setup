@@ -76,6 +76,18 @@
     .zs-bundle .zs-bundle__currency-prefix--symbol{font-size:1em;font-weight:inherit;margin-inline-end:0}
   </style>
   <script src="{{ 'zs-bundle-builder.js' | asset_url }}" defer></script>
+  {% comment %}Compatibility for older cached JS assets: plain $ in the US market.
+  Automatically does nothing after the new bundle asset reaches Shopify.{% endcomment %}
+  <script>
+    customElements.whenDefined('zs-bundle-builder').then(function () {
+      document.querySelectorAll('zs-bundle-builder[data-currency="USD"]').forEach(function (builder) {
+        if (builder.currencyPrefix !== 'US$') return;
+        builder.currencyPrefix = '$';
+        builder.isCurrencySymbol = true;
+        if (typeof builder.refresh === 'function') builder.refresh();
+      });
+    });
+  </script>
   <zs-bundle-builder
     class="zs-bundle"
     data-product-id="{{ product.id }}"
