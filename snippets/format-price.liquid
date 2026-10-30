@@ -2,7 +2,7 @@
   Formats a price value with or without currency code based on settings
 
   @param {number} price - The price to format (defaults to 0 if not provided)
-  @param {string} [type] - Type of price formatting (defaults to 'regular', only 'per_item' has special behavior)
+  @param {string} [type] - Type of price formatting ('regular', 'per_item', or 'market_cart' for market-aware cart labels)
 
   @example
   {% render 'format-price', price: variant.price %}
@@ -16,7 +16,37 @@
 
   assign show_currency = settings.currency_code_enabled_product_pages
 
-  if show_currency
+  if price_type == 'market_cart'
+    # Presentment amounts are already converted by Shopify Markets.
+    # Only the visible symbol is customized; no arithmetic or rate conversion.
+    assign currency = localization.country.currency.iso_code | default: cart.currency.iso_code
+    assign prefix = blank
+    assign prefix_class = 'zs-cart-currency-code--symbol'
+    case currency
+      when 'USD'
+        assign prefix = '$'
+      when 'CAD'
+        assign prefix = 'CAD$'
+        assign prefix_class = 'zs-cart-currency-code--label'
+      when 'AUD'
+        assign prefix = 'AUD$'
+        assign prefix_class = 'zs-cart-currency-code--label'
+      when 'EUR'
+        assign prefix = '€'
+      when 'GBP'
+        assign prefix = '£'
+      when 'AED'
+        assign prefix = 'AED '
+    endcase
+    if prefix == blank
+      assign formatted_price = price_value | money_with_currency
+    else
+      assign amount_without_currency = price_value | money_without_currency
+      capture formatted_price
+        echo '<span class="zs-cart-currency-code ' | append: prefix_class | append: '">' | append: prefix | append: '</span>' | append: amount_without_currency
+      endcapture
+    endif
+  elsif show_currency
     assign formatted_price = price_value | money_with_currency
   else
     assign formatted_price = price_value | money
