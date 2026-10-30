@@ -36,7 +36,7 @@
     capture zs_shipping_message
       echo 'FREE SHIPPING TO '
       echo zs_country_label
-      echo ' ON ORDERS (LOCAL MINIMUM)'
+      echo ' ON ORDERS'
     endcapture
   else
     assign zs_shipping_message = 'SHIPPING DETAILS AT CHECKOUT'
@@ -47,7 +47,15 @@
   assign zs_returns_message = section.settings.returns_message | default: '14-DAY RETURNS'
 -%}
 <div class="zs-copper-marquee" role="region" aria-label="ZAISEN shipping and craftsmanship announcements" style="--zs-copper-duration: {{ section.settings.speed | default: 40 }}s">
-  <p class="visually-hidden">{{ zs_craft_message | escape }}. {{ zs_shipping_message | strip | escape }}. {{ zs_quality_message | escape }}. {{ zs_returns_message | escape }}.</p>
+  <p class="visually-hidden">
+    {{ zs_craft_message | escape }}.
+    {{ zs_shipping_message | strip | escape }}
+    {% if zs_threshold > 0 %}
+      <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM AT CHECKOUT{% endif %}</span>.
+    {% else %}.
+    {% endif %}
+    {{ zs_quality_message | escape }}. {{ zs_returns_message | escape }}.
+  </p>
   <div class="zs-copper-marquee__viewport" aria-hidden="true">
     <div class="zs-copper-marquee__track">
       {%- for duplicate in (1..2) -%}
@@ -57,7 +65,7 @@
           <span class="zs-copper-marquee__text">
              {% if zs_threshold > 0 %}
                FREE SHIPPING TO {{ zs_country_label | escape }} ON ORDERS
-               <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM{% endif %}</span>
+               <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM{% endif %}</span>
              {% else %}
                {{ zs_shipping_message | strip | escape }}
              {% endif %}
