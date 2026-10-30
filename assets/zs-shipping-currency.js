@@ -13,12 +13,21 @@
     if (!Number.isFinite(value)) return null;
     const options = { minimumFractionDigits: digits, maximumFractionDigits: digits };
     try {
-      if (currency === 'CAD' || currency === 'AUD' || currency === 'AED') {
-        return currency + ' ' + new Intl.NumberFormat(locale, options).format(value);
+      // Distinguish Canadian and Australian dollars from USD in every shipping message.
+      if (currency === 'CAD' || currency === 'AUD') {
+        return currency + '$' + new Intl.NumberFormat(locale, options).format(value);
+      }
+      if (currency === 'AED') {
+        return 'AED ' + new Intl.NumberFormat(locale, options).format(value);
+      }
+      if (currency === 'USD' || currency === 'GBP' || currency === 'EUR') {
+        const symbol = { USD: '$', GBP: '£', EUR: '€' }[currency];
+        return symbol + new Intl.NumberFormat(locale, options).format(value);
       }
       return new Intl.NumberFormat(locale, { style: 'currency', currency, ...options }).format(value);
     } catch {
-      return currency + ' ' + value.toFixed(digits);
+      const prefix = { USD: '$', CAD: 'CAD$', AUD: 'AUD$', EUR: '€', GBP: '£', AED: 'AED ' }[currency] || currency + ' ';
+      return prefix + value.toFixed(digits);
     }
   };
   const convert = (usdCents, kind = 'rate') => {
@@ -43,4 +52,6 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => update(), { once: true });
   else update();
   document.addEventListener('shopify:section:load', (event) => update(event.target || document));
+  // Refresh rendered thresholds after navigation restored from back-forward cache.
+  window.addEventListener('pageshow', (event) => { if (event.persisted) update(); });
 })();
