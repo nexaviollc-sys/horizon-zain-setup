@@ -176,6 +176,11 @@ class HeaderComponent extends Component {
     if (!this.#offscreen && stickyMode !== 'always') return;
 
     const scrollTop = getScrollTop();
+    // The homepage overlay must become opaque as soon as content moves
+    // beneath the sticky header, independently of IntersectionObserver timing.
+    if (stickyMode === 'always' && this.hasAttribute('transparent')) {
+      this.dataset.zsScrolled = scrollTop > 8 ? 'true' : 'false';
+    }
     const headerTop = this.getBoundingClientRect().top;
     const isScrollingUp = scrollTop < this.#lastScrollTop;
     const isAtTop = headerTop >= 0;
@@ -227,6 +232,9 @@ class HeaderComponent extends Component {
     this.addEventListener('overflowMinimum', this.#handleOverflowMinimum);
 
     const stickyMode = this.getAttribute('sticky');
+    if (stickyMode === 'always' && this.hasAttribute('transparent')) {
+      this.dataset.zsScrolled = getScrollTop() > 8 ? 'true' : 'false';
+    }
     if (stickyMode) {
       this.#observeStickyPosition(stickyMode === 'always');
 
