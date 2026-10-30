@@ -72,15 +72,16 @@
       assign zs_prefix = 'AUD$'
   endcase
   if zs_prefix != blank
-    assign price = price | money_without_currency | prepend: zs_prefix
+    assign zs_prefix_markup = '<span class="zs-currency-code">' | append: zs_prefix | append: '</span>'
+    assign price = price | money_without_currency | prepend: zs_prefix_markup
     if compare_at_price != blank
-      assign compare_at_price = compare_at_price | money_without_currency | prepend: zs_prefix
+      assign compare_at_price = compare_at_price | money_without_currency | prepend: zs_prefix_markup
     endif
     if price_min != blank
-      assign price_min = price_min | money_without_currency | prepend: zs_prefix
+      assign price_min = price_min | money_without_currency | prepend: zs_prefix_markup
     endif
     if price_max != blank
-      assign price_max = price_max | money_without_currency | prepend: zs_prefix
+      assign price_max = price_max | money_without_currency | prepend: zs_prefix_markup
     endif
   elsif use_currency
     assign price = price | money_with_currency
@@ -202,6 +203,7 @@
   }
   product-price .zs-price-stock-row__prices .price { color:#533925; }
   product-price .zs-price-stock-row__prices .compare-at-price { font-size:.8em; }
+  product-price .zs-currency-code { font-size:.62em; font-weight:500; letter-spacing:0; vertical-align:baseline; margin-inline-end:.09em; }
   product-price .zs-stock-status {
     display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
     margin-inline-start:auto; padding:6px 9px; border-radius:100px;
