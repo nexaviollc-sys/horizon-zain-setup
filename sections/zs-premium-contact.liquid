@@ -1,6 +1,6 @@
 {%- liquid
   assign s = section.settings
-  assign contact_email = s.contact_email | default: shop.email
+  assign contact_email = s.contact_email | default: 'contact@zaisenstore.com'
   assign contact_phone = s.contact_phone
   assign phone_href = s.phone_link | default: contact_phone
   assign display_font = s.editorial_font
@@ -333,7 +333,7 @@
     {"type":"inline_richtext","id":"heading","label":"Heading","default":"We’re Here to <em>Help.</em>"},
     {"type":"richtext","id":"subheading","label":"Introduction","default":"<p>Questions about a handcrafted piece, an existing order, or choosing the right gift? Send us a message and our team will help you with care.</p>"},
     {"type":"font_picker","id":"editorial_font","label":"Font","default":"poppins_n4"},
-    {"type":"text","id":"contact_email","label":"Contact email","default":"zaisenstore@gmail.com"},
+    {"type":"text","id":"contact_email","label":"Contact email","default":"contact@zaisenstore.com"},
     {"type":"text","id":"contact_phone","label":"Contact phone (display)","default":"(303) 943-8555"},
     {"type":"text","id":"phone_link","label":"Phone link (international)","default":"+13039438555"},
     {"type":"text","id":"response_text","label":"Customer care text","default":"Friendly help for product and order questions"},
