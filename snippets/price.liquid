@@ -61,8 +61,28 @@
     assign use_currency = true
   endif
 
-  # Format all prices
-  if use_currency
+  # Display unambiguous dollar currency labels with Shopify's converted amounts.
+  assign zs_prefix = blank
+  case localization.country.currency.iso_code
+    when 'USD'
+      assign zs_prefix = 'US$'
+    when 'CAD'
+      assign zs_prefix = 'CAD$'
+    when 'AUD'
+      assign zs_prefix = 'AUD$'
+  endcase
+  if zs_prefix != blank
+    assign price = price | money_without_currency | prepend: zs_prefix
+    if compare_at_price != blank
+      assign compare_at_price = compare_at_price | money_without_currency | prepend: zs_prefix
+    endif
+    if price_min != blank
+      assign price_min = price_min | money_without_currency | prepend: zs_prefix
+    endif
+    if price_max != blank
+      assign price_max = price_max | money_without_currency | prepend: zs_prefix
+    endif
+  elsif use_currency
     assign price = price | money_with_currency
     assign compare_at_price = compare_at_price | money_with_currency
     assign price_min = price_min | money_with_currency
