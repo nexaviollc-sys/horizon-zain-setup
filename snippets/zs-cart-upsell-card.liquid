@@ -10,9 +10,9 @@
   <div class="zs-cart-upsell__details">
     <a class="zs-cart-upsell__title" href="{{ zs_product.url }}">{{ zs_product.title | escape }}</a>
     <div class="zs-cart-upsell__price">
-      <strong>{{ zs_product.selected_or_first_available_variant.price | money }}</strong>
+      <strong>{% render 'format-price', price: zs_product.selected_or_first_available_variant.price, type: 'market_cart' %}</strong>
       {% if zs_product.selected_or_first_available_variant.compare_at_price > zs_product.selected_or_first_available_variant.price %}
-        <s>{{ zs_product.selected_or_first_available_variant.compare_at_price | money }}</s>
+        <s>{% render 'format-price', price: zs_product.selected_or_first_available_variant.compare_at_price, type: 'market_cart' %}</s>
       {% endif %}
     </div>
   </div>
