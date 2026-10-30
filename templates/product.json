@@ -201,12 +201,12 @@
                 "show_swatches": true,
                 "option_label_text_color": "",
                 "variant_style_class": "custom",
-                "custom_variant_background": "#FFFFFF",
+                "custom_variant_background": "#ffffff",
                 "custom_variant_text": "#443126",
-                "custom_variant_border": "#CEC2B9",
+                "custom_variant_border": "#cec2b9",
                 "selected_variant_style_class": "custom",
                 "custom_selected_variant_background": "#443126",
-                "custom_selected_variant_text": "#FFFFFF",
+                "custom_selected_variant_text": "#ffffff",
                 "custom_selected_variant_border": "#443126",
                 "alignment": "left",
                 "padding-block-start": 0,
@@ -276,6 +276,15 @@
               },
               "block_order": []
             },
+            "zs_pairs": {
+              "type": "zs-quick-pairs",
+              "settings": {
+                "eyebrow": "HANDPICKED FOR YOU",
+                "heading": "Pairs Beautifully With",
+                "product_limit": 8
+              },
+              "blocks": {}
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "t:names.product_description",
@@ -302,14 +311,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "zs_pairs": {
-              "type": "zs-quick-pairs",
-              "settings": {
-                "eyebrow": "HANDPICKED FOR YOU",
-                "heading": "Pairs Beautifully With",
-                "product_limit": 8
-              }
             }
           },
           "block_order": [
@@ -342,6 +343,48 @@
       "settings": {
         "eyebrow": "STYLED IN REAL SPACES",
         "image_label": "A LITTLE CLOSER TO NATURE"
+      }
+    },
+    "zs_workshop_journey": {
+      "type": "zs-workshop-journey",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/Hands_Examining_a_Walnut_Wood_Slab.jpg",
+            "icon": "wood",
+            "heading": "Selected with care",
+            "description": "We choose wood for its natural grain and individual character."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "craft",
+            "heading": "Shaped by hand",
+            "description": "Our makers carve, sand, and refine the details, bringing each wooden piece to life."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "package",
+            "heading": "Ready for your home",
+            "description": "Each piece is finished, checked, and carefully packed for its journey to you."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "eyebrow": "THE CARE BEHIND EVERY PIECE",
+        "heading": "From Our Workshop to Your Home",
+        "intro": "Natural wood, thoughtful handwork, and care in every detail. A closer look at the journey behind your ZAISEN piece.",
+        "link": "/pages/our-story",
+        "link_label": "Discover our story"
       }
     },
     "product_recommendations_qggXJq": {
@@ -485,47 +528,6 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "zs_workshop_journey": {
-      "type": "zs-workshop-journey",
-      "blocks": {
-        "step_1": {
-          "type": "step",
-          "settings": {
-            "icon": "wood",
-            "heading": "Selected with care",
-            "description": "We choose wood for its natural grain and individual character."
-          }
-        },
-        "step_2": {
-          "type": "step",
-          "settings": {
-            "icon": "craft",
-            "heading": "Shaped by hand",
-            "description": "Our makers carve, sand, and refine the details, bringing each wooden piece to life."
-          }
-        },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "icon": "package",
-            "heading": "Ready for your home",
-            "description": "Each piece is finished, checked, and carefully packed for its journey to you."
-          }
-        }
-      },
-      "block_order": [
-        "step_1",
-        "step_2",
-        "step_3"
-      ],
-      "settings": {
-        "eyebrow": "THE CARE BEHIND EVERY PIECE",
-        "heading": "From Our Workshop to Your Home",
-        "intro": "Natural wood, thoughtful handwork, and care in every detail. A closer look at the journey behind your ZAISEN piece.",
-        "link": "/pages/our-story",
-        "link_label": "Discover our story"
-      }
     }
   },
   "order": [
@@ -535,4 +537,3 @@
     "product_recommendations_qggXJq"
   ]
 }
-

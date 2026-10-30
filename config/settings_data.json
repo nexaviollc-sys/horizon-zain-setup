@@ -77,7 +77,6 @@
     "type_font_button_secondary": "body",
     "button_text_case_secondary": "uppercase",
     "cart_type": "drawer",
-    "auto_open_cart_drawer": true,
     "cart_price_font": "subheading",
     "show_cart_note": false,
     "show_add_discount_code": true,
@@ -116,6 +115,13 @@
     "variant_button_radius": 6,
     "variant_button_width": "equal-width-buttons",
     "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_palette": {
       "background": "#FFFFFF",
       "foreground": "#28221D",
