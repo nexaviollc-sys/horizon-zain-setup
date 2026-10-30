@@ -40,6 +40,9 @@
 .zs-bundle__original{color:#968477;font-size:11px;white-space:nowrap}
 .zs-bundle__price{color:#3B2B20;font-size:12.5px;font-weight:800;white-space:nowrap}
 .zs-bundle__saved{font-size:10px;font-weight:750;color:#387149;white-space:nowrap}
+/* Currency-code prefixes are intentionally smaller than bundle price numerals. */
+.zs-bundle__currency-prefix{font-size:.74em;font-weight:600;letter-spacing:0;white-space:nowrap;margin-inline-end:.08em}
+.zs-bundle__currency-prefix--symbol{font-size:1em;font-weight:inherit;margin-inline-end:0}
 .zs-bundle__variants select{max-width:100%;width:100%;min-height:31px;border:1px solid #D8C6B3;border-radius:7px;padding:3px 27px 3px 8px;background:#FFFAF3;color:#3B2B20;font-size:11px;font-family:inherit}
 .zs-bundle__variants select:focus-visible{outline:2px solid #8B623A;outline-offset:1px}
 .zs-bundle__summary{margin:14px 0 11px;border-top:1px solid #DFCFBC;padding-top:12px}
