@@ -28,9 +28,9 @@
       this.processing = false;
       this.currency = (this.dataset.currency || window.Shopify?.currency?.active || 'USD').toUpperCase();
       // Display labels only: variant cents are already converted by Shopify Markets.
-      const prefixes = { USD: 'US$', CAD: 'CAD$', AUD: 'AUD$', EUR: '€', GBP: '£', AED: 'AED ' };
+      const prefixes = { USD: '$', CAD: 'CAD$', AUD: 'AUD$', EUR: '€', GBP: '£', AED: 'AED ' };
       this.currencyPrefix = prefixes[this.currency] || this.currency + ' ';
-      this.isCurrencySymbol = this.currency === 'EUR' || this.currency === 'GBP';
+      this.isCurrencySymbol = this.currency === 'USD' || this.currency === 'EUR' || this.currency === 'GBP';
       try {
         this.format = new Intl.NumberFormat(this.dataset.locale || 'en-US', {
           style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2
