@@ -70,6 +70,11 @@
 -%}
 {% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank and zs_main_variant.available %}
   {{ 'zs-bundle-builder.css' | asset_url | stylesheet_tag }}
+  {% comment %}Keep compact market currency prefix styling with the snippet so it works even before asset cache refreshes.{% endcomment %}
+  <style>
+    .zs-bundle .zs-bundle__currency-prefix{font-size:.74em;font-weight:600;letter-spacing:0;white-space:nowrap;margin-inline-end:.08em}
+    .zs-bundle .zs-bundle__currency-prefix--symbol{font-size:1em;font-weight:inherit;margin-inline-end:0}
+  </style>
   <script src="{{ 'zs-bundle-builder.js' | asset_url }}" defer></script>
   <zs-bundle-builder
     class="zs-bundle"
