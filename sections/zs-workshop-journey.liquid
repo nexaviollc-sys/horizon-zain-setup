@@ -114,13 +114,32 @@
     font:400 13px/1.7 var(--font-body--family),sans-serif;
   }
   .zs-workshop__link {
-    display:inline-flex; align-items:center; justify-content:center; gap:24px;
-    margin-top:28px; padding:14px 22px; border-radius:100px;
-    background:#433225; color:#fff; text-decoration:none;
-    font:600 12px/1.5 var(--font-body--family),sans-serif;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    width:fit-content; min-width:232px; min-height:54px;
+    margin:30px auto 0; padding:8px 8px 8px 20px;
+    border:1px solid #ded3c5; border-radius:16px;
+    background:#fff; color:#433225; text-decoration:none;
+    box-shadow:0 3px 8px rgba(67,50,37,.035);
+    font:600 13px/1.4 var(--font-body--family),sans-serif;
+    letter-spacing:-.01em;
+    transition:background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
   }
-  .zs-workshop__link span { font-size:17px; line-height:1; }
-  .zs-workshop__link:hover { background:#614832; }
+  .zs-workshop__link span {
+    display:grid; place-items:center; flex:0 0 36px;
+    width:36px; height:36px; border-radius:11px;
+    background:#433225; color:#fff; font-size:20px; line-height:1;
+    transition:background-color .18s ease;
+  }
+  @media (hover:hover) {
+    .zs-workshop__link:hover {
+      background:#fffdf9; border-color:#af9478;
+      box-shadow:0 5px 14px rgba(67,50,37,.08);
+    }
+    .zs-workshop__link:hover span { background:#765437; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .zs-workshop__link, .zs-workshop__link span { transition:none; }
+  }
   .zs-workshop__link:focus-visible, .zs-workshop__steps:focus-visible {
     outline:2px solid #927252; outline-offset:5px;
   }
@@ -145,7 +164,7 @@
     .zs-workshop__step-copy { padding:18px 10px 14px; }
     .zs-workshop h3 { font-size:22px; }
     .zs-workshop__step p { font-size:13px; line-height:1.65; }
-    .zs-workshop__link { display:flex; width:fit-content; margin:22px auto 0; padding:13px 20px; }
+    .zs-workshop__link { width:100%; min-width:0; margin:22px auto 0; padding:8px 8px 8px 18px; }
   }
 {% endstylesheet %}
 {% schema %}
