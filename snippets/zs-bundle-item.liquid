@@ -1,5 +1,32 @@
 {% comment %}One optional curated ZAISEN bundle item; native variants remain select-able.{% endcomment %}
 {%- assign chosen_variant = item.selected_or_first_available_variant -%}
+{%- liquid
+  assign zs_bundle_prefix = blank
+  assign zs_bundle_symbol = false
+  case localization.country.currency.iso_code
+    when 'USD'
+      assign zs_bundle_prefix = 'US$'
+    when 'CAD'
+      assign zs_bundle_prefix = 'CAD$'
+    when 'AUD'
+      assign zs_bundle_prefix = 'AUD$'
+    when 'EUR'
+      assign zs_bundle_prefix = '€'
+      assign zs_bundle_symbol = true
+    when 'GBP'
+      assign zs_bundle_prefix = '£'
+      assign zs_bundle_symbol = true
+    when 'AED'
+      assign zs_bundle_prefix = 'AED '
+  endcase
+-%}
+{%- capture zs_bundle_first_price -%}
+  {%- if zs_bundle_prefix != blank -%}
+    <span class="zs-bundle__currency-prefix{% if zs_bundle_symbol %} zs-bundle__currency-prefix--symbol{% endif %}">{{ zs_bundle_prefix }}</span>{{ chosen_variant.price | money_without_currency }}
+  {%- else -%}
+    {{ chosen_variant.price | money_with_currency }}
+  {%- endif -%}
+{%- endcapture -%}
 {% if item != blank and chosen_variant != blank %}
   <div class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
     data-variant-id="{{ chosen_variant.id }}"
@@ -28,8 +55,8 @@
         </span>
       {% endunless %}
       <span class="zs-bundle__price-group">
-        <s class="zs-bundle__original" data-zs-original>{{ chosen_variant.price | money }}</s>
-        <strong class="zs-bundle__price" data-zs-price>{{ chosen_variant.price | money }}</strong>
+        <s class="zs-bundle__original" data-zs-original>{{ zs_bundle_first_price }}</s>
+        <strong class="zs-bundle__price" data-zs-price>{{ zs_bundle_first_price }}</strong>
         <span class="zs-bundle__saved" data-zs-saved></span>
       </span>
     </span>
