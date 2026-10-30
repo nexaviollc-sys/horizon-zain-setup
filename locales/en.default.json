@@ -8,6 +8,13 @@
  * ------------------------------------------------------------
  */
 {
+  "zs_stock": {
+    "in_stock": "In stock",
+    "low_stock": "Only {{ count }} left",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "available_to_order": "Available to order"
+  },
   "accessibility": {
     "account": "Account",
     "active_filters": "Active filters:",

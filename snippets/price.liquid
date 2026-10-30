@@ -3,6 +3,7 @@
   It is used in the product block,featured product block, and the product card block.
 
   @param {product} product_resource - The product to render
+  @param {boolean} [show_stock_status] - Show selected variant stock beside the main product price
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
 {%- enddoc -%}
@@ -74,7 +75,8 @@
   endif
 -%}
 
-<div ref="priceContainer">
+<div ref="priceContainer"{% if show_stock_status %} class="zs-price-stock-row"{% endif %}>
+  {% if show_stock_status %}<div class="zs-price-stock-row__prices">{% endif %}
   {% if has_volume_pricing %}
     {% comment %} Volume pricing display {% endcomment %}
     {% if show_compare_price %}
@@ -125,6 +127,32 @@
     -%}
     {% render 'unit-price', price: unit_price, measurement: selected_variant.unit_price_measurement %}
   {%- endif -%}
+  {% if show_stock_status %}
+    </div>
+    {% liquid
+      assign zs_stock_key = 'zs_stock.in_stock'
+      assign zs_stock_state = 'available'
+      if selected_variant == blank
+        assign zs_stock_key = 'zs_stock.unavailable'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.available == false
+        assign zs_stock_key = 'zs_stock.sold_out'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.inventory_management != blank
+        if selected_variant.inventory_quantity <= 0
+          assign zs_stock_key = 'zs_stock.available_to_order'
+          assign zs_stock_state = 'order'
+        elsif selected_variant.inventory_quantity <= 5 and selected_variant.inventory_policy == 'deny'
+          assign zs_stock_key = 'zs_stock.low_stock'
+          assign zs_stock_state = 'low'
+        endif
+      endif
+    %}
+    <span class="zs-stock-status zs-stock-status--{{ zs_stock_state }}" role="status">
+      <span class="zs-stock-status__dot" aria-hidden="true"></span>
+      {{ zs_stock_key | t: count: selected_variant.inventory_quantity }}
+    </span>
+  {% endif %}
 </div>
 {%- if has_volume_pricing -%}
   <small
@@ -134,3 +162,23 @@
     {{- 'content.volume_pricing_available' | t -}}
   </small>
 {%- endif -%}
+
+{% stylesheet %}
+  product-price:has(.zs-price-stock-row) { width:100%; }
+  product-price .zs-price-stock-row {
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px 16px; width:100%;
+  }
+  .zs-price-stock-row__prices { min-width:0; }
+  product-price .zs-stock-status {
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
+    margin-inline-start:auto; padding:6px 9px; border-radius:100px;
+    color:#2f6949; background:#edf5ef;
+    font:500 11px/1.35 var(--font-body--family),sans-serif;
+    letter-spacing:0; text-transform:none; white-space:nowrap;
+  }
+  .zs-stock-status__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+  product-price .zs-stock-status--low { color:#82571e; background:#fbf2e3; }
+  product-price .zs-stock-status--order { color:#685844; background:#f3eee7; }
+  product-price .zs-stock-status--sold-out { color:#766c64; background:#f0edeb; }
+{% endstylesheet %}
