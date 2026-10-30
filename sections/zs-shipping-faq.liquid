@@ -82,7 +82,7 @@
     }
   {% endif %}
 {% endstyle %}
-<section class="zs-shf" id="zs-shf-{{ section.id }}" aria-labelledby="zs-shf-title-{{ section.id }}">
+<section class="zs-shf" id="zs-shf-{{ section.id }}" data-zs-market-currency="{{ localization.country.currency.iso_code | escape }}" aria-labelledby="zs-shf-title-{{ section.id }}">
   <div class="zs-shf__container">
     <header class="zs-shf__header">
       {%- if s.eyebrow != blank -%}
@@ -127,8 +127,8 @@
           <div class="zs-shf__country zs-shf__country--threshold" role="listitem">
             <div class="zs-shf__country-name"><span class="zs-shf__country-title">Free shipping on orders</span></div>
             <div class="zs-shf__country-bottom">
-              <span class="zs-shf__free" aria-label="Free shipping above the selected market's minimum">
-                <span data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}AT CHECKOUT{% endif %}</span>
+              <span class="zs-shf__free" aria-label="Estimated local-currency free shipping minimum for the selected market">
+                <span data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}LOCAL MINIMUM AT CHECKOUT{% endif %}</span>
               </span>
             </div>
           </div>
@@ -188,7 +188,7 @@
                 <div class="zs-shf__answer">
                   {%- if block.id == 'shf_faq_shipping' -%}
                     {%- if zs_ship_free_min > 0 -%}
-                      <p>Orders shipped to <strong>{{ zs_ship_country | escape }}</strong> are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is <strong>{{ zs_ship_days }}</strong>. Free shipping starts from <strong data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local minimum">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}the local minimum{% endif %}</strong> for qualifying orders. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.</p>
+                      <p>Orders shipped to <strong>{{ zs_ship_country | escape }}</strong> are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is <strong>{{ zs_ship_days }}</strong>. Free shipping starts from <strong data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local minimum shown at checkout">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}the local minimum shown at checkout{% endif %}</strong> for qualifying orders. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.</p>
                     {%- else -%}
                       <p>Orders are typically prepared in 1–2 days before dispatch. Shipping availability, rates and estimated delivery times depend on your selected destination and are confirmed at checkout. Free shipping is not guaranteed for every country or order.</p>
                     {%- endif -%}
