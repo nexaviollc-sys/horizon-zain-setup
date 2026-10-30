@@ -5,7 +5,8 @@
   assign zs_bundle_symbol = false
   case localization.country.currency.iso_code
     when 'USD'
-      assign zs_bundle_prefix = 'US$'
+      assign zs_bundle_prefix = '$'
+      assign zs_bundle_symbol = true
     when 'CAD'
       assign zs_bundle_prefix = 'CAD$'
     when 'AUD'
