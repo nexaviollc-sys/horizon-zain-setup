@@ -62,3 +62,8 @@
 %}
 
 {{- formatted_price -}}
+{% stylesheet %}
+  /* Cart labels: only CAD$/AUD$ shrink; $, €, £ and AED stay full-size. */
+  .zs-cart-currency-code--label { font-size:.73em; font-weight:600; letter-spacing:0; white-space:nowrap; margin-inline-end:.08em; }
+  .zs-cart-currency-code--symbol { font-size:1em; font-weight:inherit; margin-inline-end:0; }
+{% endstylesheet %}
