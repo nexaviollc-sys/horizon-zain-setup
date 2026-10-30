@@ -16,7 +16,7 @@
         "eyebrow": "ZAISEN Customer Care",
         "heading": "We’re Here to <em>Help.</em>",
         "subheading": "<p>Questions about a handcrafted piece, an existing order, or choosing the right gift? Send us a message and our team will help you with care.</p>",
-        "contact_email": "zaisenstore@gmail.com",
+        "contact_email": "contact@zaisenstore.com",
         "response_text": "Friendly help for product and order questions",
         "order_text": "Include your order number for faster assistance",
         "note_title": "Natural wood has its own character",
@@ -44,9 +44,9 @@
         "heading_bold": "Made Simple.",
         "intro": "Handcrafted wooden pieces, carefully packed and shipped to the places you call home.",
         "country_heading": "Estimated delivery by country",
-        "country_intro": "FREE shipping on all orders to these countries",
+        "country_intro": "Shipping estimates and free-delivery thresholds for your country",
         "free_label": "FREE",
-        "shipping_note": "FREE shipping on all orders to the eight countries listed above. Delivery times are estimates, not guaranteed arrival dates; customs, holidays and carrier delays may affect delivery.",
+        "shipping_note": "Free standard shipping applies at an eligible order subtotal of $60 USD for the US, UK, Germany, France and UAE, or $100 USD for Canada and Australia. Shipping charges and eligibility are confirmed at checkout. Allow 1–2 days for processing; delivery estimates are not guarantees.",
         "shipping_policy_label": "Shipping Policy",
         "contact_eyebrow": "PERSONAL SUPPORT",
         "contact_heading": "Need a hand?",
@@ -80,7 +80,7 @@
           "settings": {
             "flag": "🇺🇸",
             "country_name": "United States",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_country_de": {
@@ -88,7 +88,7 @@
           "settings": {
             "flag": "🇩🇪",
             "country_name": "Germany",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_country_ca": {
@@ -96,7 +96,7 @@
           "settings": {
             "flag": "🇨🇦",
             "country_name": "Canada",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_country_au": {
@@ -104,7 +104,7 @@
           "settings": {
             "flag": "🇦🇺",
             "country_name": "Australia",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_country_ae": {
@@ -112,7 +112,7 @@
           "settings": {
             "flag": "🇦🇪",
             "country_name": "United Arab Emirates",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_country_fr": {
@@ -120,22 +120,14 @@
           "settings": {
             "flag": "🇫🇷",
             "country_name": "France",
-            "delivery_time": "7–9 days"
-          }
-        },
-        "shf_country_sa": {
-          "type": "country",
-          "settings": {
-            "flag": "🇸🇦",
-            "country_name": "Saudi Arabia",
-            "delivery_time": "7–9 days"
+            "delivery_time": "8–9 days"
           }
         },
         "shf_faq_shipping": {
           "type": "faq",
           "settings": {
-            "question": "Do you offer free worldwide shipping?",
-            "answer": "Yes! Every ZAISEN order ships FREE to the United Kingdom, United States, Germany, Canada, Australia, the United Arab Emirates, France and Saudi Arabia. There are no shipping charges on any order to these eight countries. Estimated delivery is 4–5 days for the UK and 7–9 days for the other listed destinations. Delivery times are estimates, not guarantees.",
+            "question": "When do I qualify for free shipping?",
+            "answer": "ZAISEN ships to seven countries: the US, UK, Germany, France, UAE, Canada and Australia. Free shipping begins at $60 USD for orders to the US, UK, Germany, France and UAE, and at $100 USD for Canada and Australia, based on eligible order subtotal after discounts. Orders are prepared in 1–2 days. Estimated transit after dispatch is 4–5 days to the UK and 8–9 days elsewhere. Final shipping charges are confirmed at checkout; delivery estimates are not guaranteed.",
             "show_refund_link": false
           }
         },
@@ -180,8 +172,7 @@
         "shf_country_au",
         "shf_country_ae",
         "shf_country_fr",
-        "shf_country_sa",
-        "shf_faq_shipping",
+                "shf_faq_shipping",
         "shf_faq_handcrafted",
         "shf_faq_wood",
         "shf_faq_choose",
