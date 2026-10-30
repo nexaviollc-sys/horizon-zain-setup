@@ -61,8 +61,396 @@
     assign use_currency = true
   endif
 
-  # Format all prices
-  if use_currency
+  # Display a distinct dollar label for each dollar market.
+  # Amounts are already converted by Shopify Markets; do not convert them here.
+  assign zs_currency_prefix = blank
+  case localization.country.currency.iso_code
+    when 'USD'
+      assign zs_currency_prefix = 'US
+-%}
+
+<div ref="priceContainer"{% if show_stock_status %} class="zs-price-stock-row"{% endif %}>
+  {% if show_stock_status %}<div class="zs-price-stock-row__prices">{% endif %}
+  {% if has_volume_pricing %}
+    {% comment %} Volume pricing display {% endcomment %}
+    {% if show_compare_price %}
+      <span class="price-item__group compare-at-price">
+        <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+        <bdi>{{- compare_at_price -}}</bdi>
+      </span>
+    {% endif %}
+    <span class="price-item__group price">
+      <span class="visually-hidden">{{ 'content.price_range' | t }}&nbsp;</span>
+      <bdi>{{ price_min }} - {{ price_max }}</bdi>
+    </span>
+  {% else %}
+    {% comment %} Standard pricing display: render only the active branch (regular or sale) {% endcomment %}
+    {% if show_compare_price %}
+      {% if show_sale_price_first %}
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+      {% else %}
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+      {% endif %}
+    {% else %}
+      <span class="price"
+        ><bdi>{{ price | default: '&nbsp;' }}</bdi></span
+      >
+    {% endif %}
+  {% endif %}
+  {%- if selected_variant.unit_price and show_unit_price %}
+    {%- liquid
+      if use_currency
+        assign unit_price = selected_variant.unit_price | money_with_currency
+      else
+        assign unit_price = selected_variant.unit_price | money
+      endif
+    -%}
+    {% render 'unit-price', price: unit_price, measurement: selected_variant.unit_price_measurement %}
+  {%- endif -%}
+  {% if show_stock_status %}
+    </div>
+    {% liquid
+      assign zs_stock_key = 'zs_stock.in_stock'
+      assign zs_stock_state = 'available'
+      if selected_variant == blank
+        assign zs_stock_key = 'zs_stock.unavailable'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.available == false
+        assign zs_stock_key = 'zs_stock.sold_out'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.inventory_management != blank
+        if selected_variant.inventory_quantity <= 0
+          assign zs_stock_key = 'zs_stock.available_to_order'
+          assign zs_stock_state = 'order'
+        else
+          assign zs_stock_key = 'zs_stock.quantity_left'
+          if selected_variant.inventory_quantity <= 5
+            assign zs_stock_state = 'low'
+          endif
+        endif
+      endif
+    %}
+    <span class="zs-stock-status zs-stock-status--{{ zs_stock_state }}" role="status">
+      <span class="zs-stock-status__dot" aria-hidden="true"></span>
+      {{ zs_stock_key | t: count: selected_variant.inventory_quantity }}
+    </span>
+  {% endif %}
+</div>
+{%- if has_volume_pricing -%}
+  <small
+    ref="volumePricingNote"
+    class="volume-pricing-note"
+  >
+    {{- 'content.volume_pricing_available' | t -}}
+  </small>
+{%- endif -%}
+
+{% stylesheet %}
+  product-price:has(.zs-price-stock-row) { width:100%; }
+  product-price .zs-price-stock-row {
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px 16px; width:100%;
+  }
+  .zs-price-stock-row__prices { min-width:0; }
+  product-price .zs-price-stock-row__prices .price,
+  product-price .zs-price-stock-row__prices .compare-at-price {
+    font-family:Georgia,'Times New Roman',serif;
+    font-style:normal;
+    font-weight:400;
+    font-variant-numeric:lining-nums tabular-nums;
+    letter-spacing:-.025em;
+  }
+  product-price .zs-price-stock-row__prices .price { color:#533925; }
+  product-price .zs-price-stock-row__prices .compare-at-price { font-size:.8em; }
+  product-price .zs-stock-status {
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
+    margin-inline-start:auto; padding:6px 9px; border-radius:100px;
+    color:#2f6949; background:#edf5ef;
+    font:500 11px/1.35 var(--font-body--family),sans-serif;
+    letter-spacing:0; text-transform:none; white-space:nowrap;
+  }
+  .zs-stock-status__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+  product-price .zs-stock-status--low { color:#82571e; background:#fbf2e3; }
+  product-price .zs-stock-status--order { color:#685844; background:#f3eee7; }
+  product-price .zs-stock-status--sold-out { color:#766c64; background:#f0edeb; }
+{% endstylesheet %}
+
+    when 'CAD'
+      assign zs_currency_prefix = 'CAD
+-%}
+
+<div ref="priceContainer"{% if show_stock_status %} class="zs-price-stock-row"{% endif %}>
+  {% if show_stock_status %}<div class="zs-price-stock-row__prices">{% endif %}
+  {% if has_volume_pricing %}
+    {% comment %} Volume pricing display {% endcomment %}
+    {% if show_compare_price %}
+      <span class="price-item__group compare-at-price">
+        <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+        <bdi>{{- compare_at_price -}}</bdi>
+      </span>
+    {% endif %}
+    <span class="price-item__group price">
+      <span class="visually-hidden">{{ 'content.price_range' | t }}&nbsp;</span>
+      <bdi>{{ price_min }} - {{ price_max }}</bdi>
+    </span>
+  {% else %}
+    {% comment %} Standard pricing display: render only the active branch (regular or sale) {% endcomment %}
+    {% if show_compare_price %}
+      {% if show_sale_price_first %}
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+      {% else %}
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+      {% endif %}
+    {% else %}
+      <span class="price"
+        ><bdi>{{ price | default: '&nbsp;' }}</bdi></span
+      >
+    {% endif %}
+  {% endif %}
+  {%- if selected_variant.unit_price and show_unit_price %}
+    {%- liquid
+      if use_currency
+        assign unit_price = selected_variant.unit_price | money_with_currency
+      else
+        assign unit_price = selected_variant.unit_price | money
+      endif
+    -%}
+    {% render 'unit-price', price: unit_price, measurement: selected_variant.unit_price_measurement %}
+  {%- endif -%}
+  {% if show_stock_status %}
+    </div>
+    {% liquid
+      assign zs_stock_key = 'zs_stock.in_stock'
+      assign zs_stock_state = 'available'
+      if selected_variant == blank
+        assign zs_stock_key = 'zs_stock.unavailable'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.available == false
+        assign zs_stock_key = 'zs_stock.sold_out'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.inventory_management != blank
+        if selected_variant.inventory_quantity <= 0
+          assign zs_stock_key = 'zs_stock.available_to_order'
+          assign zs_stock_state = 'order'
+        else
+          assign zs_stock_key = 'zs_stock.quantity_left'
+          if selected_variant.inventory_quantity <= 5
+            assign zs_stock_state = 'low'
+          endif
+        endif
+      endif
+    %}
+    <span class="zs-stock-status zs-stock-status--{{ zs_stock_state }}" role="status">
+      <span class="zs-stock-status__dot" aria-hidden="true"></span>
+      {{ zs_stock_key | t: count: selected_variant.inventory_quantity }}
+    </span>
+  {% endif %}
+</div>
+{%- if has_volume_pricing -%}
+  <small
+    ref="volumePricingNote"
+    class="volume-pricing-note"
+  >
+    {{- 'content.volume_pricing_available' | t -}}
+  </small>
+{%- endif -%}
+
+{% stylesheet %}
+  product-price:has(.zs-price-stock-row) { width:100%; }
+  product-price .zs-price-stock-row {
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px 16px; width:100%;
+  }
+  .zs-price-stock-row__prices { min-width:0; }
+  product-price .zs-price-stock-row__prices .price,
+  product-price .zs-price-stock-row__prices .compare-at-price {
+    font-family:Georgia,'Times New Roman',serif;
+    font-style:normal;
+    font-weight:400;
+    font-variant-numeric:lining-nums tabular-nums;
+    letter-spacing:-.025em;
+  }
+  product-price .zs-price-stock-row__prices .price { color:#533925; }
+  product-price .zs-price-stock-row__prices .compare-at-price { font-size:.8em; }
+  product-price .zs-stock-status {
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
+    margin-inline-start:auto; padding:6px 9px; border-radius:100px;
+    color:#2f6949; background:#edf5ef;
+    font:500 11px/1.35 var(--font-body--family),sans-serif;
+    letter-spacing:0; text-transform:none; white-space:nowrap;
+  }
+  .zs-stock-status__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+  product-price .zs-stock-status--low { color:#82571e; background:#fbf2e3; }
+  product-price .zs-stock-status--order { color:#685844; background:#f3eee7; }
+  product-price .zs-stock-status--sold-out { color:#766c64; background:#f0edeb; }
+{% endstylesheet %}
+
+    when 'AUD'
+      assign zs_currency_prefix = 'AUD
+-%}
+
+<div ref="priceContainer"{% if show_stock_status %} class="zs-price-stock-row"{% endif %}>
+  {% if show_stock_status %}<div class="zs-price-stock-row__prices">{% endif %}
+  {% if has_volume_pricing %}
+    {% comment %} Volume pricing display {% endcomment %}
+    {% if show_compare_price %}
+      <span class="price-item__group compare-at-price">
+        <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+        <bdi>{{- compare_at_price -}}</bdi>
+      </span>
+    {% endif %}
+    <span class="price-item__group price">
+      <span class="visually-hidden">{{ 'content.price_range' | t }}&nbsp;</span>
+      <bdi>{{ price_min }} - {{ price_max }}</bdi>
+    </span>
+  {% else %}
+    {% comment %} Standard pricing display: render only the active branch (regular or sale) {% endcomment %}
+    {% if show_compare_price %}
+      {% if show_sale_price_first %}
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+      {% else %}
+        <span class="price-item__group price-item--regular compare-at-price">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <bdi>{{- compare_at_price -}}</bdi>
+        </span>
+        <span class="price-item__group price">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <bdi>{{ price | default: '&nbsp;' }}</bdi>
+        </span>
+      {% endif %}
+    {% else %}
+      <span class="price"
+        ><bdi>{{ price | default: '&nbsp;' }}</bdi></span
+      >
+    {% endif %}
+  {% endif %}
+  {%- if selected_variant.unit_price and show_unit_price %}
+    {%- liquid
+      if use_currency
+        assign unit_price = selected_variant.unit_price | money_with_currency
+      else
+        assign unit_price = selected_variant.unit_price | money
+      endif
+    -%}
+    {% render 'unit-price', price: unit_price, measurement: selected_variant.unit_price_measurement %}
+  {%- endif -%}
+  {% if show_stock_status %}
+    </div>
+    {% liquid
+      assign zs_stock_key = 'zs_stock.in_stock'
+      assign zs_stock_state = 'available'
+      if selected_variant == blank
+        assign zs_stock_key = 'zs_stock.unavailable'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.available == false
+        assign zs_stock_key = 'zs_stock.sold_out'
+        assign zs_stock_state = 'sold-out'
+      elsif selected_variant.inventory_management != blank
+        if selected_variant.inventory_quantity <= 0
+          assign zs_stock_key = 'zs_stock.available_to_order'
+          assign zs_stock_state = 'order'
+        else
+          assign zs_stock_key = 'zs_stock.quantity_left'
+          if selected_variant.inventory_quantity <= 5
+            assign zs_stock_state = 'low'
+          endif
+        endif
+      endif
+    %}
+    <span class="zs-stock-status zs-stock-status--{{ zs_stock_state }}" role="status">
+      <span class="zs-stock-status__dot" aria-hidden="true"></span>
+      {{ zs_stock_key | t: count: selected_variant.inventory_quantity }}
+    </span>
+  {% endif %}
+</div>
+{%- if has_volume_pricing -%}
+  <small
+    ref="volumePricingNote"
+    class="volume-pricing-note"
+  >
+    {{- 'content.volume_pricing_available' | t -}}
+  </small>
+{%- endif -%}
+
+{% stylesheet %}
+  product-price:has(.zs-price-stock-row) { width:100%; }
+  product-price .zs-price-stock-row {
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:10px 16px; width:100%;
+  }
+  .zs-price-stock-row__prices { min-width:0; }
+  product-price .zs-price-stock-row__prices .price,
+  product-price .zs-price-stock-row__prices .compare-at-price {
+    font-family:Georgia,'Times New Roman',serif;
+    font-style:normal;
+    font-weight:400;
+    font-variant-numeric:lining-nums tabular-nums;
+    letter-spacing:-.025em;
+  }
+  product-price .zs-price-stock-row__prices .price { color:#533925; }
+  product-price .zs-price-stock-row__prices .compare-at-price { font-size:.8em; }
+  product-price .zs-stock-status {
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
+    margin-inline-start:auto; padding:6px 9px; border-radius:100px;
+    color:#2f6949; background:#edf5ef;
+    font:500 11px/1.35 var(--font-body--family),sans-serif;
+    letter-spacing:0; text-transform:none; white-space:nowrap;
+  }
+  .zs-stock-status__dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+  product-price .zs-stock-status--low { color:#82571e; background:#fbf2e3; }
+  product-price .zs-stock-status--order { color:#685844; background:#f3eee7; }
+  product-price .zs-stock-status--sold-out { color:#766c64; background:#f0edeb; }
+{% endstylesheet %}
+
+  endcase
+
+  if zs_currency_prefix != blank
+    assign price = price | money_without_currency | prepend: zs_currency_prefix
+    if compare_at_price != blank
+      assign compare_at_price = compare_at_price | money_without_currency | prepend: zs_currency_prefix
+    endif
+    if price_min != blank
+      assign price_min = price_min | money_without_currency | prepend: zs_currency_prefix
+    endif
+    if price_max != blank
+      assign price_max = price_max | money_without_currency | prepend: zs_currency_prefix
+    endif
+  elsif use_currency
     assign price = price | money_with_currency
     assign compare_at_price = compare_at_price | money_with_currency
     assign price_min = price_min | money_with_currency
