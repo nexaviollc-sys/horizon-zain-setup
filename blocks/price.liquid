@@ -6,7 +6,7 @@
   assign block_settings = block.settings
   assign product_resource = closest.product
   assign zs_show_stock = false
-  if request.page_type == 'product' and block.id == 'price_tVjtKg'
+  if request.page_type == 'product' and block.id contains 'price_tVjtKg'
     assign zs_show_stock = true
   endif
   assign selected_variant = product_resource.selected_or_first_available_variant
