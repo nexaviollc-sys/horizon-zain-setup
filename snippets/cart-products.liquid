@@ -100,7 +100,7 @@
           >
             {{ 'content.cart_total' | t }}
             <span
-              ><bdi>{{ cart.total_price | money_with_currency }}</bdi></span
+              ><bdi>{% render 'format-price', price: cart.total_price, type: 'market_cart' %}</bdi></span
             >
           </caption>
 
@@ -314,14 +314,14 @@
                       {% if item.original_price != item.final_price %}
                         <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                         <span
-                          ><bdi>{{ item.final_price | money }}</bdi></span
+                          ><bdi>{% render 'format-price', price: item.final_price, type: 'market_cart' %}</bdi></span
                         >
                         <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
                         <s class="compare-at-price">
                           {% if item.variant.compare_at_price > item.original_price %}
-                            <bdi>{{ item.variant.compare_at_price | money }}</bdi>
+                            <bdi>{% render 'format-price', price: item.variant.compare_at_price, type: 'market_cart' %}</bdi>
                           {% else %}
-                            <bdi>{{ item.original_price | money }}</bdi>
+                            <bdi>{% render 'format-price', price: item.original_price, type: 'market_cart' %}</bdi>
                           {% endif %}
                         </s>
                       {% else %}
@@ -332,13 +332,13 @@
                         {% endif %}
 
                         <span
-                          ><bdi>{{ item.original_price | money }}</bdi></span
+                          ><bdi>{% render 'format-price', price: item.original_price, type: 'market_cart' %}</bdi></span
                         >
 
                         {% if item.variant.compare_at_price > item.original_price %}
                           <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
                           <s class="compare-at-price"
-                            ><bdi>{{ item.variant.compare_at_price | money }}</bdi></s
+                            ><bdi>{% render 'format-price', price: item.variant.compare_at_price, type: 'market_cart' %}</bdi></s
                           >
                         {% endif %}
                       {% endif %}
@@ -404,15 +404,8 @@
                     ></small>
                   </div>
                 </td>
-                {%- liquid
-                  if settings.currency_code_enabled_cart_items
-                    assign price = item.final_line_price | money_with_currency
-                    assign unit_price = item.unit_price | money_with_currency
-                  else
-                    assign price = item.final_line_price | money
-                    assign unit_price = item.unit_price | money
-                  endif
-                -%}
+                {%- capture price -%}{%- render 'format-price', price: item.final_line_price, type: 'market_cart' -%}{%- endcapture -%}
+                {%- capture unit_price -%}{%- render 'format-price', price: item.unit_price, type: 'market_cart' -%}{%- endcapture -%}
                 <td
                   class="cart-items__price cart-secondary-typography"
                   role="cell"
@@ -423,9 +416,9 @@
                   >
                   {% if context == 'drawer' %}
                     {% if item.variant.compare_at_price > item.original_price %}
-                      <s class="zs-cart-compare-at">{{ item.variant.compare_at_price | times: item.quantity | money }}</s>
+                      <s class="zs-cart-compare-at">{%- assign zs_drawer_compare_cents = item.variant.compare_at_price | times: item.quantity -%}{% render 'format-price', price: zs_drawer_compare_cents, type: 'market_cart' %}</s>
                     {% elsif item.original_line_price > item.final_line_price %}
-                      <s class="zs-cart-compare-at">{{ item.original_line_price | money }}</s>
+                      <s class="zs-cart-compare-at">{% render 'format-price', price: item.original_line_price, type: 'market_cart' %}</s>
                     {% endif %}
                   {% endif %}
                   {%- if item.unit_price_measurement -%}
