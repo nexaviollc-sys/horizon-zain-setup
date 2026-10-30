@@ -142,9 +142,11 @@
         if selected_variant.inventory_quantity <= 0
           assign zs_stock_key = 'zs_stock.available_to_order'
           assign zs_stock_state = 'order'
-        elsif selected_variant.inventory_quantity <= 5 and selected_variant.inventory_policy == 'deny'
-          assign zs_stock_key = 'zs_stock.low_stock'
-          assign zs_stock_state = 'low'
+        else
+          assign zs_stock_key = 'zs_stock.quantity_left'
+          if selected_variant.inventory_quantity <= 5
+            assign zs_stock_state = 'low'
+          endif
         endif
       endif
     %}

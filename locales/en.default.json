@@ -10,6 +10,7 @@
 {
   "zs_stock": {
     "in_stock": "In stock",
+    "quantity_left": "{{ count }} left in stock",
     "low_stock": "Only {{ count }} left",
     "sold_out": "Sold out",
     "unavailable": "Unavailable",
