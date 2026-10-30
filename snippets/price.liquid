@@ -61,8 +61,10 @@
     assign use_currency = true
   endif
 
-  # Display unambiguous dollar currency labels with Shopify's converted amounts.
+  # Shopify Markets has already converted these amounts for the selected country.
+  # Prefixes are display-only; never calculate a replacement amount in the theme.
   assign zs_prefix = blank
+  assign zs_prefix_class = 'zs-currency-code'
   case localization.country.currency.iso_code
     when 'USD'
       assign zs_prefix = 'US$'
@@ -70,9 +72,17 @@
       assign zs_prefix = 'CAD$'
     when 'AUD'
       assign zs_prefix = 'AUD$'
+    when 'EUR'
+      assign zs_prefix = '€'
+      assign zs_prefix_class = 'zs-currency-code zs-currency-code--symbol'
+    when 'GBP'
+      assign zs_prefix = '£'
+      assign zs_prefix_class = 'zs-currency-code zs-currency-code--symbol'
+    when 'AED'
+      assign zs_prefix = 'AED '
   endcase
   if zs_prefix != blank
-    assign zs_prefix_markup = '<span class="zs-currency-code">' | append: zs_prefix | append: '</span>'
+    assign zs_prefix_markup = '<span class="' | append: zs_prefix_class | append: '">' | append: zs_prefix | append: '</span>'
     assign price = price | money_without_currency | prepend: zs_prefix_markup
     if compare_at_price != blank
       assign compare_at_price = compare_at_price | money_without_currency | prepend: zs_prefix_markup
@@ -140,7 +150,9 @@
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid
-      if use_currency
+      if zs_prefix != blank
+        assign unit_price = selected_variant.unit_price | money_without_currency | prepend: zs_prefix_markup
+      elsif use_currency
         assign unit_price = selected_variant.unit_price | money_with_currency
       else
         assign unit_price = selected_variant.unit_price | money
@@ -203,7 +215,19 @@
   }
   product-price .zs-price-stock-row__prices .price { color:#533925; }
   product-price .zs-price-stock-row__prices .compare-at-price { font-size:.8em; }
-  product-price .zs-currency-code { font-size:.62em; font-weight:500; letter-spacing:0; vertical-align:baseline; margin-inline-end:.09em; }
+  /* Small, readable currency codes on PDPs and narrower product cards. */
+  product-price .zs-currency-code {
+    font-size: clamp(11px, .64em, 16px);
+    font-weight: 500;
+    letter-spacing: 0;
+    vertical-align: baseline;
+    margin-inline-end: .09em;
+  }
+  product-price .zs-currency-code--symbol {
+    font-size: 1em;
+    font-weight: inherit;
+    margin-inline-end: 0;
+  }
   product-price .zs-stock-status {
     display:inline-flex; align-items:center; gap:6px; flex:0 0 auto;
     margin-inline-start:auto; padding:6px 9px; border-radius:100px;
