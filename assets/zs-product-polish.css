@@ -402,3 +402,321 @@
     line-height: 1.55;
   }
 }
+
+
+/* ZAISEN — premium recommended product cards: product pages only. */
+product-recommendations[data-testid="product-recommendations-section"] {
+  --zs-rec-ink: #382b23;
+  --zs-rec-walnut: #443126;
+  --zs-rec-line: #e6d9ca;
+}
+product-recommendations[data-testid="product-recommendations-section"] .section-resource-list__content {
+  margin-bottom: clamp(18px, 2vw, 28px);
+}
+product-recommendations[data-testid="product-recommendations-section"] .section-resource-list__content :is(h2,h3) {
+  font-family: var(--font-heading--family, Georgia, serif);
+  font-size: clamp(1.6rem, 2.3vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  color: var(--zs-rec-ink);
+}
+product-recommendations[data-testid="product-recommendations-section"] .resource-list__item {
+  min-width: 0;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  border: 1px solid var(--zs-rec-line);
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 5px 22px rgba(60, 40, 24, .045);
+  overflow: hidden;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card:hover {
+  border-color: #cbb79d;
+  box-shadow: 0 12px 32px rgba(60, 40, 24, .095);
+  transform: translateY(-2px);
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .product-card__content.product-grid__card {
+  height: 100%;
+  min-height: 100%;
+  padding: 11px 11px 14px !important;
+  gap: 9px;
+  align-items: stretch;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .card-gallery {
+  --gallery-aspect-ratio: 1;
+  aspect-ratio: 1;
+  background: #f9f5ef;
+  border: 1px solid #f0e7dc;
+  border-radius: 11px;
+  overflow: hidden;
+  width: 100%;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .card-gallery img {
+  object-fit: contain;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .product-card__content :is([role="heading"],.text-block h3,.text-block h4) {
+  color: var(--zs-rec-ink);
+  font-family: var(--font-body--family, inherit);
+  font-size: clamp(.81rem, 1.05vw, .91rem);
+  font-weight: 650;
+  line-height: 1.46;
+  letter-spacing: -.01em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card :is(product-price,.price-container) {
+  font-size: clamp(.92rem, 1.16vw, 1.08rem);
+  font-weight: 750;
+  color: #433025;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card :is(.compare-at-price,s.price) {
+  font-size: .8em;
+  font-weight: 400;
+  color: #98877a;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .product-badges__badge {
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .035em;
+  padding: 5px 10px;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 43px;
+  margin-top: auto;
+  padding: 11px 13px;
+  border: 1px solid var(--zs-rec-walnut);
+  border-radius: 9px;
+  background: var(--zs-rec-walnut);
+  color: #fffaf3;
+  font-family: var(--font-body--family, inherit);
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: .01em;
+  text-decoration: none;
+  position: relative;
+  z-index: 3;
+  transition: background-color .18s ease, border-color .18s ease;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details:hover {
+  background: #624634;
+  border-color: #624634;
+  color: white;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details:focus-visible {
+  outline: 2px solid #826043;
+  outline-offset: 3px;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details-arrow {
+  font-size: 1.07rem;
+  font-weight: 500;
+  line-height: 1;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card button.quick-add__button {
+  display: flex !important;
+  opacity: 1 !important;
+  width: auto !important;
+  height: 38px;
+  min-height: 38px;
+  max-width: calc(100% - 22px);
+  padding: 0 13px 0 0 !important;
+  border: 1px solid #dfcbb4;
+  border-radius: 999px;
+  background: #fffaf4;
+  color: #443126;
+  font-family: var(--font-body--family, inherit);
+  font-size: 12px;
+  font-weight: 750;
+  box-shadow: 0 3px 13px rgba(38, 27, 18, .12);
+  backdrop-filter: none;
+  inset-inline-end: 10px;
+  inset-block-end: 10px;
+  scale: 1;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card button.quick-add__button:hover:not(:disabled) {
+  background: #443126;
+  border-color: #443126;
+  color: white;
+  scale: 1;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card button.quick-add__button:focus-visible {
+  outline: 2px solid #795638;
+  outline-offset: 3px;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card button.quick-add__button[data-added="true"] {
+  width: 40px !important;
+  padding: 0 !important;
+}
+product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .quick-add__button > .add-to-cart-icon {
+  --quick-add-icon-width: 38px;
+  width: 38px;
+  flex: 0 0 38px;
+}
+@media screen and (max-width: 749px) {
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card {
+    border-radius: 13px;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .product-card__content.product-grid__card {
+    padding: 7px 7px 10px !important;
+    gap: 7px;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .card-gallery {
+    border-radius: 9px;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .product-card__content :is([role="heading"],.text-block h3,.text-block h4) {
+    font-size: .79rem;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details {
+    min-height: 39px;
+    padding: 9px 10px;
+    font-size: .76rem;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card button.quick-add__button {
+    height: 33px;
+    min-height: 33px;
+    padding-right: 9px !important;
+    font-size: 11px;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card .quick-add__button > .add-to-cart-icon {
+    --quick-add-icon-width: 31px;
+    width: 31px;
+    flex-basis: 31px;
+  }
+}
+
+/* The smaller recommendations above the purchase area use the same walnut language. */
+.product-information .zs-pairs {
+  border-top-color: #e9ddcf;
+  padding-top: 21px;
+}
+.product-information .zs-pairs__heading {
+  margin-bottom: 15px;
+}
+.product-information .zs-pairs__eyebrow {
+  color: #946e4f;
+}
+.product-information .zs-pairs__title {
+  color: #382b23;
+  font-size: clamp(1.16rem, 1.4vw, 1.4rem);
+}
+.product-information .zs-pairs__arrow {
+  width: 34px;
+  height: 34px;
+  border-color: #decfbc;
+  background: #fffaf5;
+  font-size: 1.4rem;
+}
+.product-information .zs-pairs__arrow:hover:not(:disabled) {
+  border-color: #916c4e;
+  background: #f4ece2;
+}
+.product-information .zs-pairs__card {
+  gap: 11px;
+  min-height: 96px;
+  padding: 11px;
+  border: 1px solid #e5d8c9;
+  border-radius: 12px;
+  background: #fffdf9;
+  box-shadow: 0 3px 12px rgba(65, 43, 27, .035);
+}
+.product-information .zs-pairs__photo {
+  width: 73px;
+  height: 73px;
+  border: 1px solid #eee3d6;
+  border-radius: 9px;
+  background: #f8f4ee;
+}
+.product-information .zs-pairs__name {
+  font-size: .84rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.product-information .zs-pairs__price {
+  font-size: .92rem;
+  font-weight: 750;
+  margin-top: 7px;
+}
+.product-information .zs-pairs__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: auto;
+  min-width: 64px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid #443126;
+  border-radius: 8px;
+  background: #443126;
+  color: #fffaf3;
+  font-family: var(--font-body--family, inherit);
+  font-size: .76rem;
+  line-height: 1;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.product-information .zs-pairs__plus span {
+  font-size: 1.04rem;
+  line-height: 1;
+}
+.product-information .zs-pairs__plus:hover {
+  background: #624634;
+  border-color: #624634;
+}
+.product-information .zs-pairs__plus--link {
+  background: #fffaf5;
+  border-color: #bda58e;
+  color: #443126;
+}
+.product-information .zs-pairs__plus--link:hover {
+  background: #f5ece0;
+  border-color: #947354;
+}
+@media (max-width: 749px) {
+  .product-information .zs-pairs__card {
+    min-height: 84px;
+    gap: 8px;
+    padding: 8px;
+  }
+  .product-information .zs-pairs__photo {
+    width: 57px;
+    height: 57px;
+  }
+  .product-information .zs-pairs__name {
+    font-size: .77rem;
+  }
+  .product-information .zs-pairs__price {
+    font-size: .82rem;
+  }
+  .product-information .zs-pairs__plus {
+    min-width: 53px;
+    padding: 0 8px;
+    height: 34px;
+    font-size: .69rem;
+  }
+  .product-information .zs-pairs__plus--link {
+    font-size: .66rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card,
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card__details {
+    transition: none;
+  }
+  product-recommendations[data-testid="product-recommendations-section"] .zs-related-card:hover {
+    transform: none;
+  }
+}
