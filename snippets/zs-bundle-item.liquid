@@ -30,6 +30,7 @@
 {%- endcapture -%}
 {% if item != blank and chosen_variant != blank %}
   <div class="zs-bundle__row zs-bundle__row--option" data-zs-row data-zs-optional
+    data-product-id="{{ item.id }}"
     data-variant-id="{{ chosen_variant.id }}"
     data-price-cents="{{ chosen_variant.price }}">
     <input type="checkbox" class="zs-bundle__check" data-zs-check
@@ -44,6 +45,9 @@
     </span>
     <span class="zs-bundle__details">
       <span class="zs-bundle__name">{{ item.title | escape }}</span>
+      <button type="button" class="zs-bundle__change" data-zs-change aria-label="Change {{ item.title | escape }} in your bundle">
+        <span aria-hidden="true">↻</span> Change product
+      </button>
       {% unless item.has_only_default_variant %}
         <span class="zs-bundle__variants">
           <select data-zs-variant aria-label="Choose a variant for {{ item.title | escape }}">
