@@ -110,3 +110,106 @@ body:has(.zf-hero) #header-group .shopify-section:has(.zs-announcement) {display
 body:has(.zf-hero) #header-group .zs-announcement{display:none!important}
 body:has(.zf-hero) #header-component:not([data-sticky-state='active']) .header__underlay-closed{background:transparent!important;box-shadow:none!important}
 body:has(.zf-hero) #header-component[data-sticky-state='active'] .header__underlay-closed{background:#FFFFFF!important}
+
+
+/* ZAISEN homepage Judge.me — warm editorial review showcase (scoped) */
+main .shopify-section[id*="17934642526456dd15"] {
+  --zs-review-ink: #2b1d17;
+  --zs-review-muted: #796d61;
+  --zs-review-accent: #b98a4b;
+  position: relative;
+  isolation: isolate;
+  background: #f8f4ee;
+  border-top: 1px solid #ece3d8;
+  border-bottom: 1px solid #ece3d8;
+}
+main .shopify-section[id*="17934642526456dd15"] > .section-background,
+main .shopify-section[id*="17934642526456dd15"] .section-background {
+  background-color: #f8f4ee !important;
+}
+main .shopify-section[id*="17934642526456dd15"]::before {
+  content: "WORDS FROM REAL HOMES";
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--zs-review-accent);
+  font: 600 10px/1.4 Inter, Arial, sans-serif;
+  letter-spacing: .24em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel {
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  color: var(--zs-review-ink);
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel :is(h1, h2, h3),
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel [class*="header-title"],
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel [class*="header__title"] {
+  color: var(--zs-review-ink) !important;
+  font-family: var(--font-heading--family, Georgia, serif) !important;
+  font-size: clamp(34px, 4.4vw, 54px) !important;
+  line-height: 1.04 !important;
+  font-weight: 500 !important;
+  letter-spacing: -.035em !important;
+  text-wrap: balance;
+}
+main .shopify-section[id*="17934642526456dd15"] :is(.jm-review-item, .jm-review-card, [class*="review-card"], [class*="review_card"]) {
+  color: var(--zs-review-ink);
+  background: #fffdf9 !important;
+  border: 1px solid #e9ded1 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 34px rgb(61 41 28 / 7%) !important;
+  overflow: hidden;
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+@media (hover: hover) {
+  main .shopify-section[id*="17934642526456dd15"] :is(.jm-review-item, .jm-review-card, [class*="review-card"], [class*="review_card"]):hover {
+    border-color: #dac5aa !important;
+    box-shadow: 0 17px 42px rgb(61 41 28 / 11%) !important;
+    transform: translateY(-3px);
+  }
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel p {
+  color: #4e4037;
+  line-height: 1.7;
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel a {
+  color: #7d5233;
+  text-decoration-color: #cfb393;
+  text-underline-offset: 4px;
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel a:hover {
+  color: var(--zs-review-ink);
+}
+main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel :is(button, a):focus-visible {
+  outline: 2px solid var(--zs-review-accent) !important;
+  outline-offset: 3px;
+}
+@media (max-width: 749px) {
+  main .shopify-section[id*="17934642526456dd15"]::before {
+    top: 23px;
+    font-size: 9px;
+    letter-spacing: .18em;
+  }
+  main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel {
+    max-width: 100%;
+  }
+  main .shopify-section[id*="17934642526456dd15"] .jdgm-cards-carousel :is(h1,h2,h3) {
+    font-size: clamp(32px, 9vw, 40px) !important;
+    line-height: 1.08 !important;
+  }
+  main .shopify-section[id*="17934642526456dd15"] :is(.jm-review-item,.jm-review-card,[class*="review-card"],[class*="review_card"]) {
+    border-radius: 14px !important;
+    box-shadow: 0 6px 22px rgb(61 41 28 / 7%) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  main .shopify-section[id*="17934642526456dd15"] :is(.jm-review-item,.jm-review-card,[class*="review-card"],[class*="review_card"]) {
+    transition: none;
+    transform: none !important;
+  }
+}
