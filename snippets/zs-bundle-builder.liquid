@@ -1,60 +1,96 @@
 {% comment %}
-  ZAISEN curated app-free bundle selector (20 per-product curated pairs).
-  This is an independent checkout permalink, not a Shopify composite inventory item.
+  ZAISEN automatic app-free bundle selector for the entire active catalog.
+  Automatic recommendations use shared collections and the all-products catalog.
+  This is not a Shopify composite inventory item.
   Native Shopify discount codes:
   ZS-BUNDLE15-2026 (min 2, 15% of eligible live prices);
   ZS-BUNDLE25-2026 (min 3, 25% of eligible live prices);
   ZS-BUNDLESHIP-2026 (min 2, supported shipping countries).
 {% endcomment %}
 {%- liquid
-  assign zs_pair_handles = ''
-  case product.handle
-    when 'handcrafted-wooden-pitcher-cups-set'
-      assign zs_pair_handles = 'hand-carved-wooden-tea-set-6-cups-tray,handcrafted-wooden-jug-4-cups-set'
-    when 'wooden-ship-wheel-wall-clock'
-      assign zs_pair_handles = 'wooden-ship-wheel-desk-clock,handcrafted-wooden-ship-decor'
-    when 'hand-carved-wooden-tissue-box-cover'
-      assign zs_pair_handles = 'tea-coffee-sugar-canisters-wooden-set,handcrafted-carved-wooden-serving-tray-set-of-3'
-    when 'hand-carved-wooden-foldable-serving-tray'
-      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,hand-carved-wooden-tea-set-6-cups-tray'
-    when 'handcrafted-wooden-cutlery-set'
-      assign zs_pair_handles = 'handcrafted-wooden-nesting-bowl-set,wooden-serving-tray-set-of-3'
-    when 'wooden-serving-tray-set-of-3'
-      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,handcrafted-wooden-nesting-bowl-set'
-    when 'wooden-ship-wheel-desk-clock'
-      assign zs_pair_handles = 'wooden-ship-wheel-wall-clock,handcrafted-wooden-sailboat-desk-decor'
-    when 'handcrafted-wooden-nesting-bowl-set'
-      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,hand-carved-wooden-foldable-serving-tray'
-    when 'handcrafted-wooden-jug-4-cups-set'
-      assign zs_pair_handles = 'handcrafted-wooden-pitcher-cups-set,hand-carved-wooden-tea-set-6-cups-tray'
-    when 'handcrafted-wooden-jug-5-cups-set'
-      assign zs_pair_handles = 'handcrafted-wooden-pitcher-cups-set,hand-carved-wooden-tea-set-6-cups-tray'
-    when 'hand-carved-wooden-tea-set-6-cups-tray'
-      assign zs_pair_handles = 'wooden-serving-tray-set-of-3,tea-coffee-sugar-canisters-wooden-set'
-    when 'handcrafted-wooden-ship-decor'
-      assign zs_pair_handles = 'wooden-ship-wheel-wall-clock,handcrafted-wooden-sailboat-desk-decor'
-    when 'handcrafted-wooden-sailboat-desk-decor'
-      assign zs_pair_handles = 'handcrafted-wooden-ship-decor,wooden-ship-wheel-desk-clock'
-    when 'handcrafted-carved-wooden-serving-tray-set-of-3'
-      assign zs_pair_handles = 'handcrafted-wooden-cutlery-set,handcrafted-wooden-nesting-bowl-set'
-    when 'handcrafted-carved-wooden-table-lamp'
-      assign zs_pair_handles = 'wooden-duck-lamp-animal-table-light,wooden-dolphin-lamp-coastal-table-light'
-    when 'tea-coffee-sugar-canisters-wooden-set'
-      assign zs_pair_handles = 'hand-carved-wooden-tea-set-6-cups-tray,wooden-serving-tray-set-of-3'
-    when 'wooden-duck-lamp-animal-table-light'
-      assign zs_pair_handles = 'wooden-dolphin-lamp-coastal-table-light,wooden-horse-lamp-equestrian-table-light'
-    when 'wooden-dolphin-lamp-coastal-table-light'
-      assign zs_pair_handles = 'wooden-duck-lamp-animal-table-light,handcrafted-carved-wooden-table-lamp'
-    when 'wooden-horse-lamp-equestrian-table-light'
-      assign zs_pair_handles = 'handcrafted-wooden-horse-statue,handcrafted-carved-wooden-table-lamp'
-    when 'handcrafted-wooden-horse-statue'
-      assign zs_pair_handles = 'wooden-horse-lamp-equestrian-table-light,wooden-ship-wheel-wall-clock'
-  endcase
-  assign zs_pair_parts = zs_pair_handles | split: ','
-  assign zs_handle_one = zs_pair_parts | first
-  assign zs_handle_two = zs_pair_parts | last
-  assign zs_recommendation_one = all_products[zs_handle_one]
-  assign zs_recommendation_two = all_products[zs_handle_two]
+  assign zs_recommendation_one = blank
+  assign zs_recommendation_two = blank
+
+  # Pick an in-stock piece from a shared collection, starting after the
+  # current product and wrapping around if it is last in the collection.
+  # This works for newly published products with no per-product setup.
+  for zs_collection in product.collections
+    if zs_collection.handle != 'all' and zs_collection.handle != 'best-sellers'
+      assign zs_after_main = false
+      for zs_candidate in zs_collection.products
+        if zs_candidate.id == product.id
+          assign zs_after_main = true
+        elsif zs_after_main and zs_candidate.available
+          assign zs_recommendation_one = zs_candidate
+          break
+        endif
+      endfor
+      if zs_recommendation_one == blank
+        for zs_candidate in zs_collection.products
+          if zs_candidate.id != product.id and zs_candidate.available
+            assign zs_recommendation_one = zs_candidate
+            break
+          endif
+        endfor
+      endif
+    endif
+    if zs_recommendation_one != blank
+      break
+    endif
+  endfor
+
+  # A rotating second recommendation from the automatic All collection
+  # ensures fresh arrivals also appear on existing products' bundle cards.
+  assign zs_all_collection = collections['all']
+  assign zs_after_main = false
+  for zs_candidate in zs_all_collection.products
+    if zs_candidate.id == product.id
+      assign zs_after_main = true
+    elsif zs_after_main and zs_candidate.available
+      if zs_recommendation_one == blank
+        assign zs_recommendation_one = zs_candidate
+      elsif zs_candidate.id != zs_recommendation_one.id
+        assign zs_recommendation_two = zs_candidate
+        break
+      endif
+    endif
+  endfor
+
+  # Wrap to the beginning. Never recommend the current product, duplicates,
+  # or unavailable products.
+  if zs_recommendation_one == blank or zs_recommendation_two == blank
+    for zs_candidate in zs_all_collection.products
+      if zs_candidate.id != product.id and zs_candidate.available
+        if zs_recommendation_one == blank
+          assign zs_recommendation_one = zs_candidate
+        elsif zs_recommendation_two == blank and zs_candidate.id != zs_recommendation_one.id
+          assign zs_recommendation_two = zs_candidate
+          break
+        endif
+      endif
+    endfor
+  endif
+
+  # For large catalogs, try another assigned collection if the first
+  # available assortment did not yield two distinct bundle options.
+  if zs_recommendation_one == blank or zs_recommendation_two == blank
+    for zs_collection in product.collections
+      for zs_candidate in zs_collection.products
+        if zs_candidate.id != product.id and zs_candidate.available
+          if zs_recommendation_one == blank
+            assign zs_recommendation_one = zs_candidate
+          elsif zs_recommendation_two == blank and zs_candidate.id != zs_recommendation_one.id
+            assign zs_recommendation_two = zs_candidate
+            break
+          endif
+        endif
+      endfor
+      if zs_recommendation_one != blank and zs_recommendation_two != blank
+        break
+      endif
+    endfor
+  endif
+
   assign zs_main_variant = product.selected_or_first_available_variant
   assign zs_country = localization.country.iso_code | upcase
   assign zs_bundle_shipping_supported = false
