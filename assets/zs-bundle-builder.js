@@ -25,6 +25,12 @@
       this.promo = this.querySelector('[data-zs-delivery-zone]');
       this.progress = this.querySelector('[data-zs-progress]');
       this.progressFill = this.querySelector('[data-zs-progress-fill]');
+      this.picker = this.querySelector('[data-zs-picker]');
+      this.pickerSearch = this.querySelector('[data-zs-picker-search]');
+      this.pickerEmpty = this.querySelector('[data-zs-picker-empty]');
+      this.activePickerRow = null;
+      this.activePickerCollection = 'all';
+      this.pickerOpener = null;
       this.processing = false;
       this.currency = (this.dataset.currency || window.Shopify?.currency?.active || 'USD').toUpperCase();
       // Display labels only: variant cents are already converted by Shopify Markets.
@@ -84,6 +90,39 @@
         if (this.processing || target.disabled || !this.form.reportValidity()) return;
         this.purchase('checkout');
       };
+      this.onPickerClick = event => {
+        const change = event.target.closest?.('[data-zs-change]');
+        if (change && this.contains(change)) {
+          this.openProductPicker(change.closest('[data-zs-optional]'), change);
+          return;
+        }
+        if (!this.picker?.contains(event.target)) return;
+        if (event.target.closest?.('[data-zs-picker-close]')) {
+          this.picker.close();
+          return;
+        }
+        const category = event.target.closest?.('[data-zs-picker-collection]');
+        if (category) {
+          this.activePickerCollection = category.dataset.zsPickerCollection || 'all';
+          this.renderProductPicker();
+          return;
+        }
+        const candidate = event.target.closest?.('[data-zs-picker-choose]');
+        if (candidate) this.choosePickerProduct(candidate);
+      };
+      this.onPickerInput = () => this.renderProductPicker();
+      this.onPickerBackdropClick = event => {
+        if (event.target === this.picker) this.picker.close();
+      };
+      this.onPickerClosed = () => {
+        this.activePickerRow = null;
+        this.pickerOpener?.focus();
+        this.pickerOpener = null;
+      };
+      this.addEventListener('click', this.onPickerClick);
+      this.pickerSearch?.addEventListener('input', this.onPickerInput);
+      this.picker?.addEventListener('click', this.onPickerBackdropClick);
+      this.picker?.addEventListener('close', this.onPickerClosed);
       this.addEventListener('change', this.onLocalChange);
       document.addEventListener('change', this.onFormChange, true);
       document.addEventListener('variant:update', this.onVariantUpdate);
@@ -92,12 +131,131 @@
       this.refresh();
     }
     disconnectedCallback() {
+      this.removeEventListener('click', this.onPickerClick);
+      this.pickerSearch?.removeEventListener('input', this.onPickerInput);
+      this.picker?.removeEventListener('click', this.onPickerBackdropClick);
+      this.picker?.removeEventListener('close', this.onPickerClosed);
       this.removeEventListener('change', this.onLocalChange);
       document.removeEventListener('change', this.onFormChange, true);
       document.removeEventListener('variant:update', this.onVariantUpdate);
       document.removeEventListener('submit', this.onSubmitCapture, true);
       document.removeEventListener('click', this.onClickCapture, true);
     }
+    // Keep both original recommendation slots. Only the contents change.
+    openProductPicker(row, opener) {
+      if (!row || !this.picker || typeof this.picker.showModal !== 'function') return;
+      this.activePickerRow = row;
+      this.pickerOpener = opener;
+      this.activePickerCollection = 'all';
+      if (this.pickerSearch) this.pickerSearch.value = '';
+      this.renderProductPicker();
+      this.picker.showModal();
+      const scrolling = this.picker.querySelector('[data-zs-picker-scroll]');
+      if (scrolling) scrolling.scrollTop = 0;
+      this.pickerSearch?.focus();
+    }
+
+    renderProductPicker() {
+      if (!this.picker) return;
+      const query = (this.pickerSearch?.value || '').trim().toLocaleLowerCase();
+      const selectedElsewhere = new Set(
+        this.rows.filter(row => row !== this.activePickerRow)
+          .map(row => String(row.dataset.productId || ''))
+      );
+      const seen = new Set();
+      let visibleCount = 0;
+      for (const group of this.picker.querySelectorAll('[data-zs-picker-group]')) {
+        const inCategory = this.activePickerCollection === 'all' ||
+          group.dataset.collection === this.activePickerCollection;
+        let groupCount = 0;
+        for (const candidate of group.querySelectorAll('[data-zs-picker-choose]')) {
+          const productId = String(candidate.dataset.zsPickerProductId || '');
+          const title = (candidate.dataset.zsPickerProductTitle || '').toLocaleLowerCase();
+          const match = inCategory && title.includes(query) && !seen.has(productId);
+          candidate.hidden = !match;
+          if (!match) continue;
+          seen.add(productId);
+          groupCount++;
+          visibleCount++;
+          const alreadyUsed = selectedElsewhere.has(productId);
+          candidate.disabled = alreadyUsed;
+          candidate.classList.toggle('is-in-bundle', alreadyUsed);
+          const label = candidate.querySelector('.zs-bundle__picker-card-action');
+          if (label) label.textContent = alreadyUsed ? 'Already in your bundle' : 'Choose piece ↗';
+        }
+        group.hidden = !groupCount;
+      }
+      for (const tab of this.picker.querySelectorAll('[data-zs-picker-collection]')) {
+        const active = tab.dataset.zsPickerCollection === this.activePickerCollection;
+        tab.setAttribute('aria-pressed', String(active));
+        tab.classList.toggle('is-active', active);
+      }
+      if (this.pickerEmpty) this.pickerEmpty.hidden = visibleCount > 0;
+    }
+
+    choosePickerProduct(candidate) {
+      const row = this.activePickerRow;
+      if (!row || candidate.disabled) return;
+      const id = String(candidate.dataset.zsPickerProductId || '');
+      if (!/^\d+$/.test(id) || this.rows.some(other =>
+        other !== row && String(other.dataset.productId || '') === id
+      )) return;
+      const template = candidate.querySelector('template[data-zs-picker-variants]');
+      const selectSource = template?.content?.querySelector('select');
+      const available = [...(selectSource?.options || [])].find(option => !option.disabled);
+      if (!available || !/^\d+$/.test(available.value)) return;
+
+      const title = candidate.dataset.zsPickerProductTitle || 'ZAISEN product';
+      const price = available.dataset.price || '0';
+      if (!/^\d+$/.test(price) || Number(price) <= 0) return;
+      const photo = candidate.dataset.zsPickerProductImage || '';
+      row.dataset.productId = id;
+      row.dataset.variantId = available.value;
+      row.dataset.priceCents = price;
+
+      const name = row.querySelector('.zs-bundle__name');
+      if (name) name.textContent = title;
+      const check = row.querySelector('[data-zs-check]');
+      if (check) {
+        check.disabled = false;
+        check.checked = true;
+        check.setAttribute('aria-label', 'Include ' + title + ' in bundle');
+      }
+      const button = row.querySelector('[data-zs-change]');
+      if (button) button.setAttribute('aria-label', 'Change ' + title + ' in your bundle');
+      const picture = row.querySelector('.zs-bundle__picture');
+      if (picture) {
+        if (photo) {
+          const image = document.createElement('img');
+          image.src = photo;
+          image.alt = title;
+          image.loading = 'lazy';
+          picture.replaceChildren(image);
+        } else {
+          const placeholder = document.createElement('span');
+          placeholder.textContent = 'ZAISEN';
+          picture.replaceChildren(placeholder);
+        }
+      }
+      let variants = row.querySelector('.zs-bundle__variants');
+      if (selectSource.options.length > 1) {
+        if (!variants) {
+          variants = document.createElement('span');
+          variants.className = 'zs-bundle__variants';
+          row.querySelector('.zs-bundle__price-group')?.before(variants);
+        }
+        const select = selectSource.cloneNode(true);
+        select.setAttribute('data-zs-variant', '');
+        select.setAttribute('aria-label', 'Choose an option for ' + title);
+        select.value = available.value;
+        variants.replaceChildren(select);
+      } else {
+        variants?.remove();
+      }
+      this.picker?.close();
+      this.refresh();
+    }
+
     money(cents) {
       return this.currencyPrefix + this.format.format(Math.round(cents) / 100);
     }
