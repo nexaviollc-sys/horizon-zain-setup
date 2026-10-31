@@ -14,6 +14,16 @@
     assign zs_lifestyle_image = product.images.last
   endif
 
+  # Show a second, actual product photo as a small editorial detail on desktop.
+  # Never duplicate the lifestyle image or insert a stock/generated photograph.
+  assign zs_lifestyle_detail_image = blank
+  for zs_candidate_image in product.images
+    if zs_candidate_image.id != zs_lifestyle_image.id
+      assign zs_lifestyle_detail_image = zs_candidate_image
+      break
+    endif
+  endfor
+
   assign zs_lifestyle_heading = product.metafields.custom.zs_lifestyle_heading.value
   assign zs_lifestyle_description = product.metafields.custom.zs_lifestyle_description.value
 
@@ -86,6 +96,12 @@
                 alt: product.title
             }}
           </div>
+          {% if zs_lifestyle_detail_image != blank %}
+            <div class="zs-lifestyle-section__detail-inset" aria-label="Another view of {{ product.title | escape }}">
+              {{ zs_lifestyle_detail_image | image_url: width: 700 | image_tag: widths: '220,320,450,700', sizes: '(min-width: 1024px) 18vw, 1px', loading: 'lazy', class: 'zs-lifestyle-section__detail-image', alt: product.title }}
+              <span class="zs-lifestyle-section__detail-caption">THE DETAILS</span>
+            </div>
+          {% endif %}
           <figcaption class="zs-lifestyle-section__image-note">
             <span class="zs-lifestyle-section__image-note-line" aria-hidden="true"></span>
             {{ section.settings.image_label | escape }}
@@ -117,6 +133,7 @@
               <span class="zs-lifestyle-section__signature-note">Nature, shaped by hand.</span>
             </div>
           </div>
+          <p class="zs-lifestyle-section__editorial-note">Each piece carries its own natural wood grain and character.</p>
         </div>
       </div>
     </div>
@@ -358,6 +375,193 @@
     }
     .zs-lifestyle-section__signature-name { font-size:10px; letter-spacing:.08em; }
     .zs-lifestyle-section__signature-note { color:#6c5d4e; font-size:11px; }
+  }
+
+
+  /* ZAISEN desktop editorial — one real lifestyle image, one optional product detail. */
+  .zs-lifestyle-section__detail-inset { display: none; }
+  .zs-lifestyle-section__editorial-note { display: none; }
+  @media screen and (min-width: 1024px) {
+    .zs-lifestyle-section {
+      padding: clamp(64px, 7vw, 110px) clamp(24px, 4vw, 64px);
+      background: #fff;
+    }
+    .zs-lifestyle-section .zs-lifestyle-section__inner { max-width: 1280px; }
+    .zs-lifestyle-section__overline {
+      gap: 18px;
+      padding: 0 0 16px;
+      margin: 0 0 clamp(24px, 3.6vw, 50px);
+      border: 0;
+      border-bottom: 1px solid #e6dfd6;
+    }
+    .zs-lifestyle-section__overline p {
+      color: #80634b;
+      font: 700 10px/1.5 var(--font-body--family), sans-serif;
+      letter-spacing: .17em;
+    }
+    .zs-lifestyle-section__overline-note {
+      display: block;
+      color: #8b8176;
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+    .zs-lifestyle-section__stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+      align-items: center;
+      gap: clamp(54px, 7vw, 114px);
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .zs-lifestyle-section__media {
+      position: relative;
+      align-self: start;
+      width: 100%;
+      padding: 0 clamp(24px, 3.2vw, 42px) clamp(32px, 4vw, 54px) 0;
+    }
+    .zs-lifestyle-section__image-frame {
+      aspect-ratio: 1;
+      border: 1px solid #eee8e0;
+      border-radius: 3px;
+      background: #f8f6f2;
+      overflow: hidden;
+      box-shadow: 0 15px 45px rgba(51, 37, 23, .055);
+    }
+    .zs-lifestyle-section__image {
+      object-fit: contain !important;
+      object-position: center;
+    }
+    .zs-lifestyle-section__detail-inset {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      width: clamp(145px, 33%, 220px);
+      aspect-ratio: 1;
+      right: 0;
+      bottom: 0;
+      padding: 9px 9px 26px;
+      border: 1px solid #e5ddd1;
+      background: #fffdf9;
+      box-shadow: 0 16px 35px rgba(45, 30, 18, .12);
+      transform: rotate(2deg);
+    }
+    .zs-lifestyle-section__detail-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #f8f5f1;
+    }
+    .zs-lifestyle-section__detail-caption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 8px;
+      text-align: center;
+      color: #77604d;
+      font: 650 9px/1.1 var(--font-body--family), sans-serif;
+      letter-spacing: .14em;
+    }
+    .zs-lifestyle-section__image-note {
+      display: flex;
+      position: absolute;
+      bottom: 12px;
+      left: 0;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #806f5d;
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+    .zs-lifestyle-section__image-note-line {
+      display: block;
+      background: #9b7a5e;
+    }
+    .zs-lifestyle-section__content {
+      width: 100%;
+      min-width: 0;
+      padding: 18px 0 10px;
+      margin: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    .zs-lifestyle-section__kicker {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: fit-content;
+      margin: 0 0 25px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #88674b;
+      font: 700 10px/1.45 var(--font-body--family), sans-serif;
+      letter-spacing: .17em;
+    }
+    .zs-lifestyle-section__kicker-line { display: block; background: #9a7b61; }
+    .zs-lifestyle-section__title {
+      max-width: 16ch;
+      margin: 0;
+      color: #30271f;
+      font: 400 clamp(34px, 3.75vw, 59px)/1.09 var(--font-heading--family), Georgia, serif;
+      letter-spacing: -.034em;
+      text-wrap: balance;
+    }
+    .zs-lifestyle-section__description {
+      max-width: 42ch;
+      margin: clamp(20px, 2.5vw, 32px) 0 0;
+      color: #62574c;
+      font: 400 clamp(14px, 1.1vw, 16px)/1.78 var(--font-body--family), sans-serif;
+    }
+    .zs-lifestyle-section__signature {
+      display: flex;
+      width: 100%;
+      max-width: 390px;
+      margin-top: 34px;
+      padding: 19px 0 0;
+      border-top: 1px solid #e8e0d6;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .zs-lifestyle-section__monogram {
+      border: 1px solid #d8c7b5;
+      border-radius: 50%;
+      width: 37px;
+      height: 37px;
+      flex-basis: 37px;
+      font-size: 20px;
+    }
+    .zs-lifestyle-section__signature-name {
+      font-size: 10px;
+      letter-spacing: .16em;
+    }
+    .zs-lifestyle-section__signature-note {
+      font-size: 12px;
+      color: #665a4d;
+    }
+    .zs-lifestyle-section__editorial-note {
+      display: block;
+      max-width: 38ch;
+      margin: 18px 0 0;
+      color: #8c7a68;
+      font: italic 400 12px/1.6 var(--font-heading--family), Georgia, serif;
+    }
+  }
+  @media screen and (min-width: 1024px) and (max-width: 1140px) {
+    .zs-lifestyle-section__stage { gap: 44px; }
+    .zs-lifestyle-section__detail-inset { width: 31%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .zs-lifestyle-section__detail-inset { transform: none; }
   }
 
 {% endstylesheet %}
