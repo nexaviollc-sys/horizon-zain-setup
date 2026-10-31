@@ -22,7 +22,17 @@
         assign collection = settings.empty_state_collection | default: collections.all
         assign default_title = 'content.search_results_resource_products' | t
         assign title = settings.empty_state_collection.title | default: default_title
+        if products_test_id contains 'products-list-default'
+          assign title = 'Explore handcrafted pieces'
+        endif
       %}
+      {% if products_test_id contains 'products-list-default' %}
+        <div class="zs-search-discovery">
+          <p class="zs-search-discovery__eyebrow">CRAFTED BY ZAISEN</p>
+          <h3 class="zs-search-discovery__title">A little closer to nature.</h3>
+          <p class="zs-search-discovery__text">Browse our wooden favorites, or use search to find something special.</p>
+        </div>
+      {% endif %}
       {% paginate collection.products by 4 %}
         {% assign products = collection.products %}
         {% comment %} Only show products section if there are products to display {% endcomment %}
