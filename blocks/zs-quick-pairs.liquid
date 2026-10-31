@@ -62,12 +62,12 @@
                     <input type="hidden" name="id" value="{{ zs_variant.id }}" ref="variantId">
                     <input type="hidden" name="quantity" value="{{ zs_variant.quantity_rule.min | default: 1 }}">
                     <add-to-cart-component ref="addToCartButtonContainer" data-add-to-cart-animation="false">
-                      <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="zs-pairs__plus" aria-label="Add {{ suggestion.title | escape }} to cart">+</button>
+                      <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="zs-pairs__plus zs-pairs__plus--add" aria-label="Add {{ suggestion.title | escape }} to cart">Add <span aria-hidden="true">+</span></button>
                     </add-to-cart-component>
                   {% endform %}
                 </product-form-component>
               {% else %}
-                <a href="{{ suggestion.url }}" class="zs-pairs__plus zs-pairs__plus--link" aria-label="Choose options for {{ suggestion.title | escape }}">+</a>
+                <a href="{{ suggestion.url }}" class="zs-pairs__plus zs-pairs__plus--link" aria-label="Choose options for {{ suggestion.title | escape }}">Options <span aria-hidden="true">↗</span></a>
               {% endif %}
             </div>
           {% endif %}
