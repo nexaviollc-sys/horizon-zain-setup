@@ -171,6 +171,91 @@
       {% render 'zs-bundle-item', item: zs_bundle_rec, index: 2 %}
     </div>
 
+    {% comment %}
+      The existing bundle now includes an in-place product picker. Shopify
+      renders localized prices and available variants for each of ZAISEN's
+      eight active storefront collections. No new section or app is required.
+    {% endcomment %}
+    {% assign zs_picker_collection_handles = 'lighting|kitchen-dining|wall-clocks|wooden-drinkware|home-decor|gifts|handcrafted-wooden-statues|wooden-desk-shelf-decor' | split: '|' %}
+    <dialog class="zs-bundle__picker" data-zs-picker aria-labelledby="zs-bundle-picker-title-{{ product.id }}">
+      <div class="zs-bundle__picker-shell">
+        <header class="zs-bundle__picker-head">
+          <div>
+            <p class="zs-bundle__picker-eyebrow">PERSONALIZE YOUR BUNDLE</p>
+            <h3 id="zs-bundle-picker-title-{{ product.id }}" class="zs-bundle__picker-title">Choose your wooden piece</h3>
+            <p class="zs-bundle__picker-subtitle">Browse the ZAISEN collections and replace either suggested piece.</p>
+          </div>
+          <button type="button" class="zs-bundle__picker-close" data-zs-picker-close aria-label="Close product picker">×</button>
+        </header>
+        <div class="zs-bundle__picker-tools">
+          <label class="zs-bundle__picker-search-wrap">
+            <span class="visually-hidden">Search ZAISEN products</span>
+            <span class="zs-bundle__picker-search-icon" aria-hidden="true">⌕</span>
+            <input data-zs-picker-search type="search" placeholder="Search wooden products…" autocomplete="off">
+          </label>
+          <div class="zs-bundle__picker-tabs" aria-label="Filter products by collection">
+            <button type="button" data-zs-picker-collection="all" aria-pressed="true" class="is-active">All collections</button>
+            {% for zs_picker_handle in zs_picker_collection_handles %}
+              {% assign zs_picker_collection = collections[zs_picker_handle] %}
+              {% if zs_picker_collection != blank %}
+                <button type="button" data-zs-picker-collection="{{ zs_picker_handle }}" aria-pressed="false">{{ zs_picker_collection.title | escape }}</button>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="zs-bundle__picker-scroll" data-zs-picker-scroll>
+          {% for zs_picker_handle in zs_picker_collection_handles %}
+            {% assign zs_picker_collection = collections[zs_picker_handle] %}
+            {% if zs_picker_collection != blank %}
+              <section class="zs-bundle__picker-group" data-zs-picker-group data-collection="{{ zs_picker_handle }}">
+                <h4 class="zs-bundle__picker-group-title">{{ zs_picker_collection.title | escape }}</h4>
+                <div class="zs-bundle__picker-grid">
+                  {% for zs_picker_product in zs_picker_collection.products %}
+                    {% if zs_picker_product.available and zs_picker_product.id != product.id %}
+                      {% assign zs_picker_selected_variant = zs_picker_product.selected_or_first_available_variant %}
+                      {% if zs_picker_selected_variant != blank and zs_picker_selected_variant.available %}
+                        <button
+                          type="button"
+                          class="zs-bundle__picker-card"
+                          data-zs-picker-choose
+                          data-zs-picker-product-id="{{ zs_picker_product.id }}"
+                          data-zs-picker-product-title="{{ zs_picker_product.title | escape }}"
+                          data-zs-picker-product-image="{% if zs_picker_product.featured_image %}{{ zs_picker_product.featured_image | image_url: width: 260 | escape }}{% endif %}"
+                          aria-label="Choose {{ zs_picker_product.title | escape }} for your bundle"
+                        >
+                          <span class="zs-bundle__picker-card-media">
+                            {% if zs_picker_product.featured_image %}
+                              {{ zs_picker_product.featured_image | image_url: width: 260 | image_tag: loading: 'lazy', widths: '110,160,220,260', sizes: '(min-width: 750px) 155px, 44vw', alt: zs_picker_product.title }}
+                            {% else %}
+                              <span>ZAISEN</span>
+                            {% endif %}
+                          </span>
+                          <span class="zs-bundle__picker-card-body">
+                            <span class="zs-bundle__picker-card-name">{{ zs_picker_product.title | escape }}</span>
+                            <span class="zs-bundle__picker-card-price">{{ zs_picker_selected_variant.price | money }}</span>
+                            <span class="zs-bundle__picker-card-action">Choose piece <span aria-hidden="true">↗</span></span>
+                          </span>
+                          <template data-zs-picker-variants>
+                            <select aria-label="Choose an option for {{ zs_picker_product.title | escape }}">
+                              {% for zs_picker_variant in zs_picker_product.variants %}
+                                <option value="{{ zs_picker_variant.id }}" data-price="{{ zs_picker_variant.price }}" {% if zs_picker_variant.id == zs_picker_selected_variant.id %}selected{% endif %} {% unless zs_picker_variant.available %}disabled{% endunless %}>{{ zs_picker_variant.title | escape }}</option>
+                              {% endfor %}
+                            </select>
+                          </template>
+                        </button>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </section>
+            {% endif %}
+          {% endfor %}
+          <p class="zs-bundle__picker-empty" data-zs-picker-empty hidden>No matching available products. Try another collection or search.</p>
+        </div>
+        <footer class="zs-bundle__picker-footer">Your selection updates the bundle instantly. Discounts and shipping are confirmed at checkout.</footer>
+      </div>
+    </dialog>
+
     <div class="zs-bundle__summary">
       <div class="zs-bundle__summary-row"><span>Regular total</span><s data-zs-regular-total>—</s></div>
       <div class="zs-bundle__summary-row zs-bundle__summary-row--total">
