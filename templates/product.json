@@ -153,6 +153,13 @@
                   },
                   "blocks": {}
                 },
+                "zs_mini_description": {
+                  "type": "custom-liquid",
+                  "name": "ZAISEN Mini Description",
+                  "settings": {
+                    "custom_liquid": "{% assign zs_mini_description = closest.product.metafields.custom.short_description.value | strip %}\n{% if zs_mini_description != blank %}\n  <p class=\"zs-product-mini-description\">{{ zs_mini_description | escape }}</p>\n{% endif %}"
+                  }
+                },
                 "price_tVjtKg": {
                   "type": "price",
                   "settings": {
@@ -178,6 +185,7 @@
               },
               "block_order": [
                 "text_xrnftG",
+                "zs_mini_description",
                 "price_tVjtKg"
               ]
             },
