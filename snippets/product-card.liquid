@@ -60,7 +60,7 @@
 %}
 
 <product-card
-  class="product-card size-style"
+  class="product-card size-style{% if product_view_context == 'recommendation' %} zs-related-card{% endif %}"
   style="{% render 'size-style', settings: block_settings %}"
   data-product-id="{{ product.id }}"
   id="product-card-{{ block.id }}"
@@ -113,6 +113,16 @@
     "
   >
     {{ children }}
+    {% if product_view_context == 'recommendation' and product != blank %}
+      <a
+        class="zs-related-card__details"
+        href="{{ product.url }}"
+        aria-label="View details for {{ product.title | escape }}"
+      >
+        <span>View details</span>
+        <span class="zs-related-card__details-arrow" aria-hidden="true">↗</span>
+      </a>
+    {% endif %}
   </div>
 </product-card>
 
