@@ -361,24 +361,24 @@
           "settings": {
             "image": "shopify://shop_images/Hands_Examining_a_Walnut_Wood_Slab.jpg",
             "icon": "wood",
-            "heading": "Selected with care",
-            "description": "We choose wood for its natural grain and individual character."
+            "heading": "Chosen for its grain",
+            "description": "We look closely at the patterns and tone of the wood before shaping begins."
           }
         },
         "step_2": {
           "type": "step",
           "settings": {
             "icon": "craft",
-            "heading": "Shaped by hand",
-            "description": "Our makers carve, sand, and refine the details, bringing each wooden piece to life."
+            "heading": "Shaped and refined by hand",
+            "description": "Carving, smoothing, and careful finishing bring out the contours of each piece."
           }
         },
         "step_3": {
           "type": "step",
           "settings": {
             "icon": "package",
-            "heading": "Ready for your home",
-            "description": "Each piece is finished, checked, and carefully packed for its journey to you."
+            "heading": "Checked and packed with care",
+            "description": "We inspect the details and prepare each piece for its journey to your home."
           }
         }
       },
@@ -390,7 +390,7 @@
       "settings": {
         "eyebrow": "THE CARE BEHIND EVERY PIECE",
         "heading": "From Our Workshop to Your Home",
-        "intro": "Natural wood, thoughtful handwork, and care in every detail. A closer look at the journey behind your ZAISEN piece.",
+        "intro": "We pay attention to the grain, the shape, and the finishing touches. Follow the journey from natural wood to a piece made for everyday living.",
         "link": "/pages/our-story",
         "link_label": "Discover our story"
       }
