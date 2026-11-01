@@ -1,3 +1,15 @@
+{% liquid
+  case request.locale.iso_code
+    when 'de'
+      assign zs_workshop_swipe = 'WISCHEN, UM MEHR ZU ENTDECKEN'
+    when 'fr'
+      assign zs_workshop_swipe = 'BALAYEZ POUR DÉCOUVRIR'
+    when 'ar'
+      assign zs_workshop_swipe = 'اسحب لاكتشاف المزيد'
+    else
+      assign zs_workshop_swipe = 'SWIPE TO EXPLORE'
+  endcase
+%}
 <section class="zs-workshop" aria-labelledby="zs-workshop-title-{{ section.id }}">
   <div class="zs-workshop__inner">
     <header class="zs-workshop__header">
@@ -46,7 +58,7 @@
     </ol>
     {% if section.blocks.size > 1 %}
       <p class="zs-workshop__swipe-note" aria-hidden="true">
-        <span>SWIPE TO EXPLORE</span>
+        <span>{{ zs_workshop_swipe | escape }}</span>
         <span>01 / 0{{ section.blocks.size }}</span>
       </p>
     {% endif %}
