@@ -12,6 +12,20 @@
   assign font_medium = typeface | font_modify: 'weight', '500'
   assign font_semibold = typeface | font_modify: 'weight', '600'
   assign font_bold = typeface | font_modify: 'weight', '700'
+  case localization.language.iso_code
+    when 'de'
+      assign zs_homes_inspiration = 'Wohninspiration: '
+      assign zs_homes_edit = 'WOHNIDEEN'
+    when 'fr'
+      assign zs_homes_inspiration = "Inspiration déco : "
+      assign zs_homes_edit = 'IDÉES DÉCO'
+    when 'ar'
+      assign zs_homes_inspiration = 'إلهام للديكور: '
+      assign zs_homes_edit = 'أفكار للمنازل'
+    else
+      assign zs_homes_inspiration = 'Styling inspiration: '
+      assign zs_homes_edit = 'HOME EDIT'
+  endcase
 
   assign cta_link = ''
   if s.collection != blank
@@ -134,7 +148,7 @@
             assign image_alt = block.settings.image_alt | strip
             if image_alt == blank
               if using_product_image and product != blank and product.title != blank
-                assign image_alt = 'Styling inspiration: ' | append: product.title
+                assign image_alt = zs_homes_inspiration | append: product.title
               elsif review_image.alt != blank
                 assign image_alt = review_image.alt
               elsif block.settings.title != blank
@@ -157,7 +171,7 @@
                 {% else %}
                   <div class="zsh__placeholder" aria-hidden="true">
                     <span class="zsh__placeholder-word">ZAISEN</span>
-                    <span class="zsh__placeholder-label">HOME EDIT</span>
+                    <span class="zsh__placeholder-label">{{ zs_homes_edit | escape }}</span>
                   </div>
                 {% endif %}
               {% if product_href != blank %}
