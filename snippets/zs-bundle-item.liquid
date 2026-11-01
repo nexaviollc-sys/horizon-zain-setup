@@ -3,6 +3,28 @@
 {%- liquid
   assign zs_bundle_prefix = blank
   assign zs_bundle_symbol = false
+  case localization.language.iso_code
+    when 'de'
+      assign zs_bitem_include = 'Zum Bundle hinzufügen:'
+      assign zs_bitem_change = 'Produkt wechseln'
+      assign zs_bitem_change_aria = 'Im Bundle ändern:'
+      assign zs_bitem_variant = 'Variante auswählen für'
+    when 'fr'
+      assign zs_bitem_include = 'Ajouter au lot :'
+      assign zs_bitem_change = 'Changer de produit'
+      assign zs_bitem_change_aria = 'Modifier dans le lot :'
+      assign zs_bitem_variant = 'Choisir une variante pour'
+    when 'ar'
+      assign zs_bitem_include = 'إضافة إلى المجموعة:'
+      assign zs_bitem_change = 'تغيير المنتج'
+      assign zs_bitem_change_aria = 'تغيير في المجموعة:'
+      assign zs_bitem_variant = 'اختر نوعًا من'
+    else
+      assign zs_bitem_include = 'Include in bundle:'
+      assign zs_bitem_change = 'Change product'
+      assign zs_bitem_change_aria = 'Change in your bundle:'
+      assign zs_bitem_variant = 'Choose a variant for'
+  endcase
   case localization.country.currency.iso_code
     when 'USD'
       assign zs_bundle_prefix = '$'
@@ -35,7 +57,7 @@
     data-price-cents="{{ chosen_variant.price }}">
     <input type="checkbox" class="zs-bundle__check" data-zs-check
       {% unless chosen_variant.available %}disabled{% endunless %}
-      aria-label="Include {{ item.title | escape }} in bundle">
+      aria-label="{{ zs_bitem_include | escape }} {{ item.title | escape }}">
     <span class="zs-bundle__picture">
       {% if item.featured_image %}
         {{ item.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: item.title }}
@@ -45,12 +67,12 @@
     </span>
     <span class="zs-bundle__details">
       <span class="zs-bundle__name">{{ item.title | escape }}</span>
-      <button type="button" class="zs-bundle__change" data-zs-change aria-label="Change {{ item.title | escape }} in your bundle">
-        <span aria-hidden="true">↻</span> Change product
+      <button type="button" class="zs-bundle__change" data-zs-change aria-label="{{ zs_bitem_change_aria | escape }} {{ item.title | escape }}">
+        <span aria-hidden="true">↻</span> {{ zs_bitem_change | escape }}
       </button>
       {% unless item.has_only_default_variant %}
         <span class="zs-bundle__variants">
-          <select data-zs-variant aria-label="Choose a variant for {{ item.title | escape }}">
+          <select data-zs-variant aria-label="{{ zs_bitem_variant | escape }} {{ item.title | escape }}">
             {% for v in item.variants %}
               <option value="{{ v.id }}" data-price="{{ v.price }}"
                 {% if v.id == chosen_variant.id %}selected{% endif %}
