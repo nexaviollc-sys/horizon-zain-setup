@@ -1,6 +1,7 @@
 {% comment %}
-  ZAISEN premium product FAQ. Six brand-focused editable cards, native details disclosure,
-  market-aware delivery estimate, and policy-backed return guidance.
+  ZAISEN product FAQ: mirrors the same headings, disclosure rows, + icons and
+  typography as the FAQ on the homepage (sections/zs-shipping-faq.liquid).
+  Compact desktop split / stacked mobile layout. Six editable questions.
 {% endcomment %}
 {%- liquid
   assign zs_faq_country = localization.country.iso_code
@@ -30,444 +31,198 @@
       assign zs_faq_transit = '8–9 days'
   endcase
 -%}
-<section id="zs-product-faq-{{ section.id }}" class="zs-product-faq" aria-labelledby="zs-product-faq-title-{{ section.id }}">
-  <div class="zs-product-faq__shell page-width">
+<section class="zs-product-faq" id="zs-product-faq-{{ section.id }}" aria-labelledby="zs-product-faq-title-{{ section.id }}">
+  <div class="zs-product-faq__container">
     <div class="zs-product-faq__layout">
-      <div class="zs-product-faq__story">
-        <div class="zs-product-faq__story-top">
-          <span class="zs-product-faq__monogram" aria-hidden="true">Z</span>
-          <span class="zs-product-faq__index">THE ZAISEN EDITION <span aria-hidden="true">/</span> 01—06</span>
-        </div>
-        <div class="zs-product-faq__story-copy">
-          <p class="zs-product-faq__kicker"><span aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</p>
-          <h2 id="zs-product-faq-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <header class="zs-product-faq__header">
+        <p class="zs-product-faq__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <h2 class="zs-product-faq__heading" id="zs-product-faq-title-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.intro != blank -%}
           <p class="zs-product-faq__intro">{{ section.settings.intro | escape }}</p>
-        </div>
-        <div class="zs-product-faq__ring" aria-hidden="true">
-          <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="160" cy="160" r="134" stroke="currentColor" stroke-width=".8"/>
-            <circle cx="160" cy="160" r="111" stroke="currentColor" stroke-width=".8"/>
-            <circle cx="160" cy="160" r="87" stroke="currentColor" stroke-width=".8"/>
-            <circle cx="160" cy="160" r="63" stroke="currentColor" stroke-width=".8"/>
-            <circle cx="160" cy="160" r="39" stroke="currentColor" stroke-width=".8"/>
-            <path d="M157 16C221 18 276 76 279 155" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            <path d="M80 246c-27-30-40-56-41-92" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="zs-product-faq__story-foot">
-          <span class="zs-product-faq__detail">{{ section.settings.detail | escape }}</span>
-          <div class="zs-product-faq__story-footline">
-            <span>MADE WITH INTENTION</span>
-            <span aria-hidden="true">✳</span>
-            <span>ISLAMABAD WORKSHOP</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="zs-product-faq__cards" aria-label="Frequently asked questions">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'question' and block.settings.question != blank -%}
-            <details class="zs-product-faq__card" name="zs-product-faq-{{ section.id }}" {{ block.shopify_attributes }}>
-              <summary class="zs-product-faq__summary">
-                <span class="zs-product-faq__card-head">
-                  <span class="zs-product-faq__icon" aria-hidden="true">
-                    {%- case block.settings.icon -%}
-                      {%- when 'wood' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3c-3 6-9 8-9 16a9 9 0 0 0 18 0c0-8-6-10-9-16Z"/><path d="M16 9c-1 4-5 6-5 11a5 5 0 0 0 10 0c0-5-4-7-5-11Z"/><path d="M16 15c-.4 2.2-2 3.6-2 5.5a2 2 0 0 0 4 0c0-1.9-1.6-3.3-2-5.5Z"/></svg>
-                      {%- when 'hand' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17V8a2 2 0 0 1 4 0v7-9a2 2 0 0 1 4 0v9-7a2 2 0 0 1 4 0v8-5a2 2 0 0 1 4 0v9c0 6-4 9-10 9h-2c-3 0-5-1-7-5l-3-6a2 2 0 0 1 4-2l2 3"/></svg>
-                      {%- when 'clock' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="11"/><path d="M16 9v7l4.5 3"/><path d="M16 3v2M16 27v2M3 16h2M27 16h2"/></svg>
-                      {%- when 'parcel' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 10 11-6 11 6v12l-11 6-11-6V10Z"/><path d="m5 10 11 6 11-6M16 16v12M10 7l11 6"/><path d="M22 18v4"/></svg>
-                      {%- when 'shield' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3c4 3 8 4 11 4v9c0 6-4 10-11 13C9 26 5 22 5 16V7c3 0 7-1 11-4Z"/><path d="m11 16 3.5 3.5L21.5 12"/></svg>
-                      {%- when 'globe' -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="11"/><path d="M5 16h22M16 5c4 3 6 6.5 6 11s-2 8-6 11M16 5c-4 3-6 6.5-6 11s2 8 6 11"/></svg>
-                      {%- else -%}
-                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="11"/><path d="M13 12a3 3 0 1 1 5 2c-2 2-2 2-2 5M16 23h.01"/></svg>
-                    {%- endcase -%}
+        {%- endif -%}
+        <a class="zs-product-faq__contact-link" href="mailto:support@zaisenstore.com">
+          {{ section.settings.help_heading | default: 'Contact ZAISEN' | escape }}
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
+        </a>
+      </header>
+      <div class="zs-product-faq__faq" aria-label="Frequently asked questions">
+        <div class="zs-product-faq__faq-list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'question' and block.settings.question != blank -%}
+              <details class="zs-product-faq__faq-item" {{ block.shopify_attributes }}>
+                <summary class="zs-product-faq__question">
+                  <span>{{ block.settings.question | escape }}</span>
+                  <span class="zs-product-faq__faq-toggle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path class="zs-product-faq__vertical" d="M12 5v14"/></svg>
                   </span>
-                  <span class="zs-product-faq__card-type">{{ block.settings.label | default: 'ZAISEN ANSWERS' | escape }}</span>
-                </span>
-                <span class="zs-product-faq__question">{{ block.settings.question | escape }}</span>
-                <span class="zs-product-faq__card-action">
-                  <span class="zs-product-faq__read">EXPLORE ANSWER</span>
-                  <span class="zs-product-faq__toggle" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                  </span>
-                </span>
-              </summary>
-              <div class="zs-product-faq__answer rte">
-                {%- case block.settings.answer_kind -%}
-                  {%- when 'delivery' -%}
-                    <p>Our delivery windows are <strong>estimates, not guaranteed arrival dates</strong>. Every order is normally prepared within <strong>1–2 days</strong> before dispatch. {% if zs_faq_transit != blank %}For <strong>{{ zs_faq_destination | escape }}</strong>, estimated transit after dispatch is <strong>{{ zs_faq_transit }}</strong>.{% else %}The estimated transit time for your selected destination is shown in our shipping details and at checkout.{% endif %} Customs checks, public holidays and carrier delays can affect the final delivery date. We provide tracking when the parcel is dispatched.</p>
-                  {%- when 'returns' -%}
-                    <p><strong>Yes.</strong> Contact us within <strong>14 days after delivery</strong> to request an eligible return or refund. If a piece arrives damaged, broken or not as described, send your order number and clear photos to <a href="mailto:support@zaisenstore.com">support@zaisenstore.com</a>. We'll review your case and help with the next steps. {% if shop.refund_policy != blank %}See our <a href="{{ shop.refund_policy.url }}">Refund Policy</a> for eligibility, exceptions and full conditions.{% endif %}</p>
-                  {%- else -%}
-                    {{ block.settings.answer }}
-                {%- endcase -%}
-              </div>
-            </details>
-          {%- endif -%}
-        {%- endfor -%}
+                </summary>
+                <div class="zs-product-faq__answer rte">
+                  {%- case block.settings.answer_kind -%}
+                    {%- when 'delivery' -%}
+                      <p>Shipping times are estimates, not guaranteed delivery dates. We normally prepare orders in <strong>1–2 days</strong> before dispatch. {% if zs_faq_transit != blank %}For <strong>{{ zs_faq_destination | escape }}</strong>, estimated transit after dispatch is <strong>{{ zs_faq_transit }}</strong>.{% else %}Shipping times depend on your selected destination and will be confirmed at checkout.{% endif %} Customs, holidays and carrier delays may affect delivery. You'll receive tracking after dispatch.</p>
+                    {%- when 'returns' -%}
+                      <p><strong>Yes.</strong> Contact us within <strong>14 days after delivery</strong> for an eligible return or refund request. If a piece arrives damaged, broken or not as described, email <a href="mailto:support@zaisenstore.com">support@zaisenstore.com</a> with your order number and clear photos. {% if shop.refund_policy != blank %}See our <a href="{{ shop.refund_policy.url }}">Refund Policy</a> for full details and exclusions.{% endif %}</p>
+                    {%- else -%}
+                      {{ block.settings.answer }}
+                  {%- endcase -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
       </div>
-    </div>
-    <div class="zs-product-faq__support">
-      <div class="zs-product-faq__support-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h24v15H4z"/><path d="m4 10 12 9 12-9"/><path d="M10 6h12"/></svg>
-      </div>
-      <div class="zs-product-faq__support-copy">
-        <span>{{ section.settings.help_eyebrow | escape }}</span>
-        <h3>{{ section.settings.help_heading | escape }}</h3>
-        <p>{{ section.settings.help_text | escape }}</p>
-      </div>
-      <a class="zs-product-faq__support-button" href="mailto:support@zaisenstore.com">Contact ZAISEN <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
-
 <style>
+  /* Values match the homepage .zs-shf__faq, __question, __faq-toggle and __answer. */
   #zs-product-faq-{{ section.id }} {
-    --zs-faq-ink: #443126;
-    --zs-faq-honey: #b78c63;
-    --zs-faq-soft: #f8f5ee;
-    --zs-faq-pale: #fffefa;
-    --zs-faq-muted: #766b60;
-    background: var(--zs-faq-soft);
-    color: var(--zs-faq-ink);
-    padding: clamp(64px, 7vw, 108px) 0 clamp(70px, 7vw, 106px);
+    --zs-pfaq-ink: #2b1d17;
+    --zs-pfaq-muted: #80736a;
+    --zs-pfaq-accent: #d8b56a;
+    color: var(--zs-pfaq-ink);
+    background: #fcfaf7;
+    padding: clamp(35px,4vw,56px) 0 clamp(38px,4vw,58px);
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__shell { max-width: 1420px; margin-inline: auto; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__layout {
-    display: grid; grid-template-columns: minmax(290px, .82fr) minmax(0, 1.7fr);
-    gap: clamp(18px, 2vw, 30px); align-items: stretch;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story {
-    background: radial-gradient(ellipse at 88% 82%, #71523c 0%, #553a2a 34%, transparent 73%), #3b291f;
-    min-height: 690px; border-radius: 18px; padding: clamp(27px, 3vw, 43px);
-    color: #f9f0e3; position: relative; isolation: isolate; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: space-between;
-    box-shadow: 0 15px 36px rgba(65,44,30,.1);
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story::after {
-    content: ""; position: absolute; pointer-events: none; inset: 11px;
-    border: 1px solid rgba(248,224,191,.14); border-radius: 12px; z-index: -1;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__monogram {
-    display: inline-flex; width: 47px; height: 47px; align-items: center; justify-content: center;
-    border: 1px solid rgba(252,234,214,.47); border-radius: 50%; font: italic 27px/1 Georgia,serif;
-    letter-spacing: -.08em; padding-right: 3px; color: #f6eadb;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__index { font-size: 9px; line-height: 1.6; letter-spacing: .14em; color: #d5bba2; font-weight: 600; text-align: right; padding-top: 11px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__index span { margin: 0 5px; opacity: .45; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy { position: relative; z-index: 2; padding-top: 47px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__kicker {
-    margin: 0 0 20px; font-size: 10px; letter-spacing: .21em; font-weight: 700;
-    color: #d6b28c; display: flex; align-items: center; gap: 10px;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__kicker span { width: 25px; height: 1px; flex: none; background: currentColor; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 {
-    font-family: var(--font-heading--family, Georgia, serif); font-size: clamp(37px, 3.2vw, 57px);
-    font-weight: 400; line-height: 1.07; letter-spacing: -.035em; color: #fbf6ed;
-    margin: 0; max-width: 330px; text-wrap: balance;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__intro { max-width: 330px; margin: 24px 0 0; font-size: 14px; line-height: 1.85; color: #e1cdb9; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__ring {
-    color: #c5a27d; opacity: .14; width: 95%; aspect-ratio: 1; position: absolute;
-    right: -43%; bottom: -28%; transform: rotate(15deg); pointer-events: none;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__ring svg { width: 100%; height: 100%; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-foot { position: relative; z-index: 1; padding-top: 45px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__detail { display: block; font: italic 18px/1.4 var(--font-heading--family, Georgia, serif); color: #ead9c3; margin-bottom: 22px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-footline { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; border-top: 1px solid rgba(250,233,210,.27); padding-top: 19px; color: #c9a88a; font-size: 9px; line-height: 1.5; letter-spacing: .12em; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-footline span:nth-child(2) { font-size: 12px; color: #ebd3b4; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__cards {
-    display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(14px, 1.5vw, 21px); align-content: stretch;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card {
-    min-width: 0; background: var(--zs-faq-pale); border: 1px solid #eae0d4;
-    border-radius: 17px; box-shadow: 0 8px 22px rgba(79,53,32,.045);
-    overflow: hidden; position: relative; transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card::before {
-    content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: #bd9874; opacity: 0; transition: opacity .25s;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open] { border-color: #ceb49b; box-shadow: 0 13px 30px rgba(79,53,32,.095); }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open]::before { opacity: 1; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__summary {
-    display: flex; flex-direction: column; width: 100%; min-height: 217px; padding: clamp(21px, 2.05vw, 29px);
-    list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__summary::-webkit-details-marker { display: none; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__summary::marker { content: ''; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__summary:focus-visible { outline: 3px solid #a77b54; outline-offset: -5px; border-radius: 17px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-head { display: flex; align-items: center; gap: 11px; margin-bottom: 20px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__icon {
-    width: 42px; height: 42px; border-radius: 13px; flex: none; display: grid; place-items: center;
-    background: #f1e9de; color: #8a6143; border: 1px solid #e9dbcb;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__icon svg { display: block; height: 25px; width: 25px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-type { font-size: 10px; font-weight: 700; color: #a37e5d; letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__question {
-    display: block; flex: 1; font: 400 clamp(21px, 1.85vw, 27px)/1.27 var(--font-heading--family, Georgia, serif);
-    letter-spacing: -.023em; color: var(--zs-faq-ink); text-wrap: pretty;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-action { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__read { color: #947354; font-size: 10px; font-weight: 700; line-height: 1.3; letter-spacing: .13em; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__toggle {
-    flex: none; display: grid; place-items: center; width: 31px; height: 31px; background: #f0e8de;
-    color: #745038; border-radius: 50%; transition: background .22s, color .22s;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__toggle svg { width: 16px; height: 16px; transition: transform .22s; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open] .zs-product-faq__toggle { background: #644532; color: #fff9f2; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open] .zs-product-faq__toggle svg { transform: rotate(45deg); }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open] .zs-product-faq__read { font-size: 0; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card[open] .zs-product-faq__read::after { content: "CLOSE ANSWER"; font-size: 10px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer {
-    padding: 0 clamp(21px, 2.05vw, 29px) 30px; font-size: 13px; line-height: 1.85;
-    color: #6e6259; overflow-wrap: anywhere;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer::before { content: ""; display: block; height: 1px; background: #e9dfd3; margin-bottom: 20px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p { margin: 0 0 12px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p:last-child { margin-bottom: 0; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer a { color: #764c30; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer strong { color: var(--zs-faq-ink); font-weight: 600; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support {
-    display: flex; align-items: center; gap: 22px; margin-top: 24px;
-    padding: 24px clamp(24px, 3vw, 38px); background: #ede5d9; border-radius: 14px;
-    border: 1px solid #e5d9c8;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-mark { display: grid; place-items: center; flex: none; width: 56px; height: 56px; border-radius: 14px; background: #e2d3c0; color: #70513b; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy { flex: 1; min-width: 0; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy span { font-size: 9px; font-weight: 700; letter-spacing: .17em; color: #9e7351; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy h3 { margin: 2px 0 3px; font: 400 26px/1.2 var(--font-heading--family, Georgia, serif); color: #443126; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy p { margin: 0; color: #7a6a5c; font-size: 12px; line-height: 1.55; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-button {
-    display: inline-flex; align-items: center; justify-content: center; gap: 16px; flex: none;
-    background: #4c3527; color: #fff9ef; border: 1px solid #4c3527; border-radius: 100px;
-    min-height: 46px; padding: 12px 23px; text-decoration: none; font-size: 12px; font-weight: 600;
-    letter-spacing: .015em; transition: background .2s, color .2s, transform .2s;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-button:focus-visible { outline: 2px solid #9e7351; outline-offset: 4px; }
-  @media (hover:hover) {
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(79,53,32,.1); border-color: #d9c3ab; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-button:hover { background: #fffefa; color: #4c3527; transform: translateY(-2px); }
-  }
-  @media (max-width: 1199px) {
-    #zs-product-faq-{{ section.id }} .zs-product-faq__layout { grid-template-columns: minmax(250px,.65fr) minmax(0,1.55fr); }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story { padding: 27px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__summary { min-height: 218px; padding: 23px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__answer { padding: 0 23px 23px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__question { font-size: 22px; }
-  }
-  @media (max-width: 989px) {
-    #zs-product-faq-{{ section.id }} .zs-product-faq__layout { grid-template-columns: 1fr; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story { min-height: 370px; padding: 32px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy { padding-top: 32px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 { max-width: 590px; font-size: 47px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__intro { max-width: 560px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__ring { width: 270px; right: -62px; bottom: -105px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-foot { padding-top: 30px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__cards { grid-auto-rows: auto; }
-  }
-  @media (max-width: 600px) {
-    #zs-product-faq-{{ section.id }} { padding: 57px 0 72px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__layout { gap: 17px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story { padding: 25px 24px; min-height: 385px; border-radius: 15px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story::after { inset: 8px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__index { font-size: 8px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__monogram { width: 40px; height: 40px; font-size: 23px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy { padding-top: 22px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 { font-size: clamp(35px, 10vw, 44px); line-height: 1.1; max-width: 310px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__kicker { font-size: 9px; margin-bottom: 15px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__intro { margin-top: 15px; font-size: 12px; line-height: 1.75; max-width: 320px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__detail { font-size: 16px; margin-bottom: 15px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-footline { font-size: 8px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__cards { grid-template-columns: 1fr; gap: 12px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__summary { min-height: 184px; padding: 22px 22px 20px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card-head { margin-bottom: 13px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__icon { width: 40px; height: 40px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__question { font-size: 24px; max-width: 340px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card-action { margin-top: 15px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__answer { padding: 0 22px 23px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support { flex-wrap: wrap; gap: 12px; padding: 22px; margin-top: 17px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-mark { width: 46px; height: 46px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy { flex-basis: calc(100% - 70px); }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy h3 { font-size: 24px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-button { width: 100%; margin-top: 6px; min-height: 49px; }
-  }
-  @media (prefers-reduced-motion:reduce) {
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card::before,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__toggle,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__toggle svg,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-button { transition: none; }
-  }
-
-  /* Compact editorial treatment: preserve premium cards without tall hero or oversized whitespace. */
-  #zs-product-faq-{{ section.id }} {
-    padding: clamp(38px, 4.2vw, 64px) 0 clamp(40px, 4.5vw, 68px);
+  #zs-product-faq-{{ section.id }} * { box-sizing: border-box; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(20px,4vw,58px);
   }
   #zs-product-faq-{{ section.id }} .zs-product-faq__layout {
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0,.76fr) minmax(0,1.24fr);
+    gap: clamp(28px,4vw,62px);
+    align-items: start;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story {
-    display: block;
-    min-height: 0;
-    padding: 23px clamp(22px, 3vw, 39px);
-    margin-bottom: 16px;
-    border-radius: 14px;
-    background: linear-gradient(105deg, #3d2a21, #594033);
-    box-shadow: 0 8px 20px rgba(65,44,30,.07);
+  #zs-product-faq-{{ section.id }} .zs-product-faq__header { min-width:0; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__eyebrow {
+    color: #977653;
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story::after { inset: 6px; border-radius: 9px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-top,
-  #zs-product-faq-{{ section.id }} .zs-product-faq__ring,
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-foot { display: none; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy {
-    padding: 0; display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    align-items: center; column-gap: 30px;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__kicker {
-    grid-column: 1 / -1; margin: 0 0 8px;
-    font-size: 9px; letter-spacing: .18em;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 {
-    max-width: none; font-size: clamp(27px, 2.6vw, 40px);
-    line-height: 1.12; letter-spacing: -.03em;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__heading {
+    font-family: inherit !important;
+    font-size: clamp(27px,2.75vw,38px);
+    font-weight: 700;
+    letter-spacing: -.038em;
+    margin: 0 0 17px;
+    line-height: 1.25;
+    max-width: 390px;
   }
   #zs-product-faq-{{ section.id }} .zs-product-faq__intro {
-    max-width: 440px; margin: 0;
-    font-size: 12.5px; line-height: 1.65;
+    color: var(--zs-pfaq-muted);
+    font-size: 13px;
+    line-height: 1.75;
+    margin: 0;
+    max-width: 360px;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
-    grid-auto-rows: auto;
-    gap: 12px;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: 12px;
+    font-weight: 650;
+    color: #664632;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card { border-radius: 13px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__summary {
-    min-height: 143px; padding: 15px 18px;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq { min-width: 0; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-item {
+    border-bottom: 1px solid #e4dcd2;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-head {
-    margin-bottom: 10px; gap: 9px;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__icon {
-    width: 34px; height: 34px; border-radius: 10px;
-  }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__icon svg { width: 20px; height: 20px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-type {
-    font-size: 9px; letter-spacing: .1em;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-item:first-child {
+    border-top: 1px solid #e4dcd2;
   }
   #zs-product-faq-{{ section.id }} .zs-product-faq__question {
-    font-size: clamp(17px, 1.4vw, 20px); line-height: 1.27;
-    max-width: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    padding: 19px 0;
+    min-height: 59px;
+    list-style: none;
+    font-weight: 650;
+    line-height: 1.45;
+    font-size: 14px;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__card-action { margin-top: 10px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__read { font-size: 9px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__toggle { width: 26px; height: 26px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__toggle svg { width: 15px; height: 15px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__question::-webkit-details-marker { display:none; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__question::marker { content: ''; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-toggle {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #ded2c6;
+    flex: 0 0 32px;
+    color: var(--zs-pfaq-ink);
+    background: #fff;
+    transition: background .2s, border-color .2s;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__vertical {
+    transform-origin: 50% 50%;
+    transition: transform .2s ease;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-item[open] .zs-product-faq__vertical {
+    transform: rotate(90deg);
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-item[open] .zs-product-faq__faq-toggle {
+    background: #f3e9dc;
+    border-color: #d8b56a;
+  }
   #zs-product-faq-{{ section.id }} .zs-product-faq__answer {
-    padding: 0 18px 18px; font-size: 12.5px; line-height: 1.7;
+    padding: 0 42px 22px 0;
+    color: var(--zs-pfaq-muted);
+    font-size: 13px;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__answer::before { margin-bottom: 13px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support {
-    padding: 13px 20px; min-height: 66px; margin-top: 13px;
-    gap: 14px; border-radius: 12px;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p { margin: 0 0 9px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p:last-child { margin: 0; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer a {
+    color: #664632;
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-mark {
-    width: 39px; height: 39px; border-radius: 10px;
+  #zs-product-faq-{{ section.id }} .zs-product-faq__faq-item:focus-within .zs-product-faq__question:focus-visible,
+  #zs-product-faq-{{ section.id }} .zs-product-faq__contact-link:focus-visible {
+    outline: 3px solid var(--zs-pfaq-accent);
+    outline-offset: 3px;
   }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-mark svg { width: 22px; height: 22px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy h3 { font-size: 21px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy p { font-size: 11px; }
-  #zs-product-faq-{{ section.id }} .zs-product-faq__support-button {
-    min-height: 39px; padding: 9px 16px; font-size: 11px;
-  }
-  @media (max-width: 989px) {
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story {
-      min-height: 0; padding: 22px 26px;
+  @media (max-width:749px) {
+    #zs-product-faq-{{ section.id }} { padding: 32px 0 42px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__container { padding-inline: 16px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__layout {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy {
-      padding: 0; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      column-gap: 25px;
+    #zs-product-faq-{{ section.id }} .zs-product-faq__header,
+    #zs-product-faq-{{ section.id }} .zs-product-faq__faq { width:100%; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__eyebrow { font-size: 10px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__heading {
+      font-size: 28px; margin: 0 0 8px; max-width: none;
     }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 {
-      font-size: 32px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__summary {
-      min-height: 134px; padding: 15px 17px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__question { font-size: 19px; }
-  }
-  @media (max-width: 600px) {
-    #zs-product-faq-{{ section.id }} { padding: 30px 0 36px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story {
-      min-height: 0; padding: 18px 20px; margin-bottom: 11px;
-      border-radius: 12px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story-copy {
-      padding: 0; display: block;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__kicker { margin-bottom: 7px; font-size: 8px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__story h2 {
-      font-size: 27px; line-height: 1.12; max-width: none;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__intro {
-      margin: 9px 0 0; max-width: none; font-size: 11px; line-height: 1.55;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__cards {
-      grid-template-columns: minmax(0, 1fr); gap: 9px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__summary {
-      display: grid; grid-template-columns: 34px minmax(0, 1fr) 25px;
-      grid-template-rows: auto; align-items: center;
-      gap: 10px; min-height: 76px; padding: 12px 14px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card-head {
-      margin: 0; display: block; align-self: center;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__icon {
-      width: 34px; height: 34px; border-radius: 9px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card-type { display: none; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__intro { font-size: 12px; line-height: 1.6; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__contact-link { margin-top: 9px; }
     #zs-product-faq-{{ section.id }} .zs-product-faq__question {
-      font-size: 16px; line-height: 1.3; max-width: none;
+      font-size: 12.5px; padding: 16px 0; min-height: 56px;
     }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__card-action {
-      margin: 0; justify-content: flex-end;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__read { display: none; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__toggle { width: 25px; height: 25px; }
     #zs-product-faq-{{ section.id }} .zs-product-faq__answer {
-      padding: 0 15px 15px 58px; font-size: 12px; line-height: 1.65;
+      padding: 0 30px 18px 0; font-size: 12px; line-height: 1.75;
     }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__answer::before { margin-bottom: 10px; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support {
-      flex-wrap: nowrap; gap: 9px; min-height: 55px;
-      margin-top: 11px; padding: 10px 12px;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-mark,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy span,
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy p { display: none; }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy {
-      flex: 1 1 auto; flex-basis: auto;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-copy h3 {
-      font-size: 19px; margin: 0;
-    }
-    #zs-product-faq-{{ section.id }} .zs-product-faq__support-button {
-      flex: none; width: auto; min-height: 34px;
-      margin: 0; padding: 7px 10px; font-size: 10px; gap: 6px;
-    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #zs-product-faq-{{ section.id }} .zs-product-faq__faq-toggle,
+    #zs-product-faq-{{ section.id }} .zs-product-faq__vertical { transition: none; }
   }
 </style>
 {% schema %}
@@ -476,36 +231,27 @@
   "tag": "section",
   "class": "section-zs-product-faq",
   "settings": [
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"THE ZAISEN GUIDE"},
-    {"type":"text","id":"heading","label":"Heading","default":"The details make the difference."},
-    {"type":"textarea","id":"intro","label":"Introduction","default":"Thoughtful pieces deserve thoughtful answers. Here's everything worth knowing before yours arrives."},
-    {"type":"text","id":"detail","label":"Editorial note","default":"Handcrafted with care · Tracked with confidence"},
-    {"type":"text","id":"help_eyebrow","label":"Support eyebrow","default":"A NOTE FROM US"},
-    {"type":"text","id":"help_heading","label":"Support heading","default":"Still curious?"},
-    {"type":"textarea","id":"help_text","label":"Support text","default":"Every ZAISEN piece has a story. If there's anything you'd like to know before ordering, we're here."}
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"GOOD TO KNOW"},
+    {"type":"text","id":"heading","label":"Heading","default":"Frequently Asked Questions"},
+    {"type":"textarea","id":"intro","label":"Intro","default":"Answers about our wood, handcrafted pieces and your order."},
+    {"type":"text","id":"help_heading","label":"Support link text","default":"Contact ZAISEN"}
   ],
   "blocks": [
     {
       "type":"question",
-      "name":"FAQ card",
+      "name":"FAQ question",
       "settings": [
-        {"type":"text","id":"label","label":"Card eyebrow","default":"ZAISEN ANSWERS"},
-        {"type":"select","id":"icon","label":"Card icon","default":"wood","options":[
-          {"value":"wood","label":"Natural wood"},{"value":"hand","label":"Handcrafted"},
-          {"value":"clock","label":"Delivery time"},{"value":"parcel","label":"Tracking"},
-          {"value":"shield","label":"Protection / refunds"},{"value":"globe","label":"Other platforms"}
-        ]},
         {"type":"text","id":"question","label":"Question","default":"Your question"},
-        {"type":"select","id":"answer_kind","label":"Answer source","default":"custom","info":"Delivery uses the selected destination. Returns links to current Shopify refund policy.","options":[
-          {"value":"custom","label":"Custom answer below"},
-          {"value":"delivery","label":"Dynamic delivery estimate"},
+        {"type":"select","id":"answer_kind","label":"Answer source","default":"custom","info":"Delivery uses selected market. Returns links to your refund policy.","options":[
+          {"value":"custom","label":"Custom answer"},
+          {"value":"delivery","label":"Destination delivery estimate"},
           {"value":"returns","label":"Refund policy summary"}
         ]},
-        {"type":"richtext","id":"answer","label":"Custom answer","default":"<p>Write a helpful answer here.</p>"}
+        {"type":"richtext","id":"answer","label":"Custom answer","default":"<p>Enter your answer here.</p>"}
       ]
     }
   ],
   "max_blocks": 6,
-  "presets": [{"name":"ZAISEN Product FAQs"}]
+  "presets":[{"name":"ZAISEN Product FAQs"}]
 }
 {% endschema %}
