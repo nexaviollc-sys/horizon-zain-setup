@@ -8,10 +8,10 @@
   assign zs_shipping_threshold_usd = 0
   assign zs_country_short = localization.country.name
   case zs_country
-    when 'GB', 'US', 'DE', 'FR', 'AE'
+    when 'GB', 'US', 'DE', 'FR', 'AE', 'CA'
       assign zs_supported = true
       assign zs_shipping_threshold_usd = 60
-    when 'CA', 'AU'
+    when 'AU'
       assign zs_supported = true
       assign zs_shipping_threshold_usd = 100
   endcase
