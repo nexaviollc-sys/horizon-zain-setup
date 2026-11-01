@@ -377,9 +377,37 @@
     {{ block_shopify_attributes }}
   >
     {% if template.name == 'product' %}
+      {% liquid
+        case request.locale.iso_code
+          when 'de'
+            assign zs_gallery_atelier = 'DIE WERKSTATT'
+            assign zs_gallery_details = 'DETAILS ENTDECKEN'
+            assign zs_gallery_character = 'HANDGEFERTIGT MIT CHARAKTER'
+            assign zs_gallery_view_one = 'ANSICHT'
+            assign zs_gallery_view_more = 'ANSICHTEN'
+          when 'fr'
+            assign zs_gallery_atelier = 'L’ATELIER'
+            assign zs_gallery_details = 'EXPLORER LES DÉTAILS'
+            assign zs_gallery_character = 'L’ARTISANAT AVEC CARACTÈRE'
+            assign zs_gallery_view_one = 'VUE'
+            assign zs_gallery_view_more = 'VUES'
+          when 'ar'
+            assign zs_gallery_atelier = 'الورشة'
+            assign zs_gallery_details = 'اكتشف التفاصيل'
+            assign zs_gallery_character = 'مصنوعة يدويًا بطابع فريد'
+            assign zs_gallery_view_one = 'صورة'
+            assign zs_gallery_view_more = 'صور'
+          else
+            assign zs_gallery_atelier = 'THE ATELIER'
+            assign zs_gallery_details = 'EXPLORE THE DETAILS'
+            assign zs_gallery_character = 'HANDCRAFTED WITH CHARACTER'
+            assign zs_gallery_view_one = 'VIEW'
+            assign zs_gallery_view_more = 'VIEWS'
+        endcase
+      %}
       <div class="zs-atg__heading" aria-hidden="true">
-        <span>ZAISEN <span class="zs-atg__separator">/</span> THE ATELIER</span>
-        {% if block_settings.zoom %}<span class="zs-atg__view-label">EXPLORE THE DETAILS</span>{% endif %}
+        <span>ZAISEN <span class="zs-atg__separator">/</span> {{ zs_gallery_atelier | escape }}</span>
+        {% if block_settings.zoom %}<span class="zs-atg__view-label">{{ zs_gallery_details | escape }}</span>{% endif %}
       </div>
     {% endif %}
     {% capture slides %}
@@ -483,8 +511,8 @@
 
     {% if template.name == 'product' %}
       <div class="zs-atg__caption" aria-hidden="true">
-        <span>HANDCRAFTED WITH CHARACTER</span>
-        <span>{{ sorted_media.size }} {% if sorted_media.size == 1 %}VIEW{% else %}VIEWS{% endif %}</span>
+        <span>{{ zs_gallery_character | escape }}</span>
+        <span>{{ sorted_media.size }} {% if sorted_media.size == 1 %}{{ zs_gallery_view_one | escape }}{% else %}{{ zs_gallery_view_more | escape }}{% endif %}</span>
       </div>
     {% endif %}
     {% if media_presentation == 'grid' %}
