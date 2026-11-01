@@ -9,6 +9,20 @@
   assign light_font = editorial_font | font_modify: 'weight', '300'
   assign medium_font = editorial_font | font_modify: 'weight', '500'
   assign bold_font = editorial_font | font_modify: 'weight', '700'
+  case localization.language.iso_code
+    when 'de'
+      assign zs_sj_brand = 'HINTER DER MARKE'
+      assign zs_sj_ideas = 'IDEEN & INSPIRATION'
+    when 'fr'
+      assign zs_sj_brand = 'LES COULISSES DE LA MARQUE'
+      assign zs_sj_ideas = 'IDÉES & INSPIRATION'
+    when 'ar'
+      assign zs_sj_brand = 'قصتنا وحرفتنا'
+      assign zs_sj_ideas = 'أفكار وإلهام'
+    else
+      assign zs_sj_brand = 'BEHIND THE BRAND'
+      assign zs_sj_ideas = 'IDEAS & INSPIRATION'
+  endcase
 
   assign story_img = s.story_image
   if story_img == blank
@@ -104,7 +118,7 @@
           </div>
           <div class="zs-sj__card-info">
             <div class="zs-sj__card-copy">
-              <p class="zs-sj__card-index">01 <span aria-hidden="true">/</span> BEHIND THE BRAND</p>
+              <p class="zs-sj__card-index">01 <span aria-hidden="true">/</span> {{ zs_sj_brand | escape }}</p>
               <h3 class="zs-sj__card-title">{{ s.story_title | escape }}</h3>
               {% if s.story_text != blank %}
                 <p class="zs-sj__card-description">{{ s.story_text | escape }}</p>
@@ -137,7 +151,7 @@
           </div>
           <div class="zs-sj__card-info">
             <div class="zs-sj__card-copy">
-              <p class="zs-sj__card-index">02 <span aria-hidden="true">/</span> IDEAS & INSPIRATION</p>
+              <p class="zs-sj__card-index">02 <span aria-hidden="true">/</span> {{ zs_sj_ideas | escape }}</p>
               <h3 class="zs-sj__card-title">{{ s.journal_title | escape }}</h3>
               {% if s.journal_text != blank %}
                 <p class="zs-sj__card-description">{{ s.journal_text | escape }}</p>
