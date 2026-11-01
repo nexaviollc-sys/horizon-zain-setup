@@ -25,6 +25,10 @@
       assign zs_c_example = 'z. B. #1001'
       assign zs_c_submit = 'Nachricht senden'
       assign zs_c_privacy = 'Wir verwenden Ihre Angaben ausschließlich, um auf Ihre Anfrage zu antworten.'
+      assign zs_c_etsy_eyebrow = "ECHTES KUNDENFEEDBACK"
+      assign zs_c_etsy_title = "5-Sterne-Kundenbewertung auf Etsy"
+      assign zs_c_etsy_description = "Lesen Sie unsere Kundenbewertung direkt in unserem offiziellen Etsy-Shop."
+      assign zs_c_etsy_action = "ZAISEN auf Etsy besuchen"
     when 'fr'
       assign zs_c_email = 'Envoyer un e-mail à ZAISEN'
       assign zs_c_call = 'Appeler ZAISEN'
@@ -42,6 +46,10 @@
       assign zs_c_example = 'p. ex. #1001'
       assign zs_c_submit = 'Envoyer le message'
       assign zs_c_privacy = 'Nous utilisons vos coordonnées uniquement pour répondre à votre demande.'
+      assign zs_c_etsy_eyebrow = "VÉRITABLE AVIS CLIENT"
+      assign zs_c_etsy_title = "Avis client 5 étoiles sur Etsy"
+      assign zs_c_etsy_description = "Consultez notre avis client directement sur notre boutique Etsy officielle."
+      assign zs_c_etsy_action = "Découvrir ZAISEN sur Etsy"
     when 'ar'
       assign zs_c_email = 'راسل زايسن بالبريد الإلكتروني'
       assign zs_c_call = 'اتصل بزايسن'
@@ -59,6 +67,10 @@
       assign zs_c_example = 'مثل #1001'
       assign zs_c_submit = 'إرسال الرسالة'
       assign zs_c_privacy = 'سنستخدم بياناتك فقط للرد على استفسارك.'
+      assign zs_c_etsy_eyebrow = "تقييم حقيقي من عميل"
+      assign zs_c_etsy_title = "تقييم عميل بخمس نجوم على إتسي"
+      assign zs_c_etsy_description = "اطّلع على تقييم عميلنا مباشرةً في متجر زايسن الرسمي على إتسي."
+      assign zs_c_etsy_action = "زيارة متجر زايسن على إتسي"
     else
       assign zs_c_email = 'Email ZAISEN'
       assign zs_c_call = 'Call ZAISEN'
@@ -76,6 +88,10 @@
       assign zs_c_example = 'e.g. #1001'
       assign zs_c_submit = 'Send message'
       assign zs_c_privacy = "We'll use your details only to respond to your inquiry."
+      assign zs_c_etsy_eyebrow = "REAL CUSTOMER FEEDBACK"
+      assign zs_c_etsy_title = "5-Star Customer Review on Etsy"
+      assign zs_c_etsy_description = "Read customer feedback directly on ZAISEN’s official Etsy shop."
+      assign zs_c_etsy_action = "Visit ZAISEN on Etsy"
   endcase
 -%}
 {%- if display_font != blank -%}
@@ -139,6 +155,17 @@
           </div>
         {% endif %}
       </div>
+
+      <a class="zs-contact__etsy-proof" href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer" aria-label="{{ zs_c_etsy_action | escape }}">
+        <span class="zs-contact__etsy-top">
+          <span class="zs-contact__etsy-eyebrow">{{ zs_c_etsy_eyebrow | escape }}</span>
+          <span class="zs-contact__etsy-brand" aria-hidden="true">Etsy</span>
+        </span>
+        <span class="zs-contact__etsy-stars" aria-hidden="true">★★★★★</span>
+        <strong class="zs-contact__etsy-title">{{ zs_c_etsy_title | escape }}</strong>
+        <span class="zs-contact__etsy-description">{{ zs_c_etsy_description | escape }}</span>
+        <span class="zs-contact__etsy-action">{{ zs_c_etsy_action | escape }} <span aria-hidden="true">↗</span></span>
+      </a>
 
       <div class="zs-contact__help-notes">
         {% if s.response_text != blank %}
@@ -287,6 +314,26 @@
 }
 .zs-contact__contact-link:hover{color:#9B6F48}
 .zs-contact__contact-link:hover svg{transform:translate(2px,-2px)}
+/* ZAISEN public Etsy customer-review link — compact, accessible, no aggregate rating claim */
+.zs-contact__etsy-proof{
+  display:block;position:relative;isolation:isolate;margin-top:clamp(25px,3vw,38px);
+  padding:21px 24px 22px;overflow:hidden;border-radius:13px;
+  border:1px solid #533e2e;border-inline-start:3px solid #c9a773;
+  background:linear-gradient(118deg,#33261f 0%,#281d18 100%);
+  color:#fff7ee!important;text-decoration:none!important;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.zs-contact__etsy-proof:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 96% -20%,rgba(217,180,120,.12),transparent 55%);z-index:-1;pointer-events:none}
+.zs-contact__etsy-proof:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(55,37,23,.13);border-color:#97734d}
+.zs-contact__etsy-proof:focus-visible{outline:3px solid var(--zs-accent,#d8b56a);outline-offset:4px}
+.zs-contact__etsy-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.zs-contact__etsy-eyebrow{font-size:9px;line-height:1.4;font-weight:700;letter-spacing:.13em;color:#dbc09a}
+.zs-contact__etsy-brand{font-family:Georgia,serif;font-style:italic;font-size:20px;letter-spacing:-.05em;color:#f5e5ce}
+.zs-contact__etsy-stars{display:block;margin-top:9px;letter-spacing:.14em;font-size:20px;line-height:1.3;color:#ebc787}
+.zs-contact__etsy-title{display:block;margin-top:6px;font-family:Georgia,serif;font-size:clamp(18px,1.8vw,24px);font-weight:500;line-height:1.24;color:#fff7ed}
+.zs-contact__etsy-description{display:block;max-width:38ch;margin-top:8px;font-size:12px;line-height:1.7;color:#ded0c2}
+.zs-contact__etsy-action{display:inline-flex;align-items:center;gap:9px;border-bottom:1px solid rgba(228,196,149,.6);margin-top:14px;padding-bottom:4px;font-size:11.5px;line-height:1.4;font-weight:650;color:#eed4ae}
+.zs-contact__etsy-action span{font-size:16px;line-height:1}
 .zs-contact__help-notes{display:grid;gap:7px;padding-top:21px}
 .zs-contact__help-notes p{display:flex;align-items:flex-start;gap:10px;margin:0;color:var(--zs-muted,#80736A);font-size:12px;line-height:1.6}
 .zs-contact__help-notes p span{width:5px;height:5px;flex:0 0 5px;margin-top:8px;border-radius:50%;background:var(--zs-accent,#D8B56A)}
@@ -378,6 +425,9 @@
   .zs-contact__icon{flex-basis:34px;width:34px;height:34px}
   .zs-contact__icon svg{width:22px;height:22px}
   .zs-contact__contact-link{font-size:14px}
+  .zs-contact__etsy-proof{margin-top:24px;padding:18px 19px 19px;border-radius:12px}
+  .zs-contact__etsy-title{font-size:20px}
+  .zs-contact__etsy-stars{font-size:19px}
   .zs-contact__help-notes{padding-top:15px}
   .zs-contact__craft-note{margin-top:24px}
   .zs-contact__form-panel{margin-top:35px;padding:22px 17px;border-radius:17px}
@@ -388,6 +438,7 @@
   .zs-contact__privacy{max-width:none;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){
+  .zs-contact__etsy-proof{transition:none}
   .zs-contact__submit,.zs-contact__submit svg,.zs-contact__contact-link,.zs-contact__contact-link svg{
     transition:none;
   }
