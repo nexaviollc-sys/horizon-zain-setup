@@ -90,7 +90,7 @@
   {% endstyle %}
 {%- endif -%}
 
-<section id="zs-contact-{{ section.id }}" class="zs-contact" style="
+<section id="zs-contact-{{ section.id }}" class="zs-contact" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}" style="
   --zs-bg:{{ s.bg_color }};
   --zs-surface:{{ s.surface_color }};
   --zs-text:{{ s.text_color }};
@@ -191,7 +191,7 @@
           </div>
           <div class="zs-contact__field">
             <label for="zs-contact-email-{{ section.id }}">{{ zs_c_email_address | escape }} <span aria-hidden="true">*</span></label>
-            <input id="zs-contact-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email"
+            <input id="zs-contact-email-{{ section.id }}" type="email" dir="ltr" name="contact[email]" autocomplete="email"
               autocorrect="off" autocapitalize="off" required
               value="{{ form.email | escape }}" placeholder="you@example.com">
           </div>
@@ -200,7 +200,7 @@
         <div class="zs-contact__fields-row">
           <div class="zs-contact__field">
             <label for="zs-contact-phone-{{ section.id }}">{{ zs_c_phone | escape }} <small>{{ zs_c_optional | escape }}</small></label>
-            <input id="zs-contact-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel"
+            <input id="zs-contact-phone-{{ section.id }}" type="tel" dir="ltr" name="contact[phone]" autocomplete="tel"
               value="{{ form.phone | escape }}" placeholder="{{ zs_c_phone_placeholder | escape }}">
           </div>
           <div class="zs-contact__field">
