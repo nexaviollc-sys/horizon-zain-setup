@@ -5,6 +5,34 @@
   independent, per-product rich-text metafields.
 {% endcomment %}
 {% if product != blank %}
+  {% liquid
+    case request.locale.iso_code
+      when 'de'
+        assign zs_details_label = 'Produktdetails'
+        assign zs_details_description = 'Beschreibung & Eigenschaften'
+        assign zs_details_specs = 'Maße & Spezifikationen'
+        assign zs_details_materials = 'Materialien & Pflege'
+        assign zs_details_shipping = 'Versand & Rückgabe'
+      when 'fr'
+        assign zs_details_label = 'Détails du produit'
+        assign zs_details_description = 'Description et caractéristiques'
+        assign zs_details_specs = 'Dimensions et caractéristiques techniques'
+        assign zs_details_materials = 'Matériaux et entretien'
+        assign zs_details_shipping = 'Livraison et retours'
+      when 'ar'
+        assign zs_details_label = 'تفاصيل المنتج'
+        assign zs_details_description = 'الوصف والمميزات'
+        assign zs_details_specs = 'الأبعاد والمواصفات'
+        assign zs_details_materials = 'المواد والعناية'
+        assign zs_details_shipping = 'الشحن والإرجاع'
+      else
+        assign zs_details_label = 'Product details'
+        assign zs_details_description = 'Description & Features'
+        assign zs_details_specs = 'Dimensions & Specifications'
+        assign zs_details_materials = 'Materials & Care'
+        assign zs_details_shipping = 'Shipping & Returns'
+    endcase
+  %}
   {% assign zs_specs = product.metafields.custom.product_specifications %}
   {% assign zs_materials = product.metafields.custom.materials_care %}
   {% assign zs_shipping = product.metafields.custom.shipping_returns %}
@@ -28,12 +56,12 @@
   {% endif %}
 
   {% if zs_has_description or zs_has_specs or zs_has_materials or zs_has_shipping %}
-    <section class="zs-detail-accordions" aria-label="Product details">
+    <section class="zs-detail-accordions" aria-label="{{ zs_details_label | escape }}">
       <div class="zs-detail-accordions__inner">
         {% if zs_has_description %}
           <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
             <summary class="zs-detail-accordions__heading">
-              <span>Description &amp; Features</span>
+              <span>{{ zs_details_description | escape }}</span>
               <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
             </summary>
             <div class="zs-detail-accordions__content rte">{{ product.description }}</div>
@@ -42,7 +70,7 @@
         {% if zs_has_specs %}
           <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
             <summary class="zs-detail-accordions__heading">
-              <span>Dimensions &amp; Specifications</span>
+              <span>{{ zs_details_specs | escape }}</span>
               <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
             </summary>
             <div class="zs-detail-accordions__content rte">{{ zs_specs | metafield_tag }}</div>
@@ -51,7 +79,7 @@
         {% if zs_has_materials %}
           <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
             <summary class="zs-detail-accordions__heading">
-              <span>Materials &amp; Care</span>
+              <span>{{ zs_details_materials | escape }}</span>
               <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
             </summary>
             <div class="zs-detail-accordions__content rte">{{ zs_materials | metafield_tag }}</div>
@@ -60,7 +88,7 @@
         {% if zs_has_shipping %}
           <details class="zs-detail-accordions__item" name="zs-details-{{ section_id }}">
             <summary class="zs-detail-accordions__heading">
-              <span>Shipping &amp; Returns</span>
+              <span>{{ zs_details_shipping | escape }}</span>
               <span class="zs-detail-accordions__icon" aria-hidden="true"></span>
             </summary>
             <div class="zs-detail-accordions__content rte">{{ zs_shipping | metafield_tag }}</div>
