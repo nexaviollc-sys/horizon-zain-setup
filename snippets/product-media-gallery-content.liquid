@@ -381,24 +381,28 @@
         case request.locale.iso_code
           when 'de'
             assign zs_gallery_atelier = 'DIE WERKSTATT'
+            assign zs_gallery_nav = 'Produktgalerie-Navigation'
             assign zs_gallery_details = 'DETAILS ENTDECKEN'
             assign zs_gallery_character = 'HANDGEFERTIGT MIT CHARAKTER'
             assign zs_gallery_view_one = 'ANSICHT'
             assign zs_gallery_view_more = 'ANSICHTEN'
           when 'fr'
             assign zs_gallery_atelier = 'L’ATELIER'
+            assign zs_gallery_nav = 'Navigation des images du produit'
             assign zs_gallery_details = 'EXPLORER LES DÉTAILS'
             assign zs_gallery_character = 'L’ARTISANAT AVEC CARACTÈRE'
             assign zs_gallery_view_one = 'VUE'
             assign zs_gallery_view_more = 'VUES'
           when 'ar'
             assign zs_gallery_atelier = 'الورشة'
+            assign zs_gallery_nav = 'التنقل بين صور المنتج'
             assign zs_gallery_details = 'اكتشف التفاصيل'
             assign zs_gallery_character = 'مصنوعة يدويًا بطابع فريد'
             assign zs_gallery_view_one = 'صورة'
             assign zs_gallery_view_more = 'صور'
           else
             assign zs_gallery_atelier = 'THE ATELIER'
+            assign zs_gallery_nav = 'Product gallery navigation'
             assign zs_gallery_details = 'EXPLORE THE DETAILS'
             assign zs_gallery_character = 'HANDCRAFTED WITH CHARACTER'
             assign zs_gallery_view_one = 'VIEW'
@@ -483,7 +487,7 @@
           -%}
         {% endif %}
         {% if template.name == 'product' %}
-          <div class="zs-atg__nav-actions mobile:hidden" aria-label="Product gallery navigation">
+          <div class="zs-atg__nav-actions mobile:hidden" aria-label="{{ zs_gallery_nav | escape }}">
             {%- render 'slideshow-arrow', action: 'previous', icon_style: 'chevron' -%}
             {%- render 'slideshow-arrow', action: 'next', icon_style: 'chevron' -%}
           </div>
