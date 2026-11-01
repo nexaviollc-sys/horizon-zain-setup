@@ -4,6 +4,42 @@
   recommendations.products so recommended variants/prices always come from Shopify.
 {% endcomment %}
 {% assign zs_current_product = closest.product | default: product %}
+{% liquid
+  case request.locale.iso_code
+    when 'de'
+      assign zs_pairs_prev = 'Vorheriges vorgeschlagenes Produkt'
+      assign zs_pairs_next = 'Nächstes vorgeschlagenes Produkt'
+      assign zs_pairs_region = 'Passende Produkte'
+      assign zs_pairs_add = 'Hinzufügen'
+      assign zs_pairs_addaria = 'Zum Warenkorb hinzufügen:'
+      assign zs_pairs_options = 'Optionen'
+      assign zs_pairs_optionsaria = 'Optionen wählen für'
+    when 'fr'
+      assign zs_pairs_prev = 'Produit suggéré précédent'
+      assign zs_pairs_next = 'Produit suggéré suivant'
+      assign zs_pairs_region = 'Produits suggérés'
+      assign zs_pairs_add = 'Ajouter'
+      assign zs_pairs_addaria = 'Ajouter au panier :'
+      assign zs_pairs_options = 'Options'
+      assign zs_pairs_optionsaria = 'Choisir les options pour'
+    when 'ar'
+      assign zs_pairs_prev = 'المنتج المقترح السابق'
+      assign zs_pairs_next = 'المنتج المقترح التالي'
+      assign zs_pairs_region = 'منتجات مقترحة'
+      assign zs_pairs_add = 'أضف'
+      assign zs_pairs_addaria = 'أضف إلى السلة:'
+      assign zs_pairs_options = 'الخيارات'
+      assign zs_pairs_optionsaria = 'اختر خيارات المنتج'
+    else
+      assign zs_pairs_prev = 'Previous suggested product'
+      assign zs_pairs_next = 'Next suggested product'
+      assign zs_pairs_region = 'Suggested products'
+      assign zs_pairs_add = 'Add'
+      assign zs_pairs_addaria = 'Add to cart:'
+      assign zs_pairs_options = 'Options'
+      assign zs_pairs_optionsaria = 'Choose options for'
+  endcase
+%}
 {% if zs_current_product != blank %}
   <zs-quick-pairs
     class="zs-pairs"
@@ -21,11 +57,11 @@
         <h2 class="zs-pairs__title">{{ block.settings.heading | escape }}</h2>
       </div>
       <div class="zs-pairs__arrows">
-        <button class="zs-pairs__arrow" type="button" data-zs-prev aria-label="Previous suggested product" disabled>‹</button>
-        <button class="zs-pairs__arrow" type="button" data-zs-next aria-label="Next suggested product" disabled>›</button>
+        <button class="zs-pairs__arrow" type="button" data-zs-prev aria-label="{{ zs_pairs_prev | escape }}" disabled>‹</button>
+        <button class="zs-pairs__arrow" type="button" data-zs-next aria-label="{{ zs_pairs_next | escape }}" disabled>›</button>
       </div>
     </div>
-    <div class="zs-pairs__track" data-zs-pairs-track="{{ block.id }}" role="region" aria-label="Suggested products" tabindex="0">
+    <div class="zs-pairs__track" data-zs-pairs-track="{{ block.id }}" role="region" aria-label="{{ zs_pairs_region | escape }}" tabindex="0">
       {% if recommendations.performed %}
         {% for suggestion in recommendations.products limit: block.settings.product_limit %}
           {% if suggestion.id != zs_current_product.id and suggestion.available %}
@@ -62,12 +98,12 @@
                     <input type="hidden" name="id" value="{{ zs_variant.id }}" ref="variantId">
                     <input type="hidden" name="quantity" value="{{ zs_variant.quantity_rule.min | default: 1 }}">
                     <add-to-cart-component ref="addToCartButtonContainer" data-add-to-cart-animation="false">
-                      <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="zs-pairs__plus zs-pairs__plus--add" aria-label="Add {{ suggestion.title | escape }} to cart">Add <span aria-hidden="true">+</span></button>
+                      <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="zs-pairs__plus zs-pairs__plus--add" aria-label="{{ zs_pairs_addaria | escape }} {{ suggestion.title | escape }}">{{ zs_pairs_add | escape }} <span aria-hidden="true">+</span></button>
                     </add-to-cart-component>
                   {% endform %}
                 </product-form-component>
               {% else %}
-                <a href="{{ suggestion.url }}" class="zs-pairs__plus zs-pairs__plus--link" aria-label="Choose options for {{ suggestion.title | escape }}">Options <span aria-hidden="true">↗</span></a>
+                <a href="{{ suggestion.url }}" class="zs-pairs__plus zs-pairs__plus--link" aria-label="{{ zs_pairs_optionsaria | escape }} {{ suggestion.title | escape }}">{{ zs_pairs_options | escape }} <span aria-hidden="true">↗</span></a>
               {% endif %}
             </div>
           {% endif %}
