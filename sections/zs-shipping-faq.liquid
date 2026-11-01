@@ -50,6 +50,131 @@
       assign zs_ship_days = '8–9 days'
       assign zs_ship_free_min = 100
   endcase
+  case localization.language.iso_code
+    when 'de'
+      case localization.country.iso_code
+        when 'GB'
+          assign zs_ship_country = 'Vereinigtes Königreich'
+        when 'US'
+          assign zs_ship_country = 'Vereinigte Staaten'
+        when 'DE'
+          assign zs_ship_country = 'Deutschland'
+        when 'FR'
+          assign zs_ship_country = 'Frankreich'
+        when 'AE'
+          assign zs_ship_country = 'Vereinigte Arabische Emirate'
+        when 'CA'
+          assign zs_ship_country = 'Kanada'
+        when 'AU'
+          assign zs_ship_country = 'Australien'
+      endcase
+      if zs_ship_days == '4–5 days'
+        assign zs_ship_days = '4–5 Tage'
+      elsif zs_ship_days != blank
+        assign zs_ship_days = '8–9 Tage'
+      endif
+      assign zs_shf_dest = 'Ausgewähltes Lieferland'
+      assign zs_shf_preparation = 'Bestellvorbereitung'
+      assign zs_shf_preptime = '1–2 Tage'
+      assign zs_shf_transit = 'Versand nach Übergabe'
+      assign zs_shf_free = 'Kostenloser Versand ab'
+      assign zs_shf_details = 'Versandinformationen für'
+      assign zs_shf_minimum = 'LOKALER MINDESTWERT AN DER KASSE'
+      assign zs_shf_estimate = 'Geschätzter Mindestwert in Landeswährung für kostenlosen Versand'
+      assign zs_shf_unavailable = 'Versandverfügbarkeit und Preise werden an der Kasse bestätigt.'
+      assign zs_shf_faq1 = 'Bestellungen nach'
+      assign zs_shf_faq2 = 'werden vor dem Versand in 1–2 Tagen vorbereitet. Die geschätzte Lieferzeit nach Versand beträgt'
+      assign zs_shf_faq3 = 'Kostenloser Versand ab'
+      assign zs_shf_faq4 = 'für berechtigte Bestellungen. Bei Bestellungen unter diesem Betrag können an der Kasse Versandkosten anfallen. Lieferzeiten sind unverbindliche Schätzungen und können sich durch Zoll, Feiertage oder Transportunternehmen ändern.'
+      assign zs_shf_faqother = 'Bestellungen werden normalerweise in 1–2 Tagen vorbereitet. Versandverfügbarkeit, Kosten und Lieferzeit hängen vom ausgewählten Zielland ab und werden an der Kasse bestätigt. Kostenloser Versand gilt nicht für jedes Land und jede Bestellung.'
+    when 'fr'
+      case localization.country.iso_code
+        when 'GB'
+          assign zs_ship_country = 'Royaume-Uni'
+        when 'US'
+          assign zs_ship_country = 'États-Unis'
+        when 'DE'
+          assign zs_ship_country = 'Allemagne'
+        when 'FR'
+          assign zs_ship_country = 'France'
+        when 'AE'
+          assign zs_ship_country = 'Émirats arabes unis'
+        when 'CA'
+          assign zs_ship_country = 'Canada'
+        when 'AU'
+          assign zs_ship_country = 'Australie'
+      endcase
+      if zs_ship_days == '4–5 days'
+        assign zs_ship_days = '4 à 5 jours'
+      elsif zs_ship_days != blank
+        assign zs_ship_days = '8 à 9 jours'
+      endif
+      assign zs_shf_dest = 'Destination sélectionnée'
+      assign zs_shf_preparation = 'Préparation de commande'
+      assign zs_shf_preptime = '1 à 2 jours'
+      assign zs_shf_transit = 'Livraison après expédition'
+      assign zs_shf_free = 'Livraison gratuite dès'
+      assign zs_shf_details = 'Informations de livraison vers'
+      assign zs_shf_minimum = 'SEUIL LOCAL AU PAIEMENT'
+      assign zs_shf_estimate = 'Seuil estimé en devise locale pour la livraison gratuite'
+      assign zs_shf_unavailable = 'La disponibilité et les tarifs de livraison sont confirmés lors du paiement.'
+      assign zs_shf_faq1 = 'Les commandes expédiées vers'
+      assign zs_shf_faq2 = 'sont préparées en 1 à 2 jours avant le départ. Le délai de livraison estimé après expédition est de'
+      assign zs_shf_faq3 = 'La livraison gratuite commence à'
+      assign zs_shf_faq4 = 'pour les commandes admissibles. Des frais peuvent s’appliquer aux commandes inférieures à ce seuil et seront affichés lors du paiement. Les délais sont indicatifs et peuvent être affectés par les douanes, les jours fériés et les transporteurs.'
+      assign zs_shf_faqother = 'Les commandes sont généralement préparées en 1 à 2 jours. Les destinations, tarifs et délais disponibles dépendent du pays sélectionné et sont confirmés lors du paiement. La livraison gratuite ne s’applique pas à tous les pays ou à toutes les commandes.'
+    when 'ar'
+      case localization.country.iso_code
+        when 'GB'
+          assign zs_ship_country = 'المملكة المتحدة'
+        when 'US'
+          assign zs_ship_country = 'الولايات المتحدة'
+        when 'DE'
+          assign zs_ship_country = 'ألمانيا'
+        when 'FR'
+          assign zs_ship_country = 'فرنسا'
+        when 'AE'
+          assign zs_ship_country = 'الإمارات العربية المتحدة'
+        when 'CA'
+          assign zs_ship_country = 'كندا'
+        when 'AU'
+          assign zs_ship_country = 'أستراليا'
+      endcase
+      if zs_ship_days == '4–5 days'
+        assign zs_ship_days = '4–5 أيام'
+      elsif zs_ship_days != blank
+        assign zs_ship_days = '8–9 أيام'
+      endif
+      assign zs_shf_dest = 'الوجهة المحددة'
+      assign zs_shf_preparation = 'تحضير الطلب'
+      assign zs_shf_preptime = '1–2 يوم'
+      assign zs_shf_transit = 'التوصيل بعد الإرسال'
+      assign zs_shf_free = 'شحن مجاني للطلبات من'
+      assign zs_shf_details = 'تفاصيل الشحن إلى'
+      assign zs_shf_minimum = 'الحد الأدنى المحلي عند الدفع'
+      assign zs_shf_estimate = 'الحد الأدنى التقديري للشحن المجاني بالعملة المحلية'
+      assign zs_shf_unavailable = 'يُؤكَّد توفر الشحن وأسعاره عند الدفع.'
+      assign zs_shf_faq1 = 'الطلبات المشحونة إلى'
+      assign zs_shf_faq2 = 'تُحضَّر خلال يوم إلى يومين قبل الإرسال. مدة التوصيل التقديرية بعد الإرسال هي'
+      assign zs_shf_faq3 = 'يبدأ الشحن المجاني من'
+      assign zs_shf_faq4 = 'للطلبات المؤهلة. قد تُفرض رسوم شحن على الطلبات الأقل من ذلك وتظهر عند الدفع. المدد تقديرية وقد تتأثر بالجمارك والعطلات أو تأخير شركات النقل.'
+      assign zs_shf_faqother = 'تُحضَّر الطلبات عادةً خلال يوم إلى يومين. يعتمد توفر الشحن وأسعاره ومدده على الوجهة المختارة ويُؤكد عند الدفع. الشحن المجاني غير مضمون لكل دولة أو طلب.'
+    else
+      assign zs_shf_dest = 'Selected destination'
+      assign zs_shf_preparation = 'Order preparation'
+      assign zs_shf_preptime = '1–2 days'
+      assign zs_shf_transit = 'Shipping after dispatch'
+      assign zs_shf_free = 'Free shipping on orders'
+      assign zs_shf_details = 'Shipping details for'
+      assign zs_shf_minimum = 'LOCAL MINIMUM AT CHECKOUT'
+      assign zs_shf_estimate = 'Estimated local-currency free shipping minimum for the selected market'
+      assign zs_shf_unavailable = 'Shipping availability and rates are confirmed at checkout.'
+      assign zs_shf_faq1 = 'Orders shipped to'
+      assign zs_shf_faq2 = 'are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is'
+      assign zs_shf_faq3 = 'Free shipping starts from'
+      assign zs_shf_faq4 = 'for qualifying orders. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.'
+      assign zs_shf_faqother = 'Orders are typically prepared in 1–2 days before dispatch. Shipping availability, rates and estimated delivery times depend on your selected destination and are confirmed at checkout. Free shipping is not guaranteed for every country or order.'
+  endcase
   assign contact_href = s.contact_link
   if contact_href == blank
     assign contact_page = pages['contact']
@@ -102,45 +227,45 @@
         <p>{{ s.country_intro | escape }}</p>
       </div>
       {% if zs_ship_free_min > 0 %}
-        <div class="zs-shf__countries" role="list" aria-label="Shipping details for {{ zs_ship_country | escape }}">
+        <div class="zs-shf__countries" role="list" aria-label="{{ zs_shf_details | escape }} {{ zs_ship_country | escape }}">
           <div class="zs-shf__country" role="listitem">
             <div class="zs-shf__country-name">
               <span class="zs-shf__flag" aria-hidden="true">{{ zs_ship_flag }}</span>
               <span class="zs-shf__country-title">{{ zs_ship_country | escape }}</span>
             </div>
             <div class="zs-shf__country-bottom">
-              <span class="zs-shf__time">Selected destination</span>
+              <span class="zs-shf__time">{{ zs_shf_dest | escape }}</span>
             </div>
           </div>
           <div class="zs-shf__country" role="listitem">
-            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Order preparation</span></div>
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">{{ zs_shf_preparation | escape }}</span></div>
             <div class="zs-shf__country-bottom">
-              <strong class="zs-shf__time zs-shf__time--value">1–2 days</strong>
+              <strong class="zs-shf__time zs-shf__time--value">{{ zs_shf_preptime | escape }}</strong>
             </div>
           </div>
           <div class="zs-shf__country" role="listitem">
-            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Shipping after dispatch</span></div>
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">{{ zs_shf_transit | escape }}</span></div>
             <div class="zs-shf__country-bottom">
               <strong class="zs-shf__time zs-shf__time--value">{{ zs_ship_days }}</strong>
             </div>
           </div>
           <div class="zs-shf__country zs-shf__country--threshold" role="listitem">
-            <div class="zs-shf__country-name"><span class="zs-shf__country-title">Free shipping on orders</span></div>
+            <div class="zs-shf__country-name"><span class="zs-shf__country-title">{{ zs_shf_free | escape }}</span></div>
             <div class="zs-shf__country-bottom">
-              <span class="zs-shf__free" aria-label="Estimated local-currency free shipping minimum for the selected market">
-                <span data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}LOCAL MINIMUM AT CHECKOUT{% endif %}</span>
+              <span class="zs-shf__free" aria-label="{{ zs_shf_estimate | escape }}">
+                <span data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_shf_minimum | escape }}">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}{{ zs_shf_minimum | escape }}{% endif %}</span>
               </span>
             </div>
           </div>
         </div>
       {% else %}
-        <div class="zs-shf__countries zs-shf__countries--unavailable" role="list" aria-label="Shipping information for selected country">
+        <div class="zs-shf__countries zs-shf__countries--unavailable" role="list" aria-label="{{ zs_shf_details | escape }} {{ zs_ship_country | escape }}">
           <div class="zs-shf__country" role="listitem">
             <div class="zs-shf__country-name">
               <span class="zs-shf__flag" aria-hidden="true">{{ zs_ship_flag }}</span>
               <span class="zs-shf__country-title">{{ zs_ship_country | escape }}</span>
             </div>
-            <div class="zs-shf__country-bottom"><span class="zs-shf__time">Shipping availability and rates are confirmed at checkout.</span></div>
+            <div class="zs-shf__country-bottom"><span class="zs-shf__time">{{ zs_shf_unavailable | escape }}</span></div>
           </div>
         </div>
       {% endif %}
@@ -188,9 +313,9 @@
                 <div class="zs-shf__answer">
                   {%- if block.id == 'shf_faq_shipping' -%}
                     {%- if zs_ship_free_min > 0 -%}
-                      <p>Orders shipped to <strong>{{ zs_ship_country | escape }}</strong> are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is <strong>{{ zs_ship_days }}</strong>. Free shipping starts from <strong data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local minimum shown at checkout">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}the local minimum shown at checkout{% endif %}</strong> for qualifying orders. Orders below that amount may have shipping charges shown at checkout. Delivery estimates are not guaranteed and may be affected by customs, holidays or carrier delays.</p>
+                      <p>{{ zs_shf_faq1 | escape }} <strong>{{ zs_ship_country | escape }}</strong> {{ zs_shf_faq2 | escape }} <strong>{{ zs_ship_days | escape }}</strong>. {{ zs_shf_faq3 | escape }} <strong data-zs-usd-amount-cents="{{ zs_ship_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_shf_minimum | escape }}">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_ship_free_min }}+{% else %}{{ zs_shf_minimum | escape }}{% endif %}</strong> {{ zs_shf_faq4 | escape }}</p>
                     {%- else -%}
-                      <p>Orders are typically prepared in 1–2 days before dispatch. Shipping availability, rates and estimated delivery times depend on your selected destination and are confirmed at checkout. Free shipping is not guaranteed for every country or order.</p>
+                      <p>{{ zs_shf_faqother | escape }}</p>
                     {%- endif -%}
                   {%- else -%}
                     <p>{{ block.settings.answer | escape | newline_to_br }}</p>
