@@ -7,6 +7,76 @@
   assign light_font = display_font | font_modify: 'weight', '300'
   assign medium_font = display_font | font_modify: 'weight', '500'
   assign bold_font = display_font | font_modify: 'weight', '700'
+  case request.locale.iso_code
+    when 'de'
+      assign zs_c_email = 'ZAISEN per E-Mail kontaktieren'
+      assign zs_c_call = 'ZAISEN anrufen'
+      assign zs_c_channels = 'ZAISEN kontaktieren'
+      assign zs_c_received = 'Nachricht erhalten.'
+      assign zs_c_success = 'Vielen Dank für Ihre Nachricht an ZAISEN. Wir melden uns so bald wie möglich.'
+      assign zs_c_name = 'Ihr Name'
+      assign zs_c_email_address = 'E-Mail-Adresse'
+      assign zs_c_phone = 'Telefon'
+      assign zs_c_optional = '(optional)'
+      assign zs_c_order = 'Bestellnummer'
+      assign zs_c_message = 'Ihre Nachricht'
+      assign zs_c_phone_placeholder = 'Ihre Telefonnummer'
+      assign zs_c_message_placeholder = 'Beschreiben Sie, wobei wir Ihnen helfen können…'
+      assign zs_c_example = 'z. B. #1001'
+      assign zs_c_submit = 'Nachricht senden'
+      assign zs_c_privacy = 'Wir verwenden Ihre Angaben ausschließlich, um auf Ihre Anfrage zu antworten.'
+    when 'fr'
+      assign zs_c_email = 'Envoyer un e-mail à ZAISEN'
+      assign zs_c_call = 'Appeler ZAISEN'
+      assign zs_c_channels = 'Contacter ZAISEN'
+      assign zs_c_received = 'Message reçu.'
+      assign zs_c_success = 'Merci d’avoir contacté ZAISEN. Nous vous répondrons dès que possible.'
+      assign zs_c_name = 'Votre nom'
+      assign zs_c_email_address = 'Adresse e-mail'
+      assign zs_c_phone = 'Téléphone'
+      assign zs_c_optional = '(facultatif)'
+      assign zs_c_order = 'Numéro de commande'
+      assign zs_c_message = 'Votre message'
+      assign zs_c_phone_placeholder = 'Votre numéro de téléphone'
+      assign zs_c_message_placeholder = 'Dites-nous comment nous pouvons vous aider…'
+      assign zs_c_example = 'p. ex. #1001'
+      assign zs_c_submit = 'Envoyer le message'
+      assign zs_c_privacy = 'Nous utilisons vos coordonnées uniquement pour répondre à votre demande.'
+    when 'ar'
+      assign zs_c_email = 'راسل زايسن بالبريد الإلكتروني'
+      assign zs_c_call = 'اتصل بزايسن'
+      assign zs_c_channels = 'التواصل مع زايسن'
+      assign zs_c_received = 'تم استلام الرسالة.'
+      assign zs_c_success = 'شكرًا لتواصلك مع زايسن. سنرد عليك في أقرب وقت ممكن.'
+      assign zs_c_name = 'اسمك'
+      assign zs_c_email_address = 'البريد الإلكتروني'
+      assign zs_c_phone = 'الهاتف'
+      assign zs_c_optional = '(اختياري)'
+      assign zs_c_order = 'رقم الطلب'
+      assign zs_c_message = 'رسالتك'
+      assign zs_c_phone_placeholder = 'رقم هاتفك'
+      assign zs_c_message_placeholder = 'أخبرنا كيف يمكننا مساعدتك…'
+      assign zs_c_example = 'مثل #1001'
+      assign zs_c_submit = 'إرسال الرسالة'
+      assign zs_c_privacy = 'سنستخدم بياناتك فقط للرد على استفسارك.'
+    else
+      assign zs_c_email = 'Email ZAISEN'
+      assign zs_c_call = 'Call ZAISEN'
+      assign zs_c_channels = 'Contact ZAISEN'
+      assign zs_c_received = 'Message received.'
+      assign zs_c_success = 'Thank you for contacting ZAISEN. We’ll get back to you as soon as possible.'
+      assign zs_c_name = 'Your name'
+      assign zs_c_email_address = 'Email address'
+      assign zs_c_phone = 'Phone'
+      assign zs_c_optional = '(optional)'
+      assign zs_c_order = 'Order number'
+      assign zs_c_message = 'Your message'
+      assign zs_c_phone_placeholder = 'Your phone number'
+      assign zs_c_message_placeholder = 'Tell us what we can help you with…'
+      assign zs_c_example = 'e.g. #1001'
+      assign zs_c_submit = 'Send message'
+      assign zs_c_privacy = "We'll use your details only to respond to your inquiry."
+  endcase
 -%}
 {%- if display_font != blank -%}
   {% style %}
@@ -36,7 +106,7 @@
       <h1 class="zs-contact__title">{{ s.heading }}</h1>
       <div class="zs-contact__lead">{{ s.subheading }}</div>
 
-      <div class="zs-contact__channels" aria-label="Contact ZAISEN">
+      <div class="zs-contact__channels" aria-label="{{ zs_c_channels | escape }}">
         {% if contact_email != blank %}
           <div class="zs-contact__channel">
             <span class="zs-contact__icon" aria-hidden="true">
@@ -46,7 +116,7 @@
               </svg>
             </span>
             <div class="zs-contact__channel-copy">
-              <span class="zs-contact__channel-label">Email ZAISEN</span>
+              <span class="zs-contact__channel-label">{{ zs_c_email | escape }}</span>
               <a class="zs-contact__contact-link" href="mailto:{{ contact_email | escape }}">{{ contact_email | escape }}
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
               </a>
@@ -61,7 +131,7 @@
               </svg>
             </span>
             <div class="zs-contact__channel-copy">
-              <span class="zs-contact__channel-label">Call ZAISEN</span>
+              <span class="zs-contact__channel-label">{{ zs_c_call | escape }}</span>
               <a class="zs-contact__contact-link" href="tel:{{ phone_href | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | escape }}">{{ contact_phone | escape }}
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M7 5h12v12"/></svg>
               </a>
@@ -103,8 +173,8 @@
       {% form 'contact', class: 'zs-contact__form' %}
         {% if form.posted_successfully? %}
           <div class="zs-contact__success" role="status">
-            <strong>Message received.</strong>
-            <p>Thank you for contacting ZAISEN. We’ll get back to you as soon as possible.</p>
+            <strong>{{ zs_c_received | escape }}</strong>
+            <p>{{ zs_c_success | escape }}</p>
           </div>
         {% endif %}
         {% if form.errors %}
@@ -115,12 +185,12 @@
 
         <div class="zs-contact__fields-row">
           <div class="zs-contact__field">
-            <label for="zs-contact-name-{{ section.id }}">Your name</label>
+            <label for="zs-contact-name-{{ section.id }}">{{ zs_c_name | escape }}</label>
             <input id="zs-contact-name-{{ section.id }}" type="text" name="contact[name]" autocomplete="name"
-              value="{{ form.name | escape }}" placeholder="Your name">
+              value="{{ form.name | escape }}" placeholder="{{ zs_c_name | escape }}">
           </div>
           <div class="zs-contact__field">
-            <label for="zs-contact-email-{{ section.id }}">Email address <span aria-hidden="true">*</span></label>
+            <label for="zs-contact-email-{{ section.id }}">{{ zs_c_email_address | escape }} <span aria-hidden="true">*</span></label>
             <input id="zs-contact-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email"
               autocorrect="off" autocapitalize="off" required
               value="{{ form.email | escape }}" placeholder="you@example.com">
@@ -129,28 +199,28 @@
 
         <div class="zs-contact__fields-row">
           <div class="zs-contact__field">
-            <label for="zs-contact-phone-{{ section.id }}">Phone <small>(optional)</small></label>
+            <label for="zs-contact-phone-{{ section.id }}">{{ zs_c_phone | escape }} <small>{{ zs_c_optional | escape }}</small></label>
             <input id="zs-contact-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel"
-              value="{{ form.phone | escape }}" placeholder="Your phone number">
+              value="{{ form.phone | escape }}" placeholder="{{ zs_c_phone_placeholder | escape }}">
           </div>
           <div class="zs-contact__field">
-            <label for="zs-contact-order-{{ section.id }}">Order number <small>(optional)</small></label>
-            <input id="zs-contact-order-{{ section.id }}" type="text" name="contact[Order number]" placeholder="e.g. #1001">
+            <label for="zs-contact-order-{{ section.id }}">{{ zs_c_order | escape }} <small>{{ zs_c_optional | escape }}</small></label>
+            <input id="zs-contact-order-{{ section.id }}" type="text" name="contact[Order number]" placeholder="{{ zs_c_example | escape }}">
           </div>
         </div>
 
         <div class="zs-contact__field">
-          <label for="zs-contact-message-{{ section.id }}">Your message <span aria-hidden="true">*</span></label>
+          <label for="zs-contact-message-{{ section.id }}">{{ zs_c_message | escape }} <span aria-hidden="true">*</span></label>
           <textarea id="zs-contact-message-{{ section.id }}" name="contact[body]" rows="5" required
-            placeholder="Tell us what we can help you with…">{{ form.body | escape }}</textarea>
+            placeholder="{{ zs_c_message_placeholder | escape }}">{{ form.body | escape }}</textarea>
         </div>
 
         <div class="zs-contact__submit-row">
           <button type="submit" class="zs-contact__submit">
-            Send message
+            {{ zs_c_submit | escape }}
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </button>
-          <p class="zs-contact__privacy">We'll use your details only to respond to your inquiry.</p>
+          <p class="zs-contact__privacy">{{ zs_c_privacy | escape }}</p>
         </div>
       {% endform %}
     </div>
