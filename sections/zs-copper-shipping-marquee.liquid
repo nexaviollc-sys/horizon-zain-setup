@@ -1,7 +1,7 @@
 {%- comment -%}
   ZAISEN copper announcement bar, below header.
   Live Shopify USD shipping thresholds verified 2026-10-28:
-  US, UK, Germany, France and UAE $60+; Canada and Australia $100+.
+  US, UK, Germany, France, UAE and Canada $60+; Australia $100+.
 {%- endcomment -%}
 {%- liquid
   assign zs_country = localization.country.iso_code | upcase
@@ -26,7 +26,7 @@
       assign zs_threshold = 60
     when 'CA'
       assign zs_country_label = 'CANADA'
-      assign zs_threshold = 100
+      assign zs_threshold = 60
     when 'AU'
       assign zs_country_label = 'AUSTRALIA'
       assign zs_threshold = 100
