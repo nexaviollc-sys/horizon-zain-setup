@@ -29,6 +29,37 @@
 
   assign zs_lifestyle_identity = product.title | downcase | append: ' ' | append: product.type | downcase
 
+  case request.locale.iso_code
+    when 'de'
+      assign zs_lifestyle_edition = 'DIE ZAISEN EDITION'
+      assign zs_lifestyle_details = 'DIE DETAILS'
+      assign zs_lifestyle_nature = 'VON DER NATUR INSPIRIERT'
+      assign zs_lifestyle_signature = 'Natur, von Hand geformt.'
+      assign zs_lifestyle_foot = 'Jedes Stück hat seine eigene natürliche Maserung und seinen individuellen Charakter.'
+      assign zs_lifestyle_other_view = 'Weitere Ansicht von'
+    when 'fr'
+      assign zs_lifestyle_edition = 'LA COLLECTION ZAISEN'
+      assign zs_lifestyle_details = 'LES DÉTAILS'
+      assign zs_lifestyle_nature = 'INSPIRÉ PAR LA NATURE'
+      assign zs_lifestyle_signature = 'La nature façonnée à la main.'
+      assign zs_lifestyle_foot = 'Chaque pièce possède son propre veinage naturel et son caractère unique.'
+      assign zs_lifestyle_other_view = 'Autre vue de'
+    when 'ar'
+      assign zs_lifestyle_edition = 'مجموعة زايسن'
+      assign zs_lifestyle_details = 'التفاصيل'
+      assign zs_lifestyle_nature = 'مستوحى من الطبيعة'
+      assign zs_lifestyle_signature = 'الطبيعة تُشكّلها الأيدي.'
+      assign zs_lifestyle_foot = 'لكل قطعة عروق خشبية طبيعية وطابعها الفريد.'
+      assign zs_lifestyle_other_view = 'صورة أخرى لـ'
+    else
+      assign zs_lifestyle_edition = 'THE ZAISEN EDITION'
+      assign zs_lifestyle_details = 'THE DETAILS'
+      assign zs_lifestyle_nature = 'INSPIRED BY NATURE'
+      assign zs_lifestyle_signature = 'Nature, shaped by hand.'
+      assign zs_lifestyle_foot = 'Each piece carries its own natural wood grain and character.'
+      assign zs_lifestyle_other_view = 'Another view of'
+  endcase
+
   if zs_lifestyle_heading == blank or zs_lifestyle_description == blank
     assign zs_default_heading = 'A Natural Place in Your Home'
     assign zs_default_description = 'Let the warmth and character of handcrafted wood bring a distinctive finishing touch to your favorite spaces.'
@@ -59,6 +90,97 @@
       assign zs_default_description = 'Bring nautical character and the warm texture of handcrafted wood to a console, shelf, or quiet study.'
     endif
 
+    if request.locale.iso_code == 'de'
+      case zs_default_heading
+        when 'A Statement of Natural Character'
+          assign zs_default_heading = 'Ein Statement natürlicher Persönlichkeit'
+          assign zs_default_description = 'Setzen Sie einen handgefertigten Akzent auf Regal, Konsole oder Schreibtisch. Die natürliche Holzmaserung macht jedes Stück einzigartig.'
+        when 'A Warmer Way to Light Your Space'
+          assign zs_default_heading = 'Warmes Licht für Ihr Zuhause'
+          assign zs_default_description = 'Vom Nachttisch bis zur Leseecke spendet diese Holzleuchte einladendes Licht und handgefertigten Charme.'
+        when 'Time, Beautifully at Home'
+          assign zs_default_heading = 'Zeitlos schön für Ihr Zuhause'
+          assign zs_default_description = 'Eine praktische Uhr mit der Wärme natürlichen Holzes für Ihre Wand, Ihren Schreibtisch oder Ihre Lieblingsecke.'
+        when 'Made for Moments Worth Sharing'
+          assign zs_default_heading = 'Für besondere gemeinsame Momente'
+          assign zs_default_description = 'Dekorieren Sie Ihren Tisch, begrüßen Sie Gäste oder präsentieren Sie Alltagsgegenstände mit der Wärme handgefertigten Holzes.'
+        when 'Bring Nature to the Table'
+          assign zs_default_heading = 'Die Natur auf dem Tisch'
+          assign zs_default_description = 'Verleihen Sie Mahlzeiten und gemeinsamen Momenten mit handgefertigten Holzartikeln ein natürliches Ambiente.'
+        when 'A Natural Touch to Every Gathering'
+          assign zs_default_heading = 'Natürlichkeit bei jedem Beisammensein'
+          assign zs_default_description = 'Holztrinkgefäße bringen Struktur und handwerkliche Wärme auf den gemeinsamen Tisch.'
+        when 'Everyday Details, Beautifully Styled'
+          assign zs_default_heading = 'Alltagsdetails, stilvoll gestaltet'
+          assign zs_default_description = 'Auch kleine Alltagsgegenstände werden aus Naturholz zu besonderen Wohnaccessoires.'
+        when 'An Artisan Touch of the Coast'
+          assign zs_default_heading = 'Ein handgefertigter Hauch von Küste'
+          assign zs_default_description = 'Bringen Sie maritimen Charakter und die warme Struktur von Holz auf Ihre Konsole oder Ihr Regal.'
+        else
+          assign zs_default_heading = 'Natürlich schön in Ihrem Zuhause'
+          assign zs_default_description = 'Handgefertigtes Holz verleiht Ihren Lieblingsräumen Wärme und Persönlichkeit.'
+      endcase
+    elsif request.locale.iso_code == 'fr'
+      case zs_default_heading
+        when 'A Statement of Natural Character'
+          assign zs_default_heading = 'Une présence naturelle pleine de caractère'
+          assign zs_default_description = 'Apportez une touche artisanale à votre étagère, console ou bureau. Le veinage naturel rend chaque pièce unique.'
+        when 'A Warmer Way to Light Your Space'
+          assign zs_default_heading = 'Une lumière chaleureuse pour votre intérieur'
+          assign zs_default_description = 'De la table de chevet au coin lecture, cette lampe en bois diffuse une douce lumière et un charme artisanal.'
+        when 'Time, Beautifully at Home'
+          assign zs_default_heading = 'Le temps en beauté, chez vous'
+          assign zs_default_description = 'Une horloge pratique et chaleureuse en bois naturel pour votre mur, bureau ou espace préféré.'
+        when 'Made for Moments Worth Sharing'
+          assign zs_default_heading = 'Pour les moments à partager'
+          assign zs_default_description = 'Accueillez vos proches et présentez vos essentiels avec la chaleur du bois façonné à la main.'
+        when 'Bring Nature to the Table'
+          assign zs_default_heading = 'Invitez la nature à table'
+          assign zs_default_description = 'Offrez à vos repas quotidiens une touche artisanale avec la beauté naturelle des accessoires en bois.'
+        when 'A Natural Touch to Every Gathering'
+          assign zs_default_heading = 'Une touche naturelle à chaque rencontre'
+          assign zs_default_description = 'Les accessoires de boisson en bois donnent du caractère et une ambiance artisanale à vos moments partagés.'
+        when 'Everyday Details, Beautifully Styled'
+          assign zs_default_heading = 'Les détails du quotidien sublimés'
+          assign zs_default_description = 'Les petits objets usuels deviennent des accents uniques lorsqu’ils sont façonnés en bois naturel.'
+        when 'An Artisan Touch of the Coast'
+          assign zs_default_heading = 'Un air marin, façonné à la main'
+          assign zs_default_description = 'Apportez une touche nautique et la texture chaleureuse du bois à votre bureau ou votre étagère.'
+        else
+          assign zs_default_heading = 'Une présence naturelle chez vous'
+          assign zs_default_description = 'Le bois artisanal apporte chaleur et caractère à vos espaces préférés.'
+      endcase
+    elsif request.locale.iso_code == 'ar'
+      case zs_default_heading
+        when 'A Statement of Natural Character'
+          assign zs_default_heading = 'لمسة فنية بطابع طبيعي'
+          assign zs_default_description = 'أضف قطعة خشبية منحوتة يدويًا إلى الرف أو المكتب، تتميز بعروق طبيعية تجعلها فريدة.'
+        when 'A Warmer Way to Light Your Space'
+          assign zs_default_heading = 'إضاءة دافئة لمساحتك'
+          assign zs_default_description = 'من طاولة السرير إلى ركن القراءة، يمنح هذا المصباح الخشبي إضاءة مريحة ولمسة يدوية مميزة.'
+        when 'Time, Beautifully at Home'
+          assign zs_default_heading = 'جمال الوقت في منزلك'
+          assign zs_default_description = 'ساعة عملية بدفء الخشب الطبيعي، تناسب الجدار والمكتب وزوايا المنزل.'
+        when 'Made for Moments Worth Sharing'
+          assign zs_default_heading = 'صُنعت للحظات المشاركة'
+          assign zs_default_description = 'زيّن مائدتك واستقبل ضيوفك بلمسة من الدفء الطبيعي للخشب المصنوع يدويًا.'
+        when 'Bring Nature to the Table'
+          assign zs_default_heading = 'الطبيعة على مائدتك'
+          assign zs_default_description = 'اجعل الوجبات اليومية واللقاءات أجمل بأدوات خشبية مصنوعة يدويًا.'
+        when 'A Natural Touch to Every Gathering'
+          assign zs_default_heading = 'لمسة طبيعية لكل لقاء'
+          assign zs_default_description = 'تضفي أدوات المشروبات الخشبية دفئًا وطابعًا يدويًا على أوقات المشاركة.'
+        when 'Everyday Details, Beautifully Styled'
+          assign zs_default_heading = 'تفاصيل يومية أكثر جمالًا'
+          assign zs_default_description = 'حتى المستلزمات المنزلية الصغيرة تصبح مميزة عندما تُصنع بعناية من الخشب الطبيعي.'
+        when 'An Artisan Touch of the Coast'
+          assign zs_default_heading = 'لمسة بحرية مصنوعة يدويًا'
+          assign zs_default_description = 'أضف طابعًا بحريًا ودفء الخشب إلى الرف أو المكتب أو ركن منزلك.'
+        else
+          assign zs_default_heading = 'جمال طبيعي في منزلك'
+          assign zs_default_description = 'أضف الدفء والطابع المميز إلى مساحتك بقطعة خشبية مصنوعة يدويًا.'
+      endcase
+    endif
     if zs_lifestyle_heading == blank
       assign zs_lifestyle_heading = zs_default_heading
     endif
@@ -79,7 +201,7 @@
         <span class="zs-lifestyle-section__overline-diamond" aria-hidden="true"></span>
         <p>{{ section.settings.eyebrow | escape }}</p>
         <span class="zs-lifestyle-section__overline-rule" aria-hidden="true"></span>
-        <span class="zs-lifestyle-section__overline-note">THE ZAISEN EDITION</span>
+        <span class="zs-lifestyle-section__overline-note">{{ zs_lifestyle_edition | escape }}</span>
       </div>
 
       <div class="zs-lifestyle-section__stage">
@@ -97,9 +219,9 @@
             }}
           </div>
           {% if zs_lifestyle_detail_image != blank %}
-            <div class="zs-lifestyle-section__detail-inset" aria-label="Another view of {{ product.title | escape }}">
+            <div class="zs-lifestyle-section__detail-inset" aria-label="{{ zs_lifestyle_other_view | escape }} {{ product.title | escape }}">
               {{ zs_lifestyle_detail_image | image_url: width: 700 | image_tag: widths: '220,320,450,700', sizes: '(min-width: 1024px) 18vw, 1px', loading: 'lazy', class: 'zs-lifestyle-section__detail-image', alt: product.title }}
-              <span class="zs-lifestyle-section__detail-caption">THE DETAILS</span>
+              <span class="zs-lifestyle-section__detail-caption">{{ zs_lifestyle_details | escape }}</span>
             </div>
           {% endif %}
           <figcaption class="zs-lifestyle-section__image-note">
@@ -111,7 +233,7 @@
         <div class="zs-lifestyle-section__content">
           <p class="zs-lifestyle-section__kicker">
             <span class="zs-lifestyle-section__kicker-line" aria-hidden="true"></span>
-            INSPIRED BY NATURE
+            {{ zs_lifestyle_nature | escape }}
           </p>
           <h2 class="zs-lifestyle-section__title" id="zs-lifestyle-title-{{ section.id }}">
             {{ zs_lifestyle_heading | escape }}
@@ -130,10 +252,10 @@
             </span>
             <div>
               <span class="zs-lifestyle-section__signature-name">ZAISEN</span>
-              <span class="zs-lifestyle-section__signature-note">Nature, shaped by hand.</span>
+              <span class="zs-lifestyle-section__signature-note">{{ zs_lifestyle_signature | escape }}</span>
             </div>
           </div>
-          <p class="zs-lifestyle-section__editorial-note">Each piece carries its own natural wood grain and character.</p>
+          <p class="zs-lifestyle-section__editorial-note">{{ zs_lifestyle_foot | escape }}</p>
         </div>
       </div>
     </div>
