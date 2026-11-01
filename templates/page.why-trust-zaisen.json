@@ -2,7 +2,11 @@
   "sections": {
     "zs_trust_page": {
       "type": "zs-trust-page",
-      "settings": {}
+      "settings": {
+        "instagram_url": "",
+        "facebook_url": "https://www.facebook.com/profile.php?id=61593712630202",
+        "pinterest_url": "https://www.pinterest.com/zaisenstore/"
+      }
     }
   },
   "order": [
