@@ -13,6 +13,86 @@
 (() => {
   if (customElements.get('zs-bundle-builder')) return;
 
+  // Presentation-only translations; prices, cart rules and discount logic remain unchanged.
+  const bundleCopy = {
+    en: {
+      inBundle:'Already in your bundle', choose:'Choose piece ↗', change:title=>'Change '+title+' in your bundle',
+      option:title=>'Choose an option for '+title, save:'Save ', saveCaps:'SAVE ',
+      off:'% OFF', max:'UP TO 25% OFF',
+      savings:(rate,count)=>'Save '+rate+'% on '+count+' selected products',
+      savingsHint:this.t.savingsHint,
+      estimated:'EST. ', progressUnlocked:this.t.progressUnlocked,
+      progressTo:'Free shipping progress to ', minAtCheckout:this.t.minAtCheckout,
+      calculated:this.t.calculated, normalFree:'YOUR ORDER QUALIFIES FOR FREE SHIPPING (',
+      bundleFree:this.t.bundleFree, freeFrom:'FREE SHIPPING ON ORDERS ',
+      minConfirmed:this.t.minConfirmed,
+      variantError:this.t.variantError,
+      updating:this.t.updating,
+      addError:this.t.addError,
+      unknownError:this.t.unknownError,
+      cartUpdate:this.t.cartUpdate,
+      cartLoad:this.t.cartLoad,
+      cartUnavailable:this.t.cartUnavailable
+    },
+    de: {
+      inBundle:'Bereits im Bundle', choose:'Produkt auswählen ↗', change:title=>'Im Bundle ändern: '+title,
+      option:title=>'Option wählen für '+title, save:'Gespart: ', saveCaps:'GESPART: ',
+      off:'% RABATT', max:'BIS ZU 25 % RABATT',
+      savings:(rate,count)=>rate+' % Rabatt auf '+count+' ausgewählte Produkte',
+      savingsHint:'1 Stück hinzufügen: 15 % Rabatt · Beide hinzufügen: 25 % Rabatt',
+      estimated:'CA. ', progressUnlocked:'Kostenloser Versand erreicht',
+      progressTo:'Fortschritt zum kostenlosen Versand: ', minAtCheckout:'Mindestwert für kostenlosen Versand an der Kasse bestätigt',
+      calculated:'VERSANDKOSTEN AN DER KASSE', normalFree:'IHRE BESTELLUNG HAT KOSTENLOSEN VERSAND (',
+      bundleFree:'IHR BUNDLE HAT KOSTENLOSEN VERSAND', freeFrom:'KOSTENLOSER VERSAND AB ',
+      minConfirmed:'MINDESTWERT FÜR KOSTENLOSEN VERSAND AN DER KASSE',
+      variantError:'Bitte wählen Sie für jedes Produkt eine verfügbare Variante.',
+      updating:'Die Produktauswahl wird aktualisiert. Bitte erneut versuchen.',
+      addError:'Die ausgewählten Produkte konnten nicht hinzugefügt werden.',
+      unknownError:'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
+      cartUpdate:'Der Warenkorb konnte nicht aktualisiert werden.',
+      cartLoad:'Der aktualisierte Warenkorb konnte nicht geladen werden.',
+      cartUnavailable:'Der Warenkorb ist momentan nicht verfügbar.'
+    },
+    fr: {
+      inBundle:'Déjà dans votre lot', choose:'Choisir cette pièce ↗', change:title=>'Changer dans votre lot : '+title,
+      option:title=>'Choisir une option pour '+title, save:'Économie : ', saveCaps:'ÉCONOMIE : ',
+      off:'% DE RÉDUCTION', max:'JUSQU’À 25 % DE RÉDUCTION',
+      savings:(rate,count)=>rate+' % de réduction sur '+count+' articles sélectionnés',
+      savingsHint:'Ajoutez 1 pièce : 15 % de réduction · Ajoutez les deux : 25 %',
+      estimated:'EST. ', progressUnlocked:'Livraison gratuite obtenue',
+      progressTo:'Progression vers la livraison gratuite : ', minAtCheckout:'Seuil de livraison gratuite confirmé au paiement',
+      calculated:'FRAIS DE LIVRAISON CALCULÉS AU PAIEMENT', normalFree:'VOTRE COMMANDE PROFITE DE LA LIVRAISON GRATUITE (',
+      bundleFree:'VOTRE LOT PROFITE DE LA LIVRAISON GRATUITE', freeFrom:'LIVRAISON GRATUITE À PARTIR DE ',
+      minConfirmed:'SEUIL DE LIVRAISON GRATUITE CONFIRMÉ AU PAIEMENT',
+      variantError:'Veuillez choisir une variante disponible pour chaque article.',
+      updating:'La sélection de votre produit principal est en cours. Réessayez.',
+      addError:'Impossible d’ajouter les articles sélectionnés.',
+      unknownError:'Une erreur s’est produite. Veuillez réessayer.',
+      cartUpdate:'Impossible de mettre à jour le panier.',
+      cartLoad:'Impossible de charger le panier mis à jour.',
+      cartUnavailable:'Le contenu du panier est indisponible.'
+    },
+    ar: {
+      inBundle:'موجودة بالفعل في مجموعتك', choose:'اختر القطعة ↗', change:title=>'تغيير المنتج في مجموعتك: '+title,
+      option:title=>'اختر خيارًا للمنتج '+title, save:'وفرت ', saveCaps:'التوفير ',
+      off:'٪ خصم', max:'خصم يصل إلى 25٪',
+      savings:(rate,count)=>'خصم '+rate+'٪ على '+count+' من المنتجات المحددة',
+      savingsHint:'أضف قطعة لتحصل على خصم 15٪ · أضف القطعتين لتحصل على 25٪',
+      estimated:'تقديري ', progressUnlocked:'حصلت على الشحن المجاني',
+      progressTo:'التقدم نحو الشحن المجاني: ', minAtCheckout:'يُؤكَّد الحد الأدنى للشحن المجاني عند الدفع',
+      calculated:'تُحسب رسوم الشحن عند الدفع', normalFree:'طلبك مؤهل للشحن المجاني (',
+      bundleFree:'مجموعتك مؤهلة للشحن المجاني', freeFrom:'شحن مجاني للطلبات من ',
+      minConfirmed:'يُؤكَّد الحد الأدنى للشحن المجاني عند الدفع',
+      variantError:'يُرجى اختيار نوع متاح لكل منتج محدد.',
+      updating:'يجري تحديث خيار المنتج الرئيسي. حاول مرة أخرى.',
+      addError:'تعذّرت إضافة المنتجات المحددة.',
+      unknownError:'حدث خطأ ما. يُرجى المحاولة مرة أخرى.',
+      cartUpdate:'تعذّر تحديث سلة التسوق.',
+      cartLoad:'تعذّر تحميل سلة التسوق المحدثة.',
+      cartUnavailable:'محتوى سلة التسوق غير متاح.'
+    }
+  };
+
   class ZaisenBundleBuilder extends HTMLElement {
     connectedCallback() {
       this.main = this.querySelector('[data-zs-main]');
@@ -32,6 +112,7 @@
       this.activePickerCollection = 'all';
       this.pickerOpener = null;
       this.processing = false;
+      this.t = bundleCopy[(this.dataset.locale || 'en').split('-')[0]] || bundleCopy.en;
       this.currency = (this.dataset.currency || window.Shopify?.currency?.active || 'USD').toUpperCase();
       // Display labels only: variant cents are already converted by Shopify Markets.
       const prefixes = { USD: '$', CAD: 'CAD$', AUD: 'AUD$', EUR: '€', GBP: '£', AED: 'AED ' };
@@ -181,7 +262,7 @@
           candidate.disabled = alreadyUsed;
           candidate.classList.toggle('is-in-bundle', alreadyUsed);
           const label = candidate.querySelector('.zs-bundle__picker-card-action');
-          if (label) label.textContent = alreadyUsed ? 'Already in your bundle' : 'Choose piece ↗';
+          if (label) label.textContent = alreadyUsed ? this.t.inBundle : this.t.choose;
         }
         group.hidden = !groupCount;
       }
@@ -222,7 +303,7 @@
         check.setAttribute('aria-label', 'Include ' + title + ' in bundle');
       }
       const button = row.querySelector('[data-zs-change]');
-      if (button) button.setAttribute('aria-label', 'Change ' + title + ' in your bundle');
+      if (button) button.setAttribute('aria-label', this.t.change(title));
       const picture = row.querySelector('.zs-bundle__picture');
       if (picture) {
         if (photo) {
@@ -246,7 +327,7 @@
         }
         const select = selectSource.cloneNode(true);
         select.setAttribute('data-zs-variant', '');
-        select.setAttribute('aria-label', 'Choose an option for ' + title);
+        select.setAttribute('aria-label', this.t.option(title));
         select.value = available.value;
         variants.replaceChildren(select);
       } else {
@@ -329,16 +410,16 @@
         }
         this.showMoney(price, discounted);
         if (saved) {
-          if (checked && rate) this.showMoney(saved, (unit - discounted) * units, 'Save ');
+          if (checked && rate) this.showMoney(saved, (unit - discounted) * units, this.t.save);
           else saved.textContent = '';
         }
       }
 
       const tier = this.querySelector('[data-zs-tier]');
-      if (tier) tier.textContent = rate ? rate + '% OFF' : 'UP TO 25% OFF';
+      if (tier) tier.textContent = rate ? rate + this.t.off : this.t.max;
       const desc = this.querySelector('[data-zs-tier-description]');
       if (desc) desc.textContent = rate
-        ? 'Save ' + rate + '% on ' + count + ' selected products'
+        ? this.t.savings(rate, count)
         : 'Add 1 piece: 15% off · Add both: 25% off';
       const regular = this.querySelector('[data-zs-regular-total]');
       this.showMoney(regular, before);
@@ -346,7 +427,7 @@
       this.showMoney(total, after);
       const savings = this.querySelector('[data-zs-save-total]');
       if (savings) {
-        if (rate) this.showMoney(savings, before - after, 'SAVE ');
+        if (rate) this.showMoney(savings, before - after, this.t.saveCaps);
         else savings.textContent = '—';
       }
 
@@ -385,7 +466,7 @@
       const formattedThreshold = thresholdLocal != null && thresholdLocal > 0
         ? this.shippingMinimumLabel(thresholdLocal) : null;
       const thresholdDescription = formattedThreshold
-        ? (currency === 'USD' ? formattedThreshold : 'EST. ' + formattedThreshold)
+        ? (currency === 'USD' ? formattedThreshold : this.t.estimated + formattedThreshold)
         : null;
       this.promo?.classList.toggle('is-unlocked', unlocked);
       if (check) {
@@ -398,7 +479,7 @@
         this.progress.setAttribute('aria-label', unlocked
           ? 'Free shipping unlocked'
           : thresholdDescription
-            ? 'Free shipping progress to ' + thresholdDescription
+            ? this.t.progressTo + thresholdDescription
             : 'Free shipping minimum confirmed at checkout');
       }
       if (this.progressFill) this.progressFill.style.width = percentage + '%';
@@ -406,12 +487,12 @@
       if (!supported) {
         label.textContent = 'SHIPPING CALCULATED AT CHECKOUT';
       } else if (normalEligible) {
-        label.textContent = 'YOUR ORDER QUALIFIES FOR FREE SHIPPING (' + thresholdDescription + ')';
+        label.textContent = this.t.normalFree + thresholdDescription + ')';
       } else if (bundleEligible) {
         label.textContent = 'YOUR BUNDLE QUALIFIES FOR FREE SHIPPING';
       } else {
         label.textContent = thresholdDescription
-          ? 'FREE SHIPPING ON ORDERS ' + thresholdDescription
+          ? this.t.freeFrom + thresholdDescription
           : 'FREE SHIPPING MINIMUM CONFIRMED AT CHECKOUT';
       }
     }
