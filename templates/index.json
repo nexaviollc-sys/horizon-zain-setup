@@ -481,7 +481,7 @@
         "judge_me_reviews_cards_carousel_TK3cXF": {
           "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "show_sample_reviews": false,
+            "show_sample_reviews": true,
             "reviews_selection": "all",
             "products": [],
             "filter_pinned": false,
@@ -490,26 +490,26 @@
             "star_rating": "all",
             "show_review_media": true,
             "display_order": "media_first",
-            "no_image_fallback": "product_image",
+            "no_image_fallback": "review_text_only",
             "max_reviews": 20,
             "review_length": "medium",
             "text_size": "medium",
             "image_ratio": "1",
-            "reviews_shown": 3,
+            "reviews_shown": 4,
             "show_reviewer_name": true,
             "show_product_name": true,
             "hide_arrows_mobile": true,
             "arrows_position": "sides",
-            "max_width": 1080,
+            "max_width": 1100,
             "corner_styling": "soft",
-            "header_text_color": "#2b1d17",
-            "text_color": "#2b1d17",
-            "card_color": "#fffdf9",
-            "stars_color": "#b98a4b",
-            "arrows_color": "#2b1d17",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#f9f9f9",
+            "stars_color": "",
+            "arrows_color": "#000000",
             "transition_speed": 5,
-            "header_text": "A Kind Word for ZAISEN",
-            "show_average_rating": false,
+            "header_text": "Customers are saying",
+            "show_average_rating": true,
             "rating_display": "default"
           }
         }
@@ -530,7 +530,7 @@
         "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "#f8f4ee",
+        "background_color": "",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -542,8 +542,8 @@
         "border_opacity": 100,
         "border_color": "",
         "border_radius": 0,
-        "padding-block-start": 64,
-        "padding-block-end": 70
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "zs_shipping_faq_2026": {
@@ -609,7 +609,7 @@
           "type": "faq",
           "settings": {
             "question": "What are the shipping costs and delivery times for my country?",
-            "answer": "Orders are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is 4–5 days to the UK, and 8–9 days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France, UAE and Canada, or $100 USD or more for Australia. For Canada, standard shipping is $9.99 USD below $60 USD. Smaller orders in other countries may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
+            "answer": "Orders are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is 4–5 days to the UK, and 8–9 days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France, UAE and Canada, or $100 USD or more for Australia. For Canada, standard shipping costs $9.99 USD on orders below $60 USD. Smaller orders in other countries may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
             "show_refund_link": false
           }
         },
