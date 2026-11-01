@@ -46,7 +46,7 @@
         "country_heading": "Estimated delivery by country",
         "country_intro": "Shipping estimates and free-delivery thresholds for your country",
         "free_label": "FREE",
-        "shipping_note": "Free standard shipping applies at an eligible order subtotal of $60 USD for the US, UK, Germany, France and UAE, or $100 USD for Canada and Australia. Shipping charges and eligibility are confirmed at checkout. Allow 1–2 days for processing; delivery estimates are not guarantees.",
+        "shipping_note": "Free standard shipping applies at an eligible order subtotal of $60 USD for the US, UK, Germany, France, UAE and Canada, or $100 USD for Australia. Shipping charges and eligibility are confirmed at checkout. Allow 1–2 days for processing; delivery estimates are not guarantees.",
         "shipping_policy_label": "Shipping Policy",
         "contact_eyebrow": "PERSONAL SUPPORT",
         "contact_heading": "Need a hand?",
@@ -127,7 +127,7 @@
           "type": "faq",
           "settings": {
             "question": "When do I qualify for free shipping?",
-            "answer": "ZAISEN ships to seven countries: the US, UK, Germany, France, UAE, Canada and Australia. Free shipping begins at $60 USD for orders to the US, UK, Germany, France and UAE, and at $100 USD for Canada and Australia, based on eligible order subtotal after discounts. Orders are prepared in 1–2 days. Estimated transit after dispatch is 4–5 days to the UK and 8–9 days elsewhere. Final shipping charges are confirmed at checkout; delivery estimates are not guaranteed.",
+            "answer": "ZAISEN ships to seven countries: the US, UK, Germany, France, UAE, Canada and Australia. Free shipping begins at $60 USD for orders to the US, UK, Germany, France, UAE and Canada, and at $100 USD for Australia, based on eligible order subtotal after discounts. Orders are prepared in 1–2 days. Estimated transit after dispatch is 4–5 days to the UK and 8–9 days elsewhere. Final shipping charges are confirmed at checkout; delivery estimates are not guaranteed.",
             "show_refund_link": false
           }
         },
