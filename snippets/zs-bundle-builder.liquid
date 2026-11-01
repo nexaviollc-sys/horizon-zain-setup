@@ -96,10 +96,10 @@
   assign zs_bundle_shipping_supported = false
   assign zs_shipping_threshold_usd = 0
   case zs_country
-    when 'US', 'GB', 'DE', 'FR', 'AE'
+    when 'US', 'GB', 'DE', 'FR', 'AE', 'CA'
       assign zs_bundle_shipping_supported = true
       assign zs_shipping_threshold_usd = 60
-    when 'CA', 'AU'
+    when 'AU'
       assign zs_bundle_shipping_supported = true
       assign zs_shipping_threshold_usd = 100
   endcase
