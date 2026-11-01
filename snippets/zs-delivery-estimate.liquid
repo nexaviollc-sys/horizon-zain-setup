@@ -112,10 +112,10 @@
   {% endcapture %}
   {% capture zs_shipping_sub %}
     {% case zs_language %}
-      {% when 'de' %}Nach {{ zs_country_short | escape }} · für alle Bestellungen
-      {% when 'fr' %}Vers {{ zs_country_short | escape }} · toutes commandes
-      {% when 'ar' %}إلى {{ zs_country_short | escape }} · على جميع الطلبات
-      {% else %}To {{ zs_country_short | escape }} · on all orders
+      {% when 'de' %}Nach {{ zs_country_short | escape }} · ab Mindestbestellwert
+      {% when 'fr' %}Vers {{ zs_country_short | escape }} · dès le seuil minimum
+      {% when 'ar' %}إلى {{ zs_country_short | escape }} · للطلبات المؤهلة
+      {% else %}To {{ zs_country_short | escape }} · on qualifying orders
     {% endcase %}
   {% endcapture %}
   {% capture zs_returns_short %}
