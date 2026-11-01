@@ -41,6 +41,20 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_instagramSoon = "Demnächst"
       assign zt_socialLabel = "Offizielle Social-Media-Profile"
 
+      assign zt_trustStamp = "VERTRAUEN DURCH TRANSPARENZ"
+      assign zt_heroReview = "Kundenbewertung auf Etsy"
+      assign zt_heroDiscover = "Bewertung direkt auf Etsy ansehen"
+      assign zt_heroContact = "Vor dem Kauf Kontakt aufnehmen"
+      assign zt_contactEyebrow = "PERSÖNLICH FÜR SIE DA"
+      assign zt_callHeading = "US-TELEFONNUMMER"
+      assign zt_callAction = "Jetzt anrufen"
+      assign zt_whatsHeading = "WHATSAPP-SUPPORT"
+      assign zt_whatsAction = "Auf WhatsApp schreiben"
+      assign zt_emailHeader = "Per E-Mail erreichbar"
+      assign zt_locationsEyebrow = "UNSERE STANDORTE"
+      assign zt_readMore = "Mehr über ZAISEN erfahren"
+      assign zt_profileLabel = "OFFIZIELLE KANÄLE"
+      assign zt_profileSub = "Besuchen Sie unseren öffentlichen Etsy-Shop und unsere offiziellen Social-Media-Profile."
     when 'fr'
       assign zt_crumb = "Pourquoi faire confiance à ZAISEN ?"
       assign zt_eyebrow = "DÉCOUVRIR ZAISEN"
@@ -76,6 +90,20 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_instagramSoon = "Bientôt"
       assign zt_socialLabel = "Profils officiels sur les réseaux sociaux"
 
+      assign zt_trustStamp = "LA CONFIANCE PAR LA TRANSPARENCE"
+      assign zt_heroReview = "Avis client sur Etsy"
+      assign zt_heroDiscover = "Voir l’avis directement sur Etsy"
+      assign zt_heroContact = "Nous contacter avant d’acheter"
+      assign zt_contactEyebrow = "UNE ÉQUIPE À VOTRE ÉCOUTE"
+      assign zt_callHeading = "NUMÉRO AMÉRICAIN"
+      assign zt_callAction = "Nous appeler"
+      assign zt_whatsHeading = "CONTACT WHATSAPP"
+      assign zt_whatsAction = "Écrire sur WhatsApp"
+      assign zt_emailHeader = "Nous contacter par e-mail"
+      assign zt_locationsEyebrow = "OÙ NOUS SOMMES"
+      assign zt_readMore = "En savoir plus sur ZAISEN"
+      assign zt_profileLabel = "NOS CANAUX OFFICIELS"
+      assign zt_profileSub = "Découvrez notre boutique Etsy publique et nos profils officiels sur les réseaux sociaux."
     when 'ar'
       assign zt_crumb = "لماذا تثق بزايسن؟"
       assign zt_eyebrow = "تعرّف على زايسن"
@@ -111,6 +139,20 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_instagramSoon = "قريبًا"
       assign zt_socialLabel = "حساباتنا الرسمية على وسائل التواصل"
 
+      assign zt_trustStamp = "الثقة تبدأ بالوضوح"
+      assign zt_heroReview = "تقييم عميل على إتسي"
+      assign zt_heroDiscover = "عرض التقييم على إتسي"
+      assign zt_heroContact = "تواصل معنا قبل الشراء"
+      assign zt_contactEyebrow = "نحن هنا للتواصل معك"
+      assign zt_callHeading = "رقم الهاتف الأمريكي"
+      assign zt_callAction = "اتصل الآن"
+      assign zt_whatsHeading = "التواصل عبر واتساب"
+      assign zt_whatsAction = "راسلنا على واتساب"
+      assign zt_emailHeader = "تواصل معنا عبر البريد الإلكتروني"
+      assign zt_locationsEyebrow = "أماكن تواجدنا"
+      assign zt_readMore = "تعرّف أكثر على زايسن"
+      assign zt_profileLabel = "قنواتنا الرسمية"
+      assign zt_profileSub = "استكشف متجرنا العام على إتسي وصفحاتنا الرسمية على وسائل التواصل."
     else
       assign zt_crumb = "Why Trust ZAISEN?"
       assign zt_eyebrow = "GET TO KNOW ZAISEN"
@@ -146,110 +188,237 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_instagramSoon = "Coming soon"
       assign zt_socialLabel = "Official social profiles"
 
+      assign zt_trustStamp = "CONFIDENCE THROUGH TRANSPARENCY"
+      assign zt_heroReview = "Customer review on Etsy"
+      assign zt_heroDiscover = "See the review on Etsy"
+      assign zt_heroContact = "Talk to us before buying"
+      assign zt_contactEyebrow = "A REAL TEAM, HERE TO HELP"
+      assign zt_callHeading = "ZAISEN US NUMBER"
+      assign zt_callAction = "Call our team"
+      assign zt_whatsHeading = "ZAISEN WHATSAPP"
+      assign zt_whatsAction = "Chat on WhatsApp"
+      assign zt_emailHeader = "Prefer to email us?"
+      assign zt_locationsEyebrow = "WHERE WE ARE"
+      assign zt_readMore = "More about ZAISEN"
+      assign zt_profileLabel = "OUR OFFICIAL CHANNELS"
+      assign zt_profileSub = "Visit our public Etsy shop and the official social accounts we share here."
   endcase
 %}
 
 <article class="zt" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
   <div class="zt__wrap">
     <nav class="zt__crumb" aria-label="{{ zt_crumb | escape }}">
-      <a href="{{ routes.root_url }}">ZAISEN</a><span aria-hidden="true">/</span><span>{{ zt_crumb | escape }}</span>
+      <a href="{{ routes.root_url }}">ZAISEN</a>
+      <span class="zt__crumb-slash" aria-hidden="true">/</span>
+      <span>{{ zt_crumb | escape }}</span>
     </nav>
+
     <header class="zt__hero">
-      <p class="zt__eyebrow">{{ zt_eyebrow | escape }}</p>
-      <h1>{{ zt_heading | escape }}</h1>
-      <p class="zt__quote">{{ zt_quote | escape }}</p>
-      <p class="zt__lead">{{ zt_intro | escape }}</p>
+      <div class="zt__hero-main">
+        <div class="zt__micro"><span class="zt__micro-line" aria-hidden="true"></span>{{ zt_eyebrow | escape }}</div>
+        <h1>{{ zt_heading | escape }}</h1>
+        <p class="zt__quote">{{ zt_quote | escape }}</p>
+        <p class="zt__intro">{{ zt_intro | escape }}</p>
+        <div class="zt__hero-actions">
+          <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer" class="zt__btn zt__btn--cream">
+            {{ zt_etsyButton | escape }} <span aria-hidden="true">↗</span>
+          </a>
+          <a href="#zt-contact" class="zt__hero-anchor">{{ zt_heroContact | escape }} <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <aside class="zt__proof" aria-label="{{ zt_etsyKicker | escape }}">
+        <span class="zt__proof-monogram" aria-hidden="true">Z</span>
+        <div class="zt__proof-content">
+          <div class="zt__proof-top"><span class="zt__proof-rule" aria-hidden="true"></span><span>{{ zt_etsyKicker | escape }}</span></div>
+          <div class="zt__stars" aria-label="Five-star customer review on Etsy">★★★★★</div>
+          <p class="zt__proof-title">{{ zt_etsyTitle | escape }}</p>
+          <p class="zt__proof-copy">{{ zt_etsyText | escape }}</p>
+          <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer" class="zt__proof-link">
+            {{ zt_heroDiscover | escape }} <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </aside>
     </header>
 
-    <div class="zt__features">
-      <section class="zt__etsy" aria-labelledby="zt-etsy-title">
-        <p class="zt__eyebrow">{{ zt_etsyKicker | escape }}</p>
-        <p class="zt__stars" aria-label="5 out of 5 stars" title="Five-star customer review on Etsy">★★★★★</p>
-        <h2 id="zt-etsy-title">{{ zt_etsyTitle | escape }}</h2>
-        <p>{{ zt_etsyText | escape }}</p>
-        <a class="zt__btn zt__btn--gold" href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer">
-          {{ zt_etsyButton | escape }} <span aria-hidden="true">↗</span>
-        </a>
-      </section>
-      <section class="zt__contact" aria-labelledby="zt-contact-title">
-        <p class="zt__eyebrow">{{ zt_contactKicker | escape }}</p>
-        <h2 id="zt-contact-title">{{ zt_contactTitle | escape }}</h2>
-        <p>{{ zt_contactText | escape }}</p>
-        <div class="zt__emails">
-          <div><span>{{ zt_support | escape }}</span><a href="mailto:support@zaisenstore.com">support@zaisenstore.com</a></div>
-          <div><span>{{ zt_info | escape }}</span><a href="mailto:info@zaisenstore.com">info@zaisenstore.com</a></div>
-          <div><span>{{ zt_contact | escape }}</span><a href="mailto:contact@zaisenstore.com">contact@zaisenstore.com</a></div>
+    <section class="zt__contact-area" id="zt-contact" aria-labelledby="zt-contact-title">
+      <div class="zt__section-head">
+        <div class="zt__section-label">{{ zt_contactEyebrow | escape }}</div>
+        <div class="zt__section-heading">
+          <h2 id="zt-contact-title">{{ zt_contactTitle | escape }}</h2>
+          <p>{{ zt_contactText | escape }}</p>
         </div>
-        <div class="zt__phone"><span>{{ zt_phoneLabel | escape }}</span><a href="tel:+13039438555" dir="ltr">+1 (303) 943-8555</a><a href="https://wa.me/13039438555" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
-        <a class="zt__btn zt__btn--outline" href="{{ routes.root_url }}pages/contact">
-          {{ zt_contactButton | escape }} <span aria-hidden="true">↗</span>
+      </div>
+      <div class="zt__contact-grid">
+        <a class="zt__contact-method zt__contact-method--phone" href="tel:+13039438555" aria-label="{{ zt_callAction | escape }}: +1 303 943 8555">
+          <span class="zt__contact-method-head"><span class="zt__contact-method-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.7 19.7 0 0 1-8.63-3.07 19.4 19.4 0 0 1-6-6 19.7 19.7 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.98.35 1.94.68 2.85a2 2 0 0 1-.45 2.11L8.07 9.94a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.87.56 2.85.68A2 2 0 0 1 22 16.92Z"/></svg></span><span class="zt__contact-method-kind">{{ zt_callHeading | escape }}</span></span>
+          <strong class="zt__contact-number" dir="ltr">+1 (303) 943-8555</strong>
+          <span class="zt__method-bottom"><span>{{ zt_callAction | escape }}</span><span class="zt__arrow" aria-hidden="true">↗</span></span>
         </a>
-      </section>
-    </div>
+        <a class="zt__contact-method zt__contact-method--whatsapp" href="https://wa.me/13039438555" target="_blank" rel="noopener noreferrer" aria-label="{{ zt_whatsAction | escape }}: +1 303 943 8555">
+          <span class="zt__contact-method-head"><span class="zt__contact-method-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.6 8.6 0 0 1-7.7 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.6a8.4 8.4 0 0 1-.9-3.8 8.6 8.6 0 0 1 4.7-7.7 8.4 8.4 0 0 1 3.8-.9h.5a8.6 8.6 0 0 1 8 8v.5Z"/><path d="M9 10c.5 1.8 1.8 3 3.7 3.7l1.2-1.1 2 1-1 1.6c-3.2.7-6.3-2.5-6.5-5.5L9 10Z"/></svg></span><span class="zt__contact-method-kind">{{ zt_whatsHeading | escape }}</span></span>
+          <strong class="zt__contact-number" dir="ltr">+1 (303) 943-8555</strong>
+          <span class="zt__method-bottom"><span>{{ zt_whatsAction | escape }}</span><span class="zt__arrow" aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+      <div class="zt__emails">
+        <div class="zt__emails-intro">
+          <h3>{{ zt_emailHeader | escape }}</h3>
+          <a class="zt__email-button" href="{{ routes.root_url }}pages/contact">{{ zt_contactButton | escape }} <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="zt__email-list">
+          <div class="zt__email-item"><span>{{ zt_support | escape }}</span><a href="mailto:support@zaisenstore.com" dir="ltr">support@zaisenstore.com</a></div>
+          <div class="zt__email-item"><span>{{ zt_info | escape }}</span><a href="mailto:info@zaisenstore.com" dir="ltr">info@zaisenstore.com</a></div>
+          <div class="zt__email-item"><span>{{ zt_contact | escape }}</span><a href="mailto:contact@zaisenstore.com" dir="ltr">contact@zaisenstore.com</a></div>
+        </div>
+      </div>
+    </section>
 
-    <section class="zt__about" aria-labelledby="zt-about-title">
-      <div>
+    <section class="zt__origin" aria-labelledby="zt-about-title">
+      <div class="zt__origin-copy">
+        <span class="zt__section-label">{{ zt_readMore | escape }}</span>
         <h2 id="zt-about-title">{{ zt_about | escape }}</h2>
         <p>{{ zt_aboutText | escape }}</p>
       </div>
-      <nav class="zt__links" aria-label="{{ zt_about | escape }}">
+      <nav class="zt__explore" aria-label="{{ zt_readMore | escape }}">
         <a href="{{ routes.root_url }}pages/our-story">{{ zt_story | escape }} <span aria-hidden="true">↗</span></a>
         <a href="{{ routes.root_url }}policies/shipping-policy">{{ zt_shipping | escape }} <span aria-hidden="true">↗</span></a>
         <a href="{{ routes.root_url }}policies/refund-policy">{{ zt_refund | escape }} <span aria-hidden="true">↗</span></a>
       </nav>
     </section>
-    <section class="zt__addresses" aria-labelledby="zt-address-title">
+
+    <section class="zt__locations" aria-labelledby="zt-address-title">
+      <div class="zt__section-label">{{ zt_locationsEyebrow | escape }}</div>
       <h2 id="zt-address-title">{{ zt_locationTitle | escape }}</h2>
       <div class="zt__address-grid">
         <div class="zt__address">
-          <span class="zt__address-label">{{ zt_workshopLabel | escape }}</span>
-          <address>{{ zt_workshopAddress | escape }}</address>
+          <span class="zt__address-index" aria-hidden="true">01</span>
+          <div class="zt__address-details">
+            <h3>{{ zt_workshopLabel | escape }}</h3>
+            <address>{{ zt_workshopAddress | escape }}</address>
+          </div>
         </div>
         <div class="zt__address">
-          <span class="zt__address-label">{{ zt_companyLabel | escape }}</span>
-          <address dir="ltr">{{ zt_companyAddress | escape }}</address>
+          <span class="zt__address-index" aria-hidden="true">02</span>
+          <div class="zt__address-details">
+            <h3>{{ zt_companyLabel | escape }}</h3>
+            <address dir="ltr">{{ zt_companyAddress | escape }}</address>
+          </div>
         </div>
       </div>
       <p class="zt__address-note">{{ zt_locationNote | escape }}</p>
     </section>
-    <section class="zt__social" aria-label="{{ zt_socialLabel | escape }}">
-      <p class="zt__social-heading">{{ zt_socialLabel | escape }}</p>
-      <div class="zt__social-profiles">
-        <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer">Etsy <span aria-hidden="true">↗</span></a>
-        {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>{% endif %}
-        {% if section.settings.pinterest_url != blank %}<a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer">Pinterest <span aria-hidden="true">↗</span></a>{% endif %}
+
+    <section class="zt__social" aria-labelledby="zt-social-heading">
+      <div class="zt__social-head">
+        <div class="zt__section-label">{{ zt_profileLabel | escape }}</div>
+        <h2 id="zt-social-heading">{{ zt_socialLabel | escape }}</h2>
+        <p>{{ zt_profileSub | escape }}</p>
+      </div>
+      <div class="zt__social-grid">
+        <a href="https://www.etsy.com/shop/ZAISEN" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>Etsy</span><span aria-hidden="true">↗</span></a>
+        {% if section.settings.pinterest_url != blank %}
+          <a href="{{ section.settings.pinterest_url }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>Pinterest</span><span aria-hidden="true">↗</span></a>
+        {% endif %}
+        {% if section.settings.facebook_url != blank %}
+          <a href="{{ section.settings.facebook_url }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>Facebook</span><span aria-hidden="true">↗</span></a>
+        {% endif %}
         {% if section.settings.instagram_url != blank %}
-          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer">{{ zt_socialInstagram | escape }} <span aria-hidden="true">↗</span></a>
+          <a href="{{ section.settings.instagram_url }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>{{ zt_socialInstagram | escape }}</span><span aria-hidden="true">↗</span></a>
         {% else %}
-          <span class="zt__social-soon">{{ zt_socialInstagram | escape }} <small>{{ zt_instagramSoon | escape }}</small></span>
+          <div class="zt__social-item zt__social-item--soon"><span>{{ zt_socialInstagram | escape }}</span><small>{{ zt_instagramSoon | escape }}</small></div>
         {% endif %}
       </div>
     </section>
-    <p class="zt__foot">{{ zt_foot | escape }}</p>
+    <p class="zt__footer-note">{{ zt_foot | escape }}</p>
   </div>
 </article>
 {% stylesheet %}
-.zt{--zt-text:#30241d;--zt-muted:#6a5d51;--zt-gold:#b5935a;--zt-line:#e7ded3;color:var(--zt-text);background:#faf8f4;font-family:var(--font-body--family,Arial,sans-serif);padding-bottom:clamp(35px,5vw,65px)}
-.zt *{box-sizing:border-box}.zt__wrap{max-width:1110px;margin:auto;padding-inline:clamp(18px,4vw,58px)}
-.zt h1,.zt h2,.zt p{margin:0;color:inherit}.zt h1,.zt h2{font-family:var(--font-heading--family,Georgia,serif);font-weight:500;letter-spacing:-.035em;text-wrap:balance}
-.zt h1{font-size:clamp(39px,5.2vw,70px);line-height:1.08}.zt h2{font-size:clamp(26px,2.8vw,37px);line-height:1.17}.zt p{font-size:14px;line-height:1.8}
-.zt__crumb{display:flex;gap:10px;padding-block:20px 12px;color:#827368;font-size:12px;align-items:center}.zt__crumb a{color:inherit;text-decoration:none}.zt__crumb a:hover{text-decoration:underline}
-.zt__hero{text-align:center;padding:45px 0 47px;max-width:830px;margin-inline:auto}.zt__eyebrow{color:#99754b!important;font-size:10px!important;font-weight:750;letter-spacing:.16em;text-transform:uppercase}
-.zt__hero h1{margin-top:15px}.zt__quote{font-family:var(--font-heading--family,Georgia,serif)!important;font-style:italic;font-size:clamp(23px,3vw,39px)!important;line-height:1.27!important;margin:18px auto 12px!important;max-width:720px;color:#6d5038!important}
-.zt__lead{max-width:610px;margin-inline:auto!important;color:var(--zt-muted)!important;font-size:15px!important}
-.zt__features{display:grid;grid-template-columns:1fr 1fr;border:1px solid #e4d7c7;border-radius:9px;overflow:hidden;background:#fffdfb;box-shadow:0 10px 34px rgba(63,39,22,.035)}
-.zt__etsy,.zt__contact{padding:clamp(26px,3.7vw,43px);min-width:0}.zt__etsy{background:linear-gradient(135deg,#34261e,#241a15);color:#fff3e5}.zt__etsy .zt__eyebrow{color:#d8b98a!important}.zt__stars{font-size:30px!important;letter-spacing:.14em;color:#e6c28a!important;margin:16px 0 12px!important;line-height:1.2!important}.zt__etsy h2{margin-bottom:12px}.zt__etsy>p:not(.zt__eyebrow):not(.zt__stars){color:#e2d6c9;margin-bottom:24px;max-width:400px}
-.zt__contact h2{margin:16px 0 11px}.zt__contact>p:not(.zt__eyebrow){color:var(--zt-muted)}
-.zt__btn{display:inline-flex;gap:12px;align-items:center;justify-content:center;min-height:45px;padding:10px 18px;border-radius:4px;text-decoration:none!important;font-size:12px;font-weight:700;line-height:1.5;transition:background .2s ease}.zt__btn--gold{background:#ead7b7;color:#34261e!important}.zt__btn--gold:hover{background:#fff2dd}.zt__btn--outline{border:1px solid #a48b6e;color:#392c20!important;margin-top:22px}.zt__btn--outline:hover{background:#f4eee5}
-.zt__emails{display:grid;gap:12px;border-top:1px solid var(--zt-line);margin-top:18px;padding-top:17px}.zt__emails>div{min-width:0}.zt__emails span{display:block;font-size:11px;color:#796b5e;line-height:1.5}.zt__emails a{color:#493622!important;font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-.zt__about{display:grid;grid-template-columns:1.25fr .75fr;gap:45px;padding:38px 0 24px;align-items:start}.zt__about h2{font-size:clamp(25px,2.5vw,34px);margin-bottom:10px}.zt__about p{color:var(--zt-muted);max-width:625px}
-.zt__links{display:grid;gap:11px;padding-block:5px}.zt__links a{font-size:13px;display:flex;justify-content:space-between;gap:12px;padding-bottom:9px;border-bottom:1px solid var(--zt-line);text-decoration:none;color:#493622!important;font-weight:650}.zt__links a:hover{color:#987343!important}
-.zt__phone{border-top:1px solid var(--zt-line);margin-top:15px;padding-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px}.zt__phone span{color:#796b5e;font-size:11px}.zt__phone a{color:#493622!important;font-weight:700;text-decoration:underline;text-underline-offset:3px}
-.zt__addresses{padding:28px 0 20px;border-top:1px solid var(--zt-line)}.zt__addresses h2{font-size:clamp(24px,2.3vw,32px);margin-bottom:15px}.zt__address-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.zt__address{border:1px solid var(--zt-line);background:#fffdfb;border-radius:5px;padding:18px 21px}.zt__address-label{font-size:11px;display:block;letter-spacing:.04em;font-weight:700;color:#80603e;margin-bottom:9px}.zt__address address{font-size:13px;font-style:normal;line-height:1.7;overflow-wrap:anywhere}.zt__address-note{color:var(--zt-muted)!important;font-size:11px!important;margin-top:12px!important}
-.zt__social{border-top:1px solid var(--zt-line);padding:19px 0;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.zt__social-heading{font-weight:700;font-size:12px!important;color:#5e4936!important}.zt__social-profiles{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.zt__social-profiles a{color:#60452a!important;text-decoration:underline;font-weight:700;font-size:12px;text-underline-offset:4px}.zt__social-soon{display:inline-flex;gap:5px;align-items:center;font-size:12px;color:#8c8074}.zt__social-soon small{font-size:10px;padding:3px 7px;border:1px solid #ddd4c9;border-radius:50px;color:#746657}.zt__foot{text-align:center;color:#837367!important;font-size:12px!important;border-top:1px solid var(--zt-line);margin-top:18px!important;padding-top:17px}
-.zt a:focus-visible{outline:2px solid #a9824c;outline-offset:4px}
-@media(max-width:760px){.zt__address-grid{grid-template-columns:1fr}.zt__social{align-items:flex-start;flex-direction:column;gap:9px}.zt__hero{padding:30px 0 33px}.zt__features,.zt__about{grid-template-columns:1fr}.zt__about{gap:20px;padding:30px 0 18px}.zt__contact,.zt__etsy{padding:26px 23px}.zt__hero h1{font-size:clamp(36px,9vw,53px)}}
-@media(prefers-reduced-motion:reduce){.zt__btn{transition:none}}
+/* ZAISEN trust page: text-first editorial brand presentation. Scoped to this page only. */
+.zt{--zt-walnut:#271d17;--zt-walnut-2:#33261e;--zt-paper:#f8f6f2;--zt-white:#fffdfa;--zt-stroke:#e3dbcf;--zt-ink:#342a22;--zt-muted:#716559;--zt-brass:#b99869;--zt-brass-light:#ddc5a0;background:var(--zt-paper);color:var(--zt-ink);font-family:var(--font-body--family,Arial,sans-serif);padding-bottom:clamp(48px,7vw,92px);overflow-wrap:break-word}
+.zt *,.zt *::before,.zt *::after{box-sizing:border-box}
+.zt__wrap{max-width:1250px;margin-inline:auto;padding-inline:clamp(18px,4.8vw,66px)}
+.zt h1,.zt h2,.zt h3,.zt p{margin:0;color:inherit}
+.zt h1,.zt h2,.zt__quote{font-family:var(--font-heading--family,Georgia,serif);font-weight:400;letter-spacing:-.038em}
+.zt h1{font-size:clamp(48px,5.7vw,80px);line-height:1.04}
+.zt h2{font-size:clamp(30px,3.4vw,48px);line-height:1.1}
+.zt h3{font-size:17px;line-height:1.35;font-weight:600}
+.zt p{font-size:14px;line-height:1.75}
+.zt a:focus-visible{outline:3px solid #c99d55;outline-offset:4px;border-radius:2px}
+.zt__crumb{padding:23px 2px;color:#8a7c70;font-size:11px;display:flex;align-items:center;gap:11px;letter-spacing:.02em}
+.zt__crumb a{color:inherit!important;text-decoration:none}.zt__crumb a:hover{text-decoration:underline}.zt__crumb-slash{color:#b5a89c}
+.zt__hero{position:relative;isolation:isolate;background:linear-gradient(125deg,#2f231c 0%,#241a14 100%);color:#fbf5ed;border-radius:4px;min-height:510px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(275px,.8fr);overflow:hidden;box-shadow:0 24px 52px rgba(34,22,15,.11)}
+.zt__hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 88% 10%,rgba(193,151,102,.14),transparent 43%);pointer-events:none;z-index:-1}
+.zt__hero-main{padding:clamp(37px,5.3vw,78px) clamp(28px,5.4vw,72px);min-width:0;display:flex;flex-direction:column;justify-content:center}
+.zt__micro{font-size:10px;line-height:1.5;font-weight:700;letter-spacing:.21em;color:#dec59f;display:flex;align-items:center;gap:12px}
+.zt__micro-line{width:31px;height:1px;background:#c7a675;flex:0 0 31px}
+.zt__hero h1{margin-top:32px;max-width:680px}
+.zt__quote{font-size:clamp(24px,2.5vw,35px)!important;line-height:1.25!important;color:#e9d2b3!important;max-width:610px;margin-top:28px!important;font-style:italic}
+.zt__intro{color:#d6c9ba!important;font-size:14.5px!important;max-width:590px;margin-top:18px!important;line-height:1.75!important}
+.zt__hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:21px;margin-top:32px}
+.zt__btn{display:inline-flex;align-items:center;justify-content:center;gap:18px;padding:15px 21px;border-radius:3px;min-height:50px;font-weight:700;font-size:12px;line-height:1.4;text-decoration:none!important;transition:background .2s,transform .2s}
+.zt__btn--cream{background:#e8d7b9;color:#33251a!important}.zt__btn--cream:hover{background:#f9e9cd;transform:translateY(-2px)}
+.zt__hero-anchor{font-size:12px;color:#e2d3be!important;text-decoration:none!important;border-bottom:1px solid #9b846b;padding-bottom:4px;font-weight:600}.zt__hero-anchor:hover{color:#fff!important}
+.zt__proof{border-inline-start:1px solid rgba(226,206,180,.2);padding:30px clamp(25px,3.3vw,46px) 48px;display:flex;align-items:flex-end;position:relative;min-width:0}
+.zt__proof-monogram{position:absolute;top:10px;inset-inline-end:5px;font-size:clamp(130px,17vw,240px);font-family:Georgia,serif;line-height:1;opacity:.08;pointer-events:none;user-select:none}
+.zt__proof-content{position:relative;max-width:325px;width:100%}
+.zt__proof-top{font-size:9px;letter-spacing:.18em;color:#c9ac84;font-weight:700;display:flex;align-items:center;gap:9px;line-height:1.6}
+.zt__proof-rule{height:1px;width:24px;background:#c9ac84;flex-shrink:0}
+.zt__stars{font-size:clamp(25px,3.2vw,34px);letter-spacing:.16em;line-height:1.5;color:#e9c88a;margin:15px 0 11px;white-space:nowrap}
+.zt__proof-title{font-family:Georgia,serif;font-size:clamp(26px,2.9vw,36px)!important;line-height:1.17!important;letter-spacing:-.025em}
+.zt__proof-copy{margin-top:15px!important;font-size:13px!important;line-height:1.7!important;color:#d9c9b7!important}
+.zt__proof-link{margin-top:27px;display:inline-flex;align-items:center;gap:14px;font-size:12px;color:#f3e1c4!important;text-decoration:none!important;border-bottom:1px solid #b89970;padding-bottom:7px}
+.zt__contact-area{padding-top:clamp(78px,9vw,118px);scroll-margin-top:95px}
+.zt__section-head{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start;margin-bottom:32px}
+.zt__section-label{font-size:10px;line-height:1.6;letter-spacing:.18em;text-transform:uppercase;color:#92734e;font-weight:700}
+.zt__section-heading{max-width:720px}.zt__section-heading h2{max-width:630px}.zt__section-heading p{font-size:15px;line-height:1.8;color:var(--zt-muted);max-width:590px;margin-top:17px}
+.zt__contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.zt__contact-method{position:relative;min-width:0;min-height:198px;padding:26px 28px;background:var(--zt-white);color:var(--zt-ink)!important;border:1px solid #dfd5c8;text-decoration:none!important;border-radius:4px;display:flex;flex-direction:column;justify-content:space-between;gap:11px;transition:background .2s,border-color .2s,transform .2s}
+.zt__contact-method:hover{background:#fff;border-color:#b7a081;transform:translateY(-2px)}
+.zt__contact-method--whatsapp{background:#efe8dc}.zt__contact-method--whatsapp:hover{background:#f4ede2}
+.zt__contact-method-head{display:flex;align-items:center;gap:13px}.zt__contact-method-icon{width:36px;height:36px;display:grid;place-items:center;border:1px solid #d8cab9;border-radius:50%;flex-shrink:0;color:#7c6145}
+.zt__contact-method-kind{font-size:10px;color:#8b7156;letter-spacing:.13em;line-height:1.45;font-weight:700}
+.zt__contact-number{font-family:Georgia,serif;font-weight:500;font-size:clamp(22px,2.8vw,35px);letter-spacing:-.02em;line-height:1.28;color:#32271e;display:block;text-align:start;white-space:nowrap}
+.zt__method-bottom{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #d9ccbd;padding-top:16px;font-size:12px;font-weight:700;line-height:1.5;align-items:center}.zt__arrow{font-size:20px;font-weight:400}
+.zt__emails{margin-top:18px;display:grid;grid-template-columns:minmax(185px,.7fr) minmax(0,1.3fr);gap:32px;padding:30px 32px;background:#fffdfb;border:1px solid var(--zt-stroke);border-radius:4px}
+.zt__emails-intro{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.zt__emails-intro h3{font-family:Georgia,serif;font-weight:500;font-size:clamp(20px,2.1vw,27px)}
+.zt__email-button{font-size:12px;font-weight:700;color:#735438!important;text-decoration:none!important;border-bottom:1px solid #aa8a62;padding-bottom:5px}
+.zt__email-list{display:grid;gap:0}
+.zt__email-item{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:12px;align-items:center;border-bottom:1px solid #eee7df;padding:12px 0}
+.zt__email-item:first-child{padding-top:0}.zt__email-item:last-child{border-bottom:0;padding-bottom:0}
+.zt__email-item span{font-size:11.5px;line-height:1.5;color:#807266}.zt__email-item a{font-size:12.5px;font-weight:650;color:#4d3827!important;text-decoration:underline!important;text-underline-offset:4px;overflow-wrap:anywhere;direction:ltr;text-align:start}
+.zt__origin{padding-block:clamp(72px,8vw,110px);border-bottom:1px solid var(--zt-stroke);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,.55fr);gap:clamp(28px,9vw,120px)}
+.zt__origin-copy h2{margin-top:18px;max-width:630px}.zt__origin-copy p{margin-top:18px;max-width:700px;color:var(--zt-muted);font-size:14.5px}
+.zt__explore{border-top:1px solid #d8cdbc;align-self:center}
+.zt__explore a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 3px;border-bottom:1px solid #d8cdbc;font-size:12.5px;color:#5a432f!important;text-decoration:none!important;font-weight:650}
+.zt__explore a:hover{color:#9e7749!important}
+.zt__locations{padding-block:clamp(68px,7vw,90px);border-bottom:1px solid var(--zt-stroke)}
+.zt__locations h2{margin-top:13px;margin-bottom:31px}
+.zt__address-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.zt__address{padding:28px 30px;background:#f0eae0;min-width:0;border-radius:3px;display:flex;gap:19px}
+.zt__address:nth-child(2){background:#f4efe8}
+.zt__address-index{font-family:Georgia,serif;font-size:28px;color:#b69a76;line-height:1.1}
+.zt__address h3{font-size:13px;font-weight:700;line-height:1.5;margin-bottom:11px}
+.zt__address address{font-size:13.5px;line-height:1.8;font-style:normal;color:#64584d;overflow-wrap:anywhere;text-align:start}
+.zt__address-note{font-size:12px!important;color:#8a7e73!important;line-height:1.7!important;margin-top:19px!important;max-width:870px}
+.zt__social{padding-block:clamp(66px,7vw,90px) 40px}
+.zt__social-head{max-width:660px;margin-bottom:25px}
+.zt__social-head h2{margin:12px 0 11px}
+.zt__social-head p{font-size:14px;color:var(--zt-muted)}
+.zt__social-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.zt__social-item{min-width:0;min-height:75px;padding:20px 18px;display:flex;align-items:center;justify-content:space-between;gap:9px;background:#fffdfa;border:1px solid #e0d7cb;border-radius:3px;font-size:13px;font-weight:700;text-decoration:none!important;color:#493726!important;transition:background .2s,border-color .2s}
+.zt__social-item:not(.zt__social-item--soon):hover{background:#f3ebe1;border-color:#bda888}
+.zt__social-item>span:last-child{font-size:18px;font-weight:400}
+.zt__social-item--soon{background:#f1eee9;border-color:#e9e3dc;color:#8a8075!important;cursor:default}
+.zt__social-item--soon small{font-weight:500;border:1px solid #d8cfc3;padding:4px 7px;border-radius:30px;line-height:1.2;font-size:10px;color:#8a7d6f;white-space:nowrap}
+.zt__footer-note{text-align:center;border-top:1px solid var(--zt-stroke);padding-top:25px!important;color:#918375!important;font-size:12px!important}
+@media(max-width:1060px){.zt__hero{grid-template-columns:minmax(0,1.15fr) minmax(245px,.85fr)}.zt__hero-main{padding:50px 35px}.zt__proof{padding:30px 28px 40px}.zt__contact-number{font-size:clamp(20px,2.5vw,28px)}.zt__section-head{grid-template-columns:150px minmax(0,1fr);gap:25px}.zt__social-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.zt__hero{grid-template-columns:1fr;min-height:auto}.zt__hero-main{padding:52px 30px 43px}.zt__hero h1{font-size:clamp(43px,9vw,66px)}.zt__proof{padding:24px 30px 31px;border-inline-start:0;border-top:1px solid rgba(226,206,180,.23)}.zt__proof-monogram{font-size:130px;top:-16px}.zt__proof-content{max-width:none}.zt__proof-title{font-size:27px!important}.zt__proof-copy{max-width:470px}.zt__contact-area{padding-top:75px}.zt__section-head{display:block}.zt__section-heading{margin-top:16px}.zt__contact-grid{grid-template-columns:1fr}.zt__contact-method{min-height:168px}.zt__contact-number{font-size:clamp(25px,5.4vw,36px)}.zt__emails{grid-template-columns:1fr;gap:25px;padding:25px}.zt__emails-intro{flex-direction:row;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.zt__origin{grid-template-columns:1fr;gap:28px;padding-block:75px}.zt__explore{align-self:stretch}.zt__address-grid{grid-template-columns:1fr}.zt__locations{padding-block:70px}.zt__social{padding-block:70px 35px}}
+@media(max-width:480px){.zt__wrap{padding-inline:17px}.zt__crumb{padding-block:16px;font-size:10.5px}.zt__hero-main{padding:41px 23px 39px}.zt__hero h1{font-size:clamp(38px,11vw,52px);margin-top:24px}.zt__quote{font-size:clamp(24px,6.1vw,29px)!important;margin-top:21px!important}.zt__intro{font-size:13.5px!important}.zt__hero-actions{flex-direction:column;align-items:stretch;gap:19px;margin-top:25px}.zt__btn{width:100%;min-height:49px}.zt__hero-anchor{align-self:flex-start}.zt__proof{padding:26px 23px 28px}.zt__stars{font-size:27px;letter-spacing:.14em}.zt__contact-area{padding-top:58px}.zt__section-heading h2,.zt__origin h2,.zt__locations h2,.zt__social h2{font-size:clamp(30px,8vw,38px)}.zt__contact-method{padding:21px 20px;min-height:160px}.zt__contact-number{font-size:clamp(22px,7vw,30px)}.zt__emails{padding:22px 20px}.zt__emails-intro{display:block}.zt__email-button{display:inline-flex;margin-top:9px}.zt__email-item{grid-template-columns:1fr;gap:2px;padding-block:11px}.zt__origin{padding-block:56px}.zt__locations{padding-block:55px}.zt__address{padding:22px 20px;gap:15px}.zt__social{padding-block:56px 28px}.zt__social-grid{grid-template-columns:1fr 1fr;gap:8px}.zt__social-item{min-height:65px;padding:13px 11px;font-size:12px}.zt__social-item--soon{flex-wrap:wrap}.zt__footer-note{font-size:11px!important}}
+@media(max-width:350px){.zt__social-grid{grid-template-columns:1fr}.zt__contact-number{font-size:22px}}
+@media(hover:hover){.zt__contact-method,.zt__social-item,.zt__btn{will-change:transform}}
+@media(prefers-reduced-motion:reduce){.zt__contact-method,.zt__social-item,.zt__btn{transition:none!important}}
 {% endstylesheet %}
 {% schema %}
 {"name":"ZAISEN Trust Page","tag":"section","class":"section-zs-trust","settings":[{"type":"header","content":"Official social links"},{"type":"url","id":"instagram_url","label":"Official Instagram URL"},{"type":"url","id":"facebook_url","label":"Official Facebook URL"},{"type":"url","id":"pinterest_url","label":"Official Pinterest URL"}],"presets":[{"name":"ZAISEN Trust Page"}]}
