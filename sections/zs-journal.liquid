@@ -1,18 +1,126 @@
-<section class="zsj" id="zaisen-journal-{{ section.id }}" aria-labelledby="zsj-h1-{{ section.id }}">
+{% liquid
+  case request.locale.iso_code
+    when 'de'
+      assign zsj_home = 'Startseite'
+      assign zsj_crumb = 'Das ZAISEN Journal'
+      assign zsj_wooden = 'WOHNEN MIT HOLZ'
+      assign zsj_craft = 'HANDWERKSKUNST'
+      assign zsj_inspiration = 'INSPIRATION'
+      assign zsj_heroStart = 'Das ZAISEN'
+      assign zsj_heroEnd = 'Journal.'
+      assign zsj_intro = 'Entdecken Sie Ideen für Wohnaccessoires aus Holz, natürliche Einrichtung, echte Handwerkskunst und Details, die jeden Raum persönlicher machen.'
+      assign zsj_explore = 'JOURNAL ENTDECKEN'
+      assign zsj_stories = 'Geschichten über natürliches Wohnen.'
+      assign zsj_topics = 'Journal-Themen durchsuchen'
+      assign zsj_all = 'Alle Beiträge'
+      assign zsj_by = 'Von'
+      assign zsj_read = 'Artikel lesen'
+      assign zsj_pages = 'Artikelseiten'
+      assign zsj_page = 'Seite'
+      assign zsj_of = 'von'
+      assign zsj_previous = 'Zurück'
+      assign zsj_next = 'Weiter'
+      assign zsj_empty = 'Unsere ersten Geschichten sind auf dem Weg. Entdecken Sie in der Zwischenzeit unsere handgefertigten Holzkollektionen.'
+      assign zsj_made = 'MIT SORGFALT GEFERTIGT · ZAISEN'
+      assign zsj_bring = 'Naturholz für Ihr Zuhause.'
+      assign zsj_discover = 'Entdecken Sie die Holzstücke hinter unseren Geschichten: von handgefertigten Leuchten und Dekorationen bis zu praktischen Accessoires für jeden Tag.'
+      assign zsj_shop = 'ZAISEN entdecken'
+      assign zsj_tag_labels = 'Wohnideen|Holzpflege|Handwerkskunst|Geschenkideen|Küche & Tisch' | split: '|'
+    when 'fr'
+      assign zsj_home = 'Accueil'
+      assign zsj_crumb = 'Le Journal ZAISEN'
+      assign zsj_wooden = 'LE BOIS AU QUOTIDIEN'
+      assign zsj_craft = 'SAVOIR-FAIRE'
+      assign zsj_inspiration = 'INSPIRATION'
+      assign zsj_heroStart = 'Le Journal'
+      assign zsj_heroEnd = 'ZAISEN.'
+      assign zsj_intro = 'Découvrez des idées déco en bois, des inspirations pour un intérieur naturel, des histoires d’artisanat et les petits détails qui font d’une maison un lieu de vie.'
+      assign zsj_explore = 'DÉCOUVRIR LE JOURNAL'
+      assign zsj_stories = 'Des histoires pour un intérieur naturel.'
+      assign zsj_topics = 'Parcourir les rubriques du Journal'
+      assign zsj_all = 'Tous les articles'
+      assign zsj_by = 'Par'
+      assign zsj_read = 'Lire l’article'
+      assign zsj_pages = 'Pages des articles'
+      assign zsj_page = 'Page'
+      assign zsj_of = 'sur'
+      assign zsj_previous = 'Précédent'
+      assign zsj_next = 'Suivant'
+      assign zsj_empty = 'Nos premiers articles arrivent bientôt. En attendant, découvrez nos collections de pièces artisanales en bois.'
+      assign zsj_made = 'FAIT AVEC SOIN · ZAISEN'
+      assign zsj_bring = 'Invitez le bois naturel chez vous.'
+      assign zsj_discover = 'Découvrez les créations en bois qui inspirent nos histoires : luminaires artisanaux, décoration et accessoires du quotidien.'
+      assign zsj_shop = 'Découvrir ZAISEN'
+      assign zsj_tag_labels = 'Aménagement intérieur|Entretien du bois|Artisanat|Idées cadeaux|Cuisine et table' | split: '|'
+    when 'ar'
+      assign zsj_home = 'الرئيسية'
+      assign zsj_crumb = 'مدونة زايسن'
+      assign zsj_wooden = 'الحياة مع الخشب'
+      assign zsj_craft = 'الحِرفة اليدوية'
+      assign zsj_inspiration = 'الإلهام'
+      assign zsj_heroStart = 'مدونة'
+      assign zsj_heroEnd = 'زايسن'
+      assign zsj_intro = 'اكتشف أفكار الديكور الخشبي وتنسيق المنزل بالخامات الطبيعية وقصص الحِرف اليدوية والتفاصيل الصغيرة التي تمنح كل مساحة طابعًا منزليًا دافئًا.'
+      assign zsj_explore = 'استكشف المدونة'
+      assign zsj_stories = 'قصص وأفكار لحياة طبيعية.'
+      assign zsj_topics = 'تصفح مواضيع المدونة'
+      assign zsj_all = 'جميع المقالات'
+      assign zsj_by = 'بقلم'
+      assign zsj_read = 'اقرأ المقال'
+      assign zsj_pages = 'صفحات المقالات'
+      assign zsj_page = 'صفحة'
+      assign zsj_of = 'من'
+      assign zsj_previous = 'السابق'
+      assign zsj_next = 'التالي'
+      assign zsj_empty = 'مقالاتنا الأولى في الطريق. وفي الأثناء، اكتشف مجموعاتنا الخشبية المصنوعة يدويًا.'
+      assign zsj_made = 'صُنعت بعناية · زايسن'
+      assign zsj_bring = 'أدخل جمال الخشب الطبيعي إلى منزلك.'
+      assign zsj_discover = 'اكتشف القطع الخشبية وراء قصصنا، من المصابيح والديكورات المصنوعة يدويًا إلى مستلزمات المنزل اليومية.'
+      assign zsj_shop = 'اكتشف زايسن'
+      assign zsj_tag_labels = 'تنسيق المنزل|العناية بالخشب|الحِرفة اليدوية|أفكار للهدايا|المطبخ والمائدة' | split: '|'
+    else
+      assign zsj_home = 'Home'
+      assign zsj_crumb = 'The ZAISEN Journal'
+      assign zsj_wooden = 'WOODEN LIVING'
+      assign zsj_craft = 'CRAFTSMANSHIP'
+      assign zsj_inspiration = 'INSPIRATION'
+      assign zsj_heroStart = 'The ZAISEN'
+      assign zsj_heroEnd = 'Journal.'
+      assign zsj_intro = 'Discover wooden home decor ideas, natural interior styling, thoughtful craftsmanship, and the small details that make everyday spaces feel like home.'
+      assign zsj_explore = 'EXPLORE THE JOURNAL'
+      assign zsj_stories = 'Stories for natural living.'
+      assign zsj_topics = 'Browse journal topics'
+      assign zsj_all = 'All stories'
+      assign zsj_by = 'By'
+      assign zsj_read = 'Read article'
+      assign zsj_pages = 'Article pages'
+      assign zsj_page = 'Page'
+      assign zsj_of = 'of'
+      assign zsj_previous = 'Previous'
+      assign zsj_next = 'Next'
+      assign zsj_empty = 'Our first stories are on their way. Explore our handcrafted wooden collections in the meantime.'
+      assign zsj_made = 'MADE WITH CARE · ZAISEN'
+      assign zsj_bring = 'Bring natural wood home.'
+      assign zsj_discover = 'Discover the wooden pieces behind our stories, from handcrafted lighting and decor to everyday home essentials.'
+      assign zsj_shop = 'Explore ZAISEN'
+      assign zsj_tag_labels = 'Home Styling|Wood Care|Craftsmanship|Gift Guides|Kitchen & Dining' | split: '|'
+  endcase
+%}
+<section class="zsj" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}" id="zaisen-journal-{{ section.id }}" aria-labelledby="zsj-h1-{{ section.id }}">
   <div class="zsj__shell">
-    <nav class="zsj__breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span><span>The ZAISEN Journal</span></nav>
+    <nav class="zsj__breadcrumb" aria-label="{{ zsj_home | escape }}"><a href="{{ routes.root_url }}">{{ zsj_home | escape }}</a><span aria-hidden="true">/</span><span>{{ zsj_crumb | escape }}</span></nav>
     <header class="zsj__intro">
-      <p class="zsj__eyebrow">WOODEN LIVING <span aria-hidden="true">·</span> CRAFTSMANSHIP <span aria-hidden="true">·</span> INSPIRATION</p>
-      <h1 id="zsj-h1-{{ section.id }}">The ZAISEN <strong>Journal.</strong></h1>
-      <p>Discover wooden home decor ideas, natural interior styling, thoughtful craftsmanship, and the small details that make everyday spaces feel like home.</p>
+      <p class="zsj__eyebrow">{{ zsj_wooden | escape }} <span aria-hidden="true">·</span> {{ zsj_craft | escape }} <span aria-hidden="true">·</span> {{ zsj_inspiration | escape }}</p>
+      <h1 id="zsj-h1-{{ section.id }}">{{ zsj_heroStart | escape }} <strong>{{ zsj_heroEnd | escape }}</strong></h1>
+      <p>{{ zsj_intro | escape }}</p>
     </header>
     {% paginate blog.articles by 9 %}
-      <div class="zsj__browse" id="zsj-stories"><div><p class="zsj__eyebrow">EXPLORE THE JOURNAL</p><h2>Stories for natural living.</h2></div></div>
-      <nav class="zsj__topics" aria-label="Browse journal topics">
-        <a class="{% unless current_tags %}is-active{% endunless %}" href="{{ blog.url }}">All stories</a>
+      <div class="zsj__browse" id="zsj-stories"><div><p class="zsj__eyebrow">{{ zsj_explore | escape }}</p><h2>{{ zsj_stories | escape }}</h2></div></div>
+      <nav class="zsj__topics" aria-label="{{ zsj_topics | escape }}">
+        <a class="{% unless current_tags %}is-active{% endunless %}" href="{{ blog.url }}">{{ zsj_all | escape }}</a>
         {% assign journal_tags = 'Home Styling,Wood Care,Craftsmanship,Gift Guides,Kitchen & Dining' | split: ',' %}
         {% for tag in journal_tags %}
-          <a class="{% if current_tags contains tag %}is-active{% endif %}" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>
+          <a class="{% if current_tags contains tag %}is-active{% endif %}" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ zsj_tag_labels[forloop.index0] | escape }}</a>
         {% endfor %}
       </nav>
       {% if blog.articles_count > 0 %}
@@ -22,22 +130,22 @@
                 <a class="zsj__card-image" href="{{ post.url }}" aria-label="{{ post.title | escape }}">
                   {% if post.image != blank %}{{ post.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '320,480,680,850,1000', sizes: '(min-width: 900px) 30vw, (min-width: 600px) 46vw, 90vw', alt: post.image.alt | default: post.title }}{% else %}<div class="zsj__fallback">ZAISEN</div>{% endif %}
                 </a>
-                <div class="zsj__card-copy"><p class="zsj__eyebrow">By {{ post.author | escape }} · {{ post.published_at | date: '%B %Y' }}</p><h3><a href="{{ post.url }}">{{ post.title | escape }}</a></h3><p>{{ post.excerpt_or_content | strip_html | truncatewords: 24 }}</p><a class="zsj__card-more" href="{{ post.url }}">Read article <span aria-hidden="true">↗</span></a></div>
+                <div class="zsj__card-copy"><p class="zsj__eyebrow">{{ zsj_by | escape }} {{ post.author | escape }} · {{ post.published_at | date: '%B %Y' }}</p><h3><a href="{{ post.url }}">{{ post.title | escape }}</a></h3><p>{{ post.excerpt_or_content | strip_html | truncatewords: 24 }}</p><a class="zsj__card-more" href="{{ post.url }}">{{ zsj_read | escape }} <span aria-hidden="true">↗</span></a></div>
               </article>
           {% endfor %}
         </div>
         {% if paginate.pages > 1 %}
-          <nav class="zsj__pages" aria-label="Article pages">
-            {% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}
-            <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
-            {% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}
+          <nav class="zsj__pages" aria-label="{{ zsj_pages | escape }}">
+            {% if paginate.previous %}<a href="{{ paginate.previous.url }}"><span aria-hidden="true">←</span> {{ zsj_previous | escape }}</a>{% endif %}
+            <span>{{ zsj_page | escape }} {{ paginate.current_page }} {{ zsj_of | escape }} {{ paginate.pages }}</span>
+            {% if paginate.next %}<a href="{{ paginate.next.url }}">{{ zsj_next | escape }} <span aria-hidden="true">→</span></a>{% endif %}
           </nav>
         {% endif %}
       {% else %}
-        <p class="zsj__empty">Our first stories are on their way. Explore our handcrafted wooden collections in the meantime.</p>
+        <p class="zsj__empty">{{ zsj_empty | escape }}</p>
       {% endif %}
     {% endpaginate %}
-    <section class="zsj__discover" aria-labelledby="zsj-discover-title"><div><p class="zsj__eyebrow">MADE WITH CARE · ZAISEN</p><h2 id="zsj-discover-title">Bring natural wood home.</h2><p>Discover the wooden pieces behind our stories, from handcrafted lighting and decor to everyday home essentials.</p></div><a href="{{ routes.all_products_collection_url }}">Explore ZAISEN <span aria-hidden="true">↗</span></a></section>
+    <section class="zsj__discover" aria-labelledby="zsj-discover-title"><div><p class="zsj__eyebrow">{{ zsj_made | escape }}</p><h2 id="zsj-discover-title">{{ zsj_bring | escape }}</h2><p>{{ zsj_discover | escape }}</p></div><a href="{{ routes.all_products_collection_url }}">{{ zsj_shop | escape }} <span aria-hidden="true">↗</span></a></section>
   </div>
 </section>
 {% stylesheet %}
