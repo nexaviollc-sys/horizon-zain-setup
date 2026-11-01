@@ -21,6 +21,7 @@
       assign zs_pfcollections = 'Alle Kollektionen'
       assign zs_pfcontact = 'Kontakt'
       assign zs_pfstory = 'Unsere Geschichte'
+      assign zs_pftrust = 'Warum ZAISEN vertrauen?'
       assign zs_pfshipping = 'Versandrichtlinie'
       assign zs_pfrefund = 'Rückerstattungsrichtlinie'
       assign zs_pfprivacy = 'Datenschutzerklärung'
@@ -43,6 +44,7 @@
       assign zs_pfcollections = 'Toutes les collections'
       assign zs_pfcontact = 'Nous contacter'
       assign zs_pfstory = 'Notre histoire'
+      assign zs_pftrust = 'Pourquoi faire confiance à ZAISEN ?'
       assign zs_pfshipping = 'Politique de livraison'
       assign zs_pfrefund = 'Politique de remboursement'
       assign zs_pfprivacy = 'Politique de confidentialité'
@@ -65,6 +67,7 @@
       assign zs_pfcollections = 'جميع المجموعات'
       assign zs_pfcontact = 'اتصل بنا'
       assign zs_pfstory = 'قصتنا'
+      assign zs_pftrust = 'لماذا تثق بزايسن؟'
       assign zs_pfshipping = 'سياسة الشحن'
       assign zs_pfrefund = 'سياسة استرداد الأموال'
       assign zs_pfprivacy = 'سياسة الخصوصية'
@@ -87,6 +90,7 @@
       assign zs_pfcollections = 'All Collections'
       assign zs_pfcontact = 'Contact Us'
       assign zs_pfstory = 'Our Story'
+      assign zs_pftrust = 'Why Trust ZAISEN?'
       assign zs_pfshipping = 'Shipping Policy'
       assign zs_pfrefund = 'Refund Policy'
       assign zs_pfprivacy = 'Privacy Policy'
@@ -128,6 +132,9 @@
     {%- if shop.refund_policy != blank -%}<li><a href="{{ shop.refund_policy.url }}">{{ zs_pfrefund | escape }}</a></li>{%- endif -%}
     {%- if shop.privacy_policy != blank -%}<li><a href="{{ shop.privacy_policy.url }}">{{ zs_pfprivacy | escape }}</a></li>{%- endif -%}
     {%- if shop.terms_of_service != blank -%}<li><a href="{{ shop.terms_of_service.url }}">{{ zs_pfterms | escape }}</a></li>{%- endif -%}
+  {%- endif -%}
+  {%- if pages['why-trust-zaisen'] != blank -%}
+    <li><a href="{{ routes.root_url }}pages/why-trust-zaisen">{{ zs_pftrust | escape }}</a></li>
   {%- endif -%}
 {%- endcapture -%}
 {% style %}
