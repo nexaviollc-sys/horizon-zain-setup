@@ -180,20 +180,45 @@
 {%- capture zs_sC040 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Fragen? ZAISEN kontaktieren{%- when 'fr' -%}Des questions ? Contactez ZAISEN{%- when 'ar' -%}لديك أسئلة؟ تواصل مع زايسن{%- else -%}Questions? Contact ZAISEN{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sC041 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}HANDGEFERTIGTE WOHNDEKO AUS HOLZ{%- when 'fr' -%}DÉCORATION INTÉRIEURE EN BOIS ARTISANAL{%- when 'ar' -%}ديكور منزلي خشبي مصنوع يدويًا{%- else -%}HANDCRAFTED WOODEN HOME DÉCOR{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sC042 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}MIT SORGFALT IN PAKISTAN GEFERTIGT{%- when 'fr' -%}FABRIQUÉ AVEC SOIN AU PAKISTAN{%- when 'ar' -%}صُنعت بعناية في باكستان{%- else -%}MADE WITH CARE IN PAKISTAN{%- endcase -%}{%- endcapture -%}
-<section class="zs-about" id="zs-about-{{ section.id }}" aria-labelledby="zs-about-heading-{{ section.id }}">
+{%- capture zs_attr0 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Brotkrumennavigation{%- when 'fr' -%}Fil d’Ariane{%- when 'ar' -%}مسار التصفح{%- else -%}Breadcrumb{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr1 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigte Holzstücke bei ZAISEN{%- when 'fr' -%}Pièces en bois artisanales disponibles chez ZAISEN{%- when 'ar' -%}قطع خشبية مصنوعة يدويًا لدى زايسن{%- else -%}Handcrafted wooden pieces available at ZAISEN{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr2 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigte Holzpferd-Skulptur ansehen{%- when 'fr' -%}Voir notre sculpture artisanale de cheval en bois{%- when 'ar' -%}عرض تمثال الحصان الخشبي المصنوع يدويًا{%- else -%}View our handcrafted wooden horse statue{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr3 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Holz-Wanduhr im Steuerrad-Design ansehen{%- when 'fr' -%}Voir notre horloge murale en forme de gouvernail{%- when 'ar' -%}عرض ساعة الحائط الخشبية بشكل عجلة سفينة{%- else -%}View our wooden ship wheel wall clock{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr4 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Holzschalen-Set ansehen{%- when 'fr' -%}Voir notre ensemble de bols en bois{%- when 'ar' -%}عرض طقم الأوعية الخشبية{%- else -%}View our wooden serving bowl set{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr5 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Der ZAISEN Ansatz{%- when 'fr' -%}L’approche ZAISEN{%- when 'ar' -%}نهج زايسن{%- else -%}The ZAISEN approach{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr6 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Unser Fertigungsversprechen{%- when 'fr' -%}Notre engagement de fabrication{%- when 'ar' -%}التزامنا بالإنتاج{%- else -%}Our production commitment{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr7 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}ZAISEN Startseite{%- when 'fr' -%}Accueil ZAISEN{%- when 'ar' -%}الرئيسية لزايسن{%- else -%}ZAISEN home{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr8 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Fertige Holzdesigns von ZAISEN{%- when 'fr' -%}Créations en bois terminées de ZAISEN{%- when 'ar' -%}تصاميم خشبية نهائية من زايسن{%- else -%}Finished wooden designs from ZAISEN{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr9 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Geschnitztes klappbares Serviertablett aus Holz ansehen{%- when 'fr' -%}Voir le plateau de service pliable sculpté en bois{%- when 'ar' -%}عرض صينية التقديم الخشبية المنحوتة القابلة للطي{%- else -%}View the carved folding wooden serving tray{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr10 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigte Holz-Tischlampe ansehen{%- when 'fr' -%}Voir notre lampe de table artisanale en bois{%- when 'ar' -%}عرض مصباح الطاولة الخشبي المصنوع يدويًا{%- else -%}View our handcrafted wooden table lamp{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr11 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigtes Holzschiff-Modell ansehen{%- when 'fr' -%}Voir notre modèle de bateau décoratif en bois artisanal{%- when 'ar' -%}عرض مجسم السفينة الخشبي المصنوع يدويًا{%- else -%}View our handcrafted wooden ship display model{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr12 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}ZAISEN Holzskulptur eines steigenden Pferds aus unserer Produktkollektion{%- when 'fr' -%}Sculpture ZAISEN d’un cheval cabré en bois artisanal, issue de notre collection{%- when 'ar' -%}منحوتة حصان خشبي منتصب من مجموعة منتجات زايسن{%- else -%}ZAISEN handcrafted wooden rearing horse sculpture from the product collection{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr13 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigte Steuerrad-Wanduhr von ZAISEN aus unserer echten Produktkollektion{%- when 'fr' -%}Horloge murale gouvernail en bois ZAISEN, un article réellement proposé dans notre collection{%- when 'ar' -%}ساعة حائط خشبية بتصميم عجلة سفينة من منتجات زايسن الفعلية{%- else -%}Handcrafted ZAISEN ship wheel wooden wall clock, an actual product in our collection{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr14 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigtes ineinander stapelbares Holzschalen-Set aus dem ZAISEN Shop{%- when 'fr' -%}Ensemble de bols gigognes artisanaux en bois naturel vendu chez ZAISEN{%- when 'ar' -%}طقم أوعية خشبية متداخلة مصنوع يدويًا من متجر زايسن{%- else -%}ZAISEN handcrafted natural wooden nesting serving bowl set from our store{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr15 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}ZAISEN Logo für handgefertigte Holzprodukte{%- when 'fr' -%}Logo ZAISEN, produits artisanaux en bois{%- when 'ar' -%}شعار زايسن للمنتجات الخشبية المصنوعة يدويًا{%- else -%}ZAISEN handmade wooden products logo{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr16 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Detailansicht eines geschnitzten, klappbaren ZAISEN Serviertabletts{%- when 'fr' -%}Détail d’un plateau de service pliable sculpté ZAISEN{%- when 'ar' -%}تفاصيل صينية تقديم زايسن الخشبية القابلة للطي{%- else -%}Detail of a ZAISEN carved wooden foldable serving tray{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr17 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigte ZAISEN Tischlampe mit geschnitzten Holzdetails{%- when 'fr' -%}Lampe de table artisanale ZAISEN avec détails sculptés en bois{%- when 'ar' -%}مصباح طاولة زايسن مصنوع يدويًا مع تفاصيل خشبية منحوتة{%- else -%}ZAISEN handcrafted wooden table lamp with carved wood detail{%- endcase -%}{%- endcapture -%}
+{%- capture zs_attr18 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Handgefertigtes dekoratives ZAISEN Holzschiff-Modell aus unserer Produktkollektion{%- when 'fr' -%}Modèle de bateau décoratif en bois artisanal issu de notre véritable collection ZAISEN{%- when 'ar' -%}مجسم سفينة خشبية للعرض من مجموعة منتجات زايسن الحقيقية{%- else -%}ZAISEN handcrafted wooden nautical ship display model from our actual product collection{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_name -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Unsere Geschichte — Handgefertigte Holzprodukte von ZAISEN{%- when 'fr' -%}Notre histoire — Produits artisanaux en bois ZAISEN{%- when 'ar' -%}قصتنا — منتجات زايسن الخشبية المصنوعة يدويًا{%- else -%}Our Story — ZAISEN Handmade Wooden Products{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_desc -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Lernen Sie die Menschen hinter ZAISEN und unserer handgefertigten Holzdeko kennen. Erfahren Sie mehr über unsere Werkstatt nahe Islamabad, die Herstellung, internationale Lieferung und den Kundenservice.{%- when 'fr' -%}Découvrez les artisans derrière ZAISEN et nos décorations en bois faites à la main : atelier près d’Islamabad, fabrication, livraisons internationales et service client.{%- when 'ar' -%}تعرف على زايسن والحرفيين وراء ديكوراتنا الخشبية المصنوعة يدويًا وورشتنا قرب إسلام آباد وخطوات الإنتاج والشحن الدولي وخدمة العملاء.{%- else -%}Meet ZAISEN, the people behind our handcrafted wooden home decor. Learn about our workshop near Islamabad, our production process, worldwide shipping, and customer care.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_a2 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Unsere Werkstatt liegt im Stadtteil Saddar nahe Islamabad in Pakistan. Dort entstehen unsere Holzprodukte. Die Verwaltungs- und Geschäftsadresse unterscheidet sich vom Produktionsort und steht in unserem Impressum.{%- when 'fr' -%}Notre atelier se situe dans le secteur de Saddar, près d’Islamabad au Pakistan, où nos produits en bois sont fabriqués. Notre adresse administrative et légale est distincte de l’atelier et figure dans nos mentions légales.{%- when 'ar' -%}تقع ورشتنا في منطقة صدر قرب إسلام آباد في باكستان، حيث نصنع منتجاتنا الخشبية. عنوان الشركة الإداري والقانوني منفصل عن موقع الإنتاج ومذكور في الإشعار القانوني.{%- else -%}Our working workshop is in the Saddar area near Islamabad, Pakistan. This is where our wooden products are crafted. Our administrative and legal business address is separate from our production location and is listed in our Legal Notice.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_a6 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Kontaktieren Sie uns innerhalb von 14 Tagen nach der Lieferung, wenn Ihr Produkt beschädigt, mangelhaft, falsch oder wesentlich von der Beschreibung abweichend ist. Senden Sie Bestellnummer, Problembeschreibung und deutliche Fotos oder ein Video. Wir prüfen berechtigte Fälle gemäß unserer Rückerstattungsrichtlinie. Je nach Umständen kommen Reparatur, Ersatz oder eine teilweise oder vollständige Erstattung infrage. Natürliche Holzvariationen sind nicht automatisch Mängel.{%- when 'fr' -%}Contactez-nous dans les 14 jours suivant la livraison si votre article arrive endommagé, défectueux, incorrect ou sensiblement différent de sa description. Envoyez votre numéro de commande, une description du problème et des photos ou une vidéo. Nous étudions les cas admissibles selon notre politique de remboursement. Une réparation, un remplacement ou un remboursement partiel ou intégral peuvent être proposés selon les circonstances. Les variations naturelles du bois ne constituent pas automatiquement des défauts.{%- when 'ar' -%}تواصل معنا خلال 14 يومًا من التسليم إذا وصل منتجك تالفًا أو معيبًا أو خاطئًا أو مختلفًا جوهريًا عن وصفه. أرسل رقم الطلب ووصف المشكلة وصورًا واضحة أو فيديو. نراجع الحالات المؤهلة وفق سياسة الاسترداد، وقد يتضمن الحل إصلاحًا أو استبدالًا أو استردادًا جزئيًا أو كاملًا حسب الظروف. الاختلافات الطبيعية للخشب ليست عيوبًا تلقائيًا.{%- else -%}Contact us within 14 days of delivery if your product arrives damaged, defective, incorrect or materially different from its description. Send your order number, a description of the problem and clear photographs or video. We review eligible cases under our Refund Policy. A suitable outcome may include a repair, replacement, partial refund or full refund, depending on the circumstances. Natural wood variations are not automatically defects.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_a7 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Rückgaben bei bloßer Meinungsänderung bieten wir nur an, wenn das geltende Recht sie vorschreibt. Die 14-tägige Frist zur Meldung echter Produktprobleme beginnt mit der Lieferung. Die Bedingungen stehen in unserer Rückerstattungsrichtlinie; gesetzliche Verbraucherrechte bleiben unberührt.{%- when 'fr' -%}Nous n’acceptons pas les retours pour simple changement d’avis, sauf obligation légale. Le délai de 14 jours pour signaler un véritable problème commence à la livraison. Consultez les conditions de notre politique de remboursement. Vos droits légaux restent inchangés.{%- when 'ar' -%}لا نتيح الإرجاع لمجرد تغيير الرأي إلا إذا ألزم القانون بذلك. تبدأ مهلة 14 يومًا للإبلاغ عن المشكلات الفعلية من تاريخ الاستلام. راجع شروط الأهلية في سياسة الاسترداد. تظل حقوق المستهلك القانونية محفوظة.{%- else -%}We do not offer discretionary change-of-mind returns unless applicable law requires otherwise. The 14-day period for reporting genuine product issues begins when your order arrives. You can read the eligibility details in our Refund Policy. Your mandatory consumer rights remain unaffected.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_schema_a8 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Wir beantworten gerne Fragen zu Materialien, Maßen, Oberflächen, Versand und bestehenden Bestellungen. Schreiben Sie an info@zaisenstore.com oder nutzen Sie unsere Kontaktseite. Sie können uns jederzeit schreiben; die Antwortzeit kann variieren.{%- when 'fr' -%}Nous répondons aux questions sur les matériaux, dimensions, finitions, livraisons et commandes. Écrivez à info@zaisenstore.com ou utilisez notre page Contact. Vous pouvez nous contacter à tout moment ; les délais de réponse peuvent varier.{%- when 'ar' -%}نرحب بالاستفسارات حول المواد والقياسات والتشطيبات والشحن والطلبات الحالية. راسلنا على info@zaisenstore.com أو عبر صفحة التواصل، ويمكنك إرسال رسالة في أي وقت وقد يختلف وقت الرد.{%- else -%}We welcome questions about materials, dimensions, finishes, shipping or existing orders. Email us at info@zaisenstore.com or use our Contact page. You can message us at any time; response times may vary.{%- endcase -%}{%- endcapture -%}
+<section class="zs-about" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}" id="zs-about-{{ section.id }}" aria-labelledby="zs-about-heading-{{ section.id }}">
   <script type="application/ld+json">
     {
       "@context":"https://schema.org",
       "@type":"AboutPage",
-      "name":"Our Story — ZAISEN Handmade Wooden Products",
+      "name":{{ zs_schema_name | strip | json }},
       "url":{{ canonical_url | json }},
-      "description":"Meet ZAISEN, the people behind our handcrafted wooden home decor. Learn about our workshop near Islamabad, our production process, worldwide shipping, and customer care.",
+      "description":{{ zs_schema_desc | strip | json }},
       "publisher":{"@type":"Organization","name":"ZAISEN","url":{{ shop.url | json }}}
     }
   </script>
 
   <div class="zs-about__shell">
-    <nav class="zs-about__breadcrumb" aria-label="Breadcrumb">
+    <nav class="zs-about__breadcrumb" aria-label="{{ zs_attr0 | escape }}">
       <a href="{{ routes.root_url }}">{{ zs_sA000 | escape }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ zs_sA001 | escape }}</span>
     </nav>
 
@@ -208,28 +233,28 @@
         <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">{{ zs_sA009 | escape }}<span aria-hidden="true">↗</span></a>
       </div>
       {% comment %}Authentic products from ZAISEN's catalog. Not portrayed as workshop documentation.{% endcomment %}
-      <div class="zs-about__product-gallery" aria-label="Handcrafted wooden pieces available at ZAISEN">
+      <div class="zs-about__product-gallery" aria-label="{{ zs_attr1 | escape }}">
         {% if zs_story_horse.featured_image != blank %}
-          <a href="{{ zs_story_horse.url }}" class="zs-about__product-gallery-tile zs-about__product-gallery-tile--featured" aria-label="View our handcrafted wooden horse statue">
-            {{ zs_story_horse.featured_image | image_url: width: 1050, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'eager', widths: '300,480,680,850,1050', sizes: '(min-width: 950px) 42vw, (min-width: 600px) 45vw, 80vw', alt: 'ZAISEN handcrafted wooden rearing horse sculpture from the product collection' }}
+          <a href="{{ zs_story_horse.url }}" class="zs-about__product-gallery-tile zs-about__product-gallery-tile--featured" aria-label="{{ zs_attr2 | escape }}">
+            {{ zs_story_horse.featured_image | image_url: width: 1050, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'eager', widths: '300,480,680,850,1050', sizes: '(min-width: 950px) 42vw, (min-width: 600px) 45vw, 80vw', alt: zs_attr12 }}
             <span class="zs-about__product-image-label">{{ zs_sA010 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
         {% if zs_story_clock.featured_image != blank %}
-          <a href="{{ zs_story_clock.url }}" class="zs-about__product-gallery-tile" aria-label="View our wooden ship wheel wall clock">
-            {{ zs_story_clock.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: 'Handcrafted ZAISEN ship wheel wooden wall clock, an actual product in our collection' }}
+          <a href="{{ zs_story_clock.url }}" class="zs-about__product-gallery-tile" aria-label="{{ zs_attr3 | escape }}">
+            {{ zs_story_clock.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: zs_attr13 }}
             <span class="zs-about__product-image-label">{{ zs_sA011 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
         {% if zs_story_bowls.featured_image != blank %}
-          <a href="{{ zs_story_bowls.url }}" class="zs-about__product-gallery-tile" aria-label="View our wooden serving bowl set">
-            {{ zs_story_bowls.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: 'ZAISEN handcrafted natural wooden nesting serving bowl set from our store' }}
+          <a href="{{ zs_story_bowls.url }}" class="zs-about__product-gallery-tile" aria-label="{{ zs_attr4 | escape }}">
+            {{ zs_story_bowls.featured_image | image_url: width: 750, format: 'webp' | image_tag: class: 'zs-about__product-image', loading: 'lazy', widths: '240,400,600,750', sizes: '(min-width: 950px) 23vw, (min-width: 600px) 24vw, 44vw', alt: zs_attr14 }}
             <span class="zs-about__product-image-label">{{ zs_sA012 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
       </div>
       <p class="zs-about__product-gallery-note">{{ zs_sA013 | escape }}</p>
-      <div class="zs-about__hero-strip" aria-label="The ZAISEN approach">
+      <div class="zs-about__hero-strip" aria-label="{{ zs_attr5 | escape }}">
         <span><b>01</b>{{ zs_sA014 | escape }}</span>
         <span><b>02</b>{{ zs_sA015 | escape }}</span>
         <span><b>03</b>{{ zs_sA016 | escape }}</span>
@@ -260,11 +285,11 @@
       </div>
     </div>
 
-    <div class="zs-about__principle" aria-label="Our production commitment">
+    <div class="zs-about__principle" aria-label="{{ zs_attr6 | escape }}">
       <div class="zs-about__brand-panel">
-        <a class="zs-about__brand-signature" href="{{ routes.root_url }}" aria-label="ZAISEN home">
+        <a class="zs-about__brand-signature" href="{{ routes.root_url }}" aria-label="{{ zs_attr7 | escape }}">
           {% if settings.logo != blank %}
-            {{ settings.logo | image_url: width: 480 | image_tag: class: 'zs-about__brand-logo', loading: 'lazy', alt: 'ZAISEN handmade wooden products logo', widths: '240,360,480' }}
+            {{ settings.logo | image_url: width: 480 | image_tag: class: 'zs-about__brand-logo', loading: 'lazy', alt: zs_attr15, widths: '240,360,480' }}
           {% else %}
             <span class="zs-about__brand-fallback">ZAISEN</span>
           {% endif %}
@@ -291,7 +316,7 @@
       </div>
     </div>
 
-    <div class="zs-about__craft-gallery" aria-label="Finished wooden designs from ZAISEN">
+    <div class="zs-about__craft-gallery" aria-label="{{ zs_attr8 | escape }}">
       <div class="zs-about__craft-gallery-copy">
         <p class="zs-about__eyebrow">{{ zs_sB000 | escape }}</p>
         <h3>{{ zs_sB001 | escape }}</h3>
@@ -299,14 +324,14 @@
       </div>
       <div class="zs-about__craft-gallery-images">
         {% if zs_story_tray.featured_image != blank %}
-          <a href="{{ zs_story_tray.url }}" class="zs-about__craft-gallery-figure" aria-label="View the carved folding wooden serving tray">
-            {{ zs_story_tray.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: 'Detail of a ZAISEN carved wooden foldable serving tray' }}
+          <a href="{{ zs_story_tray.url }}" class="zs-about__craft-gallery-figure" aria-label="{{ zs_attr9 | escape }}">
+            {{ zs_story_tray.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: zs_attr16 }}
             <span>{{ zs_sB003 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
         {% if zs_story_lamp.featured_image != blank %}
-          <a href="{{ zs_story_lamp.url }}" class="zs-about__craft-gallery-figure" aria-label="View our handcrafted wooden table lamp">
-            {{ zs_story_lamp.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: 'ZAISEN handcrafted wooden table lamp with carved wood detail' }}
+          <a href="{{ zs_story_lamp.url }}" class="zs-about__craft-gallery-figure" aria-label="{{ zs_attr10 | escape }}">
+            {{ zs_story_lamp.featured_image | image_url: width: 900, format: 'webp' | image_tag: class: 'zs-about__craft-photo', loading: 'lazy', widths: '280,420,640,900', sizes: '(min-width: 850px) 27vw, 45vw', alt: zs_attr17 }}
             <span>{{ zs_sB004 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
@@ -538,31 +563,31 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Are ZAISEN products really handmade?",
+            "name": {{ zs_sC004 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Our wooden products are created through hands-on craftsmanship at our workshop in Pakistan. Our team shapes, details, finishes and prepares the pieces we offer. We do not purchase finished wooden décor from local wholesale warehouses and simply resell it under the ZAISEN name."
+              "text": {{ zs_sC005 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "Where are ZAISEN wooden products made?",
+            "name": {{ zs_sC006 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Our working workshop is in the Saddar area near Islamabad, Pakistan. This is where our wooden products are crafted. Our administrative and legal business address is separate from our production location and is listed in our Legal Notice."
+              "text": {{ zs_schema_a2 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "Are your product photographs real or AI-generated?",
+            "name": {{ zs_sC009 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Our listings represent the actual wooden product designs we sell. Some images may be digitally polished or styled using AI-assisted editing to create consistent backgrounds and presentation. We aim to represent each design accurately, but natural wood grain, color and small handmade details can vary from piece to piece. Check each listing for dimensions and materials."
+              "text": {{ zs_sC010 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "When is free international shipping available, and how long does delivery take?",
+            "name": {{ zs_sC011 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
               "text": {{ zs_story_shipping_faq_answer | strip | json }}
@@ -570,34 +595,34 @@
           },
           {
             "@type": "Question",
-            "name": "Which shipping company delivers ZAISEN orders?",
+            "name": {{ zs_sC013 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We arrange international shipments through Star Cargo International and relevant delivery partners. Once tracking information becomes available after dispatch, we provide it so you can follow your order's journey."
+              "text": {{ zs_sC014 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "What if my product arrives damaged or doesn't match its description?",
+            "name": {{ zs_sC015 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Contact us within 14 days of delivery if your product arrives damaged, defective, incorrect or materially different from its description. Send your order number, a description of the problem and clear photographs or video. We review eligible cases under our Refund Policy. A suitable outcome may include a repair, replacement, partial refund or full refund, depending on the circumstances. Natural wood variations are not automatically defects."
+              "text": {{ zs_schema_a6 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "Can I return an order simply because I changed my mind?",
+            "name": {{ zs_sC019 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We do not offer discretionary change-of-mind returns unless applicable law requires otherwise. The 14-day period for reporting genuine product issues begins when your order arrives. You can read the eligibility details in our Refund Policy. Your mandatory consumer rights remain unaffected."
+              "text": {{ zs_schema_a7 | strip | json }}
             }
           },
           {
             "@type": "Question",
-            "name": "How can I contact ZAISEN before placing an order?",
+            "name": {{ zs_sC022 | strip | json }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We welcome questions about materials, dimensions, finishes, shipping or existing orders. Email us at info@zaisenstore.com or use our Contact page. You can message us at any time; response times may vary."
+              "text": {{ zs_schema_a8 | strip | json }}
             }
           }
         ]
@@ -642,8 +667,8 @@
         <h2>{{ zs_sC031 | escape }}<br><em>{{ zs_sC032 | escape }}</em></h2>
         <p class="zs-about__closing-lead">{{ zs_sC033 | escape }}</p>
         {% if zs_story_ship.featured_image != blank %}
-          <a href="{{ zs_story_ship.url }}" class="zs-about__closing-product" aria-label="View our handcrafted wooden ship display model">
-            {{ zs_story_ship.featured_image | image_url: width: 1000, format: 'webp' | image_tag: class: 'zs-about__closing-photo', loading: 'lazy', widths: '360,600,800,1000', sizes: '(min-width: 850px) 520px, 85vw', alt: 'ZAISEN handcrafted wooden nautical ship display model from our actual product collection' }}
+          <a href="{{ zs_story_ship.url }}" class="zs-about__closing-product" aria-label="{{ zs_attr11 | escape }}">
+            {{ zs_story_ship.featured_image | image_url: width: 1000, format: 'webp' | image_tag: class: 'zs-about__closing-photo', loading: 'lazy', widths: '360,600,800,1000', sizes: '(min-width: 850px) 520px, 85vw', alt: zs_attr18 }}
             <span>{{ zs_sC034 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
