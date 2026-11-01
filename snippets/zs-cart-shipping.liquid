@@ -12,13 +12,13 @@
     when 'GB'
       assign zs_shipping_usd = 60
       assign zs_shipping_standard_cents = 699
-    when 'US', 'DE', 'FR'
+    when 'US', 'DE', 'FR', 'CA'
       assign zs_shipping_usd = 60
       assign zs_shipping_standard_cents = 999
     when 'AE'
       assign zs_shipping_usd = 60
       assign zs_shipping_standard_cents = 599
-    when 'CA', 'AU'
+    when 'AU'
       assign zs_shipping_usd = 100
       assign zs_shipping_standard_cents = 1499
   endcase
