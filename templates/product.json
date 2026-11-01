@@ -536,12 +536,169 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "zs_product_faq": {
+      "type": "zs-product-faq",
+      "blocks": {
+        "faq_tracking_number": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "How can I track my order?",
+            "answer_kind": "custom",
+            "answer": "<p>Once your parcel has been dispatched, we send a shipping confirmation to the email used at checkout, including a tracking number and tracking link. Use that link to follow its journey. If you cannot find the message, please check your spam folder or email <a href=\"mailto:support@zaisenstore.com\">support@zaisenstore.com</a> with your order number.</p>"
+          }
+        },
+        "faq_tracking_sent": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "When will I receive my tracking number?",
+            "answer_kind": "custom",
+            "answer": "<p>We normally prepare orders in 1–2 days. Your tracking details are sent after dispatch, once your parcel is handed over for shipping. Tracking may take a little time to appear in the carrier's system.</p>"
+          }
+        },
+        "faq_tracking_delayed": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "Why hasn't my tracking information updated?",
+            "answer_kind": "custom",
+            "answer": "<p>It can take 24–48 hours after dispatch for the first carrier scan to appear. Updates may also pause while a parcel moves between facilities or through customs. If your tracking has not changed for several days, contact us with your order number and we'll help you investigate.</p>"
+          }
+        },
+        "faq_delivery_times": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "How long does delivery take?",
+            "answer_kind": "delivery",
+            "answer": "<p>Delivery estimates depend on the destination and start after dispatch.</p>"
+          }
+        },
+        "faq_countries": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "Which countries does ZAISEN ship to?",
+            "answer_kind": "custom",
+            "answer": "<p>We currently offer shipping to the United States, United Kingdom, Germany, France, the United Arab Emirates, Canada and Australia. Available shipping services and final delivery prices are confirmed at checkout.</p>"
+          }
+        },
+        "faq_shipping_costs": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "How much is shipping, and is free shipping available?",
+            "answer_kind": "shipping",
+            "answer": "<p>Shipping costs depend on your delivery country and order total.</p>"
+          }
+        },
+        "faq_customs": {
+          "type": "question",
+          "settings": {
+            "category": "delivery",
+            "question": "Are there customs or import charges?",
+            "answer_kind": "custom",
+            "answer": "<p>Customs and import-tax rules differ by destination. Depending on local regulations and the checkout terms, additional charges may apply. Please review any duties or taxes displayed at checkout and your country's import requirements before ordering.</p>"
+          }
+        },
+        "faq_workshop": {
+          "type": "question",
+          "settings": {
+            "category": "craft",
+            "question": "Where are ZAISEN pieces made?",
+            "answer_kind": "custom",
+            "answer": "<p>Our wooden pieces are handcrafted in our workshop in Islamabad, Pakistan. We focus on the natural beauty of the material, careful shaping, finishing and quality checks before packing each order.</p>"
+          }
+        },
+        "faq_natural_wood": {
+          "type": "question",
+          "settings": {
+            "category": "craft",
+            "question": "Will my piece look exactly like the product photos?",
+            "answer_kind": "custom",
+            "answer": "<p>We aim to show each item as accurately as possible. Because natural wood has its own grain and colour variations, every handcrafted piece has subtle differences. Please check the product description for the specific materials, dimensions and finish of the item you're ordering.</p>"
+          }
+        },
+        "faq_care": {
+          "type": "question",
+          "settings": {
+            "category": "craft",
+            "question": "How should I care for my wooden piece?",
+            "answer_kind": "custom",
+            "answer": "<p>Wipe it gently with a soft, dry cloth. Avoid soaking it, harsh cleaning products, prolonged moisture and extended direct sunlight. For product-specific care instructions, check the Materials &amp; Care details on its product page.</p>"
+          }
+        },
+        "faq_damaged": {
+          "type": "question",
+          "settings": {
+            "category": "support",
+            "question": "What if my order arrives damaged or broken?",
+            "answer_kind": "custom",
+            "answer": "<p>Please email <a href=\"mailto:support@zaisenstore.com\">support@zaisenstore.com</a> as soon as possible with your order number and clear photographs of the item and packaging. We'll review the issue and help arrange an appropriate resolution according to our Refund Policy.</p>"
+          }
+        },
+        "faq_returns": {
+          "type": "question",
+          "settings": {
+            "category": "support",
+            "question": "Can I return an item or request a refund?",
+            "answer_kind": "returns",
+            "answer": "<p>Eligible return and refund requests are handled according to our Refund Policy.</p>"
+          }
+        },
+        "faq_change": {
+          "type": "question",
+          "settings": {
+            "category": "support",
+            "question": "Can I change or cancel my order?",
+            "answer_kind": "custom",
+            "answer": "<p>Contact us as soon as possible with your order number and the change you need. We'll do our best to help before dispatch. Once an order has been processed or handed to the carrier, changes and cancellations may no longer be possible.</p>"
+          }
+        },
+        "faq_contact": {
+          "type": "question",
+          "settings": {
+            "category": "support",
+            "question": "How can I contact ZAISEN about my order?",
+            "answer_kind": "custom",
+            "answer": "<p>Email <a href=\"mailto:support@zaisenstore.com\">support@zaisenstore.com</a> or use our <a href=\"/pages/contact\">Contact page</a>. For an existing order, include your order number and a short description of what you need so our team can help more quickly.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_tracking_number",
+        "faq_tracking_sent",
+        "faq_tracking_delayed",
+        "faq_delivery_times",
+        "faq_countries",
+        "faq_shipping_costs",
+        "faq_customs",
+        "faq_workshop",
+        "faq_natural_wood",
+        "faq_care",
+        "faq_damaged",
+        "faq_returns",
+        "faq_change",
+        "faq_contact"
+      ],
+      "settings": {
+        "eyebrow": "HERE TO HELP",
+        "heading": "Questions, answered with care.",
+        "intro": "From tracking your parcel to caring for your handcrafted piece, find the details that matter.",
+        "detail": "Thoughtful answers, from our workshop to your home.",
+        "help_eyebrow": "PERSONAL SUPPORT",
+        "help_heading": "Still have a question?",
+        "help_text": "Need help with an order, tracking number or delivery? Our team is just an email away."
+      }
     }
   },
   "order": [
     "main",
     "zs_lifestyle_story",
     "zs_workshop_journey",
-    "product_recommendations_qggXJq"
+    "product_recommendations_qggXJq",
+    "zs_product_faq"
   ]
 }
