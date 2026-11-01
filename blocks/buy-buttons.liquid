@@ -2,6 +2,16 @@
 {% render 'theme-drawer-styles' %}
 {% liquid
   assign block_settings = block.settings
+  case request.locale.iso_code
+    when 'de'
+      assign zs_buy_now_text = 'Jetzt kaufen'
+    when 'fr'
+      assign zs_buy_now_text = 'Acheter maintenant'
+    when 'ar'
+      assign zs_buy_now_text = 'اشترِ الآن'
+    else
+      assign zs_buy_now_text = 'Buy Now'
+  endcase
   assign product = closest.product
   if request.visual_preview_mode and product == blank
     assign product = collections.all.products.first
@@ -239,8 +249,8 @@
           %}
 
           {% if template.name == 'product' %}
-            <button type="button" class="zs-buy-now" data-zs-buy-now {% unless can_add_to_cart %}disabled{% endunless %}>
-              Buy Now
+            <button type="button" class="zs-buy-now" data-zs-buy-now data-zs-locale="{{ request.locale.iso_code | escape }}" {% unless can_add_to_cart %}disabled{% endunless %}>
+              {{ zs_buy_now_text | escape }}
             </button>
             <span class="zs-buy-now__error" role="alert" hidden></span>
           {% else %}
