@@ -373,18 +373,109 @@
             assign zs_story_free_min = 100
             assign zs_story_transit = '8–9 DAYS'
         endcase
+
+        assign zs_story_transit_display = zs_story_transit
+        case request.locale.iso_code
+          when 'de'
+            assign zs_story_checkout = 'AN DER KASSE'
+            assign zs_story_prep = '1–2 TAGE'
+            assign zs_story_delivery_title = 'LIEFERUNG'
+            assign zs_story_free_prefix = 'Kostenloser Versand nach'
+            assign zs_story_free_suffix = 'ab dem geltenden Mindestbestellwert'
+            assign zs_story_unavailable_prefix = 'Versandverfügbarkeit und Preise für'
+            assign zs_story_unavailable_suffix = 'werden an der Kasse bestätigt'
+            assign zs_story_ship_prefix = 'Geschätzte Versanddauer nach'
+            assign zs_story_ship_suffix = 'ab Versand'
+            assign zs_story_times = 'Verfügbare Lieferzeiten werden an der Kasse bestätigt'
+            assign zs_story_minimum = 'der lokale Mindestbestellwert'
+            assign zs_story_faq_prefix = 'ZAISEN Bestellungen nach'
+            assign zs_story_faq_mid = 'werden vor dem Versand in 1–2 Tagen vorbereitet. Die geschätzte Versandzeit beträgt'
+            assign zs_story_faq_free = 'Kostenloser Versand ab'
+            assign zs_story_faq_suffix = 'für berechtigte Bestellungen. Bei kleineren Bestellwerten können an der Kasse Versandkosten anfallen. Lieferzeiten sind Schätzungen, keine Garantien, und können sich durch Zoll, Feiertage oder Versanddienstleister verzögern.'
+            assign zs_story_faq_no_start = 'ZAISEN bereitet Bestellungen in der Regel innerhalb von 1–2 Tagen vor, sofern eine Lieferung verfügbar ist. Versandmöglichkeiten, Lieferzeiten und Kosten für'
+            assign zs_story_faq_no_end = 'werden an der Kasse bestätigt. Kostenloser Versand ist nicht für jedes Land und jede Bestellung garantiert.'
+            if zs_story_transit == '4–5 DAYS'
+              assign zs_story_transit_display = '4–5 TAGE'
+            elsif zs_story_transit != blank
+              assign zs_story_transit_display = '8–9 TAGE'
+            endif
+          when 'fr'
+            assign zs_story_checkout = 'AU PAIEMENT'
+            assign zs_story_prep = '1 À 2 JOURS'
+            assign zs_story_delivery_title = 'LIVRAISON'
+            assign zs_story_free_prefix = 'Livraison gratuite vers'
+            assign zs_story_free_suffix = 'dès le seuil applicable à votre marché'
+            assign zs_story_unavailable_prefix = 'La disponibilité et les frais de livraison vers'
+            assign zs_story_unavailable_suffix = 'sont confirmés au paiement'
+            assign zs_story_ship_prefix = 'Délai de livraison estimé vers'
+            assign zs_story_ship_suffix = 'après expédition'
+            assign zs_story_times = 'Les délais disponibles sont confirmés lors du paiement'
+            assign zs_story_minimum = 'le seuil minimum de votre marché'
+            assign zs_story_faq_prefix = 'Les commandes ZAISEN destinées à'
+            assign zs_story_faq_mid = 'sont préparées en 1 à 2 jours avant expédition. Le délai de transport estimé est de'
+            assign zs_story_faq_free = 'La livraison gratuite commence à'
+            assign zs_story_faq_suffix = 'pour les commandes admissibles. Des frais peuvent s’appliquer sous ce seuil et sont calculés au paiement. Les délais sont indicatifs et peuvent varier en raison des douanes, des jours fériés ou des transporteurs.'
+            assign zs_story_faq_no_start = 'ZAISEN prépare généralement les commandes en 1 à 2 jours lorsque la livraison est disponible. Les options, délais et frais de livraison vers'
+            assign zs_story_faq_no_end = 'sont confirmés au paiement. La livraison gratuite n’est pas garantie pour tous les pays et toutes les commandes.'
+            if zs_story_transit == '4–5 DAYS'
+              assign zs_story_transit_display = '4 à 5 JOURS'
+            elsif zs_story_transit != blank
+              assign zs_story_transit_display = '8 à 9 JOURS'
+            endif
+          when 'ar'
+            assign zs_story_checkout = 'عند الدفع'
+            assign zs_story_prep = '1–2 يوم'
+            assign zs_story_delivery_title = 'التوصيل'
+            assign zs_story_free_prefix = 'شحن مجاني إلى'
+            assign zs_story_free_suffix = 'للطلبات التي تستوفي الحد الأدنى المحلي'
+            assign zs_story_unavailable_prefix = 'يُؤكَّد توفر الشحن ورسومه إلى'
+            assign zs_story_unavailable_suffix = 'عند الدفع'
+            assign zs_story_ship_prefix = 'مدة الشحن التقديرية إلى'
+            assign zs_story_ship_suffix = 'بعد الإرسال'
+            assign zs_story_times = 'تُؤكَّد مدد الشحن المتاحة عند الدفع'
+            assign zs_story_minimum = 'الحد الأدنى المحلي للطلب'
+            assign zs_story_faq_prefix = 'تُجهَّز طلبات زايسن إلى'
+            assign zs_story_faq_mid = 'خلال يوم إلى يومين قبل الإرسال. وتبلغ مدة الشحن التقديرية'
+            assign zs_story_faq_free = 'يبدأ الشحن المجاني من'
+            assign zs_story_faq_suffix = 'للطلبات المؤهلة. قد تُفرض رسوم شحن على الطلبات الأقل من ذلك، وتُحسب عند الدفع. المدد تقديرية وليست مضمونة وقد تتأثر بالجمارك والعطلات أو تأخير الناقلين.'
+            assign zs_story_faq_no_start = 'تُجهّز زايسن الطلبات عادةً خلال يوم إلى يومين إذا كان الشحن متاحًا. وتُؤكَّد خيارات الشحن ومدده ورسومه إلى'
+            assign zs_story_faq_no_end = 'عند الدفع. لا يُضمن الشحن المجاني لكل دولة أو طلب.'
+            if zs_story_transit == '4–5 DAYS'
+              assign zs_story_transit_display = '4–5 أيام'
+            elsif zs_story_transit != blank
+              assign zs_story_transit_display = '8–9 أيام'
+            endif
+          else
+            assign zs_story_checkout = 'AT CHECKOUT'
+            assign zs_story_prep = '1–2 DAYS'
+            assign zs_story_delivery_title = 'DELIVERY'
+            assign zs_story_free_prefix = 'Free shipping to'
+            assign zs_story_free_suffix = 'on orders meeting the market minimum'
+            assign zs_story_unavailable_prefix = 'Shipping availability and rates for'
+            assign zs_story_unavailable_suffix = 'are confirmed at checkout'
+            assign zs_story_ship_prefix = 'Estimated shipping to'
+            assign zs_story_ship_suffix = 'after dispatch'
+            assign zs_story_times = 'Available shipping times are confirmed at checkout'
+            assign zs_story_minimum = 'the local market minimum'
+            assign zs_story_faq_prefix = 'ZAISEN orders to'
+            assign zs_story_faq_mid = 'are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is'
+            assign zs_story_faq_free = 'Free shipping starts from'
+            assign zs_story_faq_suffix = 'for qualifying orders. Lower-value orders may incur shipping charges calculated at checkout. Delivery times are estimates, not guarantees, and may be affected by customs, holidays or carrier delays.'
+            assign zs_story_faq_no_start = 'ZAISEN generally prepares orders in 1–2 days where delivery is available. Shipping options, delivery estimates and charges for'
+            assign zs_story_faq_no_end = 'are confirmed at checkout. Free shipping is not guaranteed for every country or order.'
+        endcase
       -%}
       <div class="zs-about__shipping-summary">
         {%- if zs_story_free_min > 0 -%}
-          <div><strong data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}AT CHECKOUT{% endif %}</strong><span>Free shipping to {{ zs_story_country | escape }} on orders meeting the market minimum</span></div>
+          <div><strong data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_story_checkout | escape }}">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}{{ zs_story_checkout | escape }}{% endif %}</strong><span>{{ zs_story_free_prefix | escape }} {{ zs_story_country | escape }} {{ zs_story_free_suffix | escape }}</span></div>
         {%- else -%}
-          <div><strong>AT CHECKOUT</strong><span>Shipping availability and rates for {{ zs_story_country | escape }} are confirmed at checkout</span></div>
+          <div><strong>{{ zs_story_checkout | escape }}</strong><span>{{ zs_story_unavailable_prefix | escape }} {{ zs_story_country | escape }} {{ zs_story_unavailable_suffix | escape }}</span></div>
         {%- endif -%}
-        <div><strong>1–2 DAYS</strong><span>{{ zs_sB034 | escape }}</span></div>
+        <div><strong>{{ zs_story_prep | escape }}</strong><span>{{ zs_sB034 | escape }}</span></div>
         {%- if zs_story_free_min > 0 -%}
-          <div><strong>{{ zs_story_transit }}</strong><span>Estimated shipping to {{ zs_story_country | escape }} after dispatch</span></div>
+          <div><strong>{{ zs_story_transit_display | escape }}</strong><span>{{ zs_story_ship_prefix | escape }} {{ zs_story_country | escape }} {{ zs_story_ship_suffix | escape }}</span></div>
         {%- else -%}
-          <div><strong>DELIVERY</strong><span>Available shipping times are confirmed at checkout</span></div>
+          <div><strong>{{ zs_story_delivery_title | escape }}</strong><span>{{ zs_story_times | escape }}</span></div>
         {%- endif -%}
       </div>
       <div class="zs-about__country-wrap">
@@ -433,9 +524,9 @@
     {%- endcomment -%}
     {%- capture zs_story_shipping_faq_answer -%}
       {%- if zs_story_free_min > 0 -%}
-        ZAISEN orders to {{ zs_story_country }} are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is {{ zs_story_transit | downcase }}. Free shipping applies to orders of ${{ zs_story_free_min }} USD or more; smaller orders may incur shipping charges calculated at checkout. Delivery times are estimates, not guarantees, and may be affected by customs, holidays or carrier delays.
+        {{ zs_story_faq_prefix }} {{ zs_story_country }} {{ zs_story_faq_mid }} {{ zs_story_transit_display | downcase }}. {{ zs_story_faq_free }} ${{ zs_story_free_min }} USD {{ zs_story_faq_suffix }}
       {%- else -%}
-        ZAISEN generally prepares orders in 1–2 days before dispatch where delivery is available. Shipping options, delivery estimates and charges for {{ zs_story_country }} are confirmed at checkout. Free shipping is not guaranteed for every country or order.
+        {{ zs_story_faq_no_start }} {{ zs_story_country }} {{ zs_story_faq_no_end }}
       {%- endif -%}
     {%- endcapture -%}
 
@@ -524,11 +615,11 @@
         <details><summary>{{ zs_sC009 | escape }}<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>{{ zs_sC010 | escape }}</div></details>
         <details><summary>{{ zs_sC011 | escape }}<span class="zs-about__faq-icon" aria-hidden="true"></span></summary><div>
         {% if zs_story_free_min > 0 %}
-          ZAISEN orders to {{ zs_story_country | escape }} are prepared in 1–2 days before dispatch. Shipping after dispatch is estimated at {{ zs_story_transit | downcase }}. Free shipping starts from
-          <span data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="the local market minimum">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}the local market minimum{% endif %}</span>
-          for qualifying orders. Lower-value orders may incur shipping charges, and checkout confirms rates.
+          {{ zs_story_faq_prefix | escape }} {{ zs_story_country | escape }} {{ zs_story_faq_mid | escape }} {{ zs_story_transit_display | downcase | escape }}. {{ zs_story_faq_free | escape }}
+          <span data-zs-usd-amount-cents="{{ zs_story_free_min | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_story_minimum | escape }}">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_story_free_min }}+{% else %}{{ zs_story_minimum | escape }}{% endif %}</span>
+          {{ zs_story_faq_suffix | escape }}
         {% else %}
-          Shipping availability and charges for {{ zs_story_country | escape }} are confirmed at checkout.
+          {{ zs_story_faq_no_start | escape }} {{ zs_story_country | escape }} {{ zs_story_faq_no_end | escape }}
         {% endif %}
         <a href="{{ routes.root_url }}policies/shipping-policy">{{ zs_sC012 | escape }}</a>.
       </div></details>
