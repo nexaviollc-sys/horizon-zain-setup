@@ -1,0 +1,280 @@
+{% comment %}
+  ZAISEN product-page FAQs. One native, accessible accordion per question.
+  All questions and custom answers are editable in Theme Editor.
+  Delivery and shipping answers respect the buyer's selected Shopify market.
+{% endcomment %}
+{%- liquid
+  assign zs_faq_iso = localization.country.iso_code
+  assign zs_faq_destination = localization.country.name
+  assign zs_faq_transit = ''
+  assign zs_faq_minimum = 0
+  case zs_faq_iso
+    when 'GB'
+      assign zs_faq_destination = 'the United Kingdom'
+      assign zs_faq_transit = '4–5 days'
+      assign zs_faq_minimum = 60
+    when 'US'
+      assign zs_faq_destination = 'the United States'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 60
+    when 'DE'
+      assign zs_faq_destination = 'Germany'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 60
+    when 'FR'
+      assign zs_faq_destination = 'France'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 60
+    when 'AE'
+      assign zs_faq_destination = 'the United Arab Emirates'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 60
+    when 'CA'
+      assign zs_faq_destination = 'Canada'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 60
+    when 'AU'
+      assign zs_faq_destination = 'Australia'
+      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_minimum = 100
+  endcase
+  assign zs_faq_groups = 'delivery,craft,support' | split: ','
+-%}
+<section id="zs-product-faq-{{ section.id }}" class="zs-product-faq" aria-labelledby="zs-product-faq-heading-{{ section.id }}">
+  <div class="zs-product-faq__wrap page-width">
+    <div class="zs-product-faq__layout">
+      <div class="zs-product-faq__intro">
+        <p class="zs-product-faq__eyebrow"><span class="zs-product-faq__eyebrow-line" aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</p>
+        <h2 id="zs-product-faq-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        <p class="zs-product-faq__lead">{{ section.settings.intro | escape }}</p>
+        <div class="zs-product-faq__detail">
+          <span class="zs-product-faq__detail-dot" aria-hidden="true"></span>
+          {{ section.settings.detail | escape }}
+        </div>
+      </div>
+      <div class="zs-product-faq__questions">
+        {%- for faq_group in zs_faq_groups -%}
+          {%- assign zs_faq_has_group = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'question' and block.settings.category == faq_group and block.settings.question != blank -%}
+              {%- assign zs_faq_has_group = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if zs_faq_has_group -%}
+            <div class="zs-product-faq__group">
+              <h3 class="zs-product-faq__category">
+                {%- case faq_group -%}
+                  {%- when 'delivery' -%}Orders &amp; delivery
+                  {%- when 'craft' -%}Craftsmanship &amp; care
+                  {%- when 'support' -%}Returns &amp; support
+                {%- endcase -%}
+              </h3>
+              <div class="zs-product-faq__items">
+                {%- assign zs_faq_num = 0 -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'question' and block.settings.category == faq_group and block.settings.question != blank -%}
+                    {%- assign zs_faq_num = zs_faq_num | plus: 1 -%}
+                    <details class="zs-product-faq__item" name="zs-product-faq-{{ section.id }}" {{ block.shopify_attributes }}>
+                      <summary class="zs-product-faq__trigger">
+                        <span class="zs-product-faq__number" aria-hidden="true">{% if zs_faq_num < 10 %}0{% endif %}{{ zs_faq_num }}</span>
+                        <span class="zs-product-faq__question">{{ block.settings.question | escape }}</span>
+                        <span class="zs-product-faq__plus" aria-hidden="true"></span>
+                      </summary>
+                      <div class="zs-product-faq__answer rte">
+                        {%- case block.settings.answer_kind -%}
+                          {%- when 'delivery' -%}
+                            {%- if zs_faq_transit != blank -%}
+                              <p>Your piece is normally prepared in <strong>1–2 days</strong> before dispatch. For deliveries to <strong>{{ zs_faq_destination | escape }}</strong>, estimated transit after dispatch is <strong>{{ zs_faq_transit }}</strong>. These are estimates, not guaranteed delivery dates; customs, public holidays and carrier delays can affect arrival.</p>
+                            {%- else -%}
+                              <p>Orders are normally prepared in <strong>1–2 days</strong> before dispatch. Shipping options and estimated transit for your selected country are confirmed at checkout. Delivery times can vary due to customs, holidays and carriers.</p>
+                            {%- endif -%}
+                          {%- when 'shipping' -%}
+                            {%- if zs_faq_minimum > 0 -%}
+                              <p>For orders shipped to <strong>{{ zs_faq_destination | escape }}</strong>, free standard shipping is available on qualifying orders from <strong>US&#36;{{ zs_faq_minimum }} equivalent</strong>. {% if zs_faq_iso == 'US' or zs_faq_iso == 'CA' %}Under that threshold, standard shipping is <strong>US&#36;9.99 equivalent</strong>.{% else %}For orders below that threshold, your shipping charge appears at checkout.{% endif %} Your cart and checkout display amounts in the selected market currency; the checkout total is the final amount.</p>
+                            {%- else -%}
+                              <p>Shipping availability, charges and free-shipping eligibility depend on the delivery destination. Select your country to see your shipping options and final prices at checkout.</p>
+                            {%- endif -%}
+                          {%- when 'returns' -%}
+                            <p>Contact us within <strong>14 days after delivery</strong> to request an eligible return or refund. Conditions and exceptions are explained in our {% if shop.refund_policy != blank %}<a href="{{ shop.refund_policy.url }}">Refund Policy</a>{% else %}refund policy{% endif %}. If your item arrives damaged or not as described, include your order number and clear photos so we can review it promptly.</p>
+                          {%- else -%}
+                            {{ block.settings.answer }}
+                        {%- endcase -%}
+                      </div>
+                    </details>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <aside class="zs-product-faq__help" aria-label="ZAISEN customer care">
+        <span class="zs-product-faq__help-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16v11H4z"/><path d="m4 7 8 6 8-6"/></svg>
+        </span>
+        <div>
+          <p class="zs-product-faq__help-label">{{ section.settings.help_eyebrow | escape }}</p>
+          <h3>{{ section.settings.help_heading | escape }}</h3>
+          <p>{{ section.settings.help_text | escape }}</p>
+          <a class="zs-product-faq__help-link" href="mailto:support@zaisenstore.com">support@zaisenstore.com <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="zs-product-faq__policies">
+          {%- if shop.shipping_policy != blank -%}<a href="{{ shop.shipping_policy.url }}">Shipping policy <span aria-hidden="true">↗</span></a>{%- endif -%}
+          {%- if shop.refund_policy != blank -%}<a href="{{ shop.refund_policy.url }}">Returns &amp; refunds <span aria-hidden="true">↗</span></a>{%- endif -%}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<style>
+  #zs-product-faq-{{ section.id }} {
+    --zs-faq-brown: #443126;
+    --zs-faq-copper: #9b704e;
+    --zs-faq-line: #ded5c9;
+    --zs-faq-muted: #71665d;
+    background: #f8f6f2;
+    color: var(--zs-faq-brown);
+    padding: clamp(64px, 7vw, 108px) 0 clamp(68px, 7vw, 112px);
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__wrap { max-width: 1340px; margin-inline: auto; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__layout {
+    display: grid;
+    grid-template-columns: minmax(265px, .73fr) minmax(0, 1.45fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "intro questions" "help questions";
+    column-gap: clamp(56px, 7vw, 120px);
+    row-gap: 36px;
+    align-items: start;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__intro { grid-area: intro; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__questions { grid-area: questions; min-width: 0; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help { grid-area: help; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__eyebrow {
+    display: flex; align-items: center; gap: 12px; margin: 0 0 22px;
+    color: var(--zs-faq-copper); font-size: 11px; font-weight: 700;
+    letter-spacing: .19em; text-transform: uppercase;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__eyebrow-line { display: block; width: 28px; height: 1px; background: currentColor; flex: none; }
+  #zs-product-faq-{{ section.id }} h2 {
+    margin: 0; font-family: var(--font-heading--family, Georgia, serif);
+    font-weight: 400; line-height: 1.09; letter-spacing: -.035em;
+    font-size: clamp(35px, 3.6vw, 57px); max-width: 440px;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__lead {
+    margin: 25px 0 0; max-width: 365px; line-height: 1.85;
+    font-size: 14px; color: var(--zs-faq-muted);
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__detail {
+    display: flex; gap: 10px; align-items: center; margin-top: 23px;
+    font-size: 12px; letter-spacing: .01em; color: var(--zs-faq-muted);
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__detail-dot { width: 6px; height: 6px; background: var(--zs-faq-copper); border-radius: 100%; flex: none; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__group + .zs-product-faq__group { margin-top: 41px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__category {
+    margin: 0 0 10px; font: 700 11px/1.5 var(--font-body--family, Arial, sans-serif);
+    letter-spacing: .16em; text-transform: uppercase; color: var(--zs-faq-copper);
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__items { border-top: 1px solid var(--zs-faq-line); }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__item { border-bottom: 1px solid var(--zs-faq-line); }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__trigger {
+    display: flex; align-items: center; gap: 19px; list-style: none; cursor: pointer;
+    padding: 22px 0; min-height: 74px; -webkit-tap-highlight-color: transparent;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__trigger::-webkit-details-marker { display: none; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__trigger::marker { content: ''; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__trigger:focus-visible { outline: 2px solid var(--zs-faq-copper); outline-offset: 4px; border-radius: 2px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__number { width: 24px; flex: none; align-self: center; color: #a79887; font: 500 11px/1 var(--font-body--family, Arial, sans-serif); }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__question { flex: 1; min-width: 0; font-size: clamp(15px, 1.22vw, 17px); font-weight: 500; line-height: 1.5; letter-spacing: -.01em; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__plus {
+    position: relative; display: inline-block; flex: none; width: 30px; height: 30px;
+    border: 1px solid #d2c5b7; border-radius: 50%; transition: background .2s, border-color .2s, transform .2s;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__plus::before,
+  #zs-product-faq-{{ section.id }} .zs-product-faq__plus::after { content: ''; position: absolute; top: 50%; left: 50%; width: 10px; height: 1px; background: var(--zs-faq-brown); transform: translate(-50%, -50%); transition: transform .2s, opacity .2s, background .2s; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__item[open] .zs-product-faq__plus { background: var(--zs-faq-brown); border-color: var(--zs-faq-brown); }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__item[open] .zs-product-faq__plus::before,
+  #zs-product-faq-{{ section.id }} .zs-product-faq__item[open] .zs-product-faq__plus::after { background: #fff; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__item[open] .zs-product-faq__plus::after { opacity: 0; }
+  @media (hover: hover) {
+    #zs-product-faq-{{ section.id }} .zs-product-faq__trigger:hover .zs-product-faq__question { color: var(--zs-faq-copper); }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__trigger:hover .zs-product-faq__plus { border-color: var(--zs-faq-brown); }
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer {
+    color: #655a51; padding: 0 47px 23px 43px;
+    font-size: 14px; line-height: 1.85; overflow-wrap: anywhere;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p { margin: 0 0 10px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer p:last-child { margin-bottom: 0; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer a { color: var(--zs-faq-brown); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__answer strong { color: var(--zs-faq-brown); font-weight: 600; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help {
+    margin-top: 3px; padding: 28px; border: 1px solid #e4d8cc; background: #fdfbf8;
+    display: grid; grid-template-columns: 38px minmax(0,1fr); column-gap: 14px;
+  }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help-mark { color: var(--zs-faq-copper); display: flex; align-items: flex-start; padding-top: 5px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help-label { font-size: 10px!important; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--zs-faq-copper)!important; margin: 0 0 8px!important; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help h3 { font: 400 24px/1.25 var(--font-heading--family, Georgia, serif); margin: 0 0 10px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help p { font-size: 13px; color: var(--zs-faq-muted); line-height: 1.7; margin: 0 0 13px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help-link { display: inline-block; color: var(--zs-faq-brown); font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--zs-faq-copper); padding-bottom: 3px; word-break: break-word; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__help-link span { margin-left: 5px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__policies { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px 19px; border-top: 1px solid #e7dfd5; margin-top: 24px; padding-top: 17px; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__policies a { color: var(--zs-faq-muted); font-size: 12px; text-decoration: none; }
+  #zs-product-faq-{{ section.id }} .zs-product-faq__policies a:hover { color: var(--zs-faq-brown); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 989px) {
+    #zs-product-faq-{{ section.id }} .zs-product-faq__layout { grid-template-columns: minmax(215px,.7fr) minmax(0,1.4fr); column-gap: 34px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__help { padding: 19px; grid-template-columns: 1fr; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__help-mark { margin-bottom: 10px; }
+  }
+  @media (max-width: 749px) {
+    #zs-product-faq-{{ section.id }} { padding: 58px 0 70px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__layout { grid-template-columns: minmax(0,1fr); grid-template-rows: auto; grid-template-areas: "intro" "questions" "help"; gap: 34px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__intro h2 { font-size: clamp(33px, 9vw, 44px); max-width: 350px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__eyebrow { margin-bottom: 16px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__lead { margin-top: 17px; font-size: 13px; line-height: 1.8; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__detail { margin-top: 15px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__group + .zs-product-faq__group { margin-top: 31px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__trigger { gap: 10px; padding: 17px 0; min-height: 66px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__number { width: 21px; font-size: 10px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__question { font-size: 15px; line-height: 1.5; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__plus { width: 27px; height: 27px; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__answer { padding: 0 30px 19px 31px; font-size: 13px; line-height: 1.85; }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__help { margin: 0; padding: 23px; grid-template-columns: 35px minmax(0,1fr); }
+    #zs-product-faq-{{ section.id }} .zs-product-faq__help-mark { margin: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #zs-product-faq-{{ section.id }} .zs-product-faq__plus,
+    #zs-product-faq-{{ section.id }} .zs-product-faq__plus::before,
+    #zs-product-faq-{{ section.id }} .zs-product-faq__plus::after { transition: none; }
+  }
+</style>
+{% schema %}
+{
+  "name": "ZAISEN Product FAQs",
+  "tag": "section",
+  "class": "section-zs-product-faq",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "HERE TO HELP"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered with care."},
+    {"type": "textarea", "id": "intro", "label": "Intro text", "default": "From tracking your parcel to caring for your handcrafted piece, find the details that matter."},
+    {"type": "text", "id": "detail", "label": "Detail text", "default": "Thoughtful answers, from our workshop to your home."},
+    {"type": "text", "id": "help_eyebrow", "label": "Support eyebrow", "default": "PERSONAL SUPPORT"},
+    {"type": "text", "id": "help_heading", "label": "Support heading", "default": "Still have a question?"},
+    {"type": "textarea", "id": "help_text", "label": "Support text", "default": "Need help with an order, tracking number or delivery? Our team is just an email away."}
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {"type": "select", "id": "category", "label": "Category", "default": "delivery", "options": [{"value": "delivery", "label": "Orders & delivery"}, {"value": "craft", "label": "Craftsmanship & care"}, {"value": "support", "label": "Returns & support"}]},
+        {"type": "text", "id": "question", "label": "Question", "default": "Frequently asked question"},
+        {"type": "select", "id": "answer_kind", "label": "Answer type", "default": "custom", "info": "Delivery and shipping use the customer's selected market; returns links to the shop policy.", "options": [{"value": "custom", "label": "Custom answer below"}, {"value": "delivery", "label": "Live destination delivery estimate"}, {"value": "shipping", "label": "Live destination shipping information"}, {"value": "returns", "label": "Returns policy summary"}]},
+        {"type": "richtext", "id": "answer", "label": "Custom answer", "default": "<p>Enter an answer for customers.</p>"}
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [{"name": "ZAISEN Product FAQs"}]
+}
+{% endschema %}
