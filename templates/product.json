@@ -610,13 +610,10 @@
         "faq_other_platforms"
       ],
       "settings": {
-        "eyebrow": "THE ZAISEN GUIDE",
-        "heading": "The details make the difference.",
-        "intro": "Thoughtful pieces deserve thoughtful answers. Here's everything worth knowing before yours arrives.",
-        "detail": "Handcrafted with care · Tracked with confidence",
-        "help_eyebrow": "A NOTE FROM US",
-        "help_heading": "Still curious?",
-        "help_text": "Every ZAISEN piece has a story. If there's anything you'd like to know before ordering, we're here."
+        "eyebrow": "GOOD TO KNOW",
+        "heading": "Frequently Asked Questions",
+        "intro": "A few useful details about our wood, craftsmanship, delivery and aftercare.",
+        "help_heading": "Need a hand? Contact us"
       }
     }
   },
