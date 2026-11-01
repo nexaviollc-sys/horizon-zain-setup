@@ -2,7 +2,7 @@
 ZAISEN Trust Page — compact, text-only, multilingual.
 Do not imply a large review count or a verified live aggregate Etsy rating.
 The five-star statement describes a customer review, not a shop-wide rating.
-No company name, fake testimonials, generic trust badges, image placeholders or unverifiable social links.
+No legal company name in marketing copy, fake testimonials, badges, image placeholders or unverifiable social links. Show the business mailing address without implying it is a retail showroom.
 {% endcomment %}
 {% liquid
   case request.locale.iso_code
@@ -29,7 +29,17 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
       assign zt_shipping = "Versandbedingungen"
       assign zt_refund = "Rückgaben & Erstattungen"
       assign zt_social = "ZAISEN finden auf"
-      assign zt_foot = "Sehen Sie unsere Etsy-Bewertung oder kontaktieren Sie uns direkt. Wir beantworten Ihre Fragen gerne vor dem Kauf."
+      assign zt_foot = "Sehen Sie unsere Etsy-Bewertung oder kontaktieren Sie uns direkt. Wir beantworten Ihre Fragen gerne vor dem Kauf."      assign zt_locationTitle = "Unsere Adressen"
+      assign zt_workshopLabel = "Produktionswerkstatt"
+      assign zt_workshopAddress = "Saddar, nahe Islamabad, Pakistan"
+      assign zt_companyLabel = "Geschäftliche Postanschrift (USA)"
+      assign zt_companyAddress = "1500 N Grant St, Denver, CO 80203, Vereinigte Staaten"
+      assign zt_locationNote = "Unsere Werkstatt ist keine öffentlich zugängliche Verkaufsstelle. Die US-Adresse ist eine Geschäftsanschrift und kein Showroom."
+      assign zt_phoneLabel = "Telefon & WhatsApp"
+      assign zt_socialInstagram = "Instagram"
+      assign zt_instagramSoon = "Demnächst"
+      assign zt_socialLabel = "Offizielle Social-Media-Profile"
+
     when 'fr'
       assign zt_crumb = "Pourquoi faire confiance à ZAISEN ?"
       assign zt_eyebrow = "DÉCOUVRIR ZAISEN"
@@ -53,7 +63,17 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
       assign zt_shipping = "Livraison"
       assign zt_refund = "Retours et remboursements"
       assign zt_social = "Retrouvez ZAISEN sur"
-      assign zt_foot = "Consultez notre avis Etsy ou contactez-nous directement. Posez vos questions avant de vous décider."
+      assign zt_foot = "Consultez notre avis Etsy ou contactez-nous directement. Posez vos questions avant de vous décider."      assign zt_locationTitle = "Nos adresses"
+      assign zt_workshopLabel = "Atelier de fabrication"
+      assign zt_workshopAddress = "Saddar, près d’Islamabad, Pakistan"
+      assign zt_companyLabel = "Adresse postale professionnelle (États-Unis)"
+      assign zt_companyAddress = "1500 N Grant St, Denver, CO 80203, États-Unis"
+      assign zt_locationNote = "Notre atelier n’est pas une boutique ouverte au public. L’adresse américaine est une adresse professionnelle, pas un showroom."
+      assign zt_phoneLabel = "Téléphone et WhatsApp"
+      assign zt_socialInstagram = "Instagram"
+      assign zt_instagramSoon = "Bientôt"
+      assign zt_socialLabel = "Profils officiels sur les réseaux sociaux"
+
     when 'ar'
       assign zt_crumb = "لماذا تثق بزايسن؟"
       assign zt_eyebrow = "تعرّف على زايسن"
@@ -77,7 +97,17 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
       assign zt_shipping = "تفاصيل الشحن"
       assign zt_refund = "الإرجاع واسترداد الأموال"
       assign zt_social = "تابع زايسن على"
-      assign zt_foot = "اطّلع على تقييمنا في إتسي أو تواصل معنا مباشرةً. يسعدنا الإجابة عن أسئلتك قبل الشراء."
+      assign zt_foot = "اطّلع على تقييمنا في إتسي أو تواصل معنا مباشرةً. يسعدنا الإجابة عن أسئلتك قبل الشراء."      assign zt_locationTitle = "عناويننا"
+      assign zt_workshopLabel = "ورشة التصنيع"
+      assign zt_workshopAddress = "صدر، قرب إسلام آباد، باكستان"
+      assign zt_companyLabel = "العنوان البريدي التجاري (الولايات المتحدة)"
+      assign zt_companyAddress = "1500 N Grant St, Denver, CO 80203, United States"
+      assign zt_locationNote = "ورشتنا ليست متجرًا مفتوحًا للزيارات. العنوان الأمريكي عنوان مراسلات تجارية وليس صالة عرض."
+      assign zt_phoneLabel = "الهاتف وواتساب"
+      assign zt_socialInstagram = "إنستغرام"
+      assign zt_instagramSoon = "قريبًا"
+      assign zt_socialLabel = "حساباتنا الرسمية على وسائل التواصل"
+
     else
       assign zt_crumb = "Why Trust ZAISEN?"
       assign zt_eyebrow = "GET TO KNOW ZAISEN"
@@ -101,7 +131,17 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
       assign zt_shipping = "Shipping details"
       assign zt_refund = "Returns & refunds"
       assign zt_social = "Find ZAISEN on"
-      assign zt_foot = "Browse our Etsy feedback or contact us directly. No need to decide before your questions are answered."
+      assign zt_foot = "Browse our Etsy feedback or contact us directly. No need to decide before your questions are answered."      assign zt_locationTitle = "Our locations"
+      assign zt_workshopLabel = "Production workshop"
+      assign zt_workshopAddress = "Saddar area, near Islamabad, Pakistan"
+      assign zt_companyLabel = "Business mailing address (USA)"
+      assign zt_companyAddress = "1500 N Grant St, Denver, CO 80203, United States"
+      assign zt_locationNote = "Our workshop is not a walk-in retail shop. Our US mailing address is for business correspondence, not a showroom."
+      assign zt_phoneLabel = "Phone & WhatsApp"
+      assign zt_socialInstagram = "Instagram"
+      assign zt_instagramSoon = "Coming soon"
+      assign zt_socialLabel = "Official social profiles"
+
   endcase
 %}
 
@@ -136,6 +176,7 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
           <div><span>{{ zt_info | escape }}</span><a href="mailto:info@zaisenstore.com">info@zaisenstore.com</a></div>
           <div><span>{{ zt_contact | escape }}</span><a href="mailto:contact@zaisenstore.com">contact@zaisenstore.com</a></div>
         </div>
+        <div class="zt__phone"><span>{{ zt_phoneLabel | escape }}</span><a href="tel:+13039438555" dir="ltr">+1 (303) 943-8555</a><a href="https://wa.me/13039438555" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
         <a class="zt__btn zt__btn--outline" href="{{ routes.root_url }}pages/contact">
           {{ zt_contactButton | escape }} <span aria-hidden="true">↗</span>
         </a>
@@ -153,14 +194,33 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
         <a href="{{ routes.root_url }}policies/refund-policy">{{ zt_refund | escape }} <span aria-hidden="true">↗</span></a>
       </nav>
     </section>
-    {% if section.settings.instagram_url != blank or section.settings.facebook_url != blank or section.settings.pinterest_url != blank %}
-    <nav class="zt__social" aria-label="ZAISEN social profiles">
-      <span>{{ zt_social | escape }}</span>
-      {% if section.settings.instagram_url != blank %}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer">Instagram ↗</a>{% endif %}
-      {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer">Facebook ↗</a>{% endif %}
-      {% if section.settings.pinterest_url != blank %}<a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer">Pinterest ↗</a>{% endif %}
-    </nav>
-    {% endif %}
+    <section class="zt__addresses" aria-labelledby="zt-address-title">
+      <h2 id="zt-address-title">{{ zt_locationTitle | escape }}</h2>
+      <div class="zt__address-grid">
+        <div class="zt__address">
+          <span class="zt__address-label">{{ zt_workshopLabel | escape }}</span>
+          <address>{{ zt_workshopAddress | escape }}</address>
+        </div>
+        <div class="zt__address">
+          <span class="zt__address-label">{{ zt_companyLabel | escape }}</span>
+          <address dir="ltr">{{ zt_companyAddress | escape }}</address>
+        </div>
+      </div>
+      <p class="zt__address-note">{{ zt_locationNote | escape }}</p>
+    </section>
+    <section class="zt__social" aria-label="{{ zt_socialLabel | escape }}">
+      <p class="zt__social-heading">{{ zt_socialLabel | escape }}</p>
+      <div class="zt__social-profiles">
+        <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer">Etsy <span aria-hidden="true">↗</span></a>
+        {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>{% endif %}
+        {% if section.settings.pinterest_url != blank %}<a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer">Pinterest <span aria-hidden="true">↗</span></a>{% endif %}
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer">{{ zt_socialInstagram | escape }} <span aria-hidden="true">↗</span></a>
+        {% else %}
+          <span class="zt__social-soon">{{ zt_socialInstagram | escape }} <small>{{ zt_instagramSoon | escape }}</small></span>
+        {% endif %}
+      </div>
+    </section>
     <p class="zt__foot">{{ zt_foot | escape }}</p>
   </div>
 </article>
@@ -180,9 +240,11 @@ No company name, fake testimonials, generic trust badges, image placeholders or 
 .zt__emails{display:grid;gap:12px;border-top:1px solid var(--zt-line);margin-top:18px;padding-top:17px}.zt__emails>div{min-width:0}.zt__emails span{display:block;font-size:11px;color:#796b5e;line-height:1.5}.zt__emails a{color:#493622!important;font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 .zt__about{display:grid;grid-template-columns:1.25fr .75fr;gap:45px;padding:38px 0 24px;align-items:start}.zt__about h2{font-size:clamp(25px,2.5vw,34px);margin-bottom:10px}.zt__about p{color:var(--zt-muted);max-width:625px}
 .zt__links{display:grid;gap:11px;padding-block:5px}.zt__links a{font-size:13px;display:flex;justify-content:space-between;gap:12px;padding-bottom:9px;border-bottom:1px solid var(--zt-line);text-decoration:none;color:#493622!important;font-weight:650}.zt__links a:hover{color:#987343!important}
-.zt__social{border-top:1px solid var(--zt-line);padding:15px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}.zt__social>span{font-size:12px;color:var(--zt-muted)}.zt__social a{color:#60452a!important;text-decoration:underline;font-size:12px;text-underline-offset:4px}.zt__foot{text-align:center;color:#837367!important;font-size:12px!important;border-top:1px solid var(--zt-line);margin-top:18px!important;padding-top:17px}
+.zt__phone{border-top:1px solid var(--zt-line);margin-top:15px;padding-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px}.zt__phone span{color:#796b5e;font-size:11px}.zt__phone a{color:#493622!important;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.zt__addresses{padding:28px 0 20px;border-top:1px solid var(--zt-line)}.zt__addresses h2{font-size:clamp(24px,2.3vw,32px);margin-bottom:15px}.zt__address-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.zt__address{border:1px solid var(--zt-line);background:#fffdfb;border-radius:5px;padding:18px 21px}.zt__address-label{font-size:11px;display:block;letter-spacing:.04em;font-weight:700;color:#80603e;margin-bottom:9px}.zt__address address{font-size:13px;font-style:normal;line-height:1.7;overflow-wrap:anywhere}.zt__address-note{color:var(--zt-muted)!important;font-size:11px!important;margin-top:12px!important}
+.zt__social{border-top:1px solid var(--zt-line);padding:19px 0;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.zt__social-heading{font-weight:700;font-size:12px!important;color:#5e4936!important}.zt__social-profiles{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.zt__social-profiles a{color:#60452a!important;text-decoration:underline;font-weight:700;font-size:12px;text-underline-offset:4px}.zt__social-soon{display:inline-flex;gap:5px;align-items:center;font-size:12px;color:#8c8074}.zt__social-soon small{font-size:10px;padding:3px 7px;border:1px solid #ddd4c9;border-radius:50px;color:#746657}.zt__foot{text-align:center;color:#837367!important;font-size:12px!important;border-top:1px solid var(--zt-line);margin-top:18px!important;padding-top:17px}
 .zt a:focus-visible{outline:2px solid #a9824c;outline-offset:4px}
-@media(max-width:760px){.zt__hero{padding:30px 0 33px}.zt__features,.zt__about{grid-template-columns:1fr}.zt__about{gap:20px;padding:30px 0 18px}.zt__contact,.zt__etsy{padding:26px 23px}.zt__hero h1{font-size:clamp(36px,9vw,53px)}}
+@media(max-width:760px){.zt__address-grid{grid-template-columns:1fr}.zt__social{align-items:flex-start;flex-direction:column;gap:9px}.zt__hero{padding:30px 0 33px}.zt__features,.zt__about{grid-template-columns:1fr}.zt__about{gap:20px;padding:30px 0 18px}.zt__contact,.zt__etsy{padding:26px 23px}.zt__hero h1{font-size:clamp(36px,9vw,53px)}}
 @media(prefers-reduced-motion:reduce){.zt__btn{transition:none}}
 {% endstylesheet %}
 {% schema %}
