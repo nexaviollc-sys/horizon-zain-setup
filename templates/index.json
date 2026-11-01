@@ -289,7 +289,7 @@
       }
     },
     "zs_delivery_marquee_2026": {
-      "type": "zs-delivery-marquee",
+      "type": "zs-delivery-marquee-ca",
       "name": "ZAISEN Delivery Marquee",
       "settings": {
         "message_1": "SHIPPING DETAILS AT CHECKOUT",
