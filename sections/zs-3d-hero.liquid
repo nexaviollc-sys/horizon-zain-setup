@@ -18,6 +18,32 @@
   assign font_light = headline_font | font_modify: 'weight', '300'
   assign font_medium = headline_font | font_modify: 'weight', '500'
   assign font_bold = headline_font | font_modify: 'weight', '700'
+  case localization.language.iso_code
+    when 'de'
+      assign zs_hero_subline = 'Der Natur ein Stück näher.'
+      assign zs_hero_intention = 'MIT BEDACHT GEFERTIGT'
+      assign zs_hero_grain = 'Entdecken Sie die Schönheit jeder Holzmaserung.'
+      assign zs_hero_feature = 'HANDWERK IM FOKUS'
+      assign zs_hero_view = 'Ansehen'
+    when 'fr'
+      assign zs_hero_subline = 'Un peu plus près de la nature.'
+      assign zs_hero_intention = 'CRÉÉ AVEC INTENTION'
+      assign zs_hero_grain = 'Découvrez la beauté de chaque veinure du bois.'
+      assign zs_hero_feature = 'SAVOIR-FAIRE À L’HONNEUR'
+      assign zs_hero_view = 'Voir'
+    when 'ar'
+      assign zs_hero_subline = 'أقرب قليلًا إلى الطبيعة.'
+      assign zs_hero_intention = 'صُنعت بعناية وهدف'
+      assign zs_hero_grain = 'اكتشف جمال كل عِرق في الخشب.'
+      assign zs_hero_feature = 'من روائع حرفتنا'
+      assign zs_hero_view = 'عرض'
+    else
+      assign zs_hero_subline = 'A little closer to nature.'
+      assign zs_hero_intention = 'MADE WITH INTENTION'
+      assign zs_hero_grain = 'Discover the beauty in every grain.'
+      assign zs_hero_feature = 'FEATURED CRAFT'
+      assign zs_hero_view = 'View'
+  endcase
 -%}
 {%- if headline_font != blank -%}
   {% style %}
@@ -57,7 +83,7 @@
       <div class="zf-hero__copy">
         <p class="zf-hero__eyebrow"><span class="zf-hero__eyebrow-stroke" aria-hidden="true"></span>{{ s.eyebrow | escape }}</p>
         <h1 class="zf-hero__headline">{{ s.heading }}</h1>
-        <p class="zf-hero__subline">A little closer to nature.</p>
+        <p class="zf-hero__subline">{{ zs_hero_subline | escape }}</p>
         <p class="zf-hero__description">{{ s.subheading | escape }}</p>
         <div class="zf-hero__actions">
           <a class="zf-hero__cta" href="{{ hero_link }}">
@@ -75,21 +101,21 @@
             {%- endif -%}
           </span>
           <div>
-            <span>MADE WITH INTENTION</span>
-            <span class="zf-hero__note-text">Discover the beauty in every grain.</span>
+            <span>{{ zs_hero_intention | escape }}</span>
+            <span class="zf-hero__note-text">{{ zs_hero_grain | escape }}</span>
           </div>
         </div>
       </div>
 
       {%- if s.show_featured_card and hero_product != blank -%}
-        <a class="zf-hero__product-teaser" href="{{ hero_product.url }}" aria-label="View {{ hero_product.title | escape }}">
-          <span class="zf-hero__teaser-eyebrow">FEATURED CRAFT</span>
+        <a class="zf-hero__product-teaser" href="{{ hero_product.url }}" aria-label="{{ zs_hero_view | escape }} {{ hero_product.title | escape }}">
+          <span class="zf-hero__teaser-eyebrow">{{ zs_hero_feature | escape }}</span>
           <span class="zf-hero__teaser-row">
             {%- if hero_product.featured_image != blank -%}
               {{ hero_product.featured_image | image_url: width: 180 | image_tag: class: 'zf-hero__teaser-photo', loading: 'lazy', widths: '90, 180', sizes: '64px', alt: hero_product.title }}
             {%- endif -%}
             <span class="zf-hero__teaser-description">
-              <strong>{%- if hero_product.handle == 'handcrafted-wooden-horse-statue' -%}Handcrafted Wooden Horse Statue{%- else -%}{{ hero_product.title | truncate: 46 | escape }}{%- endif -%}</strong>
+              <strong>{{ hero_product.title | truncate: 46 | escape }}</strong>
               <span class="zf-hero__price-row">
                 {%- if hero_product.compare_at_price > hero_product.price -%}
                   <s class="zf-hero__compare-price">{{ hero_product.compare_at_price | money }}</s>
