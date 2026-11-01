@@ -103,6 +103,92 @@
       assign zs_bundle_shipping_supported = true
       assign zs_shipping_threshold_usd = 100
   endcase
+  case localization.language.iso_code
+    when 'de'
+      assign zs_b_progress = 'Fortschritt zum kostenlosen Versand'
+      assign zs_b_add = '1 HINZUFÜGEN & 15 % SPAREN · 2 HINZUFÜGEN & 25 % SPAREN'
+      assign zs_b_head = 'Vervollständigen Sie Ihre Kollektion'
+      assign zs_b_badge = 'BIS ZU 25 % RABATT'
+      assign zs_b_personalize = 'IHR BUNDLE ANPASSEN'
+      assign zs_b_choose = 'Wählen Sie Ihr Holzprodukt'
+      assign zs_b_subtitle = 'Entdecken Sie die ZAISEN Kollektionen und tauschen Sie eines der vorgeschlagenen Produkte aus.'
+      assign zs_b_close = 'Produktauswahl schließen'
+      assign zs_b_search = 'ZAISEN Produkte suchen'
+      assign zs_b_searchplaceholder = 'Holzprodukte suchen…'
+      assign zs_b_filter = 'Produkte nach Kollektion filtern'
+      assign zs_b_all = 'Alle Kollektionen'
+      assign zs_b_pick = 'Produkt auswählen'
+      assign zs_b_options = 'Eine Option wählen für'
+      assign zs_b_nomatch = 'Keine passenden verfügbaren Produkte. Versuchen Sie eine andere Kollektion oder Suche.'
+      assign zs_b_footpicker = 'Ihre Auswahl aktualisiert das Bundle sofort. Rabatte und Versand werden an der Kasse bestätigt.'
+      assign zs_b_regular = 'Regulärer Gesamtpreis'
+      assign zs_b_total = 'Bundle-Gesamtpreis'
+      assign zs_b_start = 'Wählen Sie 1 oder 2 passende Stücke, um zu sparen'
+      assign zs_b_footnote = 'Ihr aktuelles Produkt ist automatisch enthalten. Fügen Sie ein passendes Stück für 15 % Rabatt hinzu oder beide für 25 %. Endgültige Rabatte werden an der Kasse bestätigt.'
+    when 'fr'
+      assign zs_b_progress = 'Progression vers la livraison gratuite'
+      assign zs_b_add = 'AJOUTEZ 1 ET ÉCONOMISEZ 15 % · AJOUTEZ 2 ET ÉCONOMISEZ 25 %'
+      assign zs_b_head = 'Complétez votre collection'
+      assign zs_b_badge = 'JUSQU’À 25 % DE RÉDUCTION'
+      assign zs_b_personalize = 'PERSONNALISEZ VOTRE LOT'
+      assign zs_b_choose = 'Choisissez votre pièce en bois'
+      assign zs_b_subtitle = 'Explorez les collections ZAISEN et remplacez l’un des deux articles suggérés.'
+      assign zs_b_close = 'Fermer le choix de produit'
+      assign zs_b_search = 'Rechercher des produits ZAISEN'
+      assign zs_b_searchplaceholder = 'Rechercher des produits en bois…'
+      assign zs_b_filter = 'Filtrer par collection'
+      assign zs_b_all = 'Toutes les collections'
+      assign zs_b_pick = 'Choisir cette pièce'
+      assign zs_b_options = 'Choisir une option pour'
+      assign zs_b_nomatch = 'Aucun produit disponible correspondant. Essayez une autre collection ou recherche.'
+      assign zs_b_footpicker = 'Votre sélection met immédiatement le lot à jour. Les remises et frais de port sont confirmés au paiement.'
+      assign zs_b_regular = 'Total au prix normal'
+      assign zs_b_total = 'Total du lot'
+      assign zs_b_start = 'Choisissez 1 ou 2 pièces pour économiser'
+      assign zs_b_footnote = 'Votre article actuel est automatiquement inclus. Ajoutez une pièce pour économiser 15 %, ou les deux pour économiser 25 %. La réduction finale est confirmée au paiement.'
+    when 'ar'
+      assign zs_b_progress = 'التقدم نحو الشحن المجاني'
+      assign zs_b_add = 'أضف قطعة ووفر 15٪ · أضف قطعتين ووفر 25٪'
+      assign zs_b_head = 'أكمل مجموعتك'
+      assign zs_b_badge = 'خصم يصل إلى 25٪'
+      assign zs_b_personalize = 'خصّص مجموعتك'
+      assign zs_b_choose = 'اختر قطعتك الخشبية'
+      assign zs_b_subtitle = 'تصفح مجموعات زايسن واستبدل أيًا من القطعتين المقترحتين.'
+      assign zs_b_close = 'إغلاق اختيار المنتج'
+      assign zs_b_search = 'البحث في منتجات زايسن'
+      assign zs_b_searchplaceholder = 'ابحث عن منتجات خشبية…'
+      assign zs_b_filter = 'تصفية المنتجات حسب المجموعة'
+      assign zs_b_all = 'جميع المجموعات'
+      assign zs_b_pick = 'اختر القطعة'
+      assign zs_b_options = 'اختر خيارًا للمنتج'
+      assign zs_b_nomatch = 'لا توجد منتجات متاحة مطابقة. جرّب مجموعة أخرى أو عبارة بحث مختلفة.'
+      assign zs_b_footpicker = 'يتم تحديث المجموعة فورًا عند الاختيار. تُؤكَّد الخصومات والشحن عند الدفع.'
+      assign zs_b_regular = 'الإجمالي قبل الخصم'
+      assign zs_b_total = 'إجمالي المجموعة'
+      assign zs_b_start = 'اختر قطعة أو قطعتين للتوفير'
+      assign zs_b_footnote = 'المنتج الحالي مشمول تلقائيًا. أضف قطعة متناسقة لتحصل على خصم 15٪، أو قطعتين لتحصل على 25٪. يُؤكَّد الخصم النهائي عند الدفع.'
+    else
+      assign zs_b_progress = 'Free shipping progress'
+      assign zs_b_add = 'ADD 1 & SAVE 15% · ADD 2 & SAVE 25%'
+      assign zs_b_head = 'Complete Your Collection'
+      assign zs_b_badge = 'UP TO 25% OFF'
+      assign zs_b_personalize = 'PERSONALIZE YOUR BUNDLE'
+      assign zs_b_choose = 'Choose your wooden piece'
+      assign zs_b_subtitle = 'Browse the ZAISEN collections and replace either suggested piece.'
+      assign zs_b_close = 'Close product picker'
+      assign zs_b_search = 'Search ZAISEN products'
+      assign zs_b_searchplaceholder = 'Search wooden products…'
+      assign zs_b_filter = 'Filter products by collection'
+      assign zs_b_all = 'All collections'
+      assign zs_b_pick = 'Choose piece'
+      assign zs_b_options = 'Choose an option for'
+      assign zs_b_nomatch = 'No matching available products. Try another collection or search.'
+      assign zs_b_footpicker = 'Your selection updates the bundle instantly. Discounts and shipping are confirmed at checkout.'
+      assign zs_b_regular = 'Regular total'
+      assign zs_b_total = 'Bundle total'
+      assign zs_b_start = 'Choose 1 or 2 matching pieces to save'
+      assign zs_b_footnote = '{{ zs_b_footnote | escape }}'
+  endcase
 -%}
 {% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank and zs_main_variant.available %}
   {{ 'zs-bundle-builder.css' | asset_url | stylesheet_tag }}
@@ -138,19 +224,19 @@
     <div class="zs-bundle__delivery" data-zs-delivery-zone aria-live="polite">
       <div class="zs-bundle__delivery-top">
         <span class="zs-bundle__delivery-check" data-zs-shipping-check aria-hidden="true" hidden>✓</span>
-        <strong class="zs-bundle__delivery-label" data-zs-shipping-label>Free shipping progress</strong>
+        <strong class="zs-bundle__delivery-label" data-zs-shipping-label>{{ zs_b_progress | escape }}</strong>
       </div>
       <div class="zs-bundle__delivery-track" data-zs-progress role="progressbar"
-        aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        aria-label="{{ zs_b_progress | escape }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span class="zs-bundle__delivery-fill" data-zs-progress-fill style="width:0%"></span>
       </div>
     </div>
     <header class="zs-bundle__head">
       <div>
-        <p class="zs-bundle__eyebrow">ADD 1 &amp; SAVE 15% · ADD 2 &amp; SAVE 25%</p>
-        <h2 class="zs-bundle__heading">Complete Your Collection</h2>
+        <p class="zs-bundle__eyebrow">{{ zs_b_add | escape }}</p>
+        <h2 class="zs-bundle__heading">{{ zs_b_head | escape }}</h2>
       </div>
-      <span class="zs-bundle__badge" data-zs-tier>UP TO 25% OFF</span>
+      <span class="zs-bundle__badge" data-zs-tier>{{ zs_b_badge | escape }}</span>
     </header>
 
     <div class="zs-bundle__rows">
@@ -181,20 +267,20 @@
       <div class="zs-bundle__picker-shell">
         <header class="zs-bundle__picker-head">
           <div>
-            <p class="zs-bundle__picker-eyebrow">PERSONALIZE YOUR BUNDLE</p>
-            <h3 id="zs-bundle-picker-title-{{ product.id }}" class="zs-bundle__picker-title">Choose your wooden piece</h3>
-            <p class="zs-bundle__picker-subtitle">Browse the ZAISEN collections and replace either suggested piece.</p>
+            <p class="zs-bundle__picker-eyebrow">{{ zs_b_personalize | escape }}</p>
+            <h3 id="zs-bundle-picker-title-{{ product.id }}" class="zs-bundle__picker-title">{{ zs_b_choose | escape }}</h3>
+            <p class="zs-bundle__picker-subtitle">{{ zs_b_subtitle | escape }}</p>
           </div>
-          <button type="button" class="zs-bundle__picker-close" data-zs-picker-close aria-label="Close product picker">×</button>
+          <button type="button" class="zs-bundle__picker-close" data-zs-picker-close aria-label="{{ zs_b_close | escape }}">×</button>
         </header>
         <div class="zs-bundle__picker-tools">
           <label class="zs-bundle__picker-search-wrap">
-            <span class="visually-hidden">Search ZAISEN products</span>
+            <span class="visually-hidden">{{ zs_b_search | escape }}</span>
             <span class="zs-bundle__picker-search-icon" aria-hidden="true">⌕</span>
-            <input data-zs-picker-search type="search" placeholder="Search wooden products…" autocomplete="off">
+            <input data-zs-picker-search type="search" placeholder="{{ zs_b_searchplaceholder | escape }}" autocomplete="off">
           </label>
-          <div class="zs-bundle__picker-tabs" aria-label="Filter products by collection">
-            <button type="button" data-zs-picker-collection="all" aria-pressed="true" class="is-active">All collections</button>
+          <div class="zs-bundle__picker-tabs" aria-label="{{ zs_b_filter | escape }}">
+            <button type="button" data-zs-picker-collection="all" aria-pressed="true" class="is-active">{{ zs_b_all | escape }}</button>
             {% for zs_picker_handle in zs_picker_collection_handles %}
               {% assign zs_picker_collection = collections[zs_picker_handle] %}
               {% if zs_picker_collection != blank %}
@@ -221,7 +307,7 @@
                           data-zs-picker-product-id="{{ zs_picker_product.id }}"
                           data-zs-picker-product-title="{{ zs_picker_product.title | escape }}"
                           data-zs-picker-product-image="{% if zs_picker_product.featured_image %}{{ zs_picker_product.featured_image | image_url: width: 260 | escape }}{% endif %}"
-                          aria-label="Choose {{ zs_picker_product.title | escape }} for your bundle"
+                          aria-label="{{ zs_b_pick | escape }} {{ zs_picker_product.title | escape }}"
                         >
                           <span class="zs-bundle__picker-card-media">
                             {% if zs_picker_product.featured_image %}
@@ -233,10 +319,10 @@
                           <span class="zs-bundle__picker-card-body">
                             <span class="zs-bundle__picker-card-name">{{ zs_picker_product.title | escape }}</span>
                             <span class="zs-bundle__picker-card-price">{{ zs_picker_selected_variant.price | money }}</span>
-                            <span class="zs-bundle__picker-card-action">Choose piece <span aria-hidden="true">↗</span></span>
+                            <span class="zs-bundle__picker-card-action">{{ zs_b_pick | escape }} <span aria-hidden="true">↗</span></span>
                           </span>
                           <template data-zs-picker-variants>
-                            <select aria-label="Choose an option for {{ zs_picker_product.title | escape }}">
+                            <select aria-label="{{ zs_b_options | escape }} {{ zs_picker_product.title | escape }}">
                               {% for zs_picker_variant in zs_picker_product.variants %}
                                 <option value="{{ zs_picker_variant.id }}" data-price="{{ zs_picker_variant.price }}" {% if zs_picker_variant.id == zs_picker_selected_variant.id %}selected{% endif %} {% unless zs_picker_variant.available %}disabled{% endunless %}>{{ zs_picker_variant.title | escape }}</option>
                               {% endfor %}
@@ -250,19 +336,19 @@
               </section>
             {% endif %}
           {% endfor %}
-          <p class="zs-bundle__picker-empty" data-zs-picker-empty hidden>No matching available products. Try another collection or search.</p>
+          <p class="zs-bundle__picker-empty" data-zs-picker-empty hidden>{{ zs_b_nomatch | escape }}</p>
         </div>
-        <footer class="zs-bundle__picker-footer">Your selection updates the bundle instantly. Discounts and shipping are confirmed at checkout.</footer>
+        <footer class="zs-bundle__picker-footer">{{ zs_b_footpicker | escape }}</footer>
       </div>
     </dialog>
 
     <div class="zs-bundle__summary">
-      <div class="zs-bundle__summary-row"><span>Regular total</span><s data-zs-regular-total>—</s></div>
+      <div class="zs-bundle__summary-row"><span>{{ zs_b_regular | escape }}</span><s data-zs-regular-total>—</s></div>
       <div class="zs-bundle__summary-row zs-bundle__summary-row--total">
-        <span>Bundle total</span><strong data-zs-bundle-total>—</strong>
+        <span>{{ zs_b_total | escape }}</span><strong data-zs-bundle-total>—</strong>
       </div>
       <div class="zs-bundle__summary-row zs-bundle__summary-row--save">
-        <span data-zs-tier-description>Choose 1 or 2 matching pieces to save</span><strong data-zs-save-total>—</strong>
+        <span data-zs-tier-description>{{ zs_b_start | escape }}</span><strong data-zs-save-total>—</strong>
       </div>
     </div>
 
