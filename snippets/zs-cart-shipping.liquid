@@ -52,6 +52,28 @@
     prove a free-shipping rate. Final rates are decided at checkout.
   endcomment
   assign zs_shipping_qualified = zs_shipping_usd_qualified
+  case request.locale.iso_code
+    when 'de'
+      assign zs_cs_destination = 'Lieferziel'
+      assign zs_cs_country_aria = 'Lieferland auswählen – wird automatisch aktualisiert'
+      assign zs_cs_apply = 'Lieferland übernehmen'
+      assign zs_cs_progress = 'Fortschritt zum kostenlosen Versand'
+    when 'fr'
+      assign zs_cs_destination = 'Destination de livraison'
+      assign zs_cs_country_aria = 'Choisir le pays de livraison – mise à jour automatique'
+      assign zs_cs_apply = 'Appliquer le pays de livraison'
+      assign zs_cs_progress = 'Progression vers la livraison gratuite'
+    when 'ar'
+      assign zs_cs_destination = 'وجهة الشحن'
+      assign zs_cs_country_aria = 'اختر بلد الشحن – يُحدَّث تلقائيًا'
+      assign zs_cs_apply = 'اعتماد بلد الشحن'
+      assign zs_cs_progress = 'التقدم نحو الشحن المجاني'
+    else
+      assign zs_cs_destination = 'Shipping destination'
+      assign zs_cs_country_aria = 'Shipping country — select to update automatically'
+      assign zs_cs_apply = 'Apply shipping country'
+      assign zs_cs_progress = 'Progress toward free-shipping minimum'
+  endcase
 -%}
 {% if zs_shipping_usd > 0 %}
   <div
@@ -77,8 +99,8 @@
         {% endcase %}
       </span>
       {% form 'localization', id: 'ZsCartCountryForm', class: 'zs-cart-shipping__country-form' %}
-        <label class="visually-hidden" for="ZsCartCountrySelect">Shipping destination</label>
-        <select id="ZsCartCountrySelect" name="country_code" class="zs-cart-shipping__country-select" data-current-country="{{ localization.country.iso_code | escape }}" aria-label="Shipping country — select to update automatically">
+        <label class="visually-hidden" for="ZsCartCountrySelect">{{ zs_cs_destination | escape }}</label>
+        <select id="ZsCartCountrySelect" name="country_code" class="zs-cart-shipping__country-select" data-current-country="{{ localization.country.iso_code | escape }}" aria-label="{{ zs_cs_country_aria | escape }}">
           {% for zs_country in localization.available_countries %}
             {% if zs_country.iso_code == 'GB' or zs_country.iso_code == 'US' or zs_country.iso_code == 'DE' or zs_country.iso_code == 'FR' or zs_country.iso_code == 'AE' or zs_country.iso_code == 'CA' or zs_country.iso_code == 'AU' %}
               <option value="{{ zs_country.iso_code }}" {% if zs_country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ zs_country.name | escape }}</option>
@@ -86,7 +108,7 @@
           {% endfor %}
         </select>
         <noscript>
-        <button type="submit" class="zs-cart-shipping__country-apply" aria-label="Apply shipping country">
+        <button type="submit" class="zs-cart-shipping__country-apply" aria-label="{{ zs_cs_apply | escape }}">
           {% case request.locale.iso_code %}
             {% when 'de' %}Ändern
             {% when 'fr' %}Changer
@@ -120,7 +142,7 @@
     <div
       class="zs-cart-shipping__track"
       role="progressbar"
-      aria-label="Progress toward free-shipping minimum"
+      aria-label="{{ zs_cs_progress | escape }}"
       aria-valuemin="0"
       aria-valuemax="100"
       aria-valuenow="0"
