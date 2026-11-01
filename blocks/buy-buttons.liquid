@@ -267,6 +267,9 @@
         {%- endif -%}
       {%- endform -%}
     </product-form-component>
+    {% if request.page_type == 'product' %}
+      {% render 'zs-trust-invite' %}
+    {% endif %}
   {%- else -%}
     <div class="product-form-buttons">
       <button
