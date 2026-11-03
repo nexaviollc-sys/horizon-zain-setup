@@ -166,6 +166,15 @@
         {%- if s.description != blank -%}
           <p class="zs-pf__brand-description">{{ s.description | escape }}</p>
         {%- endif -%}
+        <nav class="zs-pf__brand-social" aria-label="Official ZAISEN social profiles">
+          <p class="zs-pf__brand-social-title">Follow ZAISEN</p>
+          <div class="zs-pf__brand-social-links">
+            {%- if zs_pf_instagram != blank -%}<a href="{{ zs_pf_instagram | escape }}" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>{%- endif -%}
+            {%- if zs_pf_facebook != blank -%}<a href="{{ zs_pf_facebook | escape }}" target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>{%- endif -%}
+            {%- if zs_pf_pinterest != blank -%}<a href="{{ zs_pf_pinterest | escape }}" target="_blank" rel="noopener noreferrer">Pinterest <span aria-hidden="true">↗</span></a>{%- endif -%}
+            {%- if zs_pf_etsy != blank -%}<a href="{{ zs_pf_etsy | escape }}" target="_blank" rel="noopener noreferrer">Etsy <span aria-hidden="true">↗</span></a>{%- endif -%}
+          </div>
+        </nav>
       </div>
       <nav class="zs-pf__desktop-nav" aria-label="{{ s.shop_heading | escape }}">
         <h2 class="zs-pf__nav-title">{{ s.shop_heading | escape }}</h2>
@@ -284,6 +293,14 @@ footer .zs-pf__logo{display:block;width:auto;height:auto;max-width:min(80px,100%
 footer .zs-pf__wordmark{font-family:Georgia,'Times New Roman',serif;font-size:clamp(36px,3.1vw,49px);letter-spacing:.115em;font-weight:500;line-height:1;color:var(--zs-pf-ink,#F7F3EE)}
 footer .zs-pf__tagline{margin:13px 0 0;color:var(--zs-pf-accent,#D8B56A)!important;font-size:10px;letter-spacing:.185em;font-weight:700;text-transform:uppercase}
 footer .zs-pf__brand-description{margin:17px 0 0;max-width:39ch;font-size:13px;line-height:1.85;color:var(--zs-pf-muted,#D3C6B8)!important}
+footer .zs-pf__brand-social{margin-top:22px}
+footer .zs-pf__brand-social-title{margin:0 0 10px;color:var(--zs-pf-accent,#D8B56A)!important;font-size:10px;line-height:1.4;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+footer .zs-pf__brand-social-links{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+footer .zs-pf__brand-social-links a{display:inline-flex;align-items:center;gap:5px;min-height:35px;padding:7px 10px;border:1px solid rgba(216,181,106,.29);border-radius:6px;color:var(--zs-pf-ink,#F7F3EE)!important;text-decoration:none;font-size:11px;font-weight:600;line-height:1.35;transition:background .2s ease,border-color .2s ease}
+footer .zs-pf__brand-social-links a span{color:var(--zs-pf-accent,#D8B56A)}
+footer .zs-pf__brand-social-links a:hover{border-color:var(--zs-pf-accent,#D8B56A);background:rgba(216,181,106,.11)}
+@media(max-width:749px){footer .zs-pf__brand-social{margin-top:17px}footer .zs-pf__brand-social-links a{min-height:34px}}
+@media(prefers-reduced-motion:reduce){footer .zs-pf__brand-social-links a{transition:none}}
 footer .zs-pf__nav-title{font-family:inherit!important;color:var(--zs-pf-accent,#D8B56A)!important;margin:5px 0 21px;font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}
 footer .zs-pf__link-list{list-style:none;padding:0;margin:0;display:grid;gap:13px}
 footer .zs-pf__link-list li{margin:0;padding:0;line-height:1.4}
