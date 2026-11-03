@@ -22,6 +22,7 @@
       assign zs_pfhome = 'Wohnaccessoires aus Holz'
       assign zs_pfkitchen = 'Küche & Esszimmer'
       assign zs_pflighting = 'Lampen & Beleuchtung'
+      assign zs_pfstatues = 'Handgefertigte Holzstatuen'
       assign zs_pfcollections = 'Alle Kollektionen'
       assign zs_pfcontact = 'Kontakt'
       assign zs_pfstory = 'Unsere Geschichte'
@@ -45,6 +46,7 @@
       assign zs_pfhome = 'Décoration intérieure en bois'
       assign zs_pfkitchen = 'Cuisine et art de la table'
       assign zs_pflighting = 'Lampes et luminaires'
+      assign zs_pfstatues = 'Statues artisanales en bois'
       assign zs_pfcollections = 'Toutes les collections'
       assign zs_pfcontact = 'Nous contacter'
       assign zs_pfstory = 'Notre histoire'
@@ -68,6 +70,7 @@
       assign zs_pfhome = 'ديكور منزلي خشبي'
       assign zs_pfkitchen = 'المطبخ والمائدة'
       assign zs_pflighting = 'المصابيح والإضاءة'
+      assign zs_pfstatues = 'تماثيل خشبية يدوية الصنع'
       assign zs_pfcollections = 'جميع المجموعات'
       assign zs_pfcontact = 'اتصل بنا'
       assign zs_pfstory = 'قصتنا'
@@ -91,6 +94,7 @@
       assign zs_pfhome = 'Wooden Home Decor'
       assign zs_pfkitchen = 'Kitchen & Dining'
       assign zs_pflighting = 'Lamps & Lighting'
+      assign zs_pfstatues = 'Wooden Statues'
       assign zs_pfcollections = 'All Collections'
       assign zs_pfcontact = 'Contact Us'
       assign zs_pfstory = 'Our Story'
@@ -121,6 +125,7 @@
     <li><a href="{{ collections['home-decor'].url | default: '/collections/home-decor' }}">{{ zs_pfhome | escape }}</a></li>
     <li><a href="{{ collections['kitchen-dining'].url | default: '/collections/kitchen-dining' }}">{{ zs_pfkitchen | escape }}</a></li>
     <li><a href="{{ collections['lighting'].url | default: '/collections/lighting' }}">{{ zs_pflighting | escape }}</a></li>
+    <li><a href="{{ collections['handcrafted-wooden-statues'].url | default: '/collections/handcrafted-wooden-statues' }}">{{ zs_pfstatues | escape }}</a></li>
     <li><a href="{{ routes.collections_url }}">{{ zs_pfcollections | escape }}</a></li>
   {%- endif -%}
 {%- endcapture -%}
@@ -169,10 +174,30 @@
         <nav class="zs-pf__brand-social" aria-label="Official ZAISEN social profiles">
           <p class="zs-pf__brand-social-title">Follow ZAISEN</p>
           <div class="zs-pf__brand-social-links">
-            {%- if zs_pf_instagram != blank -%}<a href="{{ zs_pf_instagram | escape }}" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>{%- endif -%}
-            {%- if zs_pf_facebook != blank -%}<a href="{{ zs_pf_facebook | escape }}" target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>{%- endif -%}
-            {%- if zs_pf_pinterest != blank -%}<a href="{{ zs_pf_pinterest | escape }}" target="_blank" rel="noopener noreferrer">Pinterest <span aria-hidden="true">↗</span></a>{%- endif -%}
-            {%- if zs_pf_etsy != blank -%}<a href="{{ zs_pf_etsy | escape }}" target="_blank" rel="noopener noreferrer">Etsy <span aria-hidden="true">↗</span></a>{%- endif -%}
+            {%- if zs_pf_instagram != blank -%}
+              <a href="{{ zs_pf_instagram | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN on Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.7" cy="6.5" r=".95" fill="currentColor" stroke="none"/></svg>
+                <span>Instagram</span>
+              </a>
+            {%- endif -%}
+            {%- if zs_pf_facebook != blank -%}
+              <a href="{{ zs_pf_facebook | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN on Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M13.8 21v-8.1h2.7l.4-3.2h-3.1v-2c0-.9.3-1.6 1.6-1.6H17V3.3c-.3-.1-1.2-.3-2.5-.3-2.5 0-4.2 1.5-4.2 4.3v2.4H7.5v3.2h2.8V21z"/></svg>
+                <span>Facebook</span>
+              </a>
+            {%- endif -%}
+            {%- if zs_pf_pinterest != blank -%}
+              <a href="{{ zs_pf_pinterest | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN on Pinterest">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 19 11 9.6c.2-.8.8-1.3 1.6-1.3 1.4 0 2.2 1 2.2 2.3 0 1.6-1.1 2.7-2.5 2.7-.8 0-1.5-.4-1.9-1.1"/><path d="M8 10.4a4.5 4.5 0 0 1 8.5-1.8"/></svg>
+                <span>Pinterest</span>
+              </a>
+            {%- endif -%}
+            {%- if zs_pf_etsy != blank -%}
+              <a href="{{ zs_pf_etsy | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN on Etsy">
+                <span class="zs-pf__brand-social-etsy" aria-hidden="true">E</span>
+                <span>Etsy</span>
+              </a>
+            {%- endif -%}
           </div>
         </nav>
       </div>
@@ -297,7 +322,8 @@ footer .zs-pf__brand-social{margin-top:22px}
 footer .zs-pf__brand-social-title{margin:0 0 10px;color:var(--zs-pf-accent,#D8B56A)!important;font-size:10px;line-height:1.4;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
 footer .zs-pf__brand-social-links{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
 footer .zs-pf__brand-social-links a{display:inline-flex;align-items:center;gap:5px;min-height:35px;padding:7px 10px;border:1px solid rgba(216,181,106,.29);border-radius:6px;color:var(--zs-pf-ink,#F7F3EE)!important;text-decoration:none;font-size:11px;font-weight:600;line-height:1.35;transition:background .2s ease,border-color .2s ease}
-footer .zs-pf__brand-social-links a span{color:var(--zs-pf-accent,#D8B56A)}
+footer .zs-pf__brand-social-links a svg{display:block;width:16px;height:16px;flex:0 0 16px;color:var(--zs-pf-accent,#D8B56A)}
+footer .zs-pf__brand-social-links .zs-pf__brand-social-etsy{display:inline-grid;place-items:center;width:16px;height:16px;flex:0 0 16px;color:var(--zs-pf-accent,#D8B56A);font:700 16px/1 Georgia,serif}
 footer .zs-pf__brand-social-links a:hover{border-color:var(--zs-pf-accent,#D8B56A);background:rgba(216,181,106,.11)}
 @media(max-width:749px){footer .zs-pf__brand-social{margin-top:17px}footer .zs-pf__brand-social-links a{min-height:34px}}
 @media(prefers-reduced-motion:reduce){footer .zs-pf__brand-social-links a{transition:none}}
