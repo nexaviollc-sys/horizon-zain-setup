@@ -11,6 +11,7 @@
     when 'de'
       assign zs_c_email = 'ZAISEN per E-Mail kontaktieren'
       assign zs_c_call = 'ZAISEN anrufen'
+      assign zs_c_follow = 'Folgen Sie ZAISEN'
       assign zs_c_channels = 'ZAISEN kontaktieren'
       assign zs_c_received = 'Nachricht erhalten.'
       assign zs_c_success = 'Vielen Dank für Ihre Nachricht an ZAISEN. Wir melden uns so bald wie möglich.'
@@ -32,6 +33,7 @@
     when 'fr'
       assign zs_c_email = 'Envoyer un e-mail à ZAISEN'
       assign zs_c_call = 'Appeler ZAISEN'
+      assign zs_c_follow = 'Suivez ZAISEN'
       assign zs_c_channels = 'Contacter ZAISEN'
       assign zs_c_received = 'Message reçu.'
       assign zs_c_success = 'Merci d’avoir contacté ZAISEN. Nous vous répondrons dès que possible.'
@@ -53,6 +55,7 @@
     when 'ar'
       assign zs_c_email = 'راسل زايسن بالبريد الإلكتروني'
       assign zs_c_call = 'اتصل بزايسن'
+      assign zs_c_follow = 'تابع زايسن'
       assign zs_c_channels = 'التواصل مع زايسن'
       assign zs_c_received = 'تم استلام الرسالة.'
       assign zs_c_success = 'شكرًا لتواصلك مع زايسن. سنرد عليك في أقرب وقت ممكن.'
@@ -74,6 +77,7 @@
     else
       assign zs_c_email = 'Email ZAISEN'
       assign zs_c_call = 'Call ZAISEN'
+      assign zs_c_follow = 'Follow ZAISEN'
       assign zs_c_channels = 'Contact ZAISEN'
       assign zs_c_received = 'Message received.'
       assign zs_c_success = 'Thank you for contacting ZAISEN. We’ll get back to you as soon as possible.'
@@ -155,6 +159,16 @@
           </div>
         {% endif %}
       </div>
+
+      <nav class="zs-contact__social" aria-label="{{ zs_c_follow | escape }}">
+        <p class="zs-contact__social-heading">{{ zs_c_follow | escape }}</p>
+        <div class="zs-contact__social-list">
+          <a href="https://www.instagram.com/zaisenstore/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+          <a href="https://www.facebook.com/profile.php?id=61593712630202" target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a>
+          <a href="https://www.pinterest.com/zaisenstore/" target="_blank" rel="noopener noreferrer">Pinterest <span aria-hidden="true">↗</span></a>
+          <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer">Etsy <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
 
       <a class="zs-contact__etsy-proof" href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer" aria-label="{{ zs_c_etsy_action | escape }}">
         <span class="zs-contact__etsy-top">
@@ -314,6 +328,16 @@
 }
 .zs-contact__contact-link:hover{color:#9B6F48}
 .zs-contact__contact-link:hover svg{transform:translate(2px,-2px)}
+/* Compact official social profiles, styled to match ZAISEN's contact page. */
+.zs-contact__social{margin-top:22px}
+.zs-contact__social-heading{margin:0 0 11px;color:#937C6A;font-size:10px;font-weight:650;letter-spacing:.13em;line-height:1.5;text-transform:uppercase}
+.zs-contact__social-list{display:flex;flex-wrap:wrap;gap:8px}
+.zs-contact__social-list a{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;min-height:40px;border:1px solid #E5DBD1;border-radius:8px;background:#FBF8F4;color:var(--zs-text,#2B1D17);text-decoration:none;font-size:12px;font-weight:600;line-height:1.4;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.zs-contact__social-list a span{font-size:13px;color:#987451}
+.zs-contact__social-list a:hover{border-color:#BFA487;background:#F3EAE0;transform:translateY(-1px)}
+.zs-contact__social-list a:focus-visible{outline:2px solid var(--zs-accent,#D8B56A);outline-offset:3px}
+@media(max-width:749px){.zs-contact__social{margin-top:17px}.zs-contact__social-list{gap:7px}.zs-contact__social-list a{padding:9px 12px;font-size:11.5px;min-height:38px}}
+@media(prefers-reduced-motion:reduce){.zs-contact__social-list a{transition:none}}
 /* ZAISEN public Etsy customer-review link — compact, accessible, no aggregate rating claim */
 .zs-contact__etsy-proof{
   display:block;position:relative;isolation:isolate;margin-top:clamp(25px,3vw,38px);
