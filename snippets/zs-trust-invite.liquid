@@ -3,4 +3,6 @@ ZAISEN product-page Etsy customer review trust card.
 The whole compact card links directly to the official Etsy storefront.
 No product-specific or shop-wide aggregate rating is claimed.
 {% endcomment %}
-{% render 'zs-etsy-proof', variant: 'compact' %}
+{% if request.page_type == 'product' %}
+  {% render 'zs-etsy-proof', variant: 'compact' %}
+{% endif %}
