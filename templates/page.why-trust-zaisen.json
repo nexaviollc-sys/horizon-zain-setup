@@ -12,7 +12,7 @@
     "zs_trust_page": {
       "type": "zs-trust-page",
       "settings": {
-        "instagram_url": "",
+        "instagram_url": "https://www.instagram.com/zaisenstore/",
         "facebook_url": "https://www.facebook.com/profile.php?id=61593712630202",
         "pinterest_url": "https://www.pinterest.com/zaisenstore/"
       }
