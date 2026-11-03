@@ -223,14 +223,20 @@
     </nav>
 
     <header class="zs-about__hero">
-      <div class="zs-about__hero-crest"><span class="zs-about__crest-rule"></span>{{ zs_sA002 | escape }}<span class="zs-about__crest-rule"></span></div>
-      <p class="zs-about__overline">{{ zs_sA003 | escape }}</p>
-      <h1 id="zs-about-heading-{{ section.id }}">{{ zs_sA004 | escape }}<br><em>{{ zs_sA005 | escape }}</em></h1>
-      <p class="zs-about__hero-lead">{{ zs_sA006 | escape }}</p>
-      <p class="zs-about__hero-secondary">{{ zs_sA007 | escape }}</p>
-      <div class="zs-about__hero-actions">
-        <a class="zs-about__button zs-about__button--primary" href="#zs-about-workshop-{{ section.id }}">{{ zs_sA008 | escape }}<span aria-hidden="true">↘</span></a>
-        <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">{{ zs_sA009 | escape }}<span aria-hidden="true">↗</span></a>
+      <div class="zs-about__hero-head">
+        <div class="zs-about__hero-heading">
+          <div class="zs-about__hero-crest"><span class="zs-about__crest-rule"></span>{{ zs_sA002 | escape }}<span class="zs-about__crest-rule"></span></div>
+          <p class="zs-about__overline">{{ zs_sA003 | escape }}</p>
+          <h1 id="zs-about-heading-{{ section.id }}">{{ zs_sA004 | escape }}<br><em>{{ zs_sA005 | escape }}</em></h1>
+        </div>
+        <div class="zs-about__hero-body">
+          <p class="zs-about__hero-lead">{{ zs_sA006 | escape }}</p>
+          <p class="zs-about__hero-secondary">{{ zs_sA007 | escape }}</p>
+          <div class="zs-about__hero-actions">
+            <a class="zs-about__button zs-about__button--primary" href="#zs-about-workshop-{{ section.id }}">{{ zs_sA008 | escape }}<span aria-hidden="true">↘</span></a>
+            <a class="zs-about__button zs-about__button--outline" href="{{ routes.root_url }}pages/contact">{{ zs_sA009 | escape }}<span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
       </div>
       {% comment %}Authentic products from ZAISEN's catalog. Not portrayed as workshop documentation.{% endcomment %}
       <div class="zs-about__product-gallery" aria-label="{{ zs_attr1 | escape }}">
@@ -664,27 +670,27 @@
     </div>
 
     <footer class="zs-about__closing">
-      <span class="zs-about__closing-art zs-about__closing-art--left" aria-hidden="true"></span>
-      <span class="zs-about__closing-art zs-about__closing-art--right" aria-hidden="true"></span>
       <div class="zs-about__closing-inner">
-        <div class="zs-about__closing-kicker"><span></span>{{ zs_sC030 | escape }}<span></span></div>
-        <h2>{{ zs_sC031 | escape }}<br><em>{{ zs_sC032 | escape }}</em></h2>
-        <p class="zs-about__closing-lead">{{ zs_sC033 | escape }}</p>
+        <div class="zs-about__closing-content">
+          <div class="zs-about__closing-kicker"><span></span>{{ zs_sC030 | escape }}</div>
+          <h2>{{ zs_sC031 | escape }}<br><em>{{ zs_sC032 | escape }}</em></h2>
+          <p class="zs-about__closing-lead">{{ zs_sC033 | escape }}</p>
+          <div class="zs-about__closing-note">
+            <p>{{ zs_sC035 | escape }}</p>
+            <p>{{ zs_sC036 | escape }}</p>
+            <span class="zs-about__closing-signature">{{ zs_sC037 | escape }} <strong>{{ zs_sC038 | escape }}</strong></span>
+          </div>
+          <div class="zs-about__closing-actions">
+            <a class="zs-about__button zs-about__button--light" href="{{ routes.root_url }}collections/all">{{ zs_sC039 | escape }}<span aria-hidden="true">↗</span></a>
+            <a class="zs-about__button zs-about__button--ghost" href="{{ routes.root_url }}pages/contact">{{ zs_sC040 | escape }}<span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
         {% if zs_story_ship.featured_image != blank %}
           <a href="{{ zs_story_ship.url }}" class="zs-about__closing-product" aria-label="{{ zs_attr11 | escape }}">
-            {{ zs_story_ship.featured_image | image_url: width: 1000, format: 'webp' | image_tag: class: 'zs-about__closing-photo', loading: 'lazy', widths: '360,600,800,1000', sizes: '(min-width: 850px) 520px, 85vw', alt: zs_attr18 }}
+            {{ zs_story_ship.featured_image | image_url: width: 1000, format: 'webp' | image_tag: class: 'zs-about__closing-photo', loading: 'lazy', widths: '360,600,800,1000', sizes: '(min-width: 850px) 38vw, 85vw', alt: zs_attr18 }}
             <span>{{ zs_sC034 | escape }}<span aria-hidden="true">↗</span></span>
           </a>
         {% endif %}
-        <div class="zs-about__closing-note">
-          <p>{{ zs_sC035 | escape }}</p>
-          <p>{{ zs_sC036 | escape }}</p>
-          <span class="zs-about__closing-signature">{{ zs_sC037 | escape }} <strong>{{ zs_sC038 | escape }}</strong></span>
-        </div>
-        <div class="zs-about__closing-actions">
-          <a class="zs-about__button zs-about__button--light" href="{{ routes.root_url }}collections/all">{{ zs_sC039 | escape }}<span aria-hidden="true">↗</span></a>
-          <a class="zs-about__button zs-about__button--ghost" href="{{ routes.root_url }}pages/contact">{{ zs_sC040 | escape }}<span aria-hidden="true">↗</span></a>
-        </div>
         <div class="zs-about__closing-bottom"><span>{{ zs_sC041 | escape }}</span><span aria-hidden="true">✦</span><span>{{ zs_sC042 | escape }}</span></div>
       </div>
     </footer>
@@ -1130,6 +1136,78 @@
     #zs-about-{{ section.id }} .zs-about__craft-photo,
     #zs-about-{{ section.id }} .zs-about__closing-photo{transition:none;}
   }
+
+  /* ZAISEN 2026 story editorial: light surfaces, crafted details and intentional composition. */
+  #zs-about-{{ section.id }} .zs-about__hero{padding:clamp(34px,4.8vw,66px) clamp(22px,4.6vw,64px) 0;background:#fbf9f5!important;color:#30231d;border:1px solid #e7dcd0;border-radius:15px;box-shadow:none;overflow:hidden}
+  #zs-about-{{ section.id }} .zs-about__hero:after{display:none}
+  #zs-about-{{ section.id }} .zs-about__hero-head{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:end;gap:clamp(24px,5.4vw,78px);max-width:1100px;margin:0 auto clamp(27px,3.5vw,45px)}
+  #zs-about-{{ section.id }} .zs-about__hero-heading,#zs-about-{{ section.id }} .zs-about__hero-body{min-width:0}
+  #zs-about-{{ section.id }} .zs-about__hero-crest{justify-content:flex-start;text-align:start;color:#92724e;opacity:1;margin:0 0 18px;font-size:9px;letter-spacing:.16em}
+  #zs-about-{{ section.id }} .zs-about__crest-rule{background:#c5a47b;width:25px}
+  #zs-about-{{ section.id }} .zs-about__overline{text-align:start;color:#9a7956;font-size:10px;letter-spacing:.16em}
+  #zs-about-{{ section.id }} .zs-about__hero h1{text-align:start;font-size:clamp(46px,5.4vw,76px);line-height:1.05;letter-spacing:-.048em;max-width:640px;margin:17px 0 0;color:#30231d}
+  #zs-about-{{ section.id }} .zs-about__hero h1 em{color:#9b714e}
+  #zs-about-{{ section.id }} .zs-about__hero-body{padding-inline-start:clamp(19px,3vw,38px);border-inline-start:1px solid #e0d5c8}
+  #zs-about-{{ section.id }} .zs-about__hero-lead,#zs-about-{{ section.id }} .zs-about__hero-secondary{text-align:start;max-width:490px;margin:0;color:#685649}
+  #zs-about-{{ section.id }} .zs-about__hero-lead{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(19px,2vw,25px);line-height:1.45;color:#523a2a}
+  #zs-about-{{ section.id }} .zs-about__hero-secondary{font-size:14px;line-height:1.72;color:#807062;margin-top:12px}
+  #zs-about-{{ section.id }} .zs-about__hero-actions{justify-content:flex-start;gap:10px;margin:22px 0 0}
+  #zs-about-{{ section.id }} .zs-about__hero .zs-about__button--primary{background:#38291f;color:#fff8f0!important;border:1px solid #38291f}
+  #zs-about-{{ section.id }} .zs-about__hero .zs-about__button--outline{color:#604934!important;border:1px solid #ccbbaa;background:transparent}
+  #zs-about-{{ section.id }} .zs-about__hero .zs-about__button{min-height:44px;padding:11px 17px;border-radius:8px;font-size:12px}
+  #zs-about-{{ section.id }} .zs-about__product-gallery{max-width:1100px;gap:11px}
+  #zs-about-{{ section.id }} .zs-about__product-gallery-tile{background:#f0e7dc;border:1px solid #e3d6c7;border-radius:10px}
+  #zs-about-{{ section.id }} .zs-about__product-gallery-note{color:#89786a;font-size:11px;margin:12px auto 17px}
+  #zs-about-{{ section.id }} .zs-about__hero-strip{background:#f5f0e9;border-top:1px solid #e7dccf;color:#715d4e;border-radius:0 0 10px 10px;gap:16px;padding:17px 12px;margin-top:16px;font-size:11px}
+  #zs-about-{{ section.id }} .zs-about__hero-strip b{color:#aa7c4b;font-size:15px}
+  /* Closing: a product-led editorial split, not a dark promotional billboard. */
+  #zs-about-{{ section.id }} .zs-about__closing{background:#f5f0e9!important;color:#30231d;border:1px solid #e5d8c9;border-radius:15px;padding:clamp(33px,5vw,68px) clamp(22px,5vw,70px) 22px;box-shadow:none;text-align:start}
+  #zs-about-{{ section.id }} .zs-about__closing-art{display:none}
+  #zs-about-{{ section.id }} .zs-about__closing-inner{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(260px,.93fr);align-items:center;column-gap:clamp(26px,4.8vw,68px);row-gap:clamp(20px,2.5vw,30px);max-width:1120px;margin:0 auto}
+  #zs-about-{{ section.id }} .zs-about__closing-content{min-width:0}
+  #zs-about-{{ section.id }} .zs-about__closing-kicker{justify-content:flex-start;color:#997550;letter-spacing:.16em;font-size:10px}
+  #zs-about-{{ section.id }} .zs-about__closing-kicker span{background:#b99874;width:27px}
+  #zs-about-{{ section.id }} .zs-about__closing h2{font-size:clamp(42px,4.9vw,70px);line-height:1.07;text-align:start;color:#32241d;margin:14px 0 21px;letter-spacing:-.045em}
+  #zs-about-{{ section.id }} .zs-about__closing h2 em{color:#9d714e}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-lead{margin:0 0 16px;max-width:535px;text-align:start;color:#6f5a49;font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(18px,1.7vw,23px);line-height:1.4}
+  #zs-about-{{ section.id }} .zs-about__closing-note{max-width:none;background:transparent;border:0;border-radius:0;padding:0;margin:0}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-note p{margin:0 0 10px;color:#77685b;font-size:13px;line-height:1.65;text-align:start}
+  #zs-about-{{ section.id }} .zs-about__closing-signature{margin-top:13px;color:#8e6748;font-size:16px}
+  #zs-about-{{ section.id }} .zs-about__closing-actions{justify-content:flex-start;gap:10px;margin:22px 0 0;align-items:center}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__button{min-height:44px;padding:11px 17px;border-radius:8px;font-size:12px}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__button--light{background:#38281f;color:#fff9f0!important;border:1px solid #38281f}
+  #zs-about-{{ section.id }} .zs-about__closing .zs-about__button--ghost{background:transparent;color:#604934!important;border:1px solid #cbb8a3}
+  #zs-about-{{ section.id }} .zs-about__closing-product{max-width:460px;width:100%;aspect-ratio:1/1;margin:0 auto;background:#eadfd2;border:1px solid #dccdbb;border-radius:12px;box-shadow:0 12px 24px rgba(48,34,23,.06)}
+  #zs-about-{{ section.id }} .zs-about__closing-bottom{grid-column:1/-1;width:100%;border-top:1px solid #e0d3c5;color:#897668;padding-top:17px;gap:12px;letter-spacing:.10em;font-size:10px;text-align:center}
+  @media(max-width:840px){
+    #zs-about-{{ section.id }} .zs-about__hero-head{gap:25px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    #zs-about-{{ section.id }} .zs-about__hero h1{font-size:clamp(43px,6vw,62px)}
+    #zs-about-{{ section.id }} .zs-about__closing-inner{grid-template-columns:minmax(0,1fr) minmax(230px,.8fr);gap:24px}
+    #zs-about-{{ section.id }} .zs-about__closing h2{font-size:clamp(40px,5.6vw,54px)}
+  }
+  @media(max-width:700px){
+    #zs-about-{{ section.id }} .zs-about__hero{padding:31px 19px 0;border-radius:12px}
+    #zs-about-{{ section.id }} .zs-about__hero-head{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:27px}
+    #zs-about-{{ section.id }} .zs-about__hero-crest{margin-bottom:14px;font-size:9px}
+    #zs-about-{{ section.id }} .zs-about__hero h1{font-size:clamp(44px,11vw,61px);margin-top:12px}
+    #zs-about-{{ section.id }} .zs-about__hero-body{padding-inline-start:0;border-inline-start:0}
+    #zs-about-{{ section.id }} .zs-about__hero-lead{font-size:20px}
+    #zs-about-{{ section.id }} .zs-about__hero-secondary{font-size:13px}
+    #zs-about-{{ section.id }} .zs-about__hero-actions{margin:21px 0 0}
+    #zs-about-{{ section.id }} .zs-about__hero-strip{flex-direction:column;align-items:flex-start;gap:8px;margin-top:15px}
+    #zs-about-{{ section.id }} .zs-about__closing{padding:35px 21px 20px;border-radius:12px}
+    #zs-about-{{ section.id }} .zs-about__closing-inner{grid-template-columns:1fr;gap:24px}
+    #zs-about-{{ section.id }} .zs-about__closing h2{font-size:clamp(40px,9vw,56px)}
+    #zs-about-{{ section.id }} .zs-about__closing .zs-about__closing-lead{font-size:19px}
+    #zs-about-{{ section.id }} .zs-about__closing-product{max-width:420px}
+    #zs-about-{{ section.id }} .zs-about__closing-bottom{margin-top:0;justify-content:center}
+  }
+  @media(max-width:390px){
+    #zs-about-{{ section.id }} .zs-about__hero .zs-about__button,
+    #zs-about-{{ section.id }} .zs-about__closing .zs-about__button{padding:11px 13px;font-size:11px}
+    #zs-about-{{ section.id }} .zs-about__closing h2{font-size:40px}
+  }
+
 </style>
 
 {% schema %}
