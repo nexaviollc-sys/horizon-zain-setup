@@ -1,0 +1,94 @@
+{%- comment -%}
+  ZAISEN unified Etsy review proof. The stars refer to one real customer
+  review, never an aggregate shop rating. Entire card opens the official
+  public Etsy storefront. 'compact' is used beside product buy controls.
+{%- endcomment -%}
+{%- liquid
+  assign zs_ep_variant = variant | default: 'standard'
+  case request.locale.iso_code
+    when 'de'
+      assign zs_ep_eyebrow = 'KUNDENSTIMME AUF ETSY'
+      assign zs_ep_title = 'Eine 5-Sterne-Kundenbewertung'
+      assign zs_ep_copy = 'Lesen Sie das echte Kundenfeedback direkt in unserem offiziellen Etsy-Shop.'
+      assign zs_ep_action = 'Bewertung auf Etsy ansehen'
+      assign zs_ep_small = 'Eine 5-Sterne-Bewertung auf Etsy'
+      assign zs_ep_small_copy = 'Direkt in unserem Etsy-Shop lesen'
+    when 'fr'
+      assign zs_ep_eyebrow = 'AVIS CLIENT SUR ETSY'
+      assign zs_ep_title = 'Un avis client 5 étoiles'
+      assign zs_ep_copy = 'Découvrez le retour d’un client directement sur notre boutique Etsy officielle.'
+      assign zs_ep_action = 'Voir l’avis sur Etsy'
+      assign zs_ep_small = 'Un avis client 5 étoiles sur Etsy'
+      assign zs_ep_small_copy = 'À consulter sur notre boutique Etsy'
+    when 'ar'
+      assign zs_ep_eyebrow = 'تجربة عميل على إتسي'
+      assign zs_ep_title = 'تقييم عميل بخمس نجوم'
+      assign zs_ep_copy = 'اطّلع على التقييم الحقيقي مباشرةً في متجر زايسن الرسمي على إتسي.'
+      assign zs_ep_action = 'عرض التقييم على إتسي'
+      assign zs_ep_small = 'تقييم عميل بخمس نجوم على إتسي'
+      assign zs_ep_small_copy = 'اقرأه مباشرةً في متجرنا على إتسي'
+    else
+      assign zs_ep_eyebrow = 'CUSTOMER FEEDBACK ON ETSY'
+      assign zs_ep_title = 'A customer’s 5-star review'
+      assign zs_ep_copy = 'Read real customer feedback directly on our official Etsy shop.'
+      assign zs_ep_action = 'Read the review on Etsy'
+      assign zs_ep_small = 'A 5-star customer review on Etsy'
+      assign zs_ep_small_copy = 'Read it on our official Etsy shop'
+  endcase
+-%}
+<a class="zs-etsy-proof zs-etsy-proof--{{ zs_ep_variant | escape }}"
+  href="https://www.etsy.com/shop/ZAISEN"
+  target="_blank" rel="noopener noreferrer"
+  aria-label="{{ zs_ep_action | escape }}"
+  dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
+  {%- if zs_ep_variant == 'compact' -%}
+    <span class="zs-etsy-proof__compact-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 14.8 8.6l6.4.9-4.6 4.5 1.1 6.4L12 17.4l-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 2.8Z"/></svg>
+    </span>
+    <span class="zs-etsy-proof__compact-copy">
+      <strong>{{ zs_ep_small | escape }}</strong>
+      <small>{{ zs_ep_small_copy | escape }}</small>
+    </span>
+    <span class="zs-etsy-proof__compact-end" aria-hidden="true">↗</span>
+  {%- else -%}
+    <span class="zs-etsy-proof__header">
+      <span class="zs-etsy-proof__eyebrow">{{ zs_ep_eyebrow | escape }}</span>
+      <span class="zs-etsy-proof__platform" aria-hidden="true">Etsy <span>↗</span></span>
+    </span>
+    <span class="zs-etsy-proof__stars" aria-hidden="true">★★★★★</span>
+    <strong class="zs-etsy-proof__title">{{ zs_ep_title | escape }}</strong>
+    <span class="zs-etsy-proof__copy">{{ zs_ep_copy | escape }}</span>
+    <span class="zs-etsy-proof__bottom">
+      <span class="zs-etsy-proof__action">{{ zs_ep_action | escape }}</span>
+      <span class="zs-etsy-proof__arrow" aria-hidden="true">↗</span>
+    </span>
+  {%- endif -%}
+</a>
+<style>
+/* Unified ZAISEN Etsy cards: editorial ivory, walnut ink and restrained brass. */
+a.zs-etsy-proof{--zep-walnut:#30231d;--zep-soft:#76695d;--zep-brass:#a77f4f;display:flex;flex-direction:column;box-sizing:border-box;position:relative;isolation:isolate;width:100%;min-width:0;min-height:0;padding:22px 24px 20px;background:#fbf9f5!important;border:1px solid #e4d8ca;border-radius:12px;box-shadow:0 4px 18px rgba(48,35,29,.035);color:var(--zep-walnut)!important;text-decoration:none!important;text-align:start;overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+a.zs-etsy-proof::before{content:"";position:absolute;inset-inline-start:0;top:17px;bottom:17px;width:2px;border-radius:2px;background:#c4a575;opacity:.8}
+a.zs-etsy-proof:hover{border-color:#cbb69e;box-shadow:0 9px 25px rgba(48,35,29,.075);transform:translateY(-2px);color:var(--zep-walnut)!important}
+a.zs-etsy-proof:focus-visible{outline:2px solid #9e7744;outline-offset:4px}
+.zs-etsy-proof *{box-sizing:border-box}
+.zs-etsy-proof__header{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.zs-etsy-proof__eyebrow{font-family:inherit;font-size:9px;line-height:1.4;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#896e4d}
+.zs-etsy-proof__platform{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:4px 9px;background:#f5efe7;border:1px solid #ebe0d2;border-radius:6px;font:italic 600 15px/1.2 Georgia,serif;letter-spacing:-.025em;color:#533a2a}
+.zs-etsy-proof__platform span{font:normal 12px/1 sans-serif;color:#9c7950}
+.zs-etsy-proof__stars{margin-top:18px;display:block;font-size:16px;line-height:1.1;letter-spacing:.16em;color:#aa854f;white-space:nowrap}
+.zs-etsy-proof__title{display:block;margin-top:10px;font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(20px,1.85vw,27px);line-height:1.2;letter-spacing:-.02em;font-weight:500;color:#30231d!important}
+.zs-etsy-proof__copy{display:block;margin-top:7px;font:400 13px/1.65 var(--font-body--family,Arial,sans-serif);color:#74665b!important;max-width:53ch}
+.zs-etsy-proof__bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:19px;padding-top:15px;border-top:1px solid #eae0d5}
+.zs-etsy-proof__action{font:650 12px/1.4 var(--font-body--family,Arial,sans-serif);color:#523824!important}
+.zs-etsy-proof__arrow{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;border:1px solid #d8c7b2;border-radius:50%;font-size:15px;line-height:1;color:#795834}
+a.zs-etsy-proof--compact{margin-top:12px;display:flex;flex-direction:row;align-items:center;gap:12px;padding:13px 14px;min-height:73px;border-radius:9px}
+a.zs-etsy-proof--compact::before{top:13px;bottom:13px}
+.zs-etsy-proof__compact-icon{display:grid;place-items:center;width:37px;height:37px;flex:0 0 37px;border:1px solid #e3d3bd;border-radius:9px;background:#f6efe6;color:#9f7b49}
+.zs-etsy-proof__compact-icon svg{width:19px;height:19px}
+.zs-etsy-proof__compact-copy{display:flex;flex-direction:column;flex:1 1 auto;min-width:0;gap:3px}
+.zs-etsy-proof__compact-copy strong{font:650 12.5px/1.35 var(--font-body--family,Arial,sans-serif);color:#33251c!important}
+.zs-etsy-proof__compact-copy small{font:400 11px/1.45 var(--font-body--family,Arial,sans-serif);color:#76685a!important}
+.zs-etsy-proof__compact-end{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border:1px solid #dac9b4;border-radius:50%;font-size:14px;color:#7b5b37}
+@media(max-width:749px){a.zs-etsy-proof{padding:18px 18px 17px}.zs-etsy-proof__stars{margin-top:15px;font-size:15px}.zs-etsy-proof__title{font-size:21px}.zs-etsy-proof__bottom{margin-top:16px}.zs-etsy-proof__copy{font-size:12.5px}a.zs-etsy-proof--compact{padding:12px 13px;gap:10px}.zs-etsy-proof__compact-copy strong{font-size:12px}}
+@media(prefers-reduced-motion:reduce){a.zs-etsy-proof{transition:none}a.zs-etsy-proof:hover{transform:none}}
+</style>
