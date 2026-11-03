@@ -11,6 +11,10 @@
   assign contact_href = contact_page.url | default: '/pages/contact'
   assign story_href = story_page.url | default: '/pages/our-story'
   assign signup_id = 'ZsFooterSignup-' | append: section.id
+  assign zs_pf_instagram = s.instagram_url | default: 'https://www.instagram.com/zaisenstore/'
+  assign zs_pf_facebook = s.facebook_url | default: 'https://www.facebook.com/profile.php?id=61593712630202'
+  assign zs_pf_pinterest = s.pinterest_url | default: 'https://www.pinterest.com/zaisenstore/'
+  assign zs_pf_etsy = s.etsy_url | default: 'https://www.etsy.com/shop/ZAISEN'
   case localization.language.iso_code
     when 'de'
       assign zs_pfall = 'Alle Produkte'
@@ -231,19 +235,19 @@
             {%- if shop.refund_policy != blank -%}<a href="{{ shop.refund_policy.url }}">{{ zs_pfrefundshort | escape }}</a>{%- endif -%}
           </div>
         {%- endif -%}
-        {%- if s.instagram_url != blank or s.facebook_url != blank or s.pinterest_url != blank or s.etsy_url != blank or s.youtube_url != blank -%}
+        {%- if zs_pf_instagram != blank or zs_pf_facebook != blank or zs_pf_pinterest != blank or zs_pf_etsy != blank or s.youtube_url != blank -%}
           <div class="zs-pf__social" aria-label="ZAISEN social profiles">
-            {%- if s.instagram_url != blank -%}
-              <a href="{{ s.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor" stroke="none"/></svg></a>
+            {%- if zs_pf_instagram != blank -%}
+              <a href="{{ zs_pf_instagram | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor" stroke="none"/></svg></a>
             {%- endif -%}
-            {%- if s.facebook_url != blank -%}
-              <a href="{{ s.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8.1h2.7l.4-3.2h-3.1v-2c0-.9.3-1.6 1.6-1.6H17V3.3c-.3-.1-1.2-.3-2.5-.3-2.5 0-4.2 1.5-4.2 4.3v2.4H7.5v3.2h2.8V21z"/></svg></a>
+            {%- if zs_pf_facebook != blank -%}
+              <a href="{{ zs_pf_facebook | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8.1h2.7l.4-3.2h-3.1v-2c0-.9.3-1.6 1.6-1.6H17V3.3c-.3-.1-1.2-.3-2.5-.3-2.5 0-4.2 1.5-4.2 4.3v2.4H7.5v3.2h2.8V21z"/></svg></a>
             {%- endif -%}
-            {%- if s.pinterest_url != blank -%}
-              <a href="{{ s.pinterest_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M9 18.5 11 9.8c.2-.8.8-1.3 1.6-1.3 1.4 0 2.2.9 2.2 2.2 0 1.6-1.1 2.7-2.5 2.7-.8 0-1.5-.4-1.9-1.1"/><path d="M8 10a4.5 4.5 0 0 1 8.6-1.7"/></svg></a>
+            {%- if zs_pf_pinterest != blank -%}
+              <a href="{{ zs_pf_pinterest | escape }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M9 18.5 11 9.8c.2-.8.8-1.3 1.6-1.3 1.4 0 2.2.9 2.2 2.2 0 1.6-1.1 2.7-2.5 2.7-.8 0-1.5-.4-1.9-1.1"/><path d="M8 10a4.5 4.5 0 0 1 8.6-1.7"/></svg></a>
             {%- endif -%}
-            {%- if s.etsy_url != blank -%}
-              <a href="{{ s.etsy_url | escape }}" target="_blank" rel="noopener noreferrer" class="zs-pf__social-etsy" aria-label="ZAISEN Etsy"><span aria-hidden="true">Etsy</span></a>
+            {%- if zs_pf_etsy != blank -%}
+              <a href="{{ zs_pf_etsy | escape }}" target="_blank" rel="noopener noreferrer" class="zs-pf__social-etsy" aria-label="ZAISEN Etsy"><span aria-hidden="true">Etsy</span></a>
             {%- endif -%}
             {%- if s.youtube_url != blank -%}
               <a href="{{ s.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="ZAISEN YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
