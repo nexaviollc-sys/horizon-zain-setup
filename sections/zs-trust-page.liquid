@@ -5,6 +5,7 @@ The five-star statement describes a customer review, not a shop-wide rating.
 No legal company name in marketing copy, fake testimonials, badges, image placeholders or unverifiable social links. Show the business mailing address without implying it is a retail showroom.
 {% endcomment %}
 {% liquid
+  assign zt_instagram_profile = section.settings.instagram_url | default: 'https://www.instagram.com/zaisenstore/'
   case request.locale.iso_code
     when 'de'
       assign zt_crumb = "Warum ZAISEN vertrauen?"
@@ -38,7 +39,6 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_locationNote = "Unsere Werkstatt ist keine öffentlich zugängliche Verkaufsstelle. Die US-Adresse ist eine Geschäftsanschrift und kein Showroom."
       assign zt_phoneLabel = "Telefon & WhatsApp"
       assign zt_socialInstagram = "Instagram"
-      assign zt_instagramSoon = "Demnächst"
       assign zt_socialLabel = "Offizielle Social-Media-Profile"
 
       assign zt_trustStamp = "VERTRAUEN DURCH TRANSPARENZ"
@@ -87,7 +87,6 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_locationNote = "Notre atelier n’est pas une boutique ouverte au public. L’adresse américaine est une adresse professionnelle, pas un showroom."
       assign zt_phoneLabel = "Téléphone et WhatsApp"
       assign zt_socialInstagram = "Instagram"
-      assign zt_instagramSoon = "Bientôt"
       assign zt_socialLabel = "Profils officiels sur les réseaux sociaux"
 
       assign zt_trustStamp = "LA CONFIANCE PAR LA TRANSPARENCE"
@@ -136,7 +135,6 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_locationNote = "ورشتنا ليست متجرًا مفتوحًا للزيارات. العنوان الأمريكي عنوان مراسلات تجارية وليس صالة عرض."
       assign zt_phoneLabel = "الهاتف وواتساب"
       assign zt_socialInstagram = "إنستغرام"
-      assign zt_instagramSoon = "قريبًا"
       assign zt_socialLabel = "حساباتنا الرسمية على وسائل التواصل"
 
       assign zt_trustStamp = "الثقة تبدأ بالوضوح"
@@ -185,7 +183,6 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
       assign zt_locationNote = "Our workshop is not a walk-in retail shop. Our US mailing address is for business correspondence, not a showroom."
       assign zt_phoneLabel = "Phone & WhatsApp"
       assign zt_socialInstagram = "Instagram"
-      assign zt_instagramSoon = "Coming soon"
       assign zt_socialLabel = "Official social profiles"
 
       assign zt_trustStamp = "CONFIDENCE THROUGH TRANSPARENCY"
@@ -323,11 +320,7 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
         {% if section.settings.facebook_url != blank %}
           <a href="{{ section.settings.facebook_url }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>Facebook</span><span aria-hidden="true">↗</span></a>
         {% endif %}
-        {% if section.settings.instagram_url != blank %}
-          <a href="{{ section.settings.instagram_url }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>{{ zt_socialInstagram | escape }}</span><span aria-hidden="true">↗</span></a>
-        {% else %}
-          <div class="zt__social-item zt__social-item--soon"><span>{{ zt_socialInstagram | escape }}</span><small>{{ zt_instagramSoon | escape }}</small></div>
-        {% endif %}
+        <a href="{{ zt_instagram_profile | escape }}" class="zt__social-item" target="_blank" rel="noopener noreferrer"><span>{{ zt_socialInstagram | escape }}</span><span aria-hidden="true">↗</span></a>
       </div>
     </section>
     <p class="zt__footer-note">{{ zt_foot | escape }}</p>
