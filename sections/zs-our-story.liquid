@@ -659,6 +659,10 @@
       </div>
     </section>
 
+    <div class="zs-about__etsy-review" aria-label="ZAISEN customer feedback on Etsy">
+      {% render 'zs-etsy-proof', variant: 'standard' %}
+    </div>
+
     <footer class="zs-about__closing">
       <span class="zs-about__closing-art zs-about__closing-art--left" aria-hidden="true"></span>
       <span class="zs-about__closing-art zs-about__closing-art--right" aria-hidden="true"></span>
@@ -690,7 +694,7 @@
 <style>
   #zs-about-{{ section.id }} { --walnut:#442e23; --ink:#2d211c; --muted:#695c52; --ivory:#faf7f2; --sand:#eee2d5; --stroke:#e4d8cd; --gold:#c9a87a; background:#fff; color:var(--ink); font-family:var(--font-body--family,Arial,sans-serif); }
   #zs-about-{{ section.id }} * {box-sizing:border-box;}
-  #zs-about-{{ section.id }} .zs-about__shell {max-width:1320px; padding:0 clamp(20px,4vw,70px); margin:0 auto;}
+  #zs-about-{{ section.id }} .zs-about__etsy-review{max-width:650px;margin:clamp(22px,4vw,42px) auto clamp(32px,5vw,57px)}\n  #zs-about-{{ section.id }} .zs-about__shell {max-width:1320px; padding:0 clamp(20px,4vw,70px); margin:0 auto;}
   #zs-about-{{ section.id }} h1,#zs-about-{{ section.id }} h2,#zs-about-{{ section.id }} h3,#zs-about-{{ section.id }} p {margin:0;}
   #zs-about-{{ section.id }} h1,#zs-about-{{ section.id }} h2 {font-family:var(--font-heading--family,Georgia,serif);font-weight:500;letter-spacing:-.035em;}
   #zs-about-{{ section.id }} h2{font-size:clamp(35px,4vw,62px);line-height:1.09;}
