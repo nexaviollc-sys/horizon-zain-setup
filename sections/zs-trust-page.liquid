@@ -407,6 +407,27 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
 @media(max-width:350px){.zt__social-grid{grid-template-columns:1fr}.zt__contact-number{font-size:22px}}
 @media(hover:hover){.zt__contact-method,.zt__social-item,.zt__btn{will-change:transform}}
 @media(prefers-reduced-motion:reduce){.zt__contact-method,.zt__social-item,.zt__btn{transition:none!important}}
+
+/* 2026 ZAISEN editorial trust hero: ivory and walnut, not a dark banner. */
+.zt__hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(290px,.88fr);min-height:0;align-items:stretch;overflow:hidden;border:1px solid #e7dcd0;border-radius:16px;background:#fbf9f5;color:#30241e;box-shadow:none;isolation:isolate}
+.zt__hero::before{display:none}
+.zt__hero-main{padding:clamp(39px,5.2vw,73px) clamp(27px,5vw,66px);justify-content:center;gap:0}
+.zt__hero .zt__micro{color:#94744f;letter-spacing:.16em;font-size:10px}
+.zt__hero .zt__micro-line{background:#b99b75;width:28px;flex-basis:28px}
+.zt__hero h1{font-family:var(--font-heading--family,Georgia,serif);font-size:clamp(44px,4.8vw,70px);line-height:1.05;letter-spacing:-.046em;max-width:620px;margin-top:23px;color:#30241e}
+.zt__hero .zt__quote{max-width:540px;margin-top:22px!important;color:#795b42!important;font-style:normal;font-size:clamp(20px,2.05vw,28px)!important;line-height:1.35!important}
+.zt__hero .zt__intro{max-width:490px;margin-top:18px!important;color:#76675a!important;font-size:14px!important;line-height:1.75!important}
+.zt__hero-actions{gap:17px;margin-top:29px}
+.zt__hero .zt__btn--cream{background:#38281f;color:#fff9f2!important;border:1px solid #38281f;border-radius:8px;box-shadow:none;min-height:46px;padding:12px 18px}
+.zt__hero .zt__btn--cream:hover{background:#563d2c;color:#fff!important;transform:translateY(-1px)}
+.zt__hero .zt__hero-anchor{color:#5b4838!important;border-color:#b5a18a;font-size:12px}
+.zt__hero .zt__hero-anchor:hover{color:#2d2119!important;border-color:#4e3828}
+.zt__hero .zt__proof-shell{padding:clamp(23px,3vw,43px);background:#f3ede5;border:0;border-inline-start:1px solid #e7dbcc;display:flex;justify-content:center;align-items:center;min-width:0}
+.zt__hero .zt__proof-shell .zs-etsy-proof{width:100%;max-width:385px;background:#fffdfa!important;border-color:#e2d6c6}
+@media(max-width:950px){.zt__hero{grid-template-columns:minmax(0,1.06fr) minmax(275px,.94fr)}.zt__hero-main{padding:42px 32px}.zt__hero .zt__proof-shell{padding:22px}.zt__hero h1{font-size:clamp(40px,4.6vw,56px)}}
+@media(max-width:760px){.zt__hero{grid-template-columns:1fr;border-radius:13px}.zt__hero-main{padding:38px 28px 30px}.zt__hero h1{font-size:clamp(40px,8.2vw,60px);margin-top:18px}.zt__hero .zt__proof-shell{border-inline-start:0;border-top:1px solid #e7dbcc;padding:24px 28px;background:#f5f0e9}.zt__hero .zt__proof-shell .zs-etsy-proof{max-width:none}.zt__hero-actions{margin-top:24px}}
+@media(max-width:480px){.zt__hero-main{padding:33px 22px 29px}.zt__hero h1{font-size:clamp(37px,10vw,52px)}.zt__hero .zt__quote{font-size:21px!important}.zt__hero .zt__proof-shell{padding:19px 18px}.zt__hero-actions{flex-direction:column;align-items:flex-start;gap:15px}.zt__hero .zt__btn--cream{width:auto;max-width:100%;min-height:44px}}
+
 {% endstylesheet %}
 {% schema %}
 {"name":"ZAISEN Trust Page","tag":"section","class":"section-zs-trust","settings":[{"type":"header","content":"Official social links"},{"type":"url","id":"instagram_url","label":"Official Instagram URL"},{"type":"url","id":"facebook_url","label":"Official Facebook URL"},{"type":"url","id":"pinterest_url","label":"Official Pinterest URL"}],"presets":[{"name":"ZAISEN Trust Page"}]}
