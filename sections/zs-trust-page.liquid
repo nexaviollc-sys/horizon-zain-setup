@@ -224,17 +224,8 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
         </div>
       </div>
 
-      <aside class="zt__proof" aria-label="{{ zt_etsyKicker | escape }}">
-        <span class="zt__proof-monogram" aria-hidden="true">Z</span>
-        <div class="zt__proof-content">
-          <div class="zt__proof-top"><span class="zt__proof-rule" aria-hidden="true"></span><span>{{ zt_etsyKicker | escape }}</span></div>
-          <div class="zt__stars" aria-label="{{ zt_etsyTitle | escape }}">★★★★★</div>
-          <p class="zt__proof-title">{{ zt_etsyTitle | escape }}</p>
-          <p class="zt__proof-copy">{{ zt_etsyText | escape }}</p>
-          <a href="https://www.etsy.com/shop/ZAISEN" target="_blank" rel="noopener noreferrer" class="zt__proof-link">
-            {{ zt_heroDiscover | escape }} <span aria-hidden="true">↗</span>
-          </a>
-        </div>
+      <aside class="zt__proof-shell" aria-label="{{ zt_etsyKicker | escape }}">
+        {% render 'zs-etsy-proof', variant: 'standard' %}
       </aside>
     </header>
 
@@ -361,6 +352,10 @@ No legal company name in marketing copy, fake testimonials, badges, image placeh
 .zt__proof-title{font-family:Georgia,serif;font-size:clamp(26px,2.9vw,36px)!important;line-height:1.17!important;letter-spacing:-.025em}
 .zt__proof-copy{margin-top:15px!important;font-size:13px!important;line-height:1.7!important;color:#d9c9b7!important}
 .zt__proof-link{margin-top:27px;display:inline-flex;align-items:center;gap:14px;font-size:12px;color:#f3e1c4!important;text-decoration:none!important;border-bottom:1px solid #b89970;padding-bottom:7px}
+.zt__proof-shell{min-width:0;padding:28px clamp(22px,3vw,38px);border-inline-start:1px solid rgba(226,206,180,.22);display:flex;align-items:center;justify-content:center}
+.zt__proof-shell .zs-etsy-proof{max-width:400px}
+@media(max-width:760px){.zt__proof-shell{padding:0 28px 30px;border-inline-start:0}.zt__proof-shell .zs-etsy-proof{max-width:none}}
+@media(max-width:480px){.zt__proof-shell{padding:0 20px 24px}}
 .zt__contact-area{padding-top:clamp(78px,9vw,118px);scroll-margin-top:95px}
 .zt__section-head{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start;margin-bottom:32px}
 .zt__section-label{font-size:10px;line-height:1.6;letter-spacing:.18em;text-transform:uppercase;color:#92734e;font-weight:700}
