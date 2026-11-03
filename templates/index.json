@@ -86,7 +86,7 @@
         "c3": {
           "type": "collection",
           "settings": {
-            "collection": "wall-clocks",
+            "collection": "wooden-wall-art-clocks",
             "custom_title": "Wooden Wall Clocks",
             "tagline": "Time, beautifully crafted.",
             "badge": ""
@@ -219,6 +219,11 @@
         "eyebrow": "ZAISEN FAVORITES",
         "heading": "Our",
         "heading_emphasis": "Best Sellers.",
+        "collection": "best-sellers",
+        "first_product": "wooden-ship-wheel-wall-clock",
+        "second_product": "handcrafted-wooden-horse-statue",
+        "third_product": "hand-carved-wooden-foldable-serving-tray",
+        "fourth_product": "handcrafted-wooden-ship-decor",
         "editorial_font": "poppins_n4",
         "text": "Thoughtfully handcrafted pieces that bring warmth, character, and timeless beauty into your home.",
         "button_label": "Shop Best Sellers",
@@ -231,12 +236,7 @@
         "accent_color": "#d8b56a",
         "wood_color": "#2b1d17",
         "padding_top": 60,
-        "padding_bottom": 84,
-        "collection": "best-sellers",
-        "first_product": "wooden-ship-wheel-wall-clock",
-        "second_product": "handcrafted-wooden-horse-statue",
-        "third_product": "hand-carved-wooden-foldable-serving-tray",
-        "fourth_product": "handcrafted-wooden-ship-decor"
+        "padding_bottom": 84
       }
     },
     "zs_real_homes_2026": {
@@ -322,20 +322,6 @@
     },
     "zs_why_zaisen_2026": {
       "type": "zs-why-zaisen",
-      "name": "ZAISEN Why Choose Us",
-      "settings": {
-        "eyebrow": "THE ZAISEN DIFFERENCE",
-        "heading_light": "Made with",
-        "heading_bold": "Care.",
-        "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
-        "editorial_font": "poppins_n4",
-        "bg_color": "#FFFFFF",
-        "heading_color": "#2B1D17",
-        "text_color": "#80736A",
-        "accent_color": "#D8B56A",
-        "padding_top": 44,
-        "padding_bottom": 44
-      },
       "blocks": {
         "zs_why_wood": {
           "type": "feature",
@@ -363,30 +349,24 @@
         "zs_why_wood",
         "zs_why_hand",
         "zs_why_care"
-      ]
+      ],
+      "name": "ZAISEN Why Choose Us",
+      "settings": {
+        "eyebrow": "THE ZAISEN DIFFERENCE",
+        "heading_light": "Made with",
+        "heading_bold": "Care.",
+        "intro_text": "Real wood, careful craftsmanship, and little details that make every piece special.",
+        "editorial_font": "poppins_n4",
+        "bg_color": "#FFFFFF",
+        "heading_color": "#2B1D17",
+        "text_color": "#80736A",
+        "accent_color": "#D8B56A",
+        "padding_top": 44,
+        "padding_bottom": 44
+      }
     },
     "zs_shop_the_look_2026": {
       "type": "zs-shop-the-look",
-      "name": "ZAISEN Kitchen Edit",
-      "settings": {
-        "eyebrow": "THE ZAISEN KITCHEN EDIT",
-        "title_light": "Handcrafted Wooden",
-        "title_bold": "Kitchen & Dining Essentials",
-        "description": "Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood.",
-        "collection": "kitchen-dining",
-        "button_label": "Shop Kitchen & Dining",
-        "feature_label": "FEATURED KITCHEN PIECE",
-        "picks_label": "Featured handcrafted wooden kitchen accessories",
-        "sold_out_text": "Sold out",
-        "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
-        "editorial_font": "poppins_n4",
-        "background": "#FFFFFF",
-        "ink": "#2B1D17",
-        "muted": "#80736A",
-        "accent": "#D8B56A",
-        "padding_top": 76,
-        "padding_bottom": 80
-      },
       "blocks": {
         "k_trays": {
           "type": "product",
@@ -422,7 +402,27 @@
         "k_bowls",
         "k_drinks",
         "k_storage"
-      ]
+      ],
+      "name": "ZAISEN Kitchen Edit",
+      "settings": {
+        "eyebrow": "THE ZAISEN KITCHEN EDIT",
+        "title_light": "Handcrafted Wooden",
+        "title_bold": "Kitchen & Dining Essentials",
+        "description": "Discover handcrafted wooden serving trays, nesting bowls, drinkware sets and kitchen accessories for everyday dining, thoughtful gifting and beautifully set tables. Explore practical pieces made from natural wood.",
+        "collection": "kitchen-dining",
+        "button_label": "Shop Kitchen & Dining",
+        "feature_label": "FEATURED KITCHEN PIECE",
+        "picks_label": "Featured handcrafted wooden kitchen accessories",
+        "sold_out_text": "Sold out",
+        "bottom_text": "Natural texture, timeless detail, everyday function. Thoughtfully handcrafted for the table.",
+        "editorial_font": "poppins_n4",
+        "background": "#FFFFFF",
+        "ink": "#2B1D17",
+        "muted": "#80736A",
+        "accent": "#D8B56A",
+        "padding_top": 76,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
