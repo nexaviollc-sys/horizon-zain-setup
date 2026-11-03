@@ -231,7 +231,7 @@
         "p1": {
           "type": "product",
           "settings": {
-            "product": "wooden-horse-lamp-equestrian-table-light",
+            "product": "wooden-ship-wheel-wall-clock",
             "note": ""
           }
         },
@@ -245,14 +245,14 @@
         "p3": {
           "type": "product",
           "settings": {
-            "product": "handcrafted-wooden-jug-5-cups-set",
+            "product": "wooden-fighter-jet-model",
             "note": ""
           }
         },
         "p4": {
           "type": "product",
           "settings": {
-            "product": "wooden-ship-wheel-wall-clock",
+            "product": "round-wooden-islamic-wall-art",
             "note": ""
           }
         }
@@ -271,8 +271,8 @@
         "collection": "best-sellers",
         "first_product": "wooden-ship-wheel-wall-clock",
         "second_product": "handcrafted-wooden-horse-statue",
-        "third_product": "hand-carved-wooden-foldable-serving-tray",
-        "fourth_product": "handcrafted-wooden-ship-decor",
+        "third_product": "wooden-fighter-jet-model",
+        "fourth_product": "round-wooden-islamic-wall-art",
         "editorial_font": "poppins_n4",
         "text": "Thoughtfully handcrafted pieces that bring warmth, character, and timeless beauty into your home.",
         "button_label": "Shop Best Sellers",
