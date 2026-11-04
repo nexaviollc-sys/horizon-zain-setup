@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "creator_program": {
+      "type": "zs-creator-program",
+      "settings": {}
+    }
+  },
+  "order": [
+    "creator_program"
+  ]
+}
