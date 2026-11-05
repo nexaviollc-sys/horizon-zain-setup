@@ -101,6 +101,9 @@
   @media(prefers-reduced-motion:reduce){.zs-native-signup__submit,.zs-native-signup__shop-link{transition:none}}
 
   /* Editorial refinement — unedited ZAISEN catalog photo, calmer colors. */
+  /* Place dismiss button relative to the whole card, including mobile photo. */
+  .zs-native-signup__content{position:static}
+
   .zs-native-signup{background:rgba(27,22,18,.64);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);overscroll-behavior:contain}
   .zs-native-signup__dialog{width:min(100%,800px);min-height:455px;max-height:calc(100dvh - 36px);grid-template-columns:44% minmax(0,56%);border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#faf8f4;box-shadow:0 24px 78px rgba(0,0,0,.24);overflow:auto;overscroll-behavior:contain}
   .zs-native-signup__visual{min-height:454px;background-color:#e0d5c8;background-image:url('https://cdn.shopify.com/s/files/1/1019/0884/0741/files/WhatsApp_Image_2026-09-25_at_7.06.11_PM_1.jpg?v=1790696993');background-size:cover;background-position:50% 48%}
@@ -173,7 +176,10 @@
     previousFocus=document.activeElement;
     root.hidden=false;
     document.documentElement.classList.add('zs-native-signup-open');
-    window.requestAnimationFrame(function(){(success?copyBtn:root.querySelector('#zs-native-signup-email')||dialog).focus()});
+    window.requestAnimationFrame(function(){
+      var focusTarget = window.matchMedia('(max-width:700px)').matches ? dialog : (success ? (copyBtn||dialog) : (root.querySelector('#zs-native-signup-email')||dialog));
+      if(focusTarget && focusTarget.focus)focusTarget.focus();
+    });
   }
   function close(){
     root.hidden=true;
