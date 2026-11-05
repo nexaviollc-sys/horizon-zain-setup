@@ -46,7 +46,7 @@
         "country_heading": "Estimated delivery by country",
         "country_intro": "Shipping estimates and free-delivery thresholds for your country",
         "free_label": "FREE",
-        "shipping_note": "Free standard shipping applies at an eligible order subtotal of $60 USD for the US, UK, Germany, France, UAE and Canada, or $100 USD for Australia. Shipping charges and eligibility are confirmed at checkout. Allow 1–2 days for processing; delivery estimates are not guarantees.",
+        "shipping_note": "Free standard shipping applies at an eligible order subtotal of $60 USD for the US, UK, Germany, France, UAE and Canada, or $100 USD for Australia. Shipping charges and eligibility are confirmed at checkout. Allow 1–2 business days for processing; delivery estimates are not guarantees.",
         "shipping_policy_label": "Shipping Policy",
         "contact_eyebrow": "PERSONAL SUPPORT",
         "contact_heading": "Need a hand?",
@@ -72,7 +72,7 @@
           "settings": {
             "flag": "🇬🇧",
             "country_name": "United Kingdom",
-            "delivery_time": "4–5 days"
+            "delivery_time": "5–6 business days"
           }
         },
         "shf_country_us": {
@@ -80,7 +80,7 @@
           "settings": {
             "flag": "🇺🇸",
             "country_name": "United States",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_country_de": {
@@ -88,7 +88,7 @@
           "settings": {
             "flag": "🇩🇪",
             "country_name": "Germany",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_country_ca": {
@@ -96,7 +96,7 @@
           "settings": {
             "flag": "🇨🇦",
             "country_name": "Canada",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_country_au": {
@@ -104,7 +104,7 @@
           "settings": {
             "flag": "🇦🇺",
             "country_name": "Australia",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_country_ae": {
@@ -112,7 +112,7 @@
           "settings": {
             "flag": "🇦🇪",
             "country_name": "United Arab Emirates",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_country_fr": {
@@ -120,14 +120,14 @@
           "settings": {
             "flag": "🇫🇷",
             "country_name": "France",
-            "delivery_time": "8–9 days"
+            "delivery_time": "9–10 business days"
           }
         },
         "shf_faq_shipping": {
           "type": "faq",
           "settings": {
             "question": "When do I qualify for free shipping?",
-            "answer": "ZAISEN ships to seven countries: the US, UK, Germany, France, UAE, Canada and Australia. Free shipping begins at $60 USD for orders to the US, UK, Germany, France, UAE and Canada, and at $100 USD for Australia, based on eligible order subtotal after discounts. Orders are prepared in 1–2 days. Estimated transit after dispatch is 4–5 days to the UK and 8–9 days elsewhere. Final shipping charges are confirmed at checkout; delivery estimates are not guaranteed.",
+            "answer": "ZAISEN ships to seven countries: the US, UK, Germany, France, UAE, Canada and Australia. Free shipping begins at $60 USD for orders to the US, UK, Germany, France, UAE and Canada, and at $100 USD for Australia, based on eligible order subtotal after discounts. Orders are prepared in 1–2 business days. Estimated transit after dispatch is 5–6 business days to the UK and 9–10 business days elsewhere. Final shipping charges are confirmed at checkout; delivery estimates are not guaranteed.",
             "show_refund_link": false
           }
         },

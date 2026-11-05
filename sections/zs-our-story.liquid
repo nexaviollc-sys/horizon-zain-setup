@@ -95,7 +95,7 @@
 {%- capture zs_sB021 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}und weiteren Versandpartnern für internationale Lieferungen zusammen. Sendungsverfolgungsdaten stellen wir bereit, sobald sie nach dem Versand verfügbar sind.{%- when 'fr' -%}et d’autres partenaires de livraison pour organiser les expéditions internationales ; les informations de suivi sont fournies lorsqu’elles sont disponibles après l’envoi.{%- when 'ar' -%}وشركاء التوصيل لترتيب الشحن الدولي، ونزوّد العملاء بتفاصيل التتبع عندما تتوفر بعد الإرسال.{%- else -%}and delivery partners to arrange international shipping, with tracking details provided when available after dispatch.{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB022 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}EINS{%- when 'fr' -%}UN{%- when 'ar' -%}الأولى{%- else -%}ONE{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB023 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Ihre Bestellung erreicht uns{%- when 'fr' -%}Nous recevons votre commande{%- when 'ar' -%}يصلنا طلبك{%- else -%}Your order reaches us{%- endcase -%}{%- endcapture -%}
-{%- capture zs_sB024 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Wir prüfen die Artikel und Lieferangaben. Die übliche Vorbereitung der Bestellung dauert 1–2 Tage.{%- when 'fr' -%}Nous vérifions les articles et les coordonnées de livraison. La préparation habituelle prend 1 à 2 jours.{%- when 'ar' -%}نراجع المنتجات وتفاصيل التوصيل، وتستغرق تحضيرات الطلب عادةً من يوم إلى يومين.{%- else -%}We review the items and delivery details, with a usual order-preparation time of 1–2 days.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_sB024 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Wir prüfen die Artikel und Lieferangaben. Die übliche Vorbereitung der Bestellung dauert 1–2 Werktage.{%- when 'fr' -%}Nous vérifions les articles et les coordonnées de livraison. La préparation habituelle prend 1 à 2 jours ouvrés.{%- when 'ar' -%}نراجع المنتجات وتفاصيل التوصيل، وتستغرق تحضيرات الطلب عادةً من يوم إلى يومي عمل.{%- else -%}We review the items and delivery details, with a usual order-preparation time of 1–2 business days.{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB025 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}ZWEI{%- when 'fr' -%}DEUX{%- when 'ar' -%}الثانية{%- else -%}TWO{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB026 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Wir verpacken mit Sorgfalt{%- when 'fr' -%}Nous emballons avec soin{%- when 'ar' -%}نغلفها بعناية{%- else -%}We pack it with care{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB027 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Wir kontrollieren das Holzstück und verpacken es schützend für den Transport.{%- when 'fr' -%}Nous contrôlons l’article en bois et l’emballons pour le protéger pendant le transport.{%- when 'ar' -%}نفحص القطعة الخشبية ونغلفها لحمايتها أثناء النقل.{%- else -%}The wooden piece is checked and packaged to help protect it in transit.{%- endcase -%}{%- endcapture -%}
@@ -107,11 +107,11 @@
 {%- capture zs_sB033 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Sobald verfügbar, erhalten Sie eine Sendungsnummer, damit Sie die Lieferung bis zur Zustellung verfolgen können.{%- when 'fr' -%}Lorsqu’il est disponible, nous vous communiquons un numéro de suivi pour suivre votre colis jusqu’à sa livraison.{%- when 'ar' -%}نشارك رقم التتبع عند توفره حتى تتمكن من متابعة الشحنة إلى حين وصولها.{%- else -%}We share a tracking number when available so you can follow the shipment until delivery.{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB034 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Bestellvorbereitung vor dem Versand{%- when 'fr' -%}Préparation de commande avant l’envoi{%- when 'ar' -%}تحضير الطلب قبل الإرسال{%- else -%}Order preparation before dispatch{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB035 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Unsere Lieferländer{%- when 'fr' -%}Nos destinations de livraison{%- when 'ar' -%}الدول التي نشحن إليها{%- else -%}Where we deliver{%- endcase -%}{%- endcapture -%}
-{%- capture zs_sB036 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Die aktuell belieferten Länder und voraussichtlichen Versandzeiten finden Sie unten. Die Laufzeiten sind Schätzungen und keine garantierten Ankunftsdaten; die üblichen 1–2 Tage zur Vorbereitung sind nicht eingerechnet.{%- when 'fr' -%}Vous trouverez ci-dessous les pays actuellement desservis et les délais de transport estimés. Ces délais ne garantissent pas une date de livraison et excluent les 1 à 2 jours habituels de préparation.{%- when 'ar' -%}تظهر أدناه الدول التي نوصل إليها حاليًا ومدد الشحن التقديرية. هذه المدد ليست مواعيد وصول مضمونة ولا تشمل مدة تجهيز الطلب المعتادة من يوم إلى يومين.{%- else -%}Our currently supported delivery markets and estimated shipping times are shown below. Transit times are estimates, not guaranteed arrival dates, and exclude the usual 1–2 days of order preparation.{%- endcase -%}{%- endcapture -%}
+{%- capture zs_sB036 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Die aktuell belieferten Länder und voraussichtlichen Versandzeiten finden Sie unten. Die Laufzeiten sind Schätzungen und keine garantierten Ankunftsdaten; die üblichen 1–2 Werktage zur Vorbereitung sind nicht eingerechnet.{%- when 'fr' -%}Vous trouverez ci-dessous les pays actuellement desservis et les délais de transport estimés. Ces délais ne garantissent pas une date de livraison et excluent les 1 à 2 jours ouvrés habituels de préparation.{%- when 'ar' -%}تظهر أدناه الدول التي نوصل إليها حاليًا ومدد الشحن التقديرية. هذه المدد ليست مواعيد وصول مضمونة ولا تشمل مدة تجهيز الطلب المعتادة من يوم إلى يومي عمل.{%- else -%}Our currently supported delivery markets and estimated shipping times are shown below. Transit times are estimates, not guaranteed arrival dates, and exclude the usual 1–2 business days of order preparation.{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB037 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigtes Königreich{%- when 'fr' -%}Royaume-Uni{%- when 'ar' -%}المملكة المتحدة{%- else -%}United Kingdom{%- endcase -%}{%- endcapture -%}
-{%- capture zs_sB038 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}4–5 Versandtage{%- when 'fr' -%}4 à 5 jours de transport{%- when 'ar' -%}4–5 أيام شحن{%- else -%}4–5 shipping days{%- endcase -%}{%- endcapture -%}
+{%- capture zs_sB038 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}5–6 Werktage nach Versand{%- when 'fr' -%}5 à 6 jours ouvrés après expédition{%- when 'ar' -%}5–6 أيام عمل بعد الإرسال{%- else -%}5–6 business days after dispatch{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB039 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigte Staaten{%- when 'fr' -%}États-Unis{%- when 'ar' -%}الولايات المتحدة{%- else -%}United States{%- endcase -%}{%- endcapture -%}
-{%- capture zs_sB040 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}8–9 Versandtage{%- when 'fr' -%}8 à 9 jours de transport{%- when 'ar' -%}8–9 أيام شحن{%- else -%}8–9 shipping days{%- endcase -%}{%- endcapture -%}
+{%- capture zs_sB040 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}9–10 Werktage nach Versand{%- when 'fr' -%}9 à 10 jours ouvrés après expédition{%- when 'ar' -%}9–10 أيام عمل بعد الإرسال{%- else -%}9–10 business days after dispatch{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB041 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Deutschland{%- when 'fr' -%}Allemagne{%- when 'ar' -%}ألمانيا{%- else -%}Germany{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB042 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Frankreich{%- when 'fr' -%}France{%- when 'ar' -%}فرنسا{%- else -%}France{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB043 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigte Arabische Emirate{%- when 'fr' -%}Émirats arabes unis{%- when 'ar' -%}الإمارات العربية المتحدة{%- else -%}United Arab Emirates{%- endcase -%}{%- endcapture -%}
@@ -375,7 +375,7 @@
       {%- liquid
         comment
           Task 5: Our Story summary follows the Shopify-selected country.
-          Thresholds are in USD; shipping time is estimated after 1–2 days preparation.
+          Thresholds are in USD; shipping time is estimated after 1–2 business days preparation.
           Checkout remains authoritative for final rates.
         endcomment
         assign zs_story_country = localization.country.name | default: 'your destination'
@@ -384,32 +384,32 @@
         case localization.country.iso_code
           when 'GB'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '4–5 DAYS'
+            assign zs_story_transit = '5–6 BUSINESS DAYS'
           when 'US'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
           when 'DE'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
           when 'FR'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
           when 'AE'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
           when 'CA'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
           when 'AU'
             assign zs_story_free_min = 100
-            assign zs_story_transit = '8–9 DAYS'
+            assign zs_story_transit = '9–10 BUSINESS DAYS'
         endcase
 
         assign zs_story_transit_display = zs_story_transit
         case request.locale.iso_code
           when 'de'
             assign zs_story_checkout = 'AN DER KASSE'
-            assign zs_story_prep = '1–2 TAGE'
+            assign zs_story_prep = '1–2 WERKTAGE'
             assign zs_story_delivery_title = 'LIEFERUNG'
             assign zs_story_free_prefix = 'Kostenloser Versand nach'
             assign zs_story_free_suffix = 'ab dem geltenden Mindestbestellwert'
@@ -420,19 +420,19 @@
             assign zs_story_times = 'Verfügbare Lieferzeiten werden an der Kasse bestätigt'
             assign zs_story_minimum = 'der lokale Mindestbestellwert'
             assign zs_story_faq_prefix = 'ZAISEN Bestellungen nach'
-            assign zs_story_faq_mid = 'werden vor dem Versand in 1–2 Tagen vorbereitet. Die geschätzte Versandzeit beträgt'
+            assign zs_story_faq_mid = 'werden vor dem Versand in 1–2 Werktagen vorbereitet. Die geschätzte Versandzeit beträgt'
             assign zs_story_faq_free = 'Kostenloser Versand ab'
             assign zs_story_faq_suffix = 'für berechtigte Bestellungen. Bei kleineren Bestellwerten können an der Kasse Versandkosten anfallen. Lieferzeiten sind Schätzungen, keine Garantien, und können sich durch Zoll, Feiertage oder Versanddienstleister verzögern.'
-            assign zs_story_faq_no_start = 'ZAISEN bereitet Bestellungen in der Regel innerhalb von 1–2 Tagen vor, sofern eine Lieferung verfügbar ist. Versandmöglichkeiten, Lieferzeiten und Kosten für'
+            assign zs_story_faq_no_start = 'ZAISEN bereitet Bestellungen in der Regel innerhalb von 1–2 Werktagen vor, sofern eine Lieferung verfügbar ist. Versandmöglichkeiten, Lieferzeiten und Kosten für'
             assign zs_story_faq_no_end = 'werden an der Kasse bestätigt. Kostenloser Versand ist nicht für jedes Land und jede Bestellung garantiert.'
-            if zs_story_transit == '4–5 DAYS'
-              assign zs_story_transit_display = '4–5 TAGE'
+            if zs_story_transit == '5–6 BUSINESS DAYS'
+              assign zs_story_transit_display = '5–6 WERKTAGE'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '8–9 TAGE'
+              assign zs_story_transit_display = '9–10 WERKTAGE'
             endif
           when 'fr'
             assign zs_story_checkout = 'AU PAIEMENT'
-            assign zs_story_prep = '1 À 2 JOURS'
+            assign zs_story_prep = '1 À 2 JOURS OUVRÉS'
             assign zs_story_delivery_title = 'LIVRAISON'
             assign zs_story_free_prefix = 'Livraison gratuite vers'
             assign zs_story_free_suffix = 'dès le seuil applicable à votre marché'
@@ -443,19 +443,19 @@
             assign zs_story_times = 'Les délais disponibles sont confirmés lors du paiement'
             assign zs_story_minimum = 'le seuil minimum de votre marché'
             assign zs_story_faq_prefix = 'Les commandes ZAISEN destinées à'
-            assign zs_story_faq_mid = 'sont préparées en 1 à 2 jours avant expédition. Le délai de transport estimé est de'
+            assign zs_story_faq_mid = 'sont préparées en 1 à 2 jours ouvrés avant expédition. Le délai de transport estimé est de'
             assign zs_story_faq_free = 'La livraison gratuite commence à'
             assign zs_story_faq_suffix = 'pour les commandes admissibles. Des frais peuvent s’appliquer sous ce seuil et sont calculés au paiement. Les délais sont indicatifs et peuvent varier en raison des douanes, des jours fériés ou des transporteurs.'
-            assign zs_story_faq_no_start = 'ZAISEN prépare généralement les commandes en 1 à 2 jours lorsque la livraison est disponible. Les options, délais et frais de livraison vers'
+            assign zs_story_faq_no_start = 'ZAISEN prépare généralement les commandes en 1 à 2 jours ouvrés lorsque la livraison est disponible. Les options, délais et frais de livraison vers'
             assign zs_story_faq_no_end = 'sont confirmés au paiement. La livraison gratuite n’est pas garantie pour tous les pays et toutes les commandes.'
-            if zs_story_transit == '4–5 DAYS'
-              assign zs_story_transit_display = '4 à 5 JOURS'
+            if zs_story_transit == '5–6 BUSINESS DAYS'
+              assign zs_story_transit_display = '5 À 6 JOURS OUVRÉS'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '8 à 9 JOURS'
+              assign zs_story_transit_display = '9 À 10 JOURS OUVRÉS'
             endif
           when 'ar'
             assign zs_story_checkout = 'عند الدفع'
-            assign zs_story_prep = '1–2 يوم'
+            assign zs_story_prep = '1–2 يوم عمل'
             assign zs_story_delivery_title = 'التوصيل'
             assign zs_story_free_prefix = 'شحن مجاني إلى'
             assign zs_story_free_suffix = 'للطلبات التي تستوفي الحد الأدنى المحلي'
@@ -466,19 +466,19 @@
             assign zs_story_times = 'تُؤكَّد مدد الشحن المتاحة عند الدفع'
             assign zs_story_minimum = 'الحد الأدنى المحلي للطلب'
             assign zs_story_faq_prefix = 'تُجهَّز طلبات زايسن إلى'
-            assign zs_story_faq_mid = 'خلال يوم إلى يومين قبل الإرسال. وتبلغ مدة الشحن التقديرية'
+            assign zs_story_faq_mid = 'خلال يوم إلى يومي عمل قبل الإرسال. وتبلغ مدة الشحن التقديرية'
             assign zs_story_faq_free = 'يبدأ الشحن المجاني من'
             assign zs_story_faq_suffix = 'للطلبات المؤهلة. قد تُفرض رسوم شحن على الطلبات الأقل من ذلك، وتُحسب عند الدفع. المدد تقديرية وليست مضمونة وقد تتأثر بالجمارك والعطلات أو تأخير الناقلين.'
-            assign zs_story_faq_no_start = 'تُجهّز زايسن الطلبات عادةً خلال يوم إلى يومين إذا كان الشحن متاحًا. وتُؤكَّد خيارات الشحن ومدده ورسومه إلى'
+            assign zs_story_faq_no_start = 'تُجهّز زايسن الطلبات عادةً خلال يوم إلى يومي عمل إذا كان الشحن متاحًا. وتُؤكَّد خيارات الشحن ومدده ورسومه إلى'
             assign zs_story_faq_no_end = 'عند الدفع. لا يُضمن الشحن المجاني لكل دولة أو طلب.'
-            if zs_story_transit == '4–5 DAYS'
-              assign zs_story_transit_display = '4–5 أيام'
+            if zs_story_transit == '5–6 BUSINESS DAYS'
+              assign zs_story_transit_display = '5–6 أيام عمل'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '8–9 أيام'
+              assign zs_story_transit_display = '9–10 أيام عمل'
             endif
           else
             assign zs_story_checkout = 'AT CHECKOUT'
-            assign zs_story_prep = '1–2 DAYS'
+            assign zs_story_prep = '1–2 BUSINESS DAYS'
             assign zs_story_delivery_title = 'DELIVERY'
             assign zs_story_free_prefix = 'Free shipping to'
             assign zs_story_free_suffix = 'on orders meeting the market minimum'
@@ -489,10 +489,10 @@
             assign zs_story_times = 'Available shipping times are confirmed at checkout'
             assign zs_story_minimum = 'the local market minimum'
             assign zs_story_faq_prefix = 'ZAISEN orders to'
-            assign zs_story_faq_mid = 'are prepared in 1–2 days before dispatch. Estimated shipping after dispatch is'
+            assign zs_story_faq_mid = 'are prepared in 1–2 business days before dispatch. Estimated shipping after dispatch is'
             assign zs_story_faq_free = 'Free shipping starts from'
             assign zs_story_faq_suffix = 'for qualifying orders. Lower-value orders may incur shipping charges calculated at checkout. Delivery times are estimates, not guarantees, and may be affected by customs, holidays or carrier delays.'
-            assign zs_story_faq_no_start = 'ZAISEN generally prepares orders in 1–2 days where delivery is available. Shipping options, delivery estimates and charges for'
+            assign zs_story_faq_no_start = 'ZAISEN generally prepares orders in 1–2 business days where delivery is available. Shipping options, delivery estimates and charges for'
             assign zs_story_faq_no_end = 'are confirmed at checkout. Free shipping is not guaranteed for every country or order.'
         endcase
       -%}

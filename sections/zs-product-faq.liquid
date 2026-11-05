@@ -10,25 +10,25 @@
   case zs_faq_country
     when 'GB'
       assign zs_faq_destination = 'the United Kingdom'
-      assign zs_faq_transit = '4–5 days'
+      assign zs_faq_transit = '5–6 business days'
     when 'US'
       assign zs_faq_destination = 'the United States'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
     when 'DE'
       assign zs_faq_destination = 'Germany'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
     when 'FR'
       assign zs_faq_destination = 'France'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
     when 'AE'
       assign zs_faq_destination = 'the United Arab Emirates'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
     when 'CA'
       assign zs_faq_destination = 'Canada'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
     when 'AU'
       assign zs_faq_destination = 'Australia'
-      assign zs_faq_transit = '8–9 days'
+      assign zs_faq_transit = '9–10 business days'
   endcase
 -%}
 <section class="zs-product-faq" id="zs-product-faq-{{ section.id }}" aria-labelledby="zs-product-faq-title-{{ section.id }}">
@@ -59,7 +59,7 @@
                 <div class="zs-product-faq__answer rte">
                   {%- case block.settings.answer_kind -%}
                     {%- when 'delivery' -%}
-                      <p>Shipping times are estimates, not guaranteed delivery dates. We normally prepare orders in <strong>1–2 days</strong> before dispatch. {% if zs_faq_transit != blank %}For <strong>{{ zs_faq_destination | escape }}</strong>, estimated transit after dispatch is <strong>{{ zs_faq_transit }}</strong>.{% else %}Shipping times depend on your selected destination and will be confirmed at checkout.{% endif %} Customs, holidays and carrier delays may affect delivery. You'll receive tracking after dispatch.</p>
+                      <p>Shipping times are estimates, not guaranteed delivery dates. We normally prepare orders in <strong>1–2 business days</strong> before dispatch. {% if zs_faq_transit != blank %}For <strong>{{ zs_faq_destination | escape }}</strong>, estimated transit after dispatch is <strong>{{ zs_faq_transit }}</strong>.{% else %}Shipping times depend on your selected destination and will be confirmed at checkout.{% endif %} Customs, holidays and carrier delays may affect delivery. You'll receive tracking after dispatch.</p>
                     {%- when 'returns' -%}
                       <p><strong>Yes.</strong> Contact us within <strong>14 days after delivery</strong> for an eligible return or refund request. If a piece arrives damaged, broken or not as described, email <a href="mailto:support@zaisenstore.com">support@zaisenstore.com</a> with your order number and clear photos. {% if shop.refund_policy != blank %}See our <a href="{{ shop.refund_policy.url }}">Refund Policy</a> for full details and exclusions.{% endif %}</p>
                     {%- else -%}
