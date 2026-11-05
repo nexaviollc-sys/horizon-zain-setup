@@ -562,7 +562,7 @@
           "settings": {
             "flag": "🇺🇸",
             "country_name": "United States",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_country_de": {
@@ -570,7 +570,7 @@
           "settings": {
             "flag": "🇩🇪",
             "country_name": "Germany",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_country_ca": {
@@ -578,7 +578,7 @@
           "settings": {
             "flag": "🇨🇦",
             "country_name": "Canada",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_country_au": {
@@ -586,7 +586,7 @@
           "settings": {
             "flag": "🇦🇺",
             "country_name": "Australia",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_country_ae": {
@@ -594,7 +594,7 @@
           "settings": {
             "flag": "🇦🇪",
             "country_name": "United Arab Emirates",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_country_fr": {
@@ -602,14 +602,14 @@
           "settings": {
             "flag": "🇫🇷",
             "country_name": "France",
-            "delivery_time": "9–10 business days"
+            "delivery_time": "8–9 business days"
           }
         },
         "shf_faq_shipping": {
           "type": "faq",
           "settings": {
             "question": "What are the shipping costs and delivery times for my country?",
-            "answer": "Orders are prepared in 1–2 business days before dispatch. Estimated shipping after dispatch is 5–6 business days to the UK, and 9–10 business days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France, UAE and Canada, or $100 USD or more for Australia. For Canada, standard shipping costs $9.99 USD on orders below $60 USD. Smaller orders in other countries may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
+            "answer": "Orders are prepared in 1–2 business days before dispatch. Estimated shipping after dispatch is 5–6 business days to the UK, and 8–9 business days to the USA, Germany, France, UAE, Canada and Australia. Free shipping applies to orders of $60 USD or more for the UK, USA, Germany, France, UAE and Canada, or $100 USD or more for Australia. For Canada, standard shipping costs $9.99 USD on orders below $60 USD. Smaller orders in other countries may incur shipping charges shown at checkout. Delivery times are estimates, not guarantees.",
             "show_refund_link": false
           }
         },

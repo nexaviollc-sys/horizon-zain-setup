@@ -111,7 +111,7 @@
 {%- capture zs_sB037 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigtes Königreich{%- when 'fr' -%}Royaume-Uni{%- when 'ar' -%}المملكة المتحدة{%- else -%}United Kingdom{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB038 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}5–6 Werktage nach Versand{%- when 'fr' -%}5 à 6 jours ouvrés après expédition{%- when 'ar' -%}5–6 أيام عمل بعد الإرسال{%- else -%}5–6 business days after dispatch{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB039 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigte Staaten{%- when 'fr' -%}États-Unis{%- when 'ar' -%}الولايات المتحدة{%- else -%}United States{%- endcase -%}{%- endcapture -%}
-{%- capture zs_sB040 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}9–10 Werktage nach Versand{%- when 'fr' -%}9 à 10 jours ouvrés après expédition{%- when 'ar' -%}9–10 أيام عمل بعد الإرسال{%- else -%}9–10 business days after dispatch{%- endcase -%}{%- endcapture -%}
+{%- capture zs_sB040 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}8–9 Werktage nach Versand{%- when 'fr' -%}8 à 9 jours ouvrés après expédition{%- when 'ar' -%}8–9 أيام عمل بعد الإرسال{%- else -%}8–9 business days after dispatch{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB041 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Deutschland{%- when 'fr' -%}Allemagne{%- when 'ar' -%}ألمانيا{%- else -%}Germany{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB042 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Frankreich{%- when 'fr' -%}France{%- when 'ar' -%}فرنسا{%- else -%}France{%- endcase -%}{%- endcapture -%}
 {%- capture zs_sB043 -%}{%- case request.locale.iso_code -%}{%- when 'de' -%}Vereinigte Arabische Emirate{%- when 'fr' -%}Émirats arabes unis{%- when 'ar' -%}الإمارات العربية المتحدة{%- else -%}United Arab Emirates{%- endcase -%}{%- endcapture -%}
@@ -387,22 +387,22 @@
             assign zs_story_transit = '5–6 BUSINESS DAYS'
           when 'US'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
           when 'DE'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
           when 'FR'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
           when 'AE'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
           when 'CA'
             assign zs_story_free_min = 60
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
           when 'AU'
             assign zs_story_free_min = 100
-            assign zs_story_transit = '9–10 BUSINESS DAYS'
+            assign zs_story_transit = '8–9 BUSINESS DAYS'
         endcase
 
         assign zs_story_transit_display = zs_story_transit
@@ -428,7 +428,7 @@
             if zs_story_transit == '5–6 BUSINESS DAYS'
               assign zs_story_transit_display = '5–6 WERKTAGE'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '9–10 WERKTAGE'
+              assign zs_story_transit_display = '8–9 WERKTAGE'
             endif
           when 'fr'
             assign zs_story_checkout = 'AU PAIEMENT'
@@ -451,7 +451,7 @@
             if zs_story_transit == '5–6 BUSINESS DAYS'
               assign zs_story_transit_display = '5 À 6 JOURS OUVRÉS'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '9 À 10 JOURS OUVRÉS'
+              assign zs_story_transit_display = '8 À 9 JOURS OUVRÉS'
             endif
           when 'ar'
             assign zs_story_checkout = 'عند الدفع'
@@ -474,7 +474,7 @@
             if zs_story_transit == '5–6 BUSINESS DAYS'
               assign zs_story_transit_display = '5–6 أيام عمل'
             elsif zs_story_transit != blank
-              assign zs_story_transit_display = '9–10 أيام عمل'
+              assign zs_story_transit_display = '8–9 أيام عمل'
             endif
           else
             assign zs_story_checkout = 'AT CHECKOUT'
