@@ -6,7 +6,8 @@
   This form creates/updates a Shopify customer profile, not a logged-in account.
 {% endcomment %}
 <div id="zs-native-signup" class="zs-native-signup" hidden
-  data-already-subscribed="{% if customer and customer.accepts_marketing %}true{% else %}false{% endif %}">
+  data-already-subscribed="{% if customer and customer.accepts_marketing %}true{% else %}false{% endif %}"
+  data-page-type="{{ template.name | escape }}">
   <div class="zs-native-signup__dialog" role="dialog" aria-modal="true" aria-labelledby="zs-native-signup-title" aria-describedby="zs-native-signup-intro" tabindex="-1">
     <div class="zs-native-signup__visual" aria-label="A ZAISEN handcrafted wooden tea set photographed for the product catalog">
       <span class="zs-native-signup__visual-caption">CRAFTED FROM REAL WOOD</span>
@@ -50,8 +51,22 @@
     </div>
   </div>
 </div>
+<button type="button" id="zs-native-signup-launcher" class="zs-native-signup__launcher" hidden
+  aria-label="Claim 10% off your first ZAISEN order" aria-controls="zs-native-signup" aria-haspopup="dialog">
+  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="12" rx="1.5"/><path d="M12 9v12M3 13h18M12 9c-4 0-7.5-2.2-6-5 2-3.5 6 2 6 5Zm0 0c4 0 7.5-2.2 6-5-2-3.5-6 2-6 5Z"/></svg>
+  <span>Claim <strong>10% Off</strong></span>
+</button>
 <style>
-  .zs-native-signup[hidden]{display:none!important}
+
+  .zs-native-signup[hidden],.zs-native-signup__launcher[hidden]{display:none!important}
+  /* Compact offer opener. Anchored low-left, outside modal flow; never covers content with a large panel. */
+  .zs-native-signup__launcher{position:fixed;inset:auto auto max(18px,env(safe-area-inset-bottom,0px)) 15px;z-index:2147482990;display:flex;align-items:center;gap:8px;min-height:43px;padding:0 13px 0 11px;max-width:calc(100vw - 28px);border:1px solid rgba(122,87,62,.25);border-radius:7px;background:#faf7f1;color:#543a2a;box-shadow:0 4px 17px rgba(39,27,20,.14);font-family:inherit;font-size:11px;letter-spacing:.015em;line-height:1.1;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease;white-space:nowrap}
+  .zs-native-signup__launcher svg{flex:0 0 auto;color:#856344}
+  .zs-native-signup__launcher strong{font-weight:700}
+  .zs-native-signup__launcher:hover,.zs-native-signup__launcher:focus-visible{box-shadow:0 5px 20px rgba(39,27,20,.22);transform:translateY(-2px);outline-offset:2px}
+  @media(max-width:700px){.zs-native-signup__launcher{left:9px;bottom:max(12px,env(safe-area-inset-bottom,0px));min-height:40px;padding:0 10px;font-size:10px;gap:6px;border-radius:6px}.zs-native-signup__launcher svg{width:15px;height:15px}}
+  @media(prefers-reduced-motion:reduce){.zs-native-signup__launcher{transition:none}}
+
   .zs-native-signup{position:fixed;inset:0;z-index:2147483000;display:flex;justify-content:center;align-items:center;padding:22px;background:rgba(24,19,16,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto}
   html.zs-native-signup-open{overflow:hidden}
   .zs-native-signup__dialog{position:relative;width:min(100%,850px);min-height:475px;display:grid;grid-template-columns:45% 55%;margin:auto;overflow:hidden;border-radius:12px;background:#f9f6ef;color:#30231d;box-shadow:0 30px 100px rgba(0,0,0,.29);isolation:isolate}
@@ -160,7 +175,8 @@
 <script>
 (function(){
   var root=document.getElementById('zs-native-signup');
-  if(!root)return;
+  var launcher=document.getElementById('zs-native-signup-launcher');
+  if(!root||!launcher)return;
   var dialog=root.querySelector('.zs-native-signup__dialog');
   var success=!!root.querySelector('[data-zs-signup-success]');
   var error=!!root.querySelector('[data-zs-signup-error]');
@@ -168,26 +184,31 @@
   var copyBtn=root.querySelector('[data-zs-signup-copy]');
   var previousFocus=null;
   var signedKey='zs_native_signup_complete_v1';
-  var dismissedKey='zs_native_signup_dismissed_v1';
   function get(k){try{return window.localStorage.getItem(k)}catch(e){return null}}
   function set(k,v){try{window.localStorage.setItem(k,v)}catch(e){}}
   function show(){
     if(!root.hidden)return;
     previousFocus=document.activeElement;
+    launcher.hidden=true;
     root.hidden=false;
     document.documentElement.classList.add('zs-native-signup-open');
     window.requestAnimationFrame(function(){
-      var focusTarget = window.matchMedia('(max-width:700px)').matches ? dialog : (success ? (copyBtn||dialog) : (root.querySelector('#zs-native-signup-email')||dialog));
-      if(focusTarget && focusTarget.focus)focusTarget.focus();
+      // On phones, don't trigger the keyboard until the customer taps the email field.
+      var focusTarget=window.matchMedia('(max-width:700px)').matches
+        ? dialog
+        : (success?(copyBtn||dialog):(root.querySelector('#zs-native-signup-email')||dialog));
+      if(focusTarget&&focusTarget.focus)focusTarget.focus();
     });
   }
   function close(){
     root.hidden=true;
     document.documentElement.classList.remove('zs-native-signup-open');
-    if(!success)set(dismissedKey,String(Date.now()));
+    // Do NOT store dismissals: on the next visit or refresh the offer returns.
+    if(!success)launcher.hidden=false;
     if(previousFocus&&previousFocus.focus)previousFocus.focus();
   }
   closeBtn.addEventListener('click',close);
+  launcher.addEventListener('click',show);
   root.addEventListener('click',function(ev){if(ev.target===root)close()});
   document.addEventListener('keydown',function(ev){
     if(root.hidden)return;
@@ -202,16 +223,26 @@
   if(copyBtn){
     copyBtn.addEventListener('click',function(){
       var code='ZAISENWELCOME10';
-      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(code).then(function(){copyBtn.textContent='Copied!'}).catch(function(){copyBtn.textContent='Select the code'})}
-      else{var el=document.getElementById('zs-native-signup-code');if(el){var sel=window.getSelection();var range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);copyBtn.textContent='Code selected'}}
+      if(navigator.clipboard&&window.isSecureContext){
+        navigator.clipboard.writeText(code).then(function(){copyBtn.textContent='Copied!'}).catch(function(){copyBtn.textContent='Select the code'});
+      } else {
+        var el=document.getElementById('zs-native-signup-code');
+        if(el){var sel=window.getSelection();var range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);copyBtn.textContent='Code selected'}
+      }
     });
   }
+  // A confirmed Shopify customer-form submission is the only anonymous-browser
+  // success flag. An authenticated marketing subscriber is likewise excluded.
   if(success){set(signedKey,'1');show();return}
-  if(error){show();return}
   if(root.getAttribute('data-already-subscribed')==='true'||get(signedKey)==='1')return;
-  var dismissed=Number(get(dismissedKey)||'0');
-  if(dismissed&&Date.now()-dismissed<7*24*60*60*1000)return;
-  if(window.Shopify&&window.Shopify.designMode)return;
-  window.setTimeout(function(){if(!document.hidden&&!root.querySelector('[data-zs-signup-success]'))show()},6500);
+  if(error){show();return}
+  // Keep the subtle left offer available throughout the site.
+  launcher.hidden=false;
+  // Auto-open on homepage and product pages, including after closing and
+  // refreshing. No 7-day dismissal or session dismissal is remembered.
+  if(root.getAttribute('data-page-type')==='index'||root.getAttribute('data-page-type')==='product'){
+    if(window.Shopify&&window.Shopify.designMode)return;
+    window.setTimeout(function(){if(!document.hidden)show()},2200);
+  }
 })();
 </script>
