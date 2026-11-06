@@ -51,5 +51,17 @@
   assign optimized_html = optimized_html | replace: '/cdn/shop/files/il_fullxfull.8683288363_7698.jpg', '/cdn/shop/files/zs-home-il_fullxfull.8683288363_7698.webp'
   assign optimized_html = optimized_html | replace: '/cdn/shop/files/story_eaafa7f0-3752-4be5-a12a-9767bd49d445.jpg', '/cdn/shop/files/zs-home-story_eaafa7f0-3752-4be5-a12a-9767bd49d445.webp'
   assign optimized_html = optimized_html | replace: '/cdn/shop/files/blogs_500ebf86-a24e-4e91-ae91-8acccfaf3316.jpg', '/cdn/shop/files/zs-home-blogs_500ebf86-a24e-4e91-ae91-8acccfaf3316.webp'
-  echo optimized_html
 -%}
+{%- assign zs_image_parts = optimized_html | split: '<img ' -%}
+{{- zs_image_parts.first -}}
+{%- for zs_image_part in zs_image_parts offset: 1 -%}
+  {%- assign zs_image_attributes = zs_image_part | split: '>' | first -%}
+  {%- assign zs_image_remainder = zs_image_part | remove_first: zs_image_attributes | remove_first: '>' -%}
+  {%- if zs_image_attributes contains 'loading="lazy"' -%}
+    {{- '<img ' -}}{{ zs_image_attributes | replace: ' srcset=', ' data-zs-srcset=' | replace: ' src=', ' data-zs-src=' }}{{' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">'}}
+    <noscript>{{- '<img ' -}}{{ zs_image_attributes }}{{- '>' -}}</noscript>
+  {%- else -%}
+    {{- '<img ' -}}{{ zs_image_attributes }}{{- '>' -}}
+  {%- endif -%}
+  {{- zs_image_remainder -}}
+{%- endfor -%}

@@ -1,3 +1,8 @@
+{% if template.name == 'index' %}
+{%- unless settings.type_body_font.system? -%}
+  {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
+{%- endunless -%}
+{% else %}
 {%- unless settings.type_body_font.system? -%}
   {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
 {%- endunless -%}
@@ -10,3 +15,5 @@
 {%- unless settings.type_accent_font.system? -%}
   {{ settings.type_accent_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
 {%- endunless -%}
+
+{% endif %}

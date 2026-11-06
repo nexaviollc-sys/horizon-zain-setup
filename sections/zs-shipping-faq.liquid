@@ -201,7 +201,7 @@
     #zs-shf-{{ section.id }} .zs-shf__contact {
       background-image:
         linear-gradient(110deg, rgba(27,18,14,.74), rgba(27,18,14,.40)),
-        url({{ s.contact_background_image | image_url: width: 1400 | json }});
+        url("{{ s.contact_background_image | image_url: width: 1400 | escape }}");
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;

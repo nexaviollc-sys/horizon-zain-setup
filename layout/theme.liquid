@@ -36,6 +36,10 @@
     {{ 'zaisen-heritage.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'zs-shipping-currency.js' | asset_url }}" defer></script>
     {% if template.name == 'index' %}
+      <script src="{{ 'zs-home-performance.js' | asset_url }}" defer></script>
+      <noscript><style>img[data-zs-src]{display:none!important}</style></noscript>
+    {% endif %}
+    {% if template.name == 'index' %}
       <style>
         /* Hide the copper shipping marquee on ZAISEN's homepage before first paint. */
         #header-group .zs-copper-marquee-section { display: none !important; }

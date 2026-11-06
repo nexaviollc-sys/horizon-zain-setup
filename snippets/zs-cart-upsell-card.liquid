@@ -3,6 +3,7 @@
   products not already in the cart. Native Ajax quick add is delegated
   to cart-drawer-component.
 {% endcomment %}
+{%- capture zs_upsell_markup -%}
 <article class="zs-cart-upsell__item" data-product-id="{{ zs_product.id }}" role="group" aria-roledescription="slide" aria-label="{{ zs_product.title | escape }}">
   <a class="zs-cart-upsell__image" href="{{ zs_product.url }}" tabindex="-1" aria-hidden="true">
     {{ zs_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '160, 240, 320, 400', sizes: '(max-width: 749px) 100px, 110px', alt: zs_product.title, class: 'zs-cart-upsell__photo' }}
@@ -26,3 +27,10 @@
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
   </button>
 </article>
+
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_upsell_markup -%}
+{%- else -%}
+  {{- zs_upsell_markup -}}
+{%- endif -%}

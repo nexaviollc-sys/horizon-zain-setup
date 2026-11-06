@@ -31,7 +31,7 @@
   <div class="zs-craft-marquee__inner">
     <a class="zs-craft-marquee__brand" href="{{ routes.root_url }}" aria-label="ZAISEN homepage">
       {%- if brand_logo != blank -%}
-        {{ brand_logo | image_url: width: 200 | image_tag: class: 'zs-craft-marquee__logo', loading: 'eager', widths: '88,132,200', alt: '' }}
+        {{ brand_logo | image_url: width: 200 | image_tag: class: 'zs-craft-marquee__logo', loading: 'lazy', widths: '88,132,200', alt: '' }}
       {%- else -%}
         <span class="zs-craft-marquee__brand-fallback">ZS</span>
       {%- endif -%}

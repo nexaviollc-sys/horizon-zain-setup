@@ -132,11 +132,13 @@
   fetchpriority="low"
 ></script>
 {% if settings.quick_add or settings.mobile_quick_add %}
-  <script
+  {% unless template.name == 'index' %}
+<script
     src="{{ 'quick-add.js' | asset_url }}"
     type="module"
     fetchpriority="low"
   ></script>
+{% endunless %}
 {% endif %}
 {% if settings.show_add_discount_code %}
   <script
@@ -151,111 +153,149 @@
   type="module"
   fetchpriority="low"
 ></script>
+{% unless template.name == 'index' %}
 <script
   src="{{ 'variant-picker.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'product-card.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'product-form.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'fly-to-cart.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
 <script
   src="{{ 'accordion-custom.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% unless template.name == 'index' %}
 <script
   src="{{ 'media.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'product-price.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'product-sku.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'product-inventory.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'show-more.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'slideshow.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'layered-slideshow.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'anchored-popover.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'floating-panel.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'video-background.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
 <script
   src="{{ 'component-quantity-selector.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% unless template.name == 'index' %}
 <script
   src="{{ 'media-gallery.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'rte-formatter.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'volume-pricing.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'price-per-item.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
+{% unless template.name == 'index' %}
 <script
   src="{{ 'volume-pricing-info.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+{% endunless %}
 
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script
@@ -312,3 +352,49 @@
     },
   };
 </script>
+
+{% if template.name == 'index' %}
+<script type="module">
+  import '@theme/view-event-elements';
+  const pending = new Map([
+    ["quick-add-component", {{ 'quick-add.js' | asset_url | json }}],
+    ["variant-picker,swatches-variant-picker-component", {{ 'variant-picker.js' | asset_url | json }}],
+    ["product-card,product-card-link", {{ 'product-card.js' | asset_url | json }}],
+    ["product-form-component,add-to-cart-component", {{ 'product-form.js' | asset_url | json }}],
+    ["fly-to-cart", {{ 'fly-to-cart.js' | asset_url | json }}],
+    ["deferred-media,product-model", {{ 'media.js' | asset_url | json }}],
+    ["product-price", {{ 'product-price.js' | asset_url | json }}],
+    ["product-sku-component", {{ 'product-sku.js' | asset_url | json }}],
+    ["product-inventory", {{ 'product-inventory.js' | asset_url | json }}],
+    ["show-more-component", {{ 'show-more.js' | asset_url | json }}],
+    ["slideshow-component", {{ 'slideshow.js' | asset_url | json }}],
+    ["layered-slideshow-component", {{ 'layered-slideshow.js' | asset_url | json }}],
+    ["anchored-popover-component", {{ 'anchored-popover.js' | asset_url | json }}],
+    ["floating-panel-component", {{ 'floating-panel.js' | asset_url | json }}],
+    ["video-background-component", {{ 'video-background.js' | asset_url | json }}],
+    ["media-gallery", {{ 'media-gallery.js' | asset_url | json }}],
+    ["rte-formatter", {{ 'rte-formatter.js' | asset_url | json }}],
+    ["volume-pricing", {{ 'volume-pricing.js' | asset_url | json }}],
+    ["price-per-item", {{ 'price-per-item.js' | asset_url | json }}],
+    ["volume-pricing-info", {{ 'volume-pricing-info.js' | asset_url | json }}]
+  ]);
+  function loadFor(root) {
+    for (const [selector, url] of pending) {
+      if ((root.matches?.(selector)) || root.querySelector(selector)) {
+        pending.delete(selector);
+        import(url).catch(error => console.warn('Unable to load a storefront component', error));
+      }
+    }
+  }
+  loadFor(document);
+  const observer = new MutationObserver(records => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.nodeType === 1) loadFor(node);
+      }
+    }
+    if (!pending.size) observer.disconnect();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+</script>
+{% endif %}

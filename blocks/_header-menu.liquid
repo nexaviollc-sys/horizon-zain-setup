@@ -191,7 +191,7 @@
                           <a class="zs-bestseller-grid__card" href="{{ zs_product.url }}">
                             <span class="zs-bestseller-grid__media">
                               {%- if zs_product.featured_image != blank -%}
-                                {{ zs_product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,120,180', sizes: '72px', alt: zs_product.title }}
+                                {{ zs_product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', fetchpriority: 'low', widths: '90,120,180', sizes: '72px', alt: zs_product.title }}
                               {%- endif -%}
                             </span>
                             <span class="zs-bestseller-grid__detail">
