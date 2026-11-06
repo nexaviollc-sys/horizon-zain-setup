@@ -36,6 +36,7 @@
   }
 {% endstyle %}
 
+{%- capture zs_section_markup -%}
 <section id="zsp-{{ section.id }}" class="zsp" aria-labelledby="zsp-heading-{{ section.id }}">
   <div class="zsp__inner">
     <header class="zsp__header">
@@ -89,6 +90,12 @@
     {%- endif -%}
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 {% stylesheet %}
 .zsp{background:var(--zsp-white,#FFFFFF);color:var(--zsp-ink,#2B1D17);padding:clamp(60px,7vw,var(--zsp-pt,84px)) 0 var(--zsp-pb,84px);overflow:clip}
 .zsp *{box-sizing:border-box}
