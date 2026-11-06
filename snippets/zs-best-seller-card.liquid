@@ -6,6 +6,7 @@
 {% enddoc %}
 {%- liquid
             assign main_image = product.featured_image
+            assign secondary_image = product.images[1]
             assign note_text = blank
             for block in blocks
               if block.settings.product.id == product.id
@@ -32,9 +33,12 @@
           -%}
           <article class="zsp__product">
             <a class="zsp__link" href="{{ product.url }}" aria-label="Discover {{ product.title | escape }}">
-              <div class="zsp__media">
+              <div class="zsp__media{% if secondary_image != blank %} zsp__media--has-secondary{% endif %}">
                 {%- if main_image != blank -%}
-                  {{ main_image | image_url: width: 1100 | image_tag: class: 'zsp__image', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: product.title }}
+                  {{ main_image | image_url: width: 1100 | image_tag: class: 'zsp__image zsp__image--primary', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: product.title }}
+                  {%- if secondary_image != blank -%}
+                  {{ secondary_image | image_url: width: 1100 | image_tag: class: 'zsp__image zsp__image--secondary', widths: '260, 390, 540, 720, 880, 1100', sizes: '(min-width: 1500px) 320px, (min-width: 1100px) calc((100vw - 175px) / 4), (min-width: 750px) calc((100vw - 90px) / 2), calc((100vw - 48px) / 2)', loading: 'lazy', alt: '' }}
+                  {%- endif -%}
                 {%- else -%}
                   <span class="zsp__fallback" aria-hidden="true">ZAISEN</span>
                 {%- endif -%}
