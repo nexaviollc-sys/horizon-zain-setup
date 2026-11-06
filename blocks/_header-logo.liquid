@@ -27,6 +27,7 @@
   Output all logo variants, use CSS to hide/show the appropriate one
   based on the .header[transparent] selector
 {% endcomment %}
+{%- capture zs_logo_markup -%}
 <a
   {% if template.name == 'index' and block_settings.hide_logo_on_home_page %}
     data-hidden-on-home-page
@@ -83,6 +84,12 @@
     </span>
   {% endif %}
 </a>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_logo_markup -%}
+{%- else -%}
+  {{- zs_logo_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
   .header-logo {
