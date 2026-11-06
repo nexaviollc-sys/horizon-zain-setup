@@ -42,7 +42,6 @@
     {% endif %}
   </head>
 
-  {%- capture zs_page_body -%}
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
 
@@ -222,10 +221,4 @@
     {% endif %}
     {%- render 'zs-native-signup-popup' -%}
   </body>
-  {%- endcapture -%}
-  {%- if template.name == 'index' -%}
-    {%- render 'zs-home-optimized-images', html: zs_page_body -%}
-  {%- else -%}
-    {{- zs_page_body -}}
-  {%- endif -%}
 </html>
