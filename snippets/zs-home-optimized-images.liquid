@@ -59,7 +59,7 @@
   {%- assign zs_image_attributes = zs_image_part | split: '>' | first -%}
   {%- assign zs_image_remainder = zs_image_part | remove_first: zs_image_attributes | remove_first: '>' -%}
   {%- if zs_image_attributes contains 'loading="lazy"' -%}
-    {{- '<img ' -}}{{ zs_image_attributes | replace: ' srcset=', ' data-zs-srcset=' | replace: ' src=', ' data-zs-src=' }}{{' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">'}}
+    {{- '<img ' -}}{{ zs_image_attributes | prepend: ' ' | replace: ' srcset=', ' data-zs-srcset=' | replace: ' src=', ' data-zs-src=' }}{{' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">'}}
     <noscript>{{- '<img ' -}}{{ zs_image_attributes }}{{- '>' -}}</noscript>
   {%- else -%}
     {{- '<img ' -}}{{ zs_image_attributes }}{{- '>' -}}
