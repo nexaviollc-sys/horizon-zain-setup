@@ -58,6 +58,7 @@
   {% endstyle %}
 {%- endif -%}
 
+{%- capture zs_section_markup -%}
 <section
   id="zaisen-banner-hero-{{ section.id }}"
   class="zf-hero{% if mobile_banner_image != blank %} zf-hero--mobile-image-ready{% endif %}"
@@ -130,6 +131,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
   .zf-hero {
