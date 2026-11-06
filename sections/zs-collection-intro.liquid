@@ -11,6 +11,7 @@
   assign zs_description_plain = collection.description | replace: '</p>', ' ' | replace: '</h2>', ' ' | replace: '</h3>', ' ' | replace: '</li>', ' ' | replace: '<br>', ' ' | replace: '<br/>', ' ' | strip_html | strip
   assign zs_description_words = zs_description_plain | split: ' ' | size
 -%}
+{%- capture zs_page_markup -%}
 <section class="zs-collection-intro" aria-labelledby="zs-collection-title-{{ section.id }}">
   <div class="zs-collection-intro__shell">
     <nav class="zs-collection-intro__breadcrumbs" aria-label="Breadcrumb">
@@ -51,6 +52,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name != 'product' -%}
+  {%- render 'zs-home-optimized-images', html: zs_page_markup -%}
+{%- else -%}
+  {{- zs_page_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
 .zs-collection-intro{background:#fcfaf7;color:#2b1d17;padding:10px 0 18px}

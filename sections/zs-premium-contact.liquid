@@ -110,6 +110,7 @@
   {% endstyle %}
 {%- endif -%}
 
+{%- capture zs_page_markup -%}
 <section id="zs-contact-{{ section.id }}" class="zs-contact" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}" style="
   --zs-bg:{{ s.bg_color }};
   --zs-surface:{{ s.surface_color }};
@@ -260,6 +261,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name != 'product' -%}
+  {%- render 'zs-home-optimized-images', html: zs_page_markup -%}
+{%- else -%}
+  {{- zs_page_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
 .zs-contact{

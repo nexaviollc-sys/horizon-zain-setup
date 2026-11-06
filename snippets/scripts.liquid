@@ -133,13 +133,13 @@
   fetchpriority="low"
 ></script>
 {% if settings.quick_add or settings.mobile_quick_add %}
-  {% unless template.name == 'index' %}
+  {% if template.name == 'product' %}
 <script
     src="{{ 'quick-add.js' | asset_url }}"
     type="module"
     fetchpriority="low"
   ></script>
-{% endunless %}
+{% endif %}
 {% endif %}
 {% if settings.show_add_discount_code %}
   <script
@@ -154,149 +154,149 @@
   type="module"
   fetchpriority="low"
 ></script>
-{% unless template.name == 'index' %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'variant-picker.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'product-card.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'product-form.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'fly-to-cart.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
+{% endif %}
 <script
   src="{{ 'accordion-custom.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% unless template.name == 'index' %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'media.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'product-price.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'product-sku.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'product-inventory.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'show-more.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'slideshow.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'layered-slideshow.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'anchored-popover.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'floating-panel.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'video-background.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
+{% endif %}
 <script
   src="{{ 'component-quantity-selector.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% unless template.name == 'index' %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'media-gallery.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'rte-formatter.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'volume-pricing.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'price-per-item.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
-{% unless template.name == 'index' %}
+{% endif %}
+{% if template.name == 'product' %}
 <script
   src="{{ 'volume-pricing-info.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% endunless %}
+{% endif %}
 
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script
@@ -354,7 +354,7 @@
   };
 </script>
 
-{% if template.name == 'index' %}
+{% unless template.name == 'product' %}
 <script type="module">
   import '@theme/view-event-elements';
   const pending = new Map([
@@ -398,4 +398,4 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 </script>
-{% endif %}
+{% endunless %}

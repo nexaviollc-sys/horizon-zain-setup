@@ -104,6 +104,11 @@
           assign featured_media_sizes = image_sizes
         endif
 
+        if template.name != 'product'
+          assign featured_media_loading = 'lazy'
+          assign featured_media_sizes = 'auto, ' | append: image_sizes
+        endif
+
         # The class differs per media only by media_type; the base template and the
         # constrain-height suffix are the same for every slide, so build them once.
         assign media_class = 'product-media-container media-fit product-media-container--[media_type]'

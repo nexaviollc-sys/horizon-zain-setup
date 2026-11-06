@@ -86,7 +86,7 @@
   {% endif %}
 </a>
 {%- endcapture -%}
-{%- if template.name == 'index' -%}
+{%- if template.name != 'product' -%}
   {%- render 'zs-home-optimized-images', html: zs_logo_markup -%}
 {%- else -%}
   {{- zs_logo_markup -}}

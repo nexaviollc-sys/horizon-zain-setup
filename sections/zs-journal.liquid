@@ -106,6 +106,7 @@
       assign zsj_tag_labels = 'Home Styling|Wood Care|Craftsmanship|Gift Guides|Kitchen & Dining' | split: '|'
   endcase
 %}
+{%- capture zs_page_markup -%}
 <section class="zsj" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}" id="zaisen-journal-{{ section.id }}" aria-labelledby="zsj-h1-{{ section.id }}">
   <div class="zsj__shell">
     <nav class="zsj__breadcrumb" aria-label="{{ zsj_home | escape }}"><a href="{{ routes.root_url }}">{{ zsj_home | escape }}</a><span aria-hidden="true">/</span><span>{{ zsj_crumb | escape }}</span></nav>
@@ -148,6 +149,12 @@
     <section class="zsj__discover" aria-labelledby="zsj-discover-title"><div><p class="zsj__eyebrow">{{ zsj_made | escape }}</p><h2 id="zsj-discover-title">{{ zsj_bring | escape }}</h2><p>{{ zsj_discover | escape }}</p></div><a href="{{ routes.all_products_collection_url }}">{{ zsj_shop | escape }} <span aria-hidden="true">↗</span></a></section>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name != 'product' -%}
+  {%- render 'zs-home-optimized-images', html: zs_page_markup -%}
+{%- else -%}
+  {{- zs_page_markup -}}
+{%- endif -%}
 {% stylesheet %}
 .zsj{background:#fcfaf7;color:#2b1d17;padding:30px 0 90px}
 .zsj *{box-sizing:border-box}

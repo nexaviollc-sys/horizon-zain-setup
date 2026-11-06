@@ -3,6 +3,15 @@
 {%- unless settings.type_body_font.system? -%}
   {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
 {%- endunless -%}
+{% elsif template.name != 'product' %}
+{%- unless settings.type_body_font.system? -%}
+  {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
+{%- endunless -%}
+{%- unless settings.type_heading_font.system? -%}
+  {% if settings.type_heading_font != settings.type_body_font %}
+    {{ settings.type_heading_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'high' }}
+  {% endif %}
+{%- endunless -%}
 {% else %}
 {%- unless settings.type_body_font.system? -%}
   {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', fetchpriority: 'low' }}
