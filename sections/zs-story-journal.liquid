@@ -87,6 +87,7 @@
   }
 {% endstyle %}
 
+{%- capture zs_section_markup -%}
 <section id="zs-story-journal-{{ section.id }}" class="zs-sj" aria-labelledby="zs-story-journal-title-{{ section.id }}">
   <div class="zs-sj__container">
     <header class="zs-sj__intro">
@@ -171,6 +172,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
 .zs-sj{
