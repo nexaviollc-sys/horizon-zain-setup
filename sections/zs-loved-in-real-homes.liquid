@@ -65,7 +65,8 @@
 {% endstyle %}
 
 {% if section.blocks.size > 0 %}
-  <section
+  {%- capture zs_section_markup -%}
+<section
     id="zsh-{{ section.id }}"
     class="zsh"
     {% if s.heading_light != blank or s.heading_bold != blank %}
@@ -234,6 +235,12 @@
       </div>
     </div>
   </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 {% elsif request.design_mode %}
   <div id="zsh-{{ section.id }}" class="zsh zsh--empty" role="status">
     <div class="zsh__empty-inner">
