@@ -1,3 +1,4 @@
+
 {% comment %}ZAISEN Canada checkout: USD $9.99 below $60, free from $60; Australia unchanged at $100.{% endcomment %}
 {%- comment -%}
   ZAISEN Shipping & FAQ — country estimates match the published shipping policy (October 2026).
@@ -201,7 +202,7 @@
     #zs-shf-{{ section.id }} .zs-shf__contact {
       background-image:
         linear-gradient(110deg, rgba(27,18,14,.74), rgba(27,18,14,.40)),
-        url("{{ s.contact_background_image | image_url: width: 1400 | escape }}");
+        url("{{ s.contact_background_image | image_url: width: 1400 }}");
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;
