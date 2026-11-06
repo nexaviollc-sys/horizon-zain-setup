@@ -132,15 +132,6 @@
   type="module"
   fetchpriority="low"
 ></script>
-{% if settings.quick_add or settings.mobile_quick_add %}
-  {% if template.name == 'product' %}
-<script
-    src="{{ 'quick-add.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endif %}
-{% endif %}
 {% if settings.show_add_discount_code %}
   <script
     src="{{ 'cart-discount.js' | asset_url }}"
@@ -161,13 +152,7 @@
   fetchpriority="low"
 ></script>
 {% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'product-card.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
+
 {% if template.name == 'product' %}
 <script
   src="{{ 'product-form.js' | asset_url }}"
@@ -201,27 +186,7 @@
   fetchpriority="low"
 ></script>
 {% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'product-sku.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'product-inventory.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'show-more.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
+
 {% if template.name == 'product' %}
 <script
   src="{{ 'slideshow.js' | asset_url }}"
@@ -229,34 +194,7 @@
   fetchpriority="low"
 ></script>
 {% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'layered-slideshow.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'anchored-popover.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'floating-panel.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'video-background.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
+
 <script
   src="{{ 'component-quantity-selector.js' | asset_url }}"
   type="module"
@@ -265,34 +203,6 @@
 {% if template.name == 'product' %}
 <script
   src="{{ 'media-gallery.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'rte-formatter.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'volume-pricing.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'price-per-item.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-{% endif %}
-{% if template.name == 'product' %}
-<script
-  src="{{ 'volume-pricing-info.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
@@ -354,7 +264,6 @@
   };
 </script>
 
-{% unless template.name == 'product' %}
 <script type="module">
   import '@theme/view-event-elements';
   import {{ 'fly-to-cart.js' | asset_url | json }};
@@ -398,4 +307,3 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 </script>
-{% endunless %}
