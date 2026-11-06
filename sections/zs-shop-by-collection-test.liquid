@@ -54,6 +54,7 @@
   }
 {% endstyle %}
 
+{%- capture zs_section_markup -%}
 <section id="zsbc-{{ section.id }}" class="zsc-section" aria-labelledby="zsc-heading-{{ section.id }}">
   <div class="zsc-section__inner">
     <header class="zsc-section__header">
@@ -130,6 +131,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
 .zsc-section {
