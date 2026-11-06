@@ -20,6 +20,7 @@
   {% endstyle %}
 {%- endif -%}
 
+{%- capture zs_section_markup -%}
 <section
   id="zs-craft-marquee-{{ section.id }}"
   class="zs-craft-marquee"
@@ -56,6 +57,12 @@
     </div>
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 
 {% stylesheet %}
 .zs-craft-marquee{
