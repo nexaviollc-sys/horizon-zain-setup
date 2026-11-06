@@ -1,3 +1,4 @@
+import { hydrateProductImages } from './zs-product-images.js';
 import { Component } from '@theme/component';
 import {
   supportsViewTransitions,
@@ -50,6 +51,8 @@ export class ZoomDialog extends Component {
     const targetThumbnail = thumbnails.children[index];
 
     const open = () => {
+      hydrateProductImages(thumbnails);
+      if (targetImage) hydrateProductImages(targetImage);
       dialog.showModal();
 
       for (const target of [targetThumbnail, targetImage]) {
@@ -89,6 +92,7 @@ export class ZoomDialog extends Component {
   loadHighResolutionImage(mediaContainer) {
     if (!mediaContainer.classList.contains('product-media-container--image')) return false;
 
+    hydrateProductImages(mediaContainer);
     const image = mediaContainer.querySelector('img.product-media__image');
     if (!image || !(image instanceof HTMLImageElement)) return false;
 

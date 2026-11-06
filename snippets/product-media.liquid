@@ -6,6 +6,7 @@
   @param {string} [widths] - Image widths for responsive images.
   @param {string} [sizes] - Image sizes for responsive images.
   @param {string} [loading] - The loading attribute for the image.
+  @param {boolean} [defer_image] - Defers the image request until it is needed.
   @param {object} [block] - The block object.
   @param {object} [selected_product] - The currently selected product.
   @param {boolean} [first_3d_model] - Indicates if this is the first 3D model.
@@ -37,6 +38,7 @@
     endif
     assign focal_point_style = '--focal-point: ' | append: media.presentation.focal_point | append: ';'
   %}
+  {% capture product_image_markup %}
   {{
     media.preview_image
     | image_url: width: 3840
@@ -52,6 +54,12 @@
       style: focal_point_style,
       ref: image_ref
   }}
+  {% endcapture %}
+  {% if defer_image and media.media_type == 'image' %}
+    {% render 'zs-deferred-product-image', image_markup: product_image_markup %}
+  {% else %}
+    {{ product_image_markup }}
+  {% endif %}
 
   {% unless preview_image_only %}
     {%- case media.media_type -%}

@@ -1,3 +1,4 @@
+import { hydrateProductImages } from './zs-product-images.js';
 import { Component } from '@theme/component';
 import { ThemeEvents, ZoomMediaSelectedEvent } from '@theme/events';
 import { StandardEvents, ProductSelectEvent } from '@shopify/events';
@@ -17,6 +18,23 @@ export class MediaGallery extends Component {
     super.connectedCallback();
 
     const { signal } = this.#controller;
+    this.addEventListener('slideshow:select', event => {
+      if (!event.detail?.slide) return;
+      hydrateProductImages(event.detail.slide);
+      if (event.detail.userInitiated && event.detail.slide.nextElementSibling) {
+        hydrateProductImages(event.detail.slide.nextElementSibling);
+      }
+    }, { signal });
+    const gridImages = this.querySelectorAll('.media-gallery__grid img[data-zs-product-src]');
+    if (gridImages.length) {
+      this.imageObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) if (entry.isIntersecting) {
+          hydrateProductImages(entry.target);
+          this.imageObserver.unobserve(entry.target);
+        }
+      }, { rootMargin: '250px' });
+      gridImages.forEach(image => this.imageObserver.observe(image));
+    }
     const target = this.closest('.shopify-section, dialog');
 
     target?.addEventListener(StandardEvents.productSelect, this.#handleProductSelect, { signal });
@@ -31,6 +49,7 @@ export class MediaGallery extends Component {
     super.disconnectedCallback();
 
     this.#controller.abort();
+    this.imageObserver?.disconnect();
   }
 
   /**

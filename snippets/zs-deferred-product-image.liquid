@@ -1,0 +1,6 @@
+{% doc %}
+  Defers a product image while preserving its responsive sources and no-script fallback.
+  @param {string} image_markup - Rendered image HTML.
+{% enddoc %}
+{{ image_markup | replace: ' srcset=', ' data-zs-product-srcset=' | replace: ' src=', ' data-zs-product-src=' }}
+<noscript>{{ image_markup }}</noscript>

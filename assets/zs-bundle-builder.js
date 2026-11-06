@@ -230,6 +230,12 @@
       this.activePickerCollection = 'all';
       if (this.pickerSearch) this.pickerSearch.value = '';
       this.renderProductPicker();
+      for (const image of this.picker.querySelectorAll('img[data-zs-product-src]')) {
+        if (image.dataset.zsProductSrcset) image.srcset = image.dataset.zsProductSrcset;
+        image.src = image.dataset.zsProductSrc;
+        delete image.dataset.zsProductSrc;
+        delete image.dataset.zsProductSrcset;
+      }
       this.picker.showModal();
       const scrolling = this.picker.querySelector('[data-zs-picker-scroll]');
       if (scrolling) scrolling.scrollTop = 0;

@@ -311,7 +311,8 @@
                         >
                           <span class="zs-bundle__picker-card-media">
                             {% if zs_picker_product.featured_image %}
-                              {{ zs_picker_product.featured_image | image_url: width: 260 | image_tag: loading: 'lazy', widths: '110,160,220,260', sizes: '(min-width: 750px) 155px, 44vw', alt: zs_picker_product.title }}
+                              {% capture picker_image_markup %}{{ zs_picker_product.featured_image | image_url: width: 260 | image_tag: loading: 'lazy', widths: '110,160,220,260', sizes: '(min-width: 750px) 155px, 44vw', alt: zs_picker_product.title }}{% endcapture %}
+                              {% render 'zs-deferred-product-image', image_markup: picker_image_markup %}
                             {% else %}
                               <span>ZAISEN</span>
                             {% endif %}
