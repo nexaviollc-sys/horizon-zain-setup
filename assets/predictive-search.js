@@ -283,21 +283,21 @@ class PredictiveSearchComponent extends Component {
    * Debounce the search handler to fetch and display search results based on the input value.
    * Reset the current selection index and close results if the search term is empty.
    */
-  search = debounce((event) => {
-    // If the input is not a text input (like using the Escape key), don't search
-    if (!event.inputType) return;
-
+  search = debounce(() => {
+    // The input event does not always expose inputType (paste, autofill and
+    // some keyboards). Read the actual field value for every input event.
     const searchTerm = this.refs.searchInput.value.trim();
     this.#currentIndex = -1;
 
     if (!searchTerm.length) {
+      this.refs.searchInput.setAttribute('aria-expanded', 'false');
       this.#resetSearch();
       return;
     }
 
     this.#showResetButton();
     this.#getSearchResults(searchTerm);
-  }, 200);
+  }, 180);
 
   /**
    * Resets scroll positions for search results containers
@@ -348,18 +348,39 @@ class PredictiveSearchComponent extends Component {
           return;
         }
 
-        morph(predictiveSearchResults, resultsMarkup);
+        // Section Rendering returns a full Shopify section, not the search
+        // dropdown itself. Extract the actual list before morphing, otherwise
+        // wrappers and whitespace nodes can leave the modal apparently empty.
+        const doc = new DOMParser().parseFromString(resultsMarkup, 'text/html');
+        const nextResults = doc.getElementById('predictive-search-results');
+        if (!nextResults) {
+          this.refs.searchInput.setAttribute('aria-expanded', 'false');
+          deferredPromise.resolve({ totalCount: 0 });
+          return;
+        }
 
+        const existingResults = predictiveSearchResults.querySelector('#predictive-search-results');
+        if (existingResults) {
+          morph(existingResults, nextResults);
+        } else {
+          predictiveSearchResults.replaceChildren(nextResults);
+        }
+
+        this.refs.searchInput.setAttribute('aria-expanded', 'true');
         this.#resetScrollPositions();
 
-        // Count all result items (products, collections, pages, articles, queries)
+        // Count all result items (products, collections, pages, articles, queries).
         const resultCount = predictiveSearchResults.querySelectorAll('[ref="resultsItems[]"]').length;
         deferredPromise.resolve({ totalCount: resultCount });
       })
       .catch((error) => {
-        deferredPromise.reject(error);
-        if (abortController.signal.aborted) return;
-        throw error;
+        if (abortController.signal.aborted) {
+          deferredPromise.resolve({ totalCount: 0 });
+          return;
+        }
+        this.refs.searchInput.setAttribute('aria-expanded', 'false');
+        deferredPromise.resolve({ totalCount: 0 });
+        console.error('Predictive search failed:', error);
       });
   }
 
@@ -407,6 +428,7 @@ class PredictiveSearchComponent extends Component {
 
     this.#currentIndex = -1;
     searchInput.value = '';
+    searchInput.setAttribute('aria-expanded', 'false');
     this.#hideResetButton();
 
     const abortController = this.#createAbortController();
