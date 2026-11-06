@@ -57,6 +57,7 @@
 }
 {% endstyle %}
 {% if lead != blank %}
+{%- capture zs_section_markup -%}
 <section id="zs-kitchen-{{ section.id }}" class="zs-kitchen" aria-labelledby="zs-kitchen-heading-{{ section.id }}">
   <div class="zs-kitchen__wrap">
     <header class="zs-kitchen__header">
@@ -218,6 +219,12 @@
     {% endif %}
   </div>
 </section>
+{%- endcapture -%}
+{%- if template.name == 'index' -%}
+  {%- render 'zs-home-optimized-images', html: zs_section_markup -%}
+{%- else -%}
+  {{- zs_section_markup -}}
+{%- endif -%}
 {% endif %}
 {% stylesheet %}
 .zs-kitchen{background:var(--zk-bg,#fff);color:var(--zk-ink,#2b1d17);padding:var(--zk-top,76px) 0 var(--zk-bottom,80px)}
