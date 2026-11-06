@@ -357,12 +357,12 @@
 {% unless template.name == 'product' %}
 <script type="module">
   import '@theme/view-event-elements';
+  import {{ 'fly-to-cart.js' | asset_url | json }};
   const pending = new Map([
     ["quick-add-component", {{ 'quick-add.js' | asset_url | json }}],
     ["variant-picker,swatches-variant-picker-component", {{ 'variant-picker.js' | asset_url | json }}],
     ["product-card,product-card-link", {{ 'product-card.js' | asset_url | json }}],
     ["product-form-component,add-to-cart-component", {{ 'product-form.js' | asset_url | json }}],
-    ["fly-to-cart", {{ 'fly-to-cart.js' | asset_url | json }}],
     ["deferred-media,product-model", {{ 'media.js' | asset_url | json }}],
     ["product-price", {{ 'product-price.js' | asset_url | json }}],
     ["product-sku-component", {{ 'product-sku.js' | asset_url | json }}],
