@@ -9,9 +9,11 @@
   data-already-subscribed="{% if customer and customer.accepts_marketing %}true{% else %}false{% endif %}"
   data-page-type="{{ template.name | escape }}">
   <div class="zs-native-signup__dialog" role="dialog" aria-modal="true" aria-labelledby="zs-native-signup-title" aria-describedby="zs-native-signup-intro" tabindex="-1">
-    <div class="zs-native-signup__visual" aria-label="A ZAISEN handcrafted wooden tea set photographed for the product catalog">
-      <span class="zs-native-signup__visual-caption">CRAFTED FROM REAL WOOD</span>
-    </div>
+    <picture class="zs-native-signup__visual">
+      <source media="(max-width: 700px)" srcset="{{ 'zaisen-popup-mobile.webp' | asset_url }}" width="840" height="336">
+      <img src="{{ 'zaisen-popup-desktop.webp' | asset_url }}" width="800" height="1000"
+        loading="lazy" decoding="async" alt="Be a part of ZAISEN and get 10% off your first order">
+    </picture>
     <div class="zs-native-signup__content">
       <button type="button" class="zs-native-signup__close" aria-label="Close signup offer" data-zs-signup-close>
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
@@ -70,8 +72,7 @@
   .zs-native-signup{position:fixed;inset:0;z-index:2147483000;display:flex;justify-content:center;align-items:center;padding:22px;background:rgba(24,19,16,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto}
   html.zs-native-signup-open{overflow:hidden}
   .zs-native-signup__dialog{position:relative;width:min(100%,850px);min-height:475px;display:grid;grid-template-columns:45% 55%;margin:auto;overflow:hidden;border-radius:12px;background:#f9f6ef;color:#30231d;box-shadow:0 30px 100px rgba(0,0,0,.29);isolation:isolate}
-  .zs-native-signup__visual{min-height:475px;display:flex;align-items:end;justify-content:center;background-image:linear-gradient(0deg,rgba(27,17,11,.65),rgba(27,17,11,0) 45%),url('https://cdn.shopify.com/s/files/1/1019/0884/0741/files/WhatsApp_Image_2026-09-25_at_7.06.11_PM_1.jpg?v=1790696993');background-size:cover;background-position:52% center;background-repeat:no-repeat}
-  .zs-native-signup__visual-caption{padding:0 16px 26px;color:#fffaf4;text-align:center;letter-spacing:.21em;font-size:10px;font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+  .zs-native-signup__visual{min-height:475px;display:flex;align-items:end;justify-content:center;background-size:cover;background-position:52% center;background-repeat:no-repeat}
   .zs-native-signup__content{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:46px 49px 25px;text-align:center;min-width:0}
   .zs-native-signup__close{position:absolute;right:15px;top:13px;width:36px;height:36px;border:0;border-radius:50%;background:transparent;color:#654c3a;display:grid;place-items:center;cursor:pointer;z-index:3}
   .zs-native-signup__close:hover,.zs-native-signup__close:focus-visible{background:#e9ded1;outline-offset:2px}
@@ -104,7 +105,6 @@
     .zs-native-signup{padding:12px;align-items:center}
     .zs-native-signup__dialog{width:min(100%,390px);max-height:calc(100dvh - 24px);min-height:0;grid-template-columns:1fr;overflow-y:auto;border-radius:10px}
     .zs-native-signup__visual{height:165px;min-height:165px;background-position:54% 51%}
-    .zs-native-signup__visual-caption{padding-bottom:15px;font-size:9px}
     .zs-native-signup__content{padding:29px 26px 22px}
     .zs-native-signup__close{top:11px;right:11px;background:rgba(249,246,239,.94);color:#402c20}
     .zs-native-signup__title{font-size:29px!important;margin-top:9px}
@@ -121,8 +121,7 @@
 
   .zs-native-signup{background:rgba(27,22,18,.64);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);overscroll-behavior:contain}
   .zs-native-signup__dialog{width:min(100%,800px);min-height:455px;max-height:calc(100dvh - 36px);grid-template-columns:44% minmax(0,56%);border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#faf8f4;box-shadow:0 24px 78px rgba(0,0,0,.24);overflow:auto;overscroll-behavior:contain}
-  .zs-native-signup__visual{min-height:454px;background-color:#e0d5c8;background-image:url('https://cdn.shopify.com/s/files/1/1019/0884/0741/files/WhatsApp_Image_2026-09-25_at_7.06.11_PM_1.jpg?v=1790696993');background-size:cover;background-position:50% 48%}
-  .zs-native-signup__visual-caption{display:inline-flex;margin:0 0 18px 18px;padding:7px 10px;border-radius:3px;background:rgba(250,248,244,.93);color:#624733;text-shadow:none;letter-spacing:.12em;font-size:9px;font-weight:600}
+  .zs-native-signup__visual{min-height:454px;background-color:#e0d5c8;background-size:cover;background-position:50% 48%}
   .zs-native-signup__content{padding:42px 42px 26px}
   .zs-native-signup__title{max-width:360px;margin-top:12px!important;font-family:var(--font-heading--family,Georgia,'Times New Roman',serif)!important;font-size:37px!important;letter-spacing:-.018em!important;line-height:1.05!important}
   .zs-native-signup__title em{color:#76523d}
@@ -142,7 +141,6 @@
     .zs-native-signup{padding:10px}
     .zs-native-signup__dialog{display:flex;flex-direction:column;grid-template-columns:none;width:min(100%,390px);min-height:0;max-height:calc(100dvh - 20px);border-radius:10px;overflow-y:auto}
     .zs-native-signup__visual{flex:0 0 auto;height:clamp(104px,19dvh,145px);min-height:0;background-size:cover;background-position:50% 50%}
-    .zs-native-signup__visual-caption{margin:0 0 9px 10px;padding:5px 8px;font-size:8px;letter-spacing:.09em}
     .zs-native-signup__content{flex:0 0 auto;padding:22px 24px 18px}
     .zs-native-signup__close{top:9px;right:9px;width:38px;height:38px;background:rgba(250,248,244,.97);box-shadow:0 2px 12px rgba(0,0,0,.07)}
     .zs-native-signup__eyebrow{font-size:9px}
@@ -171,6 +169,11 @@
     .zs-native-signup__title{font-size:25px!important}
   }
 
+  .zs-native-signup__visual{display:grid;place-items:center}
+  .zs-native-signup__visual img{display:block;width:100%;height:auto}
+  @media(max-width:700px){
+    .zs-native-signup__visual{display:block;height:auto;min-height:0}
+  }
 </style>
 <script>
 (function(){
