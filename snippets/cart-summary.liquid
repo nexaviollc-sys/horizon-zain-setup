@@ -99,11 +99,8 @@
         {% liquid
           assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
           for item in cart.items
-            for allocation in item.line_level_discount_allocations
-              if allocation.discount_application.type == 'discount_code'
-                assign discount_codes = item.line_level_discount_allocations | slice: forloop.index0 | map: 'discount_application' | map: 'title' | concat: discount_codes
-              endif
-            endfor
+            assign line_codes = item.line_level_discount_allocations | map: 'discount_application' | where: 'type', 'discount_code' | map: 'title'
+            assign discount_codes = discount_codes | concat: line_codes
           endfor
 
           assign discount_codes = discount_codes | uniq
@@ -191,6 +188,10 @@
                       {{ 'content.shipping_discount_error' | t }}
                     </small>
                   </div>
+                  <small data-welcome-checkout-eligibility hidden role="status">
+                    Use your subscribed email at checkout to confirm your 10% first-order discount.
+                    <a href="{{ routes.root_url }}{% unless routes.root_url == '/' %}/{% endunless %}checkout?discount=ZAISENWELCOME10">Continue to checkout</a>
+                  </small>
                   <ul class="cart-discount__codes">
                     {% for discount_code in discount_codes %}
                       <li

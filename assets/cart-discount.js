@@ -147,10 +147,12 @@ class CartDiscount extends Component {
     const discountCode = form.querySelector('input[name="discount"]');
     if (!(discountCode instanceof HTMLInputElement) || typeof this.dataset.sectionId !== 'string') return;
 
-    const discountCodeValue = discountCode.value;
+    const discountCodeValue = discountCode.value.trim();
+    if (!discountCodeValue) return;
+    const matchesCode = (code) => code.toUpperCase() === discountCodeValue.toUpperCase();
 
     const existingDiscounts = this.#existingDiscounts();
-    if (existingDiscounts.includes(discountCodeValue)) return;
+    if (existingDiscounts.some(matchesCode)) return;
 
     sectionRenderer.abortRender(this.dataset.sectionId);
     const abortController = this.#createAbortController();
@@ -158,6 +160,8 @@ class CartDiscount extends Component {
     cartDiscountError.classList.add('hidden');
     cartDiscountErrorDiscountCode.classList.add('hidden');
     cartDiscountErrorShipping.classList.add('hidden');
+    const checkoutEligibility = this.querySelector('[data-welcome-checkout-eligibility]');
+    if (checkoutEligibility) checkoutEligibility.hidden = true;
 
     const allDiscountCodes = [...existingDiscounts, discountCodeValue];
     const deferredPromise = CartDiscountUpdateEvent.createPromise();
@@ -187,13 +191,14 @@ class CartDiscount extends Component {
 
       const data = await response.json();
 
-      if (
-        data.discount_codes.find((/** @type {{ code: string; applicable: boolean; }} */ discount) => {
-          return discount.code === discountCodeValue && discount.applicable === false;
-        })
-      ) {
-        discountCode.value = '';
-        this.#handleDiscountError('discount_code');
+      if (!response.ok) throw new Error(data.description || 'Could not apply the discount.');
+      const appliedCode = data.discount_codes?.find(({ code }) => matchesCode(code));
+      if (!appliedCode?.applicable) {
+        if (checkoutEligibility && matchesCode('ZAISENWELCOME10')) {
+          checkoutEligibility.hidden = false;
+        } else {
+          this.#handleDiscountError('discount_code');
+        }
         deferredPromise.resolve({
           cart: CartDiscountUpdateEvent.createCartFromAjaxResponse(data),
         });
@@ -219,9 +224,8 @@ class CartDiscount extends Component {
           if (
             codes.length === existingDiscounts.length &&
             codes.every((/** @type {string} */ code) => existingDiscounts.includes(code)) &&
-            data.discount_codes.find((/** @type {{ code: string; applicable: boolean; }} */ discount) => {
-              return discount.code === discountCodeValue && discount.applicable === true;
-            })
+            !codes.some(matchesCode) &&
+            !data.total_discount
           ) {
             this.#handleDiscountError('shipping');
             return false;
