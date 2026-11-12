@@ -108,9 +108,6 @@
         data-testid="product-information-media"
       >
         {{ media_gallery }}
-        {% if request.page_type == 'product' and product != blank %}
-          {% render 'zs-product-craft-story', product: product %}
-        {% endif %}
       </div>
     {% endcapture %}
 
@@ -162,14 +159,6 @@
 
     .product-details {
       grid-column: 2 / 3;
-    }
-  }
-
-  /* Keep the gallery above the craft story as the desktop page scrolls. */
-  @media screen and (min-width: 750px) {
-    .product-information__media:has(> .zs-craft-story) > media-gallery.sticky-content {
-      position: relative;
-      top: auto;
     }
   }
 
