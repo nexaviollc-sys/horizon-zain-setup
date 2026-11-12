@@ -42,10 +42,9 @@
   aria-label="{{ zs_ep_action | escape }}"
   dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
   {%- if zs_ep_variant == 'compact' -%}
-    <span class="zs-etsy-proof__compact-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 14.8 8.6l6.4.9-4.6 4.5 1.1 6.4L12 17.4l-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 2.8Z"/></svg>
-    </span>
+    <span class="zs-etsy-proof__compact-icon" aria-hidden="true">Etsy</span>
     <span class="zs-etsy-proof__compact-copy">
+      <span class="zs-etsy-proof__compact-stars" aria-hidden="true">★★★★★</span>
       <strong>{{ zs_ep_small | escape }}</strong>
       <small>{{ zs_ep_small_copy | escape }}</small>
     </span>
@@ -81,14 +80,43 @@ a.zs-etsy-proof:focus-visible{outline:2px solid #9e7744;outline-offset:4px}
 .zs-etsy-proof__bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:19px;padding-top:15px;border-top:1px solid #eae0d5}
 .zs-etsy-proof__action{font:650 12px/1.4 var(--font-body--family,Arial,sans-serif);color:#523824!important}
 .zs-etsy-proof__arrow{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;border:1px solid #d8c7b2;border-radius:50%;font-size:15px;line-height:1;color:#795834}
-a.zs-etsy-proof--compact{margin-top:12px;display:flex;flex-direction:row;align-items:center;gap:12px;padding:13px 14px;min-height:73px;border-radius:9px}
-a.zs-etsy-proof--compact::before{top:13px;bottom:13px}
-.zs-etsy-proof__compact-icon{display:grid;place-items:center;width:37px;height:37px;flex:0 0 37px;border:1px solid #e3d3bd;border-radius:9px;background:#f6efe6;color:#9f7b49}
-.zs-etsy-proof__compact-icon svg{width:19px;height:19px}
+a.zs-etsy-proof--compact {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  min-height: 73px;
+  border-radius: 12px;
+  border-color: #f0c7ad;
+  background: #fff6ee !important;
+}
+a.zs-etsy-proof--compact::before { content: none; }
+a.zs-etsy-proof--compact:hover { border-color: #f1641e; }
+a.zs-etsy-proof--compact:focus-visible { outline-color: #b4440e; }
+.zs-etsy-proof__compact-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #f1641e;
+  color: #2c160d;
+  font: 600 20px/1 Georgia, serif;
+}
+.zs-etsy-proof__compact-stars {
+  color: #a9400c;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: .12em;
+  white-space: nowrap;
+}
 .zs-etsy-proof__compact-copy{display:flex;flex-direction:column;flex:1 1 auto;min-width:0;gap:3px}
 .zs-etsy-proof__compact-copy strong{font:650 12.5px/1.35 var(--font-body--family,Arial,sans-serif);color:#33251c!important}
 .zs-etsy-proof__compact-copy small{font:400 11px/1.45 var(--font-body--family,Arial,sans-serif);color:#76685a!important}
-.zs-etsy-proof__compact-end{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border:1px solid #dac9b4;border-radius:50%;font-size:14px;color:#7b5b37}
+.zs-etsy-proof__compact-end{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border:1px solid #efc4a9;border-radius:50%;font-size:14px;color:#a9400c;background:#ffeadb}
 @media(max-width:749px){a.zs-etsy-proof{padding:18px 18px 17px}.zs-etsy-proof__stars{margin-top:15px;font-size:15px}.zs-etsy-proof__title{font-size:21px}.zs-etsy-proof__bottom{margin-top:16px}.zs-etsy-proof__copy{font-size:12.5px}a.zs-etsy-proof--compact{padding:12px 13px;gap:10px}.zs-etsy-proof__compact-copy strong{font-size:12px}}
 @media(prefers-reduced-motion:reduce){a.zs-etsy-proof{transition:none}a.zs-etsy-proof:hover{transform:none}}
 </style>
