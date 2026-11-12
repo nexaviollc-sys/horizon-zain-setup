@@ -1,9 +1,7 @@
 /*
  * ZAISEN bundle controls for the EXISTING Add to Cart + Buy Now buttons.
  * Two curated optional additions; native 15% / 25% product discount codes.
- * Free shipping is either earned via the normal country minimum or the
- * separate qualifying bundle shipping code. Only eligible destinations are
- * shown as free. No separate bundle purchase button is rendered.
+ * Free shipping follows the normal country minimum.
  *
  * Shopify Ajax Cart API: POST cart/add.js with items, followed by
  * POST cart/update.js with comma-separated discount codes.
@@ -439,7 +437,7 @@
 
       this.currentRate = rate;
       this.selectedTotal = after;
-      this.updateShipping(count, after);
+      this.updateShipping(after);
 
       // The original Add to Cart and Buy Now buttons stay present, active,
       // and controlled by the native product form and variant availability.
@@ -449,7 +447,7 @@
       }
     }
 
-    updateShipping(count, totalCents) {
+    updateShipping(totalCents) {
       const supported = this.dataset.freeShipping === 'true';
       const thresholdUSD = Number(this.dataset.shippingThresholdCents) || 0;
       const currency = this.currency;
@@ -461,8 +459,7 @@
           ? thresholdUSD * marketRate : null;
       const normalEligible = supported && thresholdLocal != null &&
         thresholdLocal > 0 && totalCents >= thresholdLocal;
-      const bundleEligible = supported && count >= 2;
-      const unlocked = normalEligible || bundleEligible;
+      const unlocked = normalEligible;
       const percentage = !supported ? 0 : unlocked ? 100 :
         thresholdLocal != null && thresholdLocal > 0
           ? Math.max(0, Math.min(99, Math.round(totalCents / thresholdLocal * 100)))
@@ -494,8 +491,6 @@
         label.textContent = 'SHIPPING CALCULATED AT CHECKOUT';
       } else if (normalEligible) {
         label.textContent = this.t.normalFree + thresholdDescription + ')';
-      } else if (bundleEligible) {
-        label.textContent = 'YOUR BUNDLE QUALIFIES FOR FREE SHIPPING';
       } else {
         label.textContent = thresholdDescription
           ? this.t.freeFrom + thresholdDescription
@@ -538,8 +533,6 @@
       const root = window.Shopify?.routes?.root || this.dataset.cartPath?.replace(/cart\/?$/, '') || '/';
       const base = root.endsWith('/') ? root : root + '/';
       const discount = this.currentRate === 25 ? 'ZS-BUNDLE25-2026' : 'ZS-BUNDLE15-2026';
-      const codes = [discount];
-      if (this.dataset.freeShipping === 'true') codes.push('ZS-BUNDLESHIP-2026');
 
       try {
         const addResponse = await fetch(base + 'cart/add.js', {
@@ -551,33 +544,31 @@
         if (!addResponse.ok || added.status) {
           throw new Error(added.description || added.message || 'Could not add the selected products.');
         }
-        // Shopify supports multiple comma-separated discount codes in cart/update.js.
         const updateResponse = await fetch(base + 'cart/update.js', {
           method:'POST', credentials:'same-origin',
           headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body:JSON.stringify({discount:codes.join(',')})
+          body:JSON.stringify({discount})
         });
         const updated = await updateResponse.json();
-        if (!updateResponse.ok || updated.status) {
-          throw new Error('Products were added, but the bundle discount could not be applied. Please review your cart.');
+        if (!updateResponse.ok || updated.status ||
+            !updated.discount_codes?.some(entry => entry.code === discount && entry.applicable)) {
+          await this.openCartDrawer(base);
+          this.showError('Products were added, but the bundle discount could not be applied. Please review your cart.');
+          return;
         }
         if (destination === 'checkout') {
-          window.location.assign(base + 'checkout');
+          window.location.assign(base + 'checkout?discount=' + encodeURIComponent(discount));
           return;
         }
         await this.openCartDrawer(base);
-        this.processing = false;
-        buttons.forEach((button, index) => {
-          button.disabled = disabledBefore[index];
-          button.removeAttribute('aria-busy');
-        });
       } catch (error) {
+        this.showError(error?.message || 'Something went wrong. Please try again.');
+      } finally {
         this.processing = false;
         buttons.forEach((button, index) => {
           button.disabled = disabledBefore[index];
           button.removeAttribute('aria-busy');
         });
-        this.showError(error?.message || 'Something went wrong. Please try again.');
       }
     }
 
