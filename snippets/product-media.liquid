@@ -57,6 +57,15 @@
   {% endcapture %}
   {% if defer_image and media.media_type == 'image' %}
     {% render 'zs-deferred-product-image', image_markup: product_image_markup %}
+  {% elsif is_main_product_media and media.media_type == 'image' and sizes != blank %}
+    <picture>
+      <source
+        media="(max-width: 749px)"
+        srcset="{{ media.preview_image | image_url: width: 480 }} 480w, {{ media.preview_image | image_url: width: 640 }} 640w, {{ media.preview_image | image_url: width: 832 }} 832w, {{ media.preview_image | image_url: width: 960 }} 960w"
+        sizes="100vw"
+      >
+      {{ product_image_markup }}
+    </picture>
   {% else %}
     {{ product_image_markup }}
   {% endif %}

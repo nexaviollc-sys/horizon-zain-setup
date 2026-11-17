@@ -5,17 +5,17 @@
   by native Shopify discount ZAISENWELCOME10, once per eligible customer.
   This form creates/updates a Shopify customer profile, not a logged-in account.
 {% endcomment %}
-<div id="zs-native-signup" class="zs-native-signup" hidden
+<dialog id="zs-native-signup" aria-labelledby="zs-native-signup-title" aria-describedby="zs-native-signup-intro" class="zs-native-signup" hidden
   data-already-subscribed="{% if customer and customer.accepts_marketing %}true{% else %}false{% endif %}"
   data-page-type="{{ template.name | escape }}">
-  <div class="zs-native-signup__dialog" role="dialog" aria-modal="true" aria-labelledby="zs-native-signup-title" aria-describedby="zs-native-signup-intro" tabindex="-1">
+  <div class="zs-native-signup__dialog" tabindex="-1">
     <picture class="zs-native-signup__visual">
       <source media="(max-width: 700px)" srcset="{{ 'zaisen-popup-mobile.webp' | asset_url }}" width="840" height="336">
       <img src="{{ 'zaisen-popup-desktop.webp' | asset_url }}" width="800" height="1000"
         loading="lazy" decoding="async" alt="Be a part of ZAISEN and get 10% off your first order">
     </picture>
     <div class="zs-native-signup__content">
-      <button type="button" class="zs-native-signup__close" aria-label="Close signup offer" data-zs-signup-close>
+      <button type="button" class="zs-native-signup__close" aria-label="Close signup offer" data-zs-signup-close autofocus>
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
       </button>
       <span class="zs-native-signup__eyebrow">AN INVITATION FROM ZAISEN</span>
@@ -52,7 +52,8 @@
       <p class="zs-native-signup__footnote">Made by hand. Meant to be kept.</p>
     </div>
   </div>
-</div>
+</dialog>
+
 <button type="button" id="zs-native-signup-launcher" class="zs-native-signup__launcher" hidden
   aria-label="Claim 10% off your first ZAISEN order" aria-controls="zs-native-signup" aria-haspopup="dialog">
   <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="9" width="17" height="12" rx="1.5"/><path d="M12 9v12M3 13h18M12 9c-4 0-7.5-2.2-6-5 2-3.5 6 2 6 5Zm0 0c4 0 7.5-2.2 6-5-2-3.5-6 2-6 5Z"/></svg>
@@ -69,7 +70,8 @@
   @media(max-width:700px){.zs-native-signup__launcher{left:9px;bottom:max(12px,env(safe-area-inset-bottom,0px));min-height:40px;padding:0 10px;font-size:10px;gap:6px;border-radius:6px}.zs-native-signup__launcher svg{width:15px;height:15px}}
   @media(prefers-reduced-motion:reduce){.zs-native-signup__launcher{transition:none}}
 
-  .zs-native-signup{position:fixed;inset:0;z-index:2147483000;display:flex;justify-content:center;align-items:center;padding:22px;background:rgba(24,19,16,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);overflow-y:auto}
+  .zs-native-signup{position:fixed;inset:0;z-index:2147483000;box-sizing:border-box;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;display:flex;justify-content:center;align-items:center;padding:22px;background:rgba(24,19,16,.66);overflow-y:auto}
+  .zs-native-signup::backdrop{background:transparent}
   html.zs-native-signup-open{overflow:hidden}
   .zs-native-signup__dialog{position:relative;width:min(100%,850px);min-height:475px;display:grid;grid-template-columns:45% 55%;margin:auto;overflow:hidden;border-radius:12px;background:#f9f6ef;color:#30231d;box-shadow:0 30px 100px rgba(0,0,0,.29);isolation:isolate}
   .zs-native-signup__visual{min-height:475px;display:flex;align-items:end;justify-content:center;background-size:cover;background-position:52% center;background-repeat:no-repeat}
@@ -119,7 +121,7 @@
   /* Place dismiss button relative to the whole card, including mobile photo. */
   .zs-native-signup__content{position:static}
 
-  .zs-native-signup{background:rgba(27,22,18,.64);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);overscroll-behavior:contain}
+  .zs-native-signup{background:rgba(27,22,18,.64);overscroll-behavior:contain}
   .zs-native-signup__dialog{width:min(100%,800px);min-height:455px;max-height:calc(100dvh - 36px);grid-template-columns:44% minmax(0,56%);border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#faf8f4;box-shadow:0 24px 78px rgba(0,0,0,.24);overflow:auto;overscroll-behavior:contain}
   .zs-native-signup__visual{min-height:454px;background-color:#e0d5c8;background-size:cover;background-position:50% 48%}
   .zs-native-signup__content{padding:42px 42px 26px}
@@ -198,17 +200,19 @@
     previousFocus=document.activeElement;
     launcher.hidden=true;
     root.hidden=false;
+    if(typeof root.showModal==='function')root.showModal();
     document.documentElement.classList.add('zs-native-signup-open');
     window.requestAnimationFrame(function(){
       // On phones, don't trigger the keyboard until the customer taps the email field.
       var focusTarget=window.matchMedia('(max-width:700px)').matches
         ? dialog
         : (success?(copyBtn||dialog):(root.querySelector('#zs-native-signup-email')||dialog));
-      if(focusTarget&&focusTarget.focus)focusTarget.focus();
+      if(focusTarget&&focusTarget.focus)focusTarget.focus({preventScroll:true});
     });
   }
   function close(){
     root.hidden=true;
+    if(root.open)root.close();
     document.documentElement.classList.remove('zs-native-signup-open');
     // Do NOT store dismissals: on the next visit or refresh the offer returns.
     if(!success)launcher.hidden=false;
@@ -216,6 +220,7 @@
   }
   closeBtn.addEventListener('click',close);
   launcher.addEventListener('click',show);
+  root.addEventListener('cancel',function(ev){ev.preventDefault();close()});
   root.addEventListener('click',function(ev){if(ev.target===root)close()});
   document.addEventListener('keydown',function(ev){
     if(root.hidden)return;

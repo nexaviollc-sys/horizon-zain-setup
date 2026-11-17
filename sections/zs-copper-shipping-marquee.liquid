@@ -42,6 +42,14 @@
     assign zs_shipping_message = 'SHIPPING DETAILS AT CHECKOUT'
   endif
 
+  assign zs_display_currency = localization.country.currency.iso_code
+  assign zs_threshold_fallback = 'LOCAL MINIMUM AT CHECKOUT'
+  if zs_country == 'GB' and zs_display_currency == 'GBP'
+    assign zs_threshold_fallback = '£47+'
+  elsif zs_display_currency == 'USD'
+    assign zs_threshold_fallback = zs_threshold | prepend: '$' | append: '+'
+  endif
+
   assign zs_craft_message = section.settings.craft_message | default: 'HANDCRAFTED WOODEN PRODUCTS'
   assign zs_quality_message = section.settings.quality_message | default: 'MADE WITH CARE, MADE TO BE CHERISHED'
   assign zs_returns_message = section.settings.returns_message | default: '14-DAY RETURNS'
@@ -51,7 +59,7 @@
     {{ zs_craft_message | escape }}.
     {{ zs_shipping_message | strip | escape }}
     {% if zs_threshold > 0 %}
-      <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM AT CHECKOUT{% endif %}</span>.
+      <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_threshold_fallback | escape }}">{{ zs_threshold_fallback | escape }}</span>.
     {% else %}.
     {% endif %}
     {{ zs_quality_message | escape }}. {{ zs_returns_message | escape }}.
@@ -65,7 +73,7 @@
           <span class="zs-copper-marquee__text">
              {% if zs_threshold > 0 %}
                FREE SHIPPING TO {{ zs_country_label | escape }} ON ORDERS
-               <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="LOCAL MINIMUM AT CHECKOUT">{% if localization.country.currency.iso_code == 'USD' %}&#36;{{ zs_threshold }}+{% else %}LOCAL MINIMUM{% endif %}</span>
+               <span data-zs-usd-amount-cents="{{ zs_threshold | times: 100 }}" data-zs-currency-kind="minimum" data-zs-currency-suffix="+" data-zs-currency-fallback="{{ zs_threshold_fallback | escape }}">{{ zs_threshold_fallback | escape }}</span>
              {% else %}
                {{ zs_shipping_message | strip | escape }}
              {% endif %}
