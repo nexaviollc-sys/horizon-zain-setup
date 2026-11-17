@@ -254,7 +254,17 @@
   // refreshing. No 7-day dismissal or session dismissal is remembered.
   if(root.getAttribute('data-page-type')==='index'||root.getAttribute('data-page-type')==='product'){
     if(window.Shopify&&window.Shopify.designMode)return;
-    window.setTimeout(function(){if(!document.hidden)show()},2200);
+    var isMobileProduct=root.getAttribute('data-page-type')==='product'&&window.matchMedia('(max-width:749px)').matches;
+    var offerTimer;
+    function scheduleOffer(){
+      window.clearTimeout(offerTimer);
+      offerTimer=window.setTimeout(function(){if(!document.hidden)show()},isMobileProduct?8000:2200);
+    }
+    if(isMobileProduct&&document.readyState!=='complete'){
+      window.addEventListener('load',scheduleOffer,{once:true});
+    }else{
+      scheduleOffer();
+    }
   }
 })();
 </script>

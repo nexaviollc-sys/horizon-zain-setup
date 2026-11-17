@@ -1,4 +1,6 @@
-{{ 'zs-product-polish.css' | asset_url | stylesheet_tag }}
+{% unless template.name == 'product' %}
+  {{ 'zs-product-polish.css' | asset_url | stylesheet_tag }}
+{% endunless %}
 <script src="{{ 'zs-buy-now.js' | asset_url }}" defer></script>
 {% comment %}
   Desktop craftsmanship story now fills the gallery column naturally.

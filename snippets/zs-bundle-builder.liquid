@@ -191,7 +191,8 @@
   endcase
 -%}
 {% if product != blank and zs_recommendation_one != blank and zs_recommendation_two != blank and zs_main_variant != blank and zs_main_variant.available %}
-  {{ 'zs-bundle-builder.css' | asset_url | stylesheet_tag }}
+  {% comment %}Bundle layout must render with its markup, without a second network request.{% endcomment %}
+  {% render 'zs-bundle-styles' %}
   {% comment %}Keep compact market currency prefix styling with the snippet so it works even before asset cache refreshes.{% endcomment %}
   <style>
     .zs-bundle .zs-bundle__currency-prefix{font-size:.74em;font-weight:600;letter-spacing:0;white-space:nowrap;margin-inline-end:.08em}

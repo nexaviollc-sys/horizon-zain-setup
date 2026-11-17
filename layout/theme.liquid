@@ -21,6 +21,13 @@
 
     {%- render 'view-transition-opt-in' -%}
 
+    {% if template.name == 'product' and product.featured_media.preview_image != blank %}
+      {% assign first_product_image = product.selected_or_first_available_variant.featured_media.preview_image | default: product.featured_media.preview_image %}
+      <link rel="preload" as="image" fetchpriority="high" media="(max-width: 749px)"
+        imagesrcset="{{ first_product_image | image_url: width: 480 }} 480w, {{ first_product_image | image_url: width: 640 }} 640w, {{ first_product_image | image_url: width: 832 }} 832w, {{ first_product_image | image_url: width: 960 }} 960w"
+        imagesizes="100vw">
+    {% endif %}
+
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
     {%- render 'card-hover-effect-styles' -%}
@@ -35,6 +42,9 @@
 
     {{ content_for_header }}
     {{ 'zaisen-heritage.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'product' %}
+      {{ 'zs-product-polish.css' | asset_url | stylesheet_tag }}
+    {% endif %}
     <script src="{{ 'zs-shipping-currency.js' | asset_url }}" defer></script>
     {% unless template.name == 'product' %}
       <script src="{{ 'zs-home-performance.js' | asset_url }}" defer></script>
