@@ -24,7 +24,7 @@
         <li class="zs-workshop__step" {{ block.shopify_attributes }}>
           {% if block.settings.image != blank %}
             <div class="zs-workshop__photo">
-              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300,450,600,900', sizes: '(min-width: 750px) 30vw, 90vw', alt: block.settings.heading }}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '120,160,200,240,280,320,375,450,600,750,900', sizes: '(min-width: 1024px) 125px, (min-width: 750px) 30vw, (max-width: 350px) 75px, clamp(82px, 27vw, 112px)', alt: block.settings.heading }}
             </div>
           {% else %}
             <div class="zs-workshop__illustration" aria-hidden="true">
